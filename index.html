@@ -1,138 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hridoy Tools Management</title>
 
-<script src="script.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Hridoy PDF Tools – Free Online PDF Converter & Editor</title>
+
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- ICON LIBRARY -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<header>
-<span class="menu-btn" onclick="openMenu()">☰</span>
-⚡ Hridoy Tools Management
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+<div class="headerLeft">
+
+<button class="menuBtn" onclick="openLeft()">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<h2 class="logo">
+<i class="fa-solid fa-heart"></i> Hridoy PDF
+</h2>
+
+</div>
+
+<div class="headerSearch">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="text" id="toolSearch" placeholder="Search tools...">
+</div>
+
+<button class="menuBtn" onclick="openRight()">
+<i class="fa-solid fa-gear"></i>
+</button>
+
 </header>
-<div class="hero">
 
-<h2>Every tool you need to work with PDFs in one place</h2>
 
-<p>
-Every tool you need to use PDFs, at your fingertips.
-All are 100% FREE and easy to use! Merge, split,
-compress, convert and more tools easily.
-</p>
+<!-- ================= LEFT SIDEBAR ================= -->
 
-<header>
-<span class="menu-btn" onclick="openMenu()">☰</span>
-⚡ Hridoy Tools Management
-</header>
+<div id="leftMenu" class="sidebar left">
 
-<div id="sideMenu" class="side-menu">
+<button class="close" onclick="closeLeft()">✖</button>
 
-<span class="close-btn" onclick="closeMenu()">✖</span>
+<h3>Organize PDF</h3>
 
-<a href="#"><i class="fa-solid fa-house"></i> Home</a>
+<a href="merge.html">
+<i class="fa-solid fa-object-group"></i> Merge PDF
+</a>
 
-<h4>Organize PDF</h4>
+<a href="#">
+<i class="fa-solid fa-scissors"></i> Split PDF
+</a>
 
-<a href="#"><i class="fa-solid fa-object-group"></i> Merge PDF</a>
-<a href="#"><i class="fa-solid fa-scissors"></i> Split PDF</a>
+<a href="#">
+<i class="fa-solid fa-trash"></i> Remove pages
+</a>
 
-<h4>Optimize PDF</h4>
+<a href="#">
+<i class="fa-solid fa-file-export"></i> Extract pages
+</a>
 
-<a href="#"><i class="fa-solid fa-compress"></i> Compress PDF</a>
+<h3>Optimize</h3>
 
-<h4>Convert PDF</h4>
+<a href="#">
+<i class="fa-solid fa-compress"></i> Compress PDF
+</a>
 
-<a href="#"><i class="fa-solid fa-file-word"></i> PDF to Word</a>
+<a href="#">
+<i class="fa-solid fa-wrench"></i> Repair PDF
+</a>
 
-<div class="hero">
-</div>
-<div class="ad">
-AdSense Top Banner
-</div>
-
-<div class="container">
-
-<div class="grid">
-
-<div class="card">
-<div class="icon"><i class="fa-solid fa-object-group"></i></div>
-<h4>Merge PDF</h4>
-<p>Combine multiple PDF files easily.</p>
-</div>
-
-<div class="card">
-<div class="icon"><i class="fa-solid fa-scissors"></i></div>
-<h4>Split PDF</h4>
-<p>Separate pages from PDF.</p>
-</div>
-
-<div class="card">
-<div class="icon"><i class="fa-solid fa-compress"></i></div>
-<h4>Compress PDF</h4>
-<p>Reduce PDF file size.</p>
-</div>
-
-<div class="card">
-<div class="icon"><i class="fa-solid fa-file-word"></i></div>
-<h4>PDF to Word</h4>
-<p>Convert PDF into Word file.</p>
-</div>
+<a href="#">
+<i class="fa-solid fa-file-lines"></i> OCR PDF
+</a>
 
 </div>
 
-<div class="ad">
-AdSense Middle Banner
-</div>
+
+<!-- ================= RIGHT SIDEBAR ================= -->
+
+<div id="rightMenu" class="sidebar right">
+
+<button class="close" onclick="closeRight()">✖</button>
+
+<h3>Information</h3>
+
+<a href="contact.html">
+<i class="fa-solid fa-envelope"></i> Contact Us
+</a>
+
+<a href="about.html">
+<i class="fa-solid fa-circle-info"></i> About
+</a>
+
+<a href="privacy.html">
+<i class="fa-solid fa-shield-halved"></i> Privacy Policy
+</a>
+
+<a href="terms.html">
+<i class="fa-solid fa-file-contract"></i> Terms
+</a>
 
 </div>
 
-<div class="ad">
-AdSense Footer Banner
+
+<!-- ================= OVERLAY ================= -->
+
+<div id="overlay" onclick="closeLeft();closeRight();"></div>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<h1>Every tool you need to work with PDFs in one place</h1>
+
+<p>Merge, split, compress, convert and edit PDFs easily.</p>
+
+</section>
+
+
+<!-- ================= TOOLS GRID ================= -->
+
+<section class="grid">
+
+<a href="merge.html" class="tool" data-name="merge pdf">
+
+<div class="icon red">M</div>
+
+<h3>Merge PDF</h3>
+
+<p>Combine PDFs easily.</p>
+
+</a>
+
+
+<div class="tool" data-name="split pdf">
+
+<div class="icon orange">S</div>
+
+<h3>Split PDF</h3>
+
+<p>Separate pages easily.</p>
+
 </div>
+
+
+<div class="tool" data-name="compress pdf">
+
+<div class="icon green">C</div>
+
+<h3>Compress PDF</h3>
+
+<p>Reduce file size.</p>
+
+</div>
+
+
+<div class="tool" data-name="pdf to word">
+
+<div class="icon blue">W</div>
+
+<h3>PDF to Word</h3>
+
+<p>Convert PDF to DOC.</p>
+
+</div>
+
+
+<div class="tool" data-name="pdf to powerpoint">
+
+<div class="icon purple">P</div>
+
+<h3>PDF to PowerPoint</h3>
+
+<p>Convert to PPT.</p>
+
+</div>
+
+
+<div class="tool" data-name="pdf to excel">
+
+<div class="icon green">X</div>
+
+<h3>PDF to Excel</h3>
+
+<p>Convert to XLS.</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<div class="bottomNav">
+
+<a href="#"><i class="fa-solid fa-house"></i></a>
+<a href="#"><i class="fa-solid fa-folder"></i></a>
+<a href="#"><i class="fa-solid fa-star"></i></a>
+<a href="#"><i class="fa-solid fa-gear"></i></a>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
-<div class="footer-buttons">
-<button onclick="openModal('about')">About</button>
-<button onclick="openModal('contact')">Contact</button>
-<button onclick="openModal('privacy')">Privacy Policy</button>
-<button onclick="openModal('terms')">Terms</button>
-</div>
-
-© 2026 Hridoy Tools Management
+<p>© 2026 Hridoy Tools</p>
+<p>Free Online PDF Tools</p>
+<p>Fast • Secure • Easy</p>
 
 </footer>
 
-<div class="modal" id="modal">
-<div class="modal-content">
-<span class="close" onclick="closeModal()">✖</span>
-<div id="modal-text"></div>
-</div>
-</div>
 
-<script src="../js/script.js"></script>
+<!-- FLOAT BUTTON -->
+
+<button class="uploadBtn">
+<i class="fa-solid fa-upload"></i>
+</button>
+
+
+<!-- JS FILE -->
+
+<script src="script.js"></script>
 
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
