@@ -42,6 +42,21 @@ input{
 margin-top:10px;
 }
 
+.preview{
+margin-top:15px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+}
+
+.preview img{
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:5px;
+}
+
 </style>
 
 </head>
@@ -54,7 +69,9 @@ margin-top:10px;
 
 <p>Select JPG images</p>
 
-<input type="file" id="images" accept="image/*" multiple>
+<input type="file" id="images" accept="image/*" multiple onchange="previewImages()">
+
+<div class="preview" id="preview"></div>
 
 <br>
 
@@ -64,6 +81,34 @@ margin-top:10px;
 
 
 <script>
+
+function previewImages(){
+
+const preview = document.getElementById("preview");
+preview.innerHTML="";
+
+const files = document.getElementById("images").files;
+
+for(let file of files){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const img = document.createElement("img");
+img.src = e.target.result;
+
+preview.appendChild(img);
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+}
+
+
 
 async function convert(){
 
@@ -80,7 +125,13 @@ for(let file of files){
 
 const bytes = await file.arrayBuffer();
 
-const img = await pdfDoc.embedJpg(bytes);
+let img;
+
+if(file.type === "image/png"){
+img = await pdfDoc.embedPng(bytes);
+}else{
+img = await pdfDoc.embedJpg(bytes);
+}
 
 const page = pdfDoc.addPage([img.width,img.height]);
 
