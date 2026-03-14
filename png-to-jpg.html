@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PNG to JPG</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+padding:40px;
+background:#f2f2f2;
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:10px;
+max-width:400px;
+margin:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+button{
+background:#4caf50;
+color:white;
+border:none;
+padding:12px 20px;
+margin-top:15px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>PNG to JPG</h2>
+
+<input type="file" id="file" accept="image/png">
+
+<br>
+
+<button onclick="convert()">Convert</button>
+
+</div>
+
+<script>
+
+function convert(){
+
+const file=document.getElementById("file").files[0];
+
+if(!file){
+alert("Select PNG image");
+return;
+}
+
+const img=new Image();
+
+img.onload=function(){
+
+const canvas=document.createElement("canvas");
+
+canvas.width=img.width;
+canvas.height=img.height;
+
+const ctx=canvas.getContext("2d");
+
+ctx.fillStyle="#ffffff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.drawImage(img,0,0);
+
+const link=document.createElement("a");
+
+link.download="converted.jpg";
+
+link.href=canvas.toDataURL("image/jpeg",0.9);
+
+link.click();
+
+};
+
+img.src=URL.createObjectURL(file);
+
+}
+
+</script>
+
+</body>
+</html>
