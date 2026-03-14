@@ -63,20 +63,24 @@ cursor:pointer;
 </head>
 
 <body>
-
 <div class="container">
 
 <h2>JPG to PNG Converter</h2>
 
 <input type="file" id="fileInput" accept="image/jpeg" multiple hidden>
 
+
 <button class="addBtn" onclick="document.getElementById('fileInput').click()">
 ➕ Add Images
 </button>
 
-<div class="preview" id="preview"></div>
+<div id="preview"></div>
 
-<button class="convert" onclick="convert()">Convert</button>
+<div class="progressBox">
+<div id="progressBar"></div>
+</div>
+
+<button class="convertBtn" onclick="startProgress()">Convert</button>
 
 </div>
 
