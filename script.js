@@ -1,33 +1,85 @@
-function openModal(type){
+// ================= LEFT MENU OPEN =================
 
-let text="";
+function openLeft(){
 
-if(type=="about"){
-text=`<h3>About Hridoy Tools</h3>
-<p>Hridoy Tools Management is a free online tool platform that helps users manage PDF files easily.</p>`;
-}
+closeRight();
 
-if(type=="contact"){
-text=`<h3>Contact</h3>
-<p>Email: hridoyvi55@gmail.com</p>
-<p>Phone: +971507975837</p>`;
-}
+document.getElementById("leftMenu").style.transform="translateX(0)";
+document.getElementById("overlay").classList.add("show");
 
-if(type=="privacy"){
-text=`<h3>Privacy Policy</h3>
-<p>We respect your privacy. Files uploaded are processed securely.</p>`;
-}
-
-if(type=="terms"){
-text=`<h3>Terms</h3>
-<p>By using Hridoy Tools you agree to use the services responsibly.</p>`;
-}
-
-document.getElementById("modal-text").innerHTML=text;
-document.getElementById("modal").style.display="flex";
+history.pushState({menu:"left"},"");
 
 }
 
-function closeModal(){
-document.getElementById("modal").style.display="none";
+
+// ================= LEFT MENU CLOSE =================
+
+function closeLeft(){
+
+document.getElementById("leftMenu").style.transform="translateX(-100%)";
+document.getElementById("overlay").classList.remove("show");
+
+}
+
+
+// ================= RIGHT MENU OPEN =================
+
+function openRight(){
+
+closeLeft();
+
+document.getElementById("rightMenu").style.transform="translateX(0)";
+document.getElementById("overlay").classList.add("show");
+
+history.pushState({menu:"right"},"");
+
+}
+
+
+// ================= RIGHT MENU CLOSE =================
+
+function closeRight(){
+
+document.getElementById("rightMenu").style.transform="translateX(100%)";
+document.getElementById("overlay").classList.remove("show");
+
+}
+
+
+// ================= BACK BUTTON CLOSE =================
+
+window.onpopstate=function(){
+
+closeLeft();
+closeRight();
+
+}
+
+
+// ================= TOOL SEARCH =================
+
+const searchInput=document.getElementById("toolSearch");
+
+if(searchInput){
+
+const tools=document.querySelectorAll(".tool");
+
+searchInput.addEventListener("keyup",function(){
+
+let value=searchInput.value.toLowerCase();
+
+tools.forEach(function(tool){
+
+let name=tool.getAttribute("data-name");
+
+if(name.includes(value)){
+tool.style.display="block";
+}else{
+tool.style.display="none";
+}
+
+});
+
+});
+
 }
