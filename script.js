@@ -83,3 +83,70 @@ tool.style.display="none";
 });
 
 }
+
+/* FILE UPLOAD SYSTEM */
+
+const dropArea=document.getElementById("dropArea");
+const fileInput=document.getElementById("fileInput");
+const preview=document.getElementById("preview");
+const progress=document.getElementById("progressBar");
+
+let files=[];
+
+if(dropArea){
+
+dropArea.addEventListener("click",()=>fileInput.click());
+
+dropArea.addEventListener("dragover",(e)=>{
+e.preventDefault();
+dropArea.style.background="#f5f5f5";
+});
+
+dropArea.addEventListener("dragleave",()=>{
+dropArea.style.background="white";
+});
+
+dropArea.addEventListener("drop",(e)=>{
+e.preventDefault();
+handleFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener("change",()=>{
+handleFiles(fileInput.files);
+});
+
+}
+
+function handleFiles(selectedFiles){
+
+for(let file of selectedFiles){
+
+files.push(file);
+
+const img=document.createElement("img");
+
+img.src=URL.createObjectURL(file);
+
+preview.appendChild(img);
+
+}
+
+}
+
+function startProgress(){
+
+let percent=0;
+
+const interval=setInterval(()=>{
+
+percent+=5;
+
+if(progress) progress.style.width=percent+"%";
+
+if(percent>=100) clearInterval(interval);
+
+},100);
+
+}
+
+
