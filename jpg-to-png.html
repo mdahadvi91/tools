@@ -4,34 +4,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>JPG to PNG</title>
 
 <style>
 
 body{
 font-family:Arial;
+background:#f4f4f4;
 text-align:center;
-padding:40px;
-background:#f2f2f2;
+padding:30px;
 }
 
-.box{
+.container{
 background:white;
-padding:30px;
-border-radius:10px;
-max-width:400px;
+max-width:500px;
 margin:auto;
+padding:25px;
+border-radius:10px;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-button{
-background:#ff9800;
+.addBtn{
+background:#2196f3;
+color:white;
+border:none;
+padding:12px 18px;
+font-size:18px;
+border-radius:50px;
+cursor:pointer;
+}
+
+.preview{
+margin-top:20px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+}
+
+.preview img{
+width:100%;
+border-radius:6px;
+}
+
+.convert{
+margin-top:20px;
+background:#e53935;
 color:white;
 border:none;
 padding:12px 20px;
-margin-top:15px;
-border-radius:6px;
 font-size:16px;
+border-radius:6px;
 cursor:pointer;
 }
 
@@ -41,28 +64,52 @@ cursor:pointer;
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h2>JPG to PNG</h2>
+<h2>JPG to PNG Converter</h2>
 
-<input type="file" id="file" accept="image/jpeg">
+<input type="file" id="fileInput" accept="image/jpeg" multiple hidden>
 
-<br>
+<button class="addBtn" onclick="document.getElementById('fileInput').click()">
+➕ Add Images
+</button>
 
-<button onclick="convert()">Convert</button>
+<div class="preview" id="preview"></div>
+
+<button class="convert" onclick="convert()">Convert</button>
 
 </div>
 
 <script>
 
+let images=[];
+
+document.getElementById("fileInput").addEventListener("change",function(){
+
+const files=this.files;
+
+for(let file of files){
+
+images.push(file);
+
+const img=document.createElement("img");
+
+img.src=URL.createObjectURL(file);
+
+document.getElementById("preview").appendChild(img);
+
+}
+
+});
+
 function convert(){
 
-const file=document.getElementById("file").files[0];
-
-if(!file){
-alert("Select JPG image");
+if(images.length===0){
+alert("Add images first");
 return;
 }
+
+images.forEach(file=>{
 
 const img=new Image();
 
@@ -88,6 +135,8 @@ link.click();
 };
 
 img.src=URL.createObjectURL(file);
+
+});
 
 }
 
