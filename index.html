@@ -1,65 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- 🔥 SEO BOOST -->
-<title>Free JPG to PDF Converter Online | Hridoy PDF Tools</title>
-
-<meta name="description" content="Convert JPG to PDF, PNG, WEBP and more online for free. Fast, secure, no upload required. Hridoy PDF Tools.">
-
-<meta name="keywords" content="jpg to pdf, image to pdf, png to jpg, pdf tools online, free pdf converter">
-
-<meta name="robots" content="index, follow">
-
-<link rel="canonical" href="https://yourdomain.com/">
-
-<!-- 🔥 OPEN GRAPH -->
-<meta property="og:title" content="Hridoy PDF Tools">
-<meta property="og:description" content="Free online PDF & image tools">
-<meta property="og:type" content="website">
-
-<!-- 🔥 TWITTER -->
-<meta name="twitter:card" content="summary_large_image">
-
-<!-- 🔥 FAVICON -->
-<link rel="icon" href="favicon.ico">
+<!-- SEO -->
+<title>Hridoy PDF Tools - Free Online PDF Converter</title>
+<meta name="description" content="Convert JPG to PDF, PNG, compress images, resize and more. Free online tools with fast and secure processing.">
+<meta name="keywords" content="JPG to PDF, PDF tools, image converter, compress image">
+<meta name="author" content="Hridoy">
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- 🔥 SCHEMA (VERY IMPORTANT) -->
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "WebSite",
- "name": "Hridoy PDF Tools",
- "url": "https://yourdomain.com/",
- "potentialAction": {
-   "@type": "SearchAction",
-   "target": "https://yourdomain.com/?search={search_term_string}",
-   "query-input": "required name=search_term_string"
- }
-}
-</script>
 
 </head>
 
 <body>
 
 <!-- LOADER -->
-<div id="loader"><div class="spinner"></div></div>
+<div id="loader">
+<div class="spinner"></div>
+</div>
 
 <!-- HEADER -->
 <header class="header">
+
 <div class="headerLeft">
 <button class="menuBtn" onclick="openLeft()">
 <i class="fa-solid fa-bars"></i>
 </button>
-<h2 class="logo">❤️ Hridoy PDF</h2>
+
+<h2 class="logo">
+❤️ Hridoy PDF
+</h2>
 </div>
 
 <div class="headerSearch">
@@ -70,33 +46,57 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <button class="menuBtn" onclick="openRight()">
 <i class="fa-solid fa-gear"></i>
 </button>
+
 </header>
 
-<div class="adBox">Ad Space (Header)</div>
+<!-- 🔥 TOP ADS -->
+<div class="adBox">Ad Space (Top Banner)</div>
 
-<!-- SIDEBAR SAME -->
+<!-- SIDEBAR -->
 <div id="leftMenu" class="sidebar left">
 <button class="close" onclick="closeLeft()">✖</button>
+
 <h3>Tools</h3>
-<a href="jpg-to-pdf.html">JPG to PDF</a>
-<a href="png-to-jpg.html">PNG to JPG</a>
-<a href="image-compress.html">Compress</a>
+
+<a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
+<a href="jpg-to-png.html"><i class="fa-solid fa-image orange"></i> JPG to PNG</a>
+<a href="png-to-jpg.html"><i class="fa-solid fa-image green"></i> PNG to JPG</a>
+<a href="image-compress.html"><i class="fa-solid fa-compress blue"></i> Compress</a>
+
 </div>
 
 <div id="rightMenu" class="sidebar right">
 <button class="close" onclick="closeRight()">✖</button>
-<button class="darkBtn" onclick="toggleDark()">🌙 Dark Mode</button>
+
+<button class="darkBtn" onclick="toggleDark()">
+<i class="fa-solid fa-moon"></i> Dark Mode
+</button>
+
+<h3>Info</h3>
+
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+<a href="dmca.html">DMCA</a>
+
 </div>
 
 <div id="overlay" onclick="closeLeft();closeRight();"></div>
 
 <!-- HERO -->
 <section class="welcome">
-<h2>🚀 Free PDF & Image Tools</h2>
-<p>Convert, compress, resize & manage files instantly online.</p>
+
+<h1>🚀 Free Online PDF Tools</h1>
+
+<p>
+Convert, compress, and manage your files instantly. Fast ⚡ Secure 🔒 Easy to use.
+</p>
+
 </section>
 
-<div class="adBox">Ad Space</div>
+<!-- 🔥 ADS -->
+<div class="adBox">Ad Space (After Hero)</div>
 
 <!-- TOOLS -->
 <section class="grid">
@@ -107,50 +107,60 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <p>Convert images into PDF</p>
 </a>
 
+<a href="jpg-to-png.html" class="tool">
+<div class="icon orange">P</div>
+<h3>JPG to PNG</h3>
+<p>Convert JPG to PNG</p>
+</a>
+
 <a href="png-to-jpg.html" class="tool">
-<div class="icon green">P</div>
+<div class="icon green">J</div>
 <h3>PNG to JPG</h3>
 <p>Convert PNG to JPG</p>
 </a>
 
+<a href="image-compress.html" class="tool">
+<div class="icon blue">C</div>
+<h3>Compress Image</h3>
+<p>Reduce file size</p>
+</a>
+
 </section>
 
-<!-- 🔥 PREMIUM FOOTER -->
+<!-- 🔥 MIDDLE ADS -->
+<div class="adBox">Ad Space (Middle)</div>
+
+<!-- FOOTER -->
 <footer class="footer">
 
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:900px;margin:auto;">
+<div class="footerContainer">
 
-<div>
-<h3>❤️ Hridoy PDF</h3>
-<p style="font-size:14px;color:#666;">
-Free online tools for PDF & images. Fast, secure & easy.
+<h2>❤️ Hridoy PDF Tools</h2>
+
+<p class="footerText">
+Simple tools to manage your files online.
 </p>
-</div>
 
-<div>
-<h4>Tools</h4>
-<a href="jpg-to-pdf.html">JPG to PDF</a><br>
-<a href="image-compress.html">Compress Image</a><br>
-<a href="image-resize.html">Resize Image</a>
-</div>
+<div class="footerLinks">
 
-<div>
-<h4>Company</h4>
-<a href="about.html">About</a><br>
-<a href="contact.html">Contact</a><br>
-<a href="privacy.html">Privacy</a><br>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
 <a href="terms.html">Terms</a>
-</div>
+<a href="dmca.html">DMCA</a>
 
 </div>
 
-<hr style="margin:20px 0;">
-
-<p style="font-size:12px;color:#999;">
-© 2026 Hridoy PDF Tools — All rights reserved.
+<p class="copyright">
+© 2026 Hridoy PDF Tools
 </p>
+
+</div>
 
 </footer>
+
+<!-- 🔥 BOTTOM ADS -->
+<div class="adBox">Ad Space (Sticky Bottom)</div>
 
 <script src="script.js"></script>
 
