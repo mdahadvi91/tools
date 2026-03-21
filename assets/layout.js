@@ -1,12 +1,10 @@
-const basePath = location.pathname.includes("/tools/") || location.pathname.includes("/pages/")
-  ? "../assets/"
-  : "assets/";
+// SIMPLE FIX VERSION (NO CONFUSION)
 
 function loadComponent(id, file){
   const el = document.getElementById(id);
   if(!el) return;
 
-  fetch(basePath + file)
+  fetch("assets/" + file)
     .then(res => res.text())
     .then(data => {
       el.innerHTML = data;
