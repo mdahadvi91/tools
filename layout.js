@@ -19,3 +19,6 @@ loadComponent("footer", "footer.html");
 loadComponent("adsTop", "ads.html");
 loadComponent("adsMiddle", "ads.html");
 loadComponent("adsBottom", "ads.html");
+loadComponent("adsTop", "ads.html");
+loadComponent("adsMiddle", "ads.html");
+loadComponent("adsBottom", "ads.html");
