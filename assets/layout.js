@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // 🔥 BASE PATH AUTO FIX
   let base = location.pathname.includes("/tools/") ? "../assets/" : "assets/";
 
-  // ================= LOAD FUNCTION =================
   async function load(id, file){
     const el = document.getElementById(id);
     if(!el) return;
 
     try{
-      const res = await fetch(file + "?v=" + Date.now()); // cache fix 🔥
+      const res = await fetch(file + "?v=" + Date.now());
+      
+      if(!res.ok) throw new Error("Not found");
+
       const html = await res.text();
       el.innerHTML = html;
     }catch(err){
@@ -17,12 +18,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ================= LOAD ALL =================
+  // 🔥 LOAD ALL
   await load("header", base + "header.html");
   await load("sidebar", base + "sidebar.html");
   await load("footer", base + "footer.html");
 
-  // ================= LOAD ADS =================
+  // 🔥 ADS
   async function loadAds(){
     try{
       let res = await fetch(base + "ads.html?v=" + Date.now());
@@ -40,11 +41,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       if(document.getElementById("adsBottom"))
         document.getElementById("adsBottom").appendChild(temp.children[2]);
 
-      // sticky ad (optional 4th)
       if(temp.children[3])
         document.body.appendChild(temp.children[3]);
 
-      // 🔥 Adsense refresh
+      // Adsense init
       setTimeout(()=>{
         document.querySelectorAll(".adsbygoogle").forEach(()=>{
           try{
