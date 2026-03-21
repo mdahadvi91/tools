@@ -1,32 +1,30 @@
-// ================= AUTO PATH =================
-
+// AUTO PATH DETECT
 const basePath = location.pathname.includes("/tools/") || location.pathname.includes("/pages/")
   ? "../assets/"
   : "assets/";
 
-
-// ================= LOAD FUNCTION =================
-
+// LOAD FUNCTION
 function loadComponent(id, file){
   fetch(basePath + file)
     .then(res => res.text())
     .then(data => {
-      const el = document.getElementById(id);
-      if(el){
-        el.innerHTML = data;
+      document.getElementById(id).innerHTML = data;
+
+      // 🔥 IMPORTANT: re-run JS after load
+      if(id === "header"){
+        setTimeout(() => {
+          if(typeof initSearch === "function"){
+            initSearch();
+          }
+        }, 200);
       }
-    })
-    .catch(err => console.log("Load error:", file));
+    });
 }
 
-
-// ================= LOAD ALL COMPONENTS =================
-
+// LOAD ALL (FIXED)
 loadComponent("header", "header.html");
 loadComponent("sidebar", "sidebar.html");
 loadComponent("footer", "footer.html");
-
-// 🔥 ADS (SEPARATE FILE RECOMMENDED)
-loadComponent("adsTop", "ads-top.html");
-loadComponent("adsMiddle", "ads-middle.html");
-loadComponent("adsBottom", "ads-bottom.html");
+loadComponent("adsTop", "ads.html");
+loadComponent("adsMiddle", "ads.html");
+loadComponent("adsBottom", "ads.html");
