@@ -1,18 +1,21 @@
-async function loadComponent(id, file){
-  try{
-    const res = await fetch(file);
-    const html = await res.text();
-    document.getElementById(id).innerHTML = html;
-  }catch(e){
-    console.error("Component load failed:", file);
-  }
+// AUTO PATH DETECT
+const basePath = location.pathname.includes("/tools/") || location.pathname.includes("/pages/")
+  ? "../assets/"
+  : "assets/";
+
+// LOAD FUNCTION
+function loadComponent(id, file){
+  fetch(basePath + file)
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById(id).innerHTML = data;
+    });
 }
 
-window.addEventListener("DOMContentLoaded", ()=>{
-
-  loadComponent("header","assets/components/header.html");
-  loadComponent("sidebar","assets/components/sidebar.html");
-  loadComponent("footer","assets/components/footer.html");
-  loadComponent("ads","assets/components/ads.html");
-
-});
+// LOAD ALL
+loadComponent("header", "header.html");
+loadComponent("sidebar", "sidebar.html");
+loadComponent("footer", "footer.html");
+loadComponent("adsTop", "ads.html");
+loadComponent("adsMiddle", "ads.html");
+loadComponent("adsBottom", "ads.html");
