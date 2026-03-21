@@ -43,3 +43,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadAds();
 
 });
+
+
+// ADSENSE INIT
+setTimeout(() => {
+  try {
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  } catch(e) {
+    console.log("Adsense error", e);
+  }
+}, 1000);
