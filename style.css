@@ -646,3 +646,16 @@ color:#ddd;
 .dark .disclaimer{
 color:#aaa;
 }
+
+/* ===== FIX FOOTER ALWAYS BOTTOM ===== */
+
+html, body{
+height:100%;
+display:flex;
+flex-direction:column;
+}
+
+.grid,
+.uploadBox{
+flex:1;
+}
