@@ -1,48 +1,148 @@
+<!-- 
+FILE: jpg-to-pdf.html
+PURPOSE: JPG to PDF Tool Page
+FEATURES: Header, Sidebar, Upload UI, Ads, Footer, Back Button
+LAST UPDATED: 2026
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>JPG to PDF Tool</title>
+<title>JPG to PDF – Hridoy PDF Tools</title>
 
 <link rel="stylesheet" href="style.css">
-
-<script src="https://unpkg.com/pdf-lib"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<script src="header.js"></script>
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
 
-<div class="tool-header">
+<!-- HEADER -->
+<header class="header">
 
-<h1>JPG to PDF</h1>
+<div class="headerLeft">
 
-<p>
-Convert JPG images into one PDF file easily.
-Upload multiple images and download one PDF instantly.
-</p>
+<button class="menuBtn" onclick="openLeft()">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<h2 class="logo">
+<i class="fa-solid fa-heart"></i> Hridoy PDF
+</h2>
 
 </div>
 
-<div class="uploadBox">
+<div class="headerSearch">
+<i class="fa-solid fa-arrow-left"></i>
+<input type="text" value="JPG to PDF Tool" readonly>
+</div>
 
-<input type="file" id="imageInput" multiple accept="image/jpeg">
+<button class="menuBtn" onclick="openRight()">
+<i class="fa-solid fa-gear"></i>
+</button>
+
+</header>
+
+<!-- 🔙 BACK BUTTON -->
+<div style="padding:10px 15px;">
+<button onclick="history.back()" style="padding:10px 15px;border:none;border-radius:8px;background:#333;color:#fff;cursor:pointer;">
+← Back
+</button>
+</div>
+
+<!-- 🔥 AD TOP -->
+<div class="adBox">Ad Space (Top)</div>
+
+<!-- LEFT SIDEBAR -->
+<div id="leftMenu" class="sidebar left">
+<button class="close" onclick="closeLeft()">✖</button>
+
+<h3>Tools</h3>
+
+<a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+<a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div id="rightMenu" class="sidebar right">
+<button class="close" onclick="closeRight()">✖</button>
+
+<button class="darkBtn" onclick="toggleDark()">
+<i class="fa-solid fa-moon"></i> Dark Mode
+</button>
+
+<h3>Information</h3>
+
+<a href="about.html"><i class="fa-solid fa-circle-info"></i> About</a>
+<a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+<a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy</a>
+<a href="terms.html"><i class="fa-solid fa-file-contract"></i> Terms</a>
+
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closeLeft();closeRight();"></div>
+
+<!-- MAIN TOOL -->
+<section class="uploadBox">
+
+<h2>📄 JPG to PDF Converter</h2>
+<p>Select images and convert them into a PDF file.</p>
+
+<div id="dropArea">
+📂 Click or Drag & Drop Images Here
+</div>
+
+<input type="file" id="imageInput" accept="image/*" multiple hidden>
 
 <div id="preview"></div>
+
+<div class="progressBox">
+<div id="progressBar"></div>
+</div>
 
 <button id="convertBtn" class="convertBtn">
 Convert to PDF
 </button>
 
+</section>
+
+<!-- 🔥 AD MIDDLE -->
+<div class="adBox">Ad Space (Middle)</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+<div class="footerTop">
+<p class="disclaimer">
+⚠️ Files are processed in your browser. We do not store your data.
+</p>
 </div>
 
-<script src="footer.js"></script>
+<div class="footerLinks">
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+</div>
+
+<p class="copyright">
+© 2026 Hridoy PDF Tools
+</p>
+
+</footer>
+
 <script src="script.js"></script>
 
 </body>
