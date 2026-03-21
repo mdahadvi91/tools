@@ -312,3 +312,85 @@ border-radius:6px;
 font-size:16px;
 cursor:pointer;
 }
+/* ================= ICON IMPROVEMENT ================= */
+
+.icon,
+.sidebar a i{
+transition:0.3s;
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Hover effect (grid) */
+.tool:hover .icon{
+transform:scale(1.15) rotate(5deg);
+box-shadow:0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Sidebar icon */
+.sidebar a i{
+width:32px;
+height:32px;
+font-size:15px;
+}
+
+/* ================= SIDEBAR HOVER ================= */
+
+.sidebar a{
+position:relative;
+overflow:hidden;
+}
+
+.sidebar a:hover{
+background:#f1f1f1;
+transform:translateX(5px);
+}
+
+/* ================= CLICK RIPPLE EFFECT ================= */
+
+.sidebar a::after,
+.tool::after{
+content:"";
+position:absolute;
+width:0;
+height:0;
+background:rgba(0,0,0,0.1);
+border-radius:50%;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+transition:0.4s;
+}
+
+.sidebar a:active::after,
+.tool:active::after{
+width:200px;
+height:200px;
+}
+
+/* ================= GRID CARD IMPROVEMENT ================= */
+
+.tool{
+transition:0.3s;
+}
+
+.tool:hover{
+transform:translateY(-8px) scale(1.02);
+}
+
+/* ================= ACTIVE TOOL STYLE ================= */
+
+.tool:active{
+transform:scale(0.97);
+}
+
+.sidebar a:active{
+transform:scale(0.97);
+}
+
+/* ================= SMOOTH UI ================= */
+
+.sidebar,
+.tool,
+.icon{
+will-change:transform;
+}
