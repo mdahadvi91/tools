@@ -1,58 +1,39 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // =========================
-  // LOAD ADS.HTML
-  // =========================
-  async function loadAds() {
-    try {
-      let res = await fetch("/assets/ads.html");
-      let html = await res.text();
+  async function loadAds(){
+    let res = await fetch("/assets/ads.html");
+    let html = await res.text();
 
-      let temp = document.createElement("div");
-      temp.innerHTML = html;
+    let temp = document.createElement("div");
+    temp.innerHTML = html;
 
-      // TOP
-      let top = document.getElementById("adsTop");
-      if(top && temp.querySelector("#ad-top")){
-        top.innerHTML = temp.querySelector("#ad-top").outerHTML;
-      }
+    // inject
+    if(document.getElementById("adsTop"))
+      document.getElementById("adsTop").innerHTML =
+        temp.children[0].outerHTML;
 
-      // MIDDLE
-      let mid = document.getElementById("adsMiddle");
-      if(mid && temp.querySelector("#ad-middle")){
-        mid.innerHTML = temp.querySelector("#ad-middle").outerHTML;
-      }
+    if(document.getElementById("adsMiddle"))
+      document.getElementById("adsMiddle").innerHTML =
+        temp.children[1].outerHTML;
 
-      // BOTTOM
-      let bot = document.getElementById("adsBottom");
-      if(bot && temp.querySelector("#ad-bottom")){
-        bot.innerHTML = temp.querySelector("#ad-bottom").outerHTML;
-      }
+    if(document.getElementById("adsBottom"))
+      document.getElementById("adsBottom").innerHTML =
+        temp.children[2].outerHTML;
 
-      // STICKY (auto body te add hobe)
-      let sticky = temp.querySelector("#ad-sticky");
-      if(sticky){
-        document.body.appendChild(sticky);
-      }
+    // sticky
+    document.body.appendChild(temp.children[3]);
 
-    } catch(e){
-      console.log("Ads load error:", e);
-    }
+    // 🔥 ADSENSE INIT (IMPORTANT)
+    setTimeout(() => {
+      try{
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }catch(e){}
+    }, 1500);
   }
 
   loadAds();
 
 });
-
-
-// ADSENSE INIT
-setTimeout(() => {
-  try {
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  } catch(e) {
-    console.log("Adsense error", e);
-  }
-}, 1000);
