@@ -727,8 +727,3 @@ align-items:center;
 justify-content:center;
 z-index:999;
 }
-
-/* যাতে footer hide না হয় */
-body{
-padding-bottom:70px;
-}
