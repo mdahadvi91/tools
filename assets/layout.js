@@ -1,27 +1,45 @@
-function loadComponent(id, file) {
-  fetch(file)
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById(id).innerHTML = data;
-    });
-}
+document.addEventListener("DOMContentLoaded", async () => {
 
-// Detect path depth
-const path = window.location.pathname;
+  // =========================
+  // LOAD ADS.HTML
+  // =========================
+  async function loadAds() {
+    try {
+      let res = await fetch("/assets/ads.html");
+      let html = await res.text();
 
-let base = "";
+      let temp = document.createElement("div");
+      temp.innerHTML = html;
 
-// যদি tools বা pages এর ভিতরে হয়
-if (path.includes("/tools/") || path.includes("/pages/")) {
-  base = "../";
-}
+      // TOP
+      let top = document.getElementById("adsTop");
+      if(top && temp.querySelector("#ad-top")){
+        top.innerHTML = temp.querySelector("#ad-top").outerHTML;
+      }
 
-// Load সব
-loadComponent("header", base + "assets/header.html");
-loadComponent("footer", base + "assets/footer.html");
-loadComponent("sidebar", base + "assets/sidebar.html");
+      // MIDDLE
+      let mid = document.getElementById("adsMiddle");
+      if(mid && temp.querySelector("#ad-middle")){
+        mid.innerHTML = temp.querySelector("#ad-middle").outerHTML;
+      }
 
-// Ads
-loadComponent("ad-top", base + "assets/ads.html");
-loadComponent("ad-middle", base + "assets/ads.html");
-loadComponent("ad-bottom", base + "assets/ads.html");
+      // BOTTOM
+      let bot = document.getElementById("adsBottom");
+      if(bot && temp.querySelector("#ad-bottom")){
+        bot.innerHTML = temp.querySelector("#ad-bottom").outerHTML;
+      }
+
+      // STICKY (auto body te add hobe)
+      let sticky = temp.querySelector("#ad-sticky");
+      if(sticky){
+        document.body.appendChild(sticky);
+      }
+
+    } catch(e){
+      console.log("Ads load error:", e);
+    }
+  }
+
+  loadAds();
+
+});
