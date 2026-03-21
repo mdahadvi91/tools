@@ -1,37 +1,55 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
+  // ================= LOAD PARTIAL =================
+  async function loadComponent(id, file){
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    try{
+      const res = await fetch(file);
+      const html = await res.text();
+      el.innerHTML = html;
+    }catch(e){
+      console.log("Error loading:", file);
+    }
+  }
+
+  // ✅ FIXED PATH (IMPORTANT)
+  const isToolPage = window.location.pathname.includes("/tools/");
+
+  const base = isToolPage ? "../assets/" : "assets/";
+
+  await loadComponent("header", base + "header.html");
+  await loadComponent("sidebar", base + "sidebar.html");
+  await loadComponent("footer", base + "footer.html");
+
+  // ================= LOAD ADS =================
   async function loadAds(){
-    let res = await fetch("/assets/ads.html");
+    let res = await fetch(base + "ads.html");
     let html = await res.text();
 
     let temp = document.createElement("div");
     temp.innerHTML = html;
 
-    // inject
     if(document.getElementById("adsTop"))
-      document.getElementById("adsTop").innerHTML =
-        temp.children[0].outerHTML;
+      document.getElementById("adsTop").appendChild(temp.children[0]);
 
     if(document.getElementById("adsMiddle"))
-      document.getElementById("adsMiddle").innerHTML =
-        temp.children[1].outerHTML;
+      document.getElementById("adsMiddle").appendChild(temp.children[1]);
 
     if(document.getElementById("adsBottom"))
-      document.getElementById("adsBottom").innerHTML =
-        temp.children[2].outerHTML;
+      document.getElementById("adsBottom").appendChild(temp.children[2]);
 
-    // sticky
-    document.body.appendChild(temp.children[3]);
+    if(temp.children[3])
+      document.body.appendChild(temp.children[3]);
 
-    // 🔥 ADSENSE INIT (IMPORTANT)
-    setTimeout(() => {
+    setTimeout(()=>{
       try{
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        document.querySelectorAll(".adsbygoogle").forEach(()=>{
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        });
       }catch(e){}
-    }, 1500);
+    },1500);
   }
 
   loadAds();
