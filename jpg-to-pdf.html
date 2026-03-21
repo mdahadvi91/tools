@@ -43,8 +43,11 @@ gap:5px;
 border:none;
 padding:5px;
 cursor:pointer;
+background:white;
+border-radius:5px;
 }
 
+/* CLEAN OPTIONS UI */
 .options{
 display:flex;
 flex-wrap:wrap;
@@ -53,13 +56,20 @@ justify-content:center;
 margin:15px 0;
 }
 
+.options select{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* PDF PREVIEW */
 .pdfPreview{
 margin-top:20px;
 width:100%;
 height:400px;
 border:1px solid #ccc;
+border-radius:8px;
 }
-
 </style>
 </head>
 
@@ -73,9 +83,9 @@ border:1px solid #ccc;
 
 <section class="uploadBox">
 
-<h2>JPG to PDF PRO</h2>
+<h2>📄 JPG to PDF PRO</h2>
 
-<!-- OPTIONS BACK -->
+<!-- ✅ ONLY 2 OPTIONS -->
 <div class="options">
 
 <select id="pageSize">
@@ -90,41 +100,32 @@ border:1px solid #ccc;
 </select>
 
 <select id="quality">
-<option value="1">High</option>
-<option value="0.7">Medium</option>
-<option value="0.4">Low</option>
-</select>
-
-<select id="fitType">
-<option value="fit">Fit</option>
-<option value="fill">Fill</option>
-<option value="stretch">Stretch</option>
-</select>
-
-<select id="margin">
-<option value="0">No Margin</option>
-<option value="10">Small Margin</option>
-<option value="20">Medium</option>
-<option value="30">Large</option>
+<option value="1">High Quality</option>
+<option value="0.7">Medium Quality</option>
+<option value="0.4">Low Quality</option>
 </select>
 
 </div>
 
+<!-- DROP -->
 <div id="dropArea">📂 Click or Drag Images</div>
 <input type="file" id="imageInput" multiple hidden>
 
+<!-- PREVIEW -->
 <div id="preview"></div>
 
+<!-- BUTTON -->
 <button id="convertBtn" class="convertBtn">Convert & Preview</button>
 <button id="downloadBtn" class="convertBtn" style="display:none;background:green;">Download PDF</button>
 
+<!-- PDF VIEW -->
 <iframe id="pdfPreview" class="pdfPreview" style="display:none;"></iframe>
 
 </section>
 
 </main>
 
-<footer class="footer">© 2026</footer>
+<footer class="footer">© 2026 Hridoy PDF Tools</footer>
 
 <script>
 const input = document.getElementById("imageInput");
@@ -134,17 +135,20 @@ const preview = document.getElementById("preview");
 let images = [];
 let pdfBlob = null;
 
+// CLICK
 drop.onclick = ()=>input.click();
 
+// SELECT
 input.addEventListener("change", e=>handleFiles(e.target.files));
 
+// DROP
 drop.addEventListener("dragover", e=>e.preventDefault());
-
 drop.addEventListener("drop", e=>{
 e.preventDefault();
 handleFiles(e.dataTransfer.files);
 });
 
+// HANDLE FILE
 function handleFiles(files){
 for(let file of files){
 images.push({file,rotation:0});
@@ -152,6 +156,7 @@ images.push({file,rotation:0});
 render();
 }
 
+// RENDER PREVIEW
 function render(){
 preview.innerHTML="";
 
@@ -177,17 +182,22 @@ preview.appendChild(div);
 });
 }
 
+// ROTATE / DELETE
 function rotate(i,d){images[i].rotation+=d;render();}
 function removeImg(i){images.splice(i,1);render();}
 
+// CONVERT
 document.getElementById("convertBtn").onclick=async()=>{
 
-if(images.length===0){alert("Select images");return;}
+if(images.length===0){
+alert("Select images");
+return;
+}
 
 const { jsPDF } = window.jspdf;
 
 let size=document.getElementById("pageSize").value;
-let margin=parseInt(document.getElementById("margin").value);
+let quality=parseFloat(document.getElementById("quality").value);
 
 let sizes={
 a4:[210,297],a3:[297,420],a5:[148,210],
@@ -208,7 +218,8 @@ img.src=base64;
 
 await new Promise(r=>img.onload=r);
 
-let ratio=Math.min((w-margin*2)/img.width,(h-margin*2)/img.height);
+// ✅ AUTO FIT SYSTEM
+let ratio=Math.min(w/img.width, h/img.height);
 let iw=img.width*ratio;
 let ih=img.height*ratio;
 
@@ -217,8 +228,9 @@ let y=(h-ih)/2;
 
 if(i>0) pdf.addPage();
 
-pdf.addImage(base64,"JPEG",x,y,iw,ih);
+pdf.addImage(base64,"JPEG",x,y,iw,ih,undefined,"FAST");
 
+// progress optional (future)
 }
 
 pdfBlob=pdf.output("blob");
@@ -229,6 +241,7 @@ document.getElementById("downloadBtn").style.display="inline-block";
 
 };
 
+// DOWNLOAD
 document.getElementById("downloadBtn").onclick=()=>{
 if(pdfBlob){
 let a=document.createElement("a");
@@ -238,6 +251,7 @@ a.click();
 }
 };
 
+// BASE64
 function toBase64(file){
 return new Promise(res=>{
 let r=new FileReader();
