@@ -1,10 +1,3 @@
-/*
-CLEAN VERSION
-Only UI + Navigation + Theme
-NO upload system (tool page handles it)
-*/
-
-
 // ================= SIDEBAR =================
 
 function openLeft(){
@@ -32,19 +25,21 @@ function closeRight(){
 
 // ================= SEARCH =================
 
-const searchInput=document.getElementById("toolSearch");
+function initSearch(){
+  const searchInput=document.getElementById("toolSearch");
 
-if(searchInput){
-  const tools=document.querySelectorAll(".tool");
+  if(searchInput){
+    const tools=document.querySelectorAll(".tool");
 
-  searchInput.addEventListener("keyup",function(){
-    let value=searchInput.value.toLowerCase();
+    searchInput.addEventListener("keyup",function(){
+      let value=searchInput.value.toLowerCase();
 
-    tools.forEach(tool=>{
-      let name=tool.innerText.toLowerCase();
-      tool.style.display = name.includes(value) ? "block" : "none";
+      tools.forEach(tool=>{
+        let name=tool.innerText.toLowerCase();
+        tool.style.display = name.includes(value) ? "block" : "none";
+      });
     });
-  });
+  }
 }
 
 
@@ -65,14 +60,19 @@ function toggleDark(){
 
 window.addEventListener("load", ()=>{
 
+  // DARK MODE LOAD
   if(localStorage.getItem("theme")==="dark"){
     document.body.classList.add("dark");
   }
 
+  // LOADER
   const loader=document.getElementById("loader");
   if(loader){
     loader.style.display="none";
   }
+
+  // SEARCH INIT (IMPORTANT FIX 🔥)
+  initSearch();
 
 });
 
@@ -83,6 +83,6 @@ function goBack(){
   if(document.referrer !== ""){
     history.back();
   }else{
-    window.location.href = "index.html";
+    window.location.href = "/index.html";
   }
 }
