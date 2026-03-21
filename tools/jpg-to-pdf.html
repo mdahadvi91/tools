@@ -1,1 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>JPG to PDF – Hridoy PDF Tools</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+
+<div class="headerLeft">
+<button class="menuBtn" onclick="openLeft()">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<h2 class="logo">
+❤️ Hridoy PDF
+</h2>
+</div>
+
+<div class="headerSearch">
+<i class="fa-solid fa-arrow-left"></i>
+<input type="text" value="JPG to PDF Tool" readonly>
+</div>
+
+<button class="menuBtn" onclick="openRight()">
+<i class="fa-solid fa-gear"></i>
+</button>
+
+</header>
+
+<!-- 🔙 BACK -->
+<div class="backBar">
+<button onclick="goBack()" class="backBtn">
+<i class="fa-solid fa-arrow-left"></i> Back
+</button>
+</div>
+
+<!-- LEFT SIDEBAR (FULL SAME AS INDEX) -->
+<div id="leftMenu" class="sidebar left">
+<button class="close" onclick="closeLeft()">✖</button>
+
+<h3>Tools</h3>
+
+<a href="index.html"><i class="fa-solid fa-house blue"></i> Home</a>
+<a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
+<a href="jpg-to-png.html"><i class="fa-solid fa-image orange"></i> JPG to PNG</a>
+<a href="png-to-jpg.html"><i class="fa-solid fa-image green"></i> PNG to JPG</a>
+<a href="image-compress.html"><i class="fa-solid fa-compress blue"></i> Compress</a>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div id="rightMenu" class="sidebar right">
+<button class="close" onclick="closeRight()">✖</button>
+
+<button class="darkBtn" onclick="toggleDark()">
+<i class="fa-solid fa-moon"></i> Dark Mode
+</button>
+
+<h3>Information</h3>
+
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+
+</div>
+
+<div id="overlay" onclick="closeLeft();closeRight();"></div>
+
+<!-- MAIN -->
+<main>
+
+<section class="uploadBox">
+
+<h2>📄 JPG to PDF PRO</h2>
+
+<!-- OPTIONS -->
+<div class="options">
+
+<select id="pageSize">
+<option value="a4">A4</option>
+<option value="a3">A3</option>
+<option value="a5">A5</option>
+<option value="letter">Letter</option>
+<option value="legal">Legal</option>
+</select>
+
+<select id="quality">
+<option value="1">High</option>
+<option value="0.7">Medium</option>
+<option value="0.4">Low</option>
+</select>
+
+</div>
+
+<!-- DROP -->
+<div id="dropArea">📂 Click or Drag Images</div>
+<input type="file" id="imageInput" multiple hidden>
+
+<!-- PREVIEW -->
+<div id="preview"></div>
+
+<!-- BUTTON -->
+<button id="convertBtn" class="convertBtn">Convert & Preview</button>
+<button id="downloadBtn" class="convertBtn" style="display:none;background:green;">Download PDF</button>
+
+<!-- PDF VIEW -->
+<iframe id="pdfPreview" class="pdfPreview" style="display:none;"></iframe>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+<p>© 2026 Hridoy PDF Tools</p>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- ✅ TOOL SCRIPT (ISOLATED FIX) -->
+<script>
+
+const input = document.getElementById("imageInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
+
+let images = [];
+let pdfBlob = null;
+
+// CLICK
+drop.onclick = () => input.click();
+
+// INPUT CHANGE
+input.addEventListener("change", (e)=>{
+  handleFiles(e.target.files);
+});
+
+// DRAG DROP
+drop.addEventListener("dragover", e=>e.preventDefault());
+
+drop.addEventListener("drop", e=>{
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+});
+
+// HANDLE FILE
+function handleFiles(files){
+  for(let file of files){
+    images.push(file);
+  }
+  render();
+}
+
+// PREVIEW
+function render(){
+  preview.innerHTML="";
+
+  images.forEach((file,i)=>{
+    let img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    preview.appendChild(img);
+  });
+}
+
+// CONVERT
+document.getElementById("convertBtn").onclick = async ()=>{
+
+  if(images.length===0){
+    alert("Select images");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+
+  let size=document.getElementById("pageSize").value;
+
+  let sizes={
+    a4:[210,297],a3:[297,420],a5:[148,210],
+    letter:[216,279],legal:[216,356]
+  };
+
+  let [w,h]=sizes[size];
+
+  let pdf=new jsPDF("p","mm",[w,h]);
+
+  for(let i=0;i<images.length;i++){
+
+    let base64=await toBase64(images[i]);
+
+    let img=new Image();
+    img.src=base64;
+
+    await new Promise(r=>img.onload=r);
+
+    let ratio=Math.min(w/img.width, h/img.height);
+
+    let iw=img.width*ratio;
+    let ih=img.height*ratio;
+
+    let x=(w-iw)/2;
+    let y=(h-ih)/2;
+
+    if(i>0) pdf.addPage();
+
+    pdf.addImage(base64,"JPEG",x,y,iw,ih);
+  }
+
+  pdfBlob=pdf.output("blob");
+
+  document.getElementById("pdfPreview").src=URL.createObjectURL(pdfBlob);
+  document.getElementById("pdfPreview").style.display="block";
+  document.getElementById("downloadBtn").style.display="inline-block";
+};
+
+// DOWNLOAD
+document.getElementById("downloadBtn").onclick=()=>{
+  if(pdfBlob){
+    let a=document.createElement("a");
+    a.href=URL.createObjectURL(pdfBlob);
+    a.download="Hridoy.pdf";
+    a.click();
+  }
+};
+
+// BASE64
+function toBase64(file){
+  return new Promise(res=>{
+    let r=new FileReader();
+    r.readAsDataURL(file);
+    r.onload=()=>res(r.result);
+  });
+}
+
+</script>
+
+</body>
+</html>
