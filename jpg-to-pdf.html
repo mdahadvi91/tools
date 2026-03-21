@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,25 +8,27 @@
 <title>JPG to PDF – Hridoy PDF Tools</title>
 
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 body{display:flex;flex-direction:column;min-height:100vh;}
 main{flex:1;}
 
-#dropArea{
-border:2px dashed #ccc;
-padding:40px;
-text-align:center;
-cursor:pointer;
-border-radius:10px;
+.options{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+margin:15px 0;
 }
 
-#preview{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:20px;
+.options select{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 .previewItem{position:relative;}
@@ -47,22 +50,6 @@ background:white;
 border-radius:5px;
 }
 
-/* CLEAN OPTIONS UI */
-.options{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-margin:15px 0;
-}
-
-.options select{
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-/* PDF PREVIEW */
 .pdfPreview{
 margin-top:20px;
 width:100%;
@@ -71,21 +58,86 @@ border:1px solid #ccc;
 border-radius:8px;
 }
 </style>
+
 </head>
 
 <body>
 
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
+
+<!-- HEADER (same as index) -->
 <header class="header">
-<h2>❤️ Hridoy PDF</h2>
+
+<div class="headerLeft">
+<button class="menuBtn" onclick="openLeft()">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<h2 class="logo">
+<i class="fa-solid fa-heart"></i> Hridoy PDF
+</h2>
+</div>
+
+<div class="headerSearch">
+<i class="fa-solid fa-arrow-left"></i>
+<input type="text" value="JPG to PDF Tool" readonly>
+</div>
+
+<button class="menuBtn" onclick="openRight()">
+<i class="fa-solid fa-gear"></i>
+</button>
+
 </header>
 
+<!-- 🔙 BACK BUTTON -->
+<div class="backBar">
+<button onclick="goBack()" class="backBtn">
+<i class="fa-solid fa-arrow-left"></i> Back
+</button>
+</div>
+
+<!-- 🔥 AD -->
+<div class="adBox">Ad Space</div>
+
+<!-- LEFT SIDEBAR -->
+<div id="leftMenu" class="sidebar left">
+<button class="close" onclick="closeLeft()">✖</button>
+
+<h3>Tools</h3>
+
+<a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+<a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div id="rightMenu" class="sidebar right">
+<button class="close" onclick="closeRight()">✖</button>
+
+<button class="darkBtn" onclick="toggleDark()">
+<i class="fa-solid fa-moon"></i> Dark Mode
+</button>
+
+<h3>Information</h3>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closeLeft();closeRight();"></div>
+
+<!-- MAIN -->
 <main>
 
 <section class="uploadBox">
 
 <h2>📄 JPG to PDF PRO</h2>
 
-<!-- ✅ ONLY 2 OPTIONS -->
+<!-- OPTIONS -->
 <div class="options">
 
 <select id="pageSize">
@@ -101,8 +153,8 @@ border-radius:8px;
 
 <select id="quality">
 <option value="1">High Quality</option>
-<option value="0.7">Medium Quality</option>
-<option value="0.4">Low Quality</option>
+<option value="0.7">Medium</option>
+<option value="0.4">Low</option>
 </select>
 
 </div>
@@ -125,8 +177,14 @@ border-radius:8px;
 
 </main>
 
-<footer class="footer">© 2026 Hridoy PDF Tools</footer>
+<!-- FOOTER -->
+<footer class="footer">
+<p>© 2026 Hridoy PDF Tools</p>
+</footer>
 
+<script src="script.js"></script>
+
+<!-- 🔥 PDF SCRIPT -->
 <script>
 const input = document.getElementById("imageInput");
 const drop = document.getElementById("dropArea");
@@ -135,20 +193,17 @@ const preview = document.getElementById("preview");
 let images = [];
 let pdfBlob = null;
 
-// CLICK
 drop.onclick = ()=>input.click();
 
-// SELECT
 input.addEventListener("change", e=>handleFiles(e.target.files));
 
-// DROP
 drop.addEventListener("dragover", e=>e.preventDefault());
+
 drop.addEventListener("drop", e=>{
 e.preventDefault();
 handleFiles(e.dataTransfer.files);
 });
 
-// HANDLE FILE
 function handleFiles(files){
 for(let file of files){
 images.push({file,rotation:0});
@@ -156,7 +211,6 @@ images.push({file,rotation:0});
 render();
 }
 
-// RENDER PREVIEW
 function render(){
 preview.innerHTML="";
 
@@ -182,11 +236,9 @@ preview.appendChild(div);
 });
 }
 
-// ROTATE / DELETE
 function rotate(i,d){images[i].rotation+=d;render();}
 function removeImg(i){images.splice(i,1);render();}
 
-// CONVERT
 document.getElementById("convertBtn").onclick=async()=>{
 
 if(images.length===0){
@@ -197,7 +249,6 @@ return;
 const { jsPDF } = window.jspdf;
 
 let size=document.getElementById("pageSize").value;
-let quality=parseFloat(document.getElementById("quality").value);
 
 let sizes={
 a4:[210,297],a3:[297,420],a5:[148,210],
@@ -218,7 +269,6 @@ img.src=base64;
 
 await new Promise(r=>img.onload=r);
 
-// ✅ AUTO FIT SYSTEM
 let ratio=Math.min(w/img.width, h/img.height);
 let iw=img.width*ratio;
 let ih=img.height*ratio;
@@ -228,9 +278,8 @@ let y=(h-ih)/2;
 
 if(i>0) pdf.addPage();
 
-pdf.addImage(base64,"JPEG",x,y,iw,ih,undefined,"FAST");
+pdf.addImage(base64,"JPEG",x,y,iw,ih);
 
-// progress optional (future)
 }
 
 pdfBlob=pdf.output("blob");
@@ -241,7 +290,6 @@ document.getElementById("downloadBtn").style.display="inline-block";
 
 };
 
-// DOWNLOAD
 document.getElementById("downloadBtn").onclick=()=>{
 if(pdfBlob){
 let a=document.createElement("a");
@@ -251,7 +299,6 @@ a.click();
 }
 };
 
-// BASE64
 function toBase64(file){
 return new Promise(res=>{
 let r=new FileReader();
