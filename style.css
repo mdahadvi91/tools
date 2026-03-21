@@ -659,3 +659,34 @@ flex-direction:column;
 .uploadBox{
 flex:1;
 }
+
+/* BACK BUTTON STYLE */
+
+.backBar{
+padding:10px 15px;
+}
+
+.backBtn{
+display:flex;
+align-items:center;
+gap:8px;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#333;
+color:#fff;
+cursor:pointer;
+font-size:14px;
+}
+
+.backBtn:hover{
+background:#111;
+}
+
+/* Mobile */
+@media(max-width:600px){
+.backBtn{
+width:100%;
+justify-content:center;
+}
+}
