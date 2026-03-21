@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,29 +13,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- ZIP LIB -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
 <style>
-
-.settingsBar{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-margin:15px 0;
-}
-
-.settingsBar select,
-.settingsBar input{
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc;
-}
+body{display:flex;flex-direction:column;min-height:100vh;}
+main{flex:1;}
 
 #dropArea{
 border:2px dashed #ccc;
-padding:30px;
+padding:40px;
 text-align:center;
 border-radius:10px;
 cursor:pointer;
@@ -44,7 +29,7 @@ cursor:pointer;
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
-margin-top:15px;
+margin-top:20px;
 }
 
 .previewItem{
@@ -56,271 +41,145 @@ width:100%;
 border-radius:6px;
 }
 
-/* CONTROLS */
-.controls{
+.actions{
 position:absolute;
 top:5px;
-left:5px;
+right:5px;
 display:flex;
 gap:5px;
 }
 
-.ctrlBtn{
-background:#000;
-color:#fff;
+.actions button{
 border:none;
-padding:3px 6px;
+padding:5px;
 font-size:12px;
-border-radius:4px;
 cursor:pointer;
-}
-
-.removeBtn{
-position:absolute;
-top:5px;
-right:5px;
-background:red;
-color:white;
-border:none;
-border-radius:50%;
-width:22px;
-height:22px;
-cursor:pointer;
-}
-
-.backBtn{
-width:100%;
-padding:12px;
-background:#333;
-color:#fff;
-border:none;
-border-radius:8px;
-margin:10px 0;
+border-radius:5px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div id="loader"><div class="spinner"></div></div>
-
 <header class="header">
-<div class="headerLeft">
-<button class="menuBtn" onclick="openLeft()"><i class="fa fa-bars"></i></button>
 <h2 class="logo">❤️ Hridoy PDF</h2>
-</div>
-<div class="headerSearch">
-<input value="JPG to PDF Tool" readonly>
-</div>
-<button class="menuBtn" onclick="openRight()"><i class="fa fa-gear"></i></button>
 </header>
 
-<button onclick="goBack()" class="backBtn">← Back</button>
+<main>
 
 <section class="uploadBox">
 
-<h2>📄 JPG to PDF</h2>
+<h2>📄 JPG to PDF PRO</h2>
 
-<div class="settingsBar">
-
-<select id="pageSize">
-<option value="a4">A4</option>
-<option value="a3">A3</option>
-<option value="a5">A5</option>
-<option value="letter">Letter</option>
-<option value="legal">Legal</option>
-</select>
-
-<select id="quality">
-<option value="1">High</option>
-<option value="0.7">Medium</option>
-<option value="0.4">Low</option>
-</select>
-
-<input type="number" id="margin" value="10" placeholder="Margin">
-
-<select id="fitType">
-<option value="fit">Fit</option>
-<option value="stretch">Stretch</option>
-</select>
-
-</div>
-
-<div id="dropArea">📂 Upload Images</div>
+<div id="dropArea">📂 Click or Drag Images</div>
 <input type="file" id="imageInput" multiple hidden>
 
 <div id="preview"></div>
 
-<div class="progressBox"><div id="progressBar"></div></div>
-
-<button id="convertBtn" class="convertBtn">Convert to PDF</button>
-<button id="zipBtn" class="convertBtn" style="background:#4caf50;margin-top:10px;">Download Images ZIP</button>
+<button id="convertBtn" class="convertBtn">Convert & Preview</button>
 
 </section>
 
+</main>
+
 <footer class="footer">© 2026</footer>
 
-<script src="script.js"></script>
-
 <script>
+const input = document.getElementById("imageInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
 
-function goBack(){
-if(document.referrer){history.back();}
-else{location="index.html";}
-}
+let images = [];
 
-const input=document.getElementById("imageInput");
-const drop=document.getElementById("dropArea");
-const preview=document.getElementById("preview");
+drop.onclick = ()=>input.click();
 
-let images=[];
+input.addEventListener("change", e=>{
+handleFiles(e.target.files);
+});
 
-// OPEN
-drop.onclick=()=>input.click();
+function handleFiles(files){
 
-// DROP
-drop.ondragover=e=>e.preventDefault();
-drop.ondrop=e=>{
-e.preventDefault();
-handle(e.dataTransfer.files);
+for(let file of files){
+
+let obj = {
+file:file,
+rotation:0
 };
 
-input.onchange=e=>handle(e.target.files);
-
-// HANDLE
-function handle(files){
-for(let f of files){
-images.push({file:f,rotate:0});
+images.push(obj);
 render();
 }
 }
 
-// RENDER
 function render(){
 preview.innerHTML="";
 
-images.forEach((obj,i)=>{
+images.forEach((imgObj,index)=>{
 
-let div=document.createElement("div");
+let div = document.createElement("div");
 div.className="previewItem";
 
-let img=document.createElement("img");
-img.src=URL.createObjectURL(obj.file);
-img.style.transform=`rotate(${obj.rotate}deg)`;
+let img = document.createElement("img");
+img.src = URL.createObjectURL(imgObj.file);
+img.style.transform = `rotate(${imgObj.rotation}deg)`;
 
-let remove=document.createElement("button");
-remove.innerText="✖";
-remove.className="removeBtn";
-remove.onclick=()=>{
-images.splice(i,1);
-render();
-};
+let actions = document.createElement("div");
+actions.className="actions";
 
-let controls=document.createElement("div");
-controls.className="controls";
-
-let left=document.createElement("button");
-left.innerText="⟲";
-left.className="ctrlBtn";
-left.onclick=()=>{
-obj.rotate-=90;
-render();
-};
-
-let right=document.createElement("button");
-right.innerText="⟳";
-right.className="ctrlBtn";
-right.onclick=()=>{
-obj.rotate+=90;
-render();
-};
-
-controls.appendChild(left);
-controls.appendChild(right);
+actions.innerHTML=`
+<button onclick="rotate(${index},90)">↻</button>
+<button onclick="rotate(${index},-90)">↺</button>
+<button onclick="removeImg(${index})">❌</button>
+`;
 
 div.appendChild(img);
-div.appendChild(remove);
-div.appendChild(controls);
-
+div.appendChild(actions);
 preview.appendChild(div);
 
 });
-
 }
 
-// CONVERT
-document.getElementById("convertBtn").onclick=async()=>{
+function rotate(i,deg){
+images[i].rotation += deg;
+render();
+}
 
-if(images.length===0) return alert("No images");
+function removeImg(i){
+images.splice(i,1);
+render();
+}
+
+document.getElementById("convertBtn").onclick = async ()=>{
+
+if(images.length===0){
+alert("No images!");
+return;
+}
 
 const { jsPDF } = window.jspdf;
-
-let size=document.getElementById("pageSize").value;
-let margin=parseInt(document.getElementById("margin").value);
-let fit=document.getElementById("fitType").value;
-
-let sizes={
-a4:[210,297],
-a3:[297,420],
-a5:[148,210],
-letter:[216,279],
-legal:[216,356]
-};
-
-let [w,h]=sizes[size];
-
-let pdf=new jsPDF("p","mm",[w,h]);
+let pdf = new jsPDF();
 
 for(let i=0;i<images.length;i++){
 
-let obj=images[i];
-let imgData=await toBase64(obj.file);
+let base64 = await toBase64(images[i].file);
 
-let img=new Image();
-img.src=imgData;
+let img = new Image();
+img.src = base64;
 
 await new Promise(r=>img.onload=r);
 
-let iw,ih;
-
-let ratio=Math.min((w-margin*2)/img.width,(h-margin*2)/img.height);
-
-iw=img.width*ratio;
-ih=img.height*ratio;
-
-let x=(w-iw)/2;
-let y=(h-ih)/2;
+let w = pdf.internal.pageSize.getWidth();
+let h = (img.height*w)/img.width;
 
 if(i>0) pdf.addPage();
 
-pdf.addImage(imgData,"JPEG",x,y,iw,ih,undefined,"FAST",obj.rotate);
-
-document.getElementById("progressBar").style.width=((i+1)/images.length)*100+"%";
+pdf.addImage(base64,"JPEG",0,0,w,h);
 
 }
 
-pdf.save("Hridoy.pdf");
-
-};
-
-// ZIP DOWNLOAD
-document.getElementById("zipBtn").onclick=async()=>{
-
-if(images.length===0) return alert("No images");
-
-let zip=new JSZip();
-
-for(let i=0;i<images.length;i++){
-zip.file(`image-${i+1}.jpg`, images[i].file);
-}
-
-let content=await zip.generateAsync({type:"blob"});
-
-let a=document.createElement("a");
-a.href=URL.createObjectURL(content);
-a.download="images.zip";
-a.click();
+window.open(pdf.output("bloburl"));
 
 };
 
@@ -331,7 +190,6 @@ r.readAsDataURL(file);
 r.onload=()=>res(r.result);
 });
 }
-
 </script>
 
 </body>
