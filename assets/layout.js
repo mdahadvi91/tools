@@ -1,20 +1,27 @@
-// SIMPLE FIX VERSION (NO CONFUSION)
-
-function loadComponent(id, file){
-  const el = document.getElementById(id);
-  if(!el) return;
-
-  fetch("assets/" + file)
+function loadComponent(id, file) {
+  fetch(file)
     .then(res => res.text())
     .then(data => {
-      el.innerHTML = data;
+      document.getElementById(id).innerHTML = data;
     });
 }
 
-// LOAD ALL
-loadComponent("header", "header.html");
-loadComponent("sidebar", "sidebar.html");
-loadComponent("footer", "footer.html");
-loadComponent("adsTop", "ads.html");
-loadComponent("adsMiddle", "ads.html");
-loadComponent("adsBottom", "ads.html");
+// Detect path depth
+const path = window.location.pathname;
+
+let base = "";
+
+// যদি tools বা pages এর ভিতরে হয়
+if (path.includes("/tools/") || path.includes("/pages/")) {
+  base = "../";
+}
+
+// Load সব
+loadComponent("header", base + "assets/header.html");
+loadComponent("footer", base + "assets/footer.html");
+loadComponent("sidebar", base + "assets/sidebar.html");
+
+// Ads
+loadComponent("ad-top", base + "assets/ads.html");
+loadComponent("ad-middle", base + "assets/ads.html");
+loadComponent("ad-bottom", base + "assets/ads.html");
