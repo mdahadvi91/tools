@@ -201,44 +201,6 @@ if(imageInput && convertBtn && preview){
       img.src = imgData;
 
       await new Promise(resolve=>{
-        img.onload=resolve;
-      });
-
-      const width = pdf.internal.pageSize.getWidth();
-      const height = (img.height * width) / img.width;
-
-      if(i>0){
-        pdf.addPage();
-      }
-
-      pdf.addImage(imgData,"JPEG",0,0,width,height);
-
-    }
-
-    pdf.save("converted.pdf");
-
-  });
-
-}
-
-
-// ================= BASE64 CONVERTER =================
-
-function toBase64(file){
-
-  return new Promise((resolve,reject)=>{
-
-    const reader=new FileReader();
-
-    reader.readAsDataURL(file);
-
-    reader.onload=()=>resolve(reader.result);
-    reader.onerror=error=>reject(error);
-
-  });
-
-}
-
 
 // ================= 🌙 DARK MODE =================
 
