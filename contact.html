@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Contact - Hridoy PDF Tools</title>
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -13,14 +15,35 @@
 
 <h2>📩 Contact Us</h2>
 
-<p>
-If you have any questions, suggestions, or issues, feel free to contact us. We are always happy to help.
-</p>
+<p>If you have any questions, suggestions, or issues, feel free to contact us.</p>
 
-<p>
-📧 Email: hridoyvi55@gmail.com
-</p>
-<p>Contect: +971507975837<p>
+<!-- CONTACT FORM -->
+<form action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST" class="contactForm">
+
+<input type="text" name="name" placeholder="Your Name" required>
+
+<input type="email" name="email" placeholder="Your Email" required>
+
+<textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+
+<!-- hidden settings -->
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_subject" value="New Message from Website!">
+<input type="hidden" name="_autoresponse" value="Thank you for contacting Hridoy PDF Tools! We received your message and will reply soon.">
+
+<button type="submit">Send Message</button>
+
+</form>
+
+<!-- CONTACT INFO -->
+<div class="contactInfo">
+
+<h3>📞 Contact Information</h3>
+
+<p>📧 Email: hridoyvi55@gmail.com</p>
+<p>📱 Phone: +971507975837</p>
+
+<div class="contactBtns">
 
 <a href="mailto:hridoyvi55@gmail.com" class="emailBtn">
 📧 Send Email
@@ -34,5 +57,19 @@ If you have any questions, suggestions, or issues, feel free to contact us. We a
 
 </div>
 
-<p>
-We usually respond within 24–48 hours.
+<!-- GOOGLE MAP -->
+<div class="mapBox">
+
+<iframe 
+src="https://www.google.com/maps?q=Dubai&output=embed"
+loading="lazy">
+</iframe>
+
+</div>
+
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
