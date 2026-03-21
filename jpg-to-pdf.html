@@ -11,17 +11,76 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- ✅ PDF LIBRARY -->
+<!-- PDF LIB -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+/* 🔥 TOOL EXTRA STYLE */
+
+.settingsBar{
+display:flex;
+gap:12px;
+justify-content:center;
+flex-wrap:wrap;
+margin:15px 0;
+}
+
+.settingsBar select{
+padding:8px 10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+#dropArea{
+border:2px dashed #ccc;
+padding:35px;
+border-radius:12px;
+cursor:pointer;
+text-align:center;
+background:#fafafa;
+transition:0.3s;
+}
+
+#dropArea:hover{
+background:#f1f1f1;
+}
+
+#preview{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:15px;
+}
+
+#preview img{
+width:100%;
+border-radius:6px;
+}
+
+.backBar{
+padding:10px 15px;
+}
+
+.backBtn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#333;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
 
 </head>
 
 <body>
 
 <!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
 <!-- HEADER -->
 <header class="header">
@@ -47,35 +106,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 </header>
 
-<!-- 🔙 BACK BUTTON -->
+<!-- BACK -->
 <div class="backBar">
 <button onclick="goBack()" class="backBtn">
 <i class="fa-solid fa-arrow-left"></i> Back
 </button>
 </div>
 
-<!-- 🔥 AD TOP -->
+<!-- AD -->
 <div class="adBox">Ad Space (Top)</div>
 
-<!-- SIDEBAR (same as before) -->
+<!-- SIDEBAR -->
 <div id="leftMenu" class="sidebar left">
 <button class="close" onclick="closeLeft()">✖</button>
-
 <h3>Tools</h3>
 <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-<a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
 </div>
 
 <div id="rightMenu" class="sidebar right">
 <button class="close" onclick="closeRight()">✖</button>
-
 <button class="darkBtn" onclick="toggleDark()">
 <i class="fa-solid fa-moon"></i> Dark Mode
 </button>
-
-<h3>Information</h3>
-<a href="about.html"><i class="fa-solid fa-circle-info"></i> About</a>
-<a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
 </div>
 
 <div id="overlay" onclick="closeLeft();closeRight();"></div>
@@ -86,8 +138,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <h2>📄 JPG to PDF Converter</h2>
 
-<!-- 🔧 OPTIONS -->
-<div style="margin:15px 0; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+<!-- SETTINGS -->
+<div class="settingsBar">
 
 <select id="pageSize">
 <option value="a4">A4</option>
@@ -109,9 +161,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 </div>
 
 <!-- DROP -->
-<label for="imageInput" id="dropArea">
+<div id="dropArea">
 📂 Click or Drag & Drop Images Here
-</label>
 </div>
 
 <input type="file" id="imageInput" accept="image/*" multiple hidden>
@@ -130,18 +181,24 @@ Convert to PDF
 
 </section>
 
-<!-- 🔥 AD -->
 <div class="adBox">Ad Space (Middle)</div>
 
-<!-- FOOTER -->
 <footer class="footer">
 <p>© 2026 Hridoy PDF Tools</p>
 </footer>
 
 <script src="script.js"></script>
 
-<!-- ================= 🔥 POWER SCRIPT ================= -->
+<!-- 🔥 CORE LOGIC -->
 <script>
+
+function goBack(){
+if(document.referrer){
+history.back();
+}else{
+window.location.href="index.html";
+}
+}
 
 const imageInput = document.getElementById("imageInput");
 const dropArea = document.getElementById("dropArea");
@@ -152,26 +209,30 @@ const progressBar = document.getElementById("progressBar");
 let images = [];
 
 // CLICK
-dropArea.onclick = () => imageInput.click();
+dropArea.onclick = ()=> imageInput.click();
 
-// FILE SELECT
-imageInput.addEventListener("change", handleFiles);
+// SELECT
+imageInput.addEventListener("change", e=>{
+handleFiles(e.target.files);
+});
 
 // DROP
-dropArea.addEventListener("dragover", e=>e.preventDefault());
+dropArea.addEventListener("dragover", e=>{
+e.preventDefault();
+});
 
 dropArea.addEventListener("drop", e=>{
 e.preventDefault();
-handleFiles({target:{files:e.dataTransfer.files}});
+handleFiles(e.dataTransfer.files);
 });
 
 // HANDLE FILE
-function handleFiles(e){
+function handleFiles(files){
 
 images = [];
 preview.innerHTML = "";
 
-for(let file of e.target.files){
+for(let file of files){
 
 images.push(file);
 
@@ -180,12 +241,13 @@ img.src = URL.createObjectURL(file);
 preview.appendChild(img);
 
 }
+
 }
 
 // CONVERT
 convertBtn.onclick = async ()=>{
 
-if(images.length === 0){
+if(images.length===0){
 alert("Select images first!");
 return;
 }
@@ -195,16 +257,18 @@ const { jsPDF } = window.jspdf;
 let size = document.getElementById("pageSize").value;
 let quality = parseFloat(document.getElementById("quality").value);
 
-let w,h;
+let sizes={
+a4:[210,297],
+a3:[297,420],
+a5:[148,210],
+letter:[216,279],
+legal:[216,356],
+tabloid:[279,432],
+b4:[250,353],
+b5:[176,250]
+};
 
-if(size==="a4"){w=210;h=297;}
-if(size==="a3"){w=297;h=420;}
-if(size==="a5"){w=148;h=210;}
-if(size==="letter"){w=216;h=279;}
-if(size==="legal"){w=216;h=356;}
-if(size==="tabloid"){w=279;h=432;}
-if(size==="b4"){w=250;h=353;}
-if(size==="b5"){w=176;h=250;}
+let [w,h]=sizes[size];
 
 let pdf = new jsPDF("p","mm",[w,h]);
 
@@ -228,9 +292,8 @@ if(i>0) pdf.addPage();
 
 pdf.addImage(imgData,"JPEG",x,y,iw,ih,undefined,"FAST");
 
-// REAL PROGRESS
-let percent = Math.round(((i+1)/images.length)*100);
-progressBar.style.width = percent + "%";
+// PROGRESS
+progressBar.style.width = ((i+1)/images.length)*100 + "%";
 
 }
 
@@ -238,9 +301,8 @@ pdf.save("Hridoy-PDF.pdf");
 
 };
 
-// BASE64
 function toBase64(file){
-return new Promise((res)=>{
+return new Promise(res=>{
 let reader = new FileReader();
 reader.readAsDataURL(file);
 reader.onload = ()=>res(reader.result);
