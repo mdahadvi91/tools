@@ -546,3 +546,35 @@ justify-content:center;
 .darkBtn:hover{
 background:#333;
 }
+
+/* ================= DARK MODE ================= */
+
+.dark{
+background:#121212;
+color:#eee;
+}
+
+.dark .header,
+.dark .welcome,
+.dark .tool,
+.dark .footer,
+.dark .sidebar{
+background:#1e1e1e;
+color:#eee;
+}
+
+.dark .headerSearch{
+background:#2a2a2a;
+}
+
+.dark .footerLinks a{
+color:#ddd;
+}
+
+.dark .sidebar a{
+color:#ddd;
+}
+
+.dark .disclaimer{
+color:#aaa;
+}
