@@ -92,7 +92,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <select id="pageSize">
 <option value="a4">A4</option>
 <option value="a3">A3</option>
+<option value="a5">A5</option>
+<option value="letter">Letter</option>
 <option value="legal">Legal</option>
+<option value="tabloid">Tabloid</option>
+<option value="b4">B4</option>
+<option value="b5">B5</option>
 </select>
 
 <select id="quality">
@@ -104,8 +109,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 </div>
 
 <!-- DROP -->
-<div id="dropArea">
+<label for="imageInput" id="dropArea">
 📂 Click or Drag & Drop Images Here
+</label>
 </div>
 
 <input type="file" id="imageInput" accept="image/*" multiple hidden>
@@ -193,7 +199,12 @@ let w,h;
 
 if(size==="a4"){w=210;h=297;}
 if(size==="a3"){w=297;h=420;}
+if(size==="a5"){w=148;h=210;}
+if(size==="letter"){w=216;h=279;}
 if(size==="legal"){w=216;h=356;}
+if(size==="tabloid"){w=279;h=432;}
+if(size==="b4"){w=250;h=353;}
+if(size==="b5"){w=176;h=250;}
 
 let pdf = new jsPDF("p","mm",[w,h]);
 
