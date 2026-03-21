@@ -524,3 +524,25 @@ background:#25D366;
 .whatsappBtn:hover{
 background:#1ebe5d;
 }
+
+/* DARK BUTTON SIDEBAR */
+
+.darkBtn{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:none;
+background:#111;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+display:flex;
+align-items:center;
+gap:10px;
+justify-content:center;
+}
+
+.darkBtn:hover{
+background:#333;
+}
