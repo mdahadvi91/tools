@@ -192,9 +192,17 @@ position:fixed;
 top:0;
 width:260px;
 height:100%;
-background:white;
+
+/* 🔥 GLASS EFFECT */
+background:rgba(255, 255, 255, 0.15);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+
+/* border glow */
+border-right:1px solid rgba(255,255,255,0.2);
+
 padding:80px 20px 20px 20px;
-box-shadow:2px 0 10px rgba(0,0,0,0.15);
+box-shadow:0 8px 30px rgba(0,0,0,0.2);
 transition:0.3s;
 z-index:1000;
 overflow:auto;
@@ -610,4 +618,9 @@ color:#ddd;
 
 .dark .disclaimer{
 color:#aaa;
+}
+
+body.dark .sidebar{
+background:rgba(0, 0, 0, 0.4);
+border-right:1px solid rgba(255,255,255,0.1);
 }
