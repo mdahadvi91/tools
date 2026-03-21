@@ -1,27 +1,19 @@
-// AUTO PATH DETECT
 const basePath = location.pathname.includes("/tools/") || location.pathname.includes("/pages/")
   ? "../assets/"
   : "assets/";
 
-// LOAD FUNCTION
 function loadComponent(id, file){
+  const el = document.getElementById(id);
+  if(!el) return;
+
   fetch(basePath + file)
     .then(res => res.text())
     .then(data => {
-      document.getElementById(id).innerHTML = data;
-
-      // 🔥 IMPORTANT: re-run JS after load
-      if(id === "header"){
-        setTimeout(() => {
-          if(typeof initSearch === "function"){
-            initSearch();
-          }
-        }, 200);
-      }
+      el.innerHTML = data;
     });
 }
 
-// LOAD ALL (FIXED)
+// LOAD ALL
 loadComponent("header", "header.html");
 loadComponent("sidebar", "sidebar.html");
 loadComponent("footer", "footer.html");
