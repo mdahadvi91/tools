@@ -1,24 +1,32 @@
-// AUTO PATH DETECT
+// ================= AUTO PATH =================
+
 const basePath = location.pathname.includes("/tools/") || location.pathname.includes("/pages/")
   ? "../assets/"
   : "assets/";
 
-// LOAD FUNCTION
+
+// ================= LOAD FUNCTION =================
+
 function loadComponent(id, file){
   fetch(basePath + file)
     .then(res => res.text())
     .then(data => {
-      document.getElementById(id).innerHTML = data;
-    });
+      const el = document.getElementById(id);
+      if(el){
+        el.innerHTML = data;
+      }
+    })
+    .catch(err => console.log("Load error:", file));
 }
 
-// LOAD ALL
+
+// ================= LOAD ALL COMPONENTS =================
+
 loadComponent("header", "header.html");
 loadComponent("sidebar", "sidebar.html");
 loadComponent("footer", "footer.html");
-loadComponent("adsTop", "ads.html");
-loadComponent("adsMiddle", "ads.html");
-loadComponent("adsBottom", "ads.html");
-loadComponent("adsTop", "ads.html");
-loadComponent("adsMiddle", "ads.html");
-loadComponent("adsBottom", "ads.html");
+
+// 🔥 ADS (SEPARATE FILE RECOMMENDED)
+loadComponent("adsTop", "ads-top.html");
+loadComponent("adsMiddle", "ads-middle.html");
+loadComponent("adsBottom", "ads-bottom.html");
