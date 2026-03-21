@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,52 +13,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-body{display:flex;flex-direction:column;min-height:100vh;}
-main{flex:1;}
-
-.options{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-margin:15px 0;
-}
-
-.options select{
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-.previewItem{position:relative;}
-.previewItem img{width:100%;}
-
-.actions{
-position:absolute;
-top:5px;
-right:5px;
-display:flex;
-gap:5px;
-}
-
-.actions button{
-border:none;
-padding:5px;
-cursor:pointer;
-background:white;
-border-radius:5px;
-}
-
-.pdfPreview{
-margin-top:20px;
-width:100%;
-height:400px;
-border:1px solid #ccc;
-border-radius:8px;
-}
-</style>
-
 </head>
 
 <body>
@@ -68,7 +22,7 @@ border-radius:8px;
 <div class="spinner"></div>
 </div>
 
-<!-- HEADER (same as index) -->
+<!-- HEADER -->
 <header class="header">
 
 <div class="headerLeft">
@@ -77,7 +31,7 @@ border-radius:8px;
 </button>
 
 <h2 class="logo">
-<i class="fa-solid fa-heart"></i> Hridoy PDF
+❤️ Hridoy PDF
 </h2>
 </div>
 
@@ -92,24 +46,24 @@ border-radius:8px;
 
 </header>
 
-<!-- 🔙 BACK BUTTON -->
+<!-- 🔙 BACK -->
 <div class="backBar">
 <button onclick="goBack()" class="backBtn">
 <i class="fa-solid fa-arrow-left"></i> Back
 </button>
 </div>
 
-<!-- 🔥 AD -->
-<div class="adBox">Ad Space</div>
-
-<!-- LEFT SIDEBAR -->
+<!-- LEFT SIDEBAR (FULL SAME AS INDEX) -->
 <div id="leftMenu" class="sidebar left">
 <button class="close" onclick="closeLeft()">✖</button>
 
 <h3>Tools</h3>
 
-<a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+<a href="index.html"><i class="fa-solid fa-house blue"></i> Home</a>
 <a href="jpg-to-pdf.html"><i class="fa-solid fa-file-image red"></i> JPG to PDF</a>
+<a href="jpg-to-png.html"><i class="fa-solid fa-image orange"></i> JPG to PNG</a>
+<a href="png-to-jpg.html"><i class="fa-solid fa-image green"></i> PNG to JPG</a>
+<a href="image-compress.html"><i class="fa-solid fa-compress blue"></i> Compress</a>
 
 </div>
 
@@ -122,12 +76,14 @@ border-radius:8px;
 </button>
 
 <h3>Information</h3>
+
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
 
 </div>
 
-<!-- OVERLAY -->
 <div id="overlay" onclick="closeLeft();closeRight();"></div>
 
 <!-- MAIN -->
@@ -146,13 +102,10 @@ border-radius:8px;
 <option value="a5">A5</option>
 <option value="letter">Letter</option>
 <option value="legal">Legal</option>
-<option value="tabloid">Tabloid</option>
-<option value="b4">B4</option>
-<option value="b5">B5</option>
 </select>
 
 <select id="quality">
-<option value="1">High Quality</option>
+<option value="1">High</option>
 <option value="0.7">Medium</option>
 <option value="0.4">Low</option>
 </select>
@@ -184,7 +137,7 @@ border-radius:8px;
 
 <script src="script.js"></script>
 
-<!-- 🔥 PDF SCRIPT -->
+<!-- ✅ TOOL SCRIPT (ISOLATED FIX) -->
 <script>
 
 const input = document.getElementById("imageInput");
@@ -194,63 +147,43 @@ const preview = document.getElementById("preview");
 let images = [];
 let pdfBlob = null;
 
+// CLICK
 drop.onclick = () => input.click();
 
-input.addEventListener("change", e => handleFiles(e.target.files));
+// INPUT CHANGE
+input.addEventListener("change", (e)=>{
+  handleFiles(e.target.files);
+});
 
-drop.addEventListener("dragover", e => e.preventDefault());
+// DRAG DROP
+drop.addEventListener("dragover", e=>e.preventDefault());
 
-drop.addEventListener("drop", e => {
+drop.addEventListener("drop", e=>{
   e.preventDefault();
   handleFiles(e.dataTransfer.files);
 });
 
+// HANDLE FILE
 function handleFiles(files){
   for(let file of files){
-    images.push({file, rotation:0});
+    images.push(file);
   }
   render();
 }
 
+// PREVIEW
 function render(){
   preview.innerHTML="";
 
-  images.forEach((img,i)=>{
-    let div=document.createElement("div");
-    div.className="previewItem";
-
-    let image=document.createElement("img");
-    image.src=URL.createObjectURL(img.file);
-    image.style.transform=`rotate(${img.rotation}deg)`;
-
-    let actions=document.createElement("div");
-    actions.className="actions";
-
-    actions.innerHTML=`
-      <button onclick="rotate(${i},90)">↻</button>
-      <button onclick="removeImg(${i})">❌</button>
-    `;
-
-    div.appendChild(image);
-    div.appendChild(actions);
-    preview.appendChild(div);
+  images.forEach((file,i)=>{
+    let img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    preview.appendChild(img);
   });
 }
 
-function rotate(i,d){
-  images[i].rotation += d;
-  render();
-}
-
-function removeImg(i){
-  images.splice(i,1);
-  render();
-}
-
-
-// ===== CONVERT =====
-
-document.getElementById("convertBtn").onclick = async () => {
+// CONVERT
+document.getElementById("convertBtn").onclick = async ()=>{
 
   if(images.length===0){
     alert("Select images");
@@ -263,8 +196,7 @@ document.getElementById("convertBtn").onclick = async () => {
 
   let sizes={
     a4:[210,297],a3:[297,420],a5:[148,210],
-    letter:[216,279],legal:[216,356],
-    tabloid:[279,432],b4:[250,353],b5:[176,250]
+    letter:[216,279],legal:[216,356]
   };
 
   let [w,h]=sizes[size];
@@ -273,7 +205,7 @@ document.getElementById("convertBtn").onclick = async () => {
 
   for(let i=0;i<images.length;i++){
 
-    let base64=await toBase64(images[i].file);
+    let base64=await toBase64(images[i]);
 
     let img=new Image();
     img.src=base64;
@@ -300,10 +232,8 @@ document.getElementById("convertBtn").onclick = async () => {
   document.getElementById("downloadBtn").style.display="inline-block";
 };
 
-
-// ===== DOWNLOAD =====
-
-document.getElementById("downloadBtn").onclick = ()=>{
+// DOWNLOAD
+document.getElementById("downloadBtn").onclick=()=>{
   if(pdfBlob){
     let a=document.createElement("a");
     a.href=URL.createObjectURL(pdfBlob);
@@ -312,9 +242,7 @@ document.getElementById("downloadBtn").onclick = ()=>{
   }
 };
 
-
-// ===== BASE64 =====
-
+// BASE64
 function toBase64(file){
   return new Promise(res=>{
     let r=new FileReader();
@@ -322,3 +250,8 @@ function toBase64(file){
     r.onload=()=>res(r.result);
   });
 }
+
+</script>
+
+</body>
+</html>
