@@ -40,6 +40,26 @@ background:none;
 cursor:pointer;
 }
 
+.welcome{
+background:white;
+margin:20px;
+padding:25px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.welcome h2{
+margin-bottom:10px;
+color:#333;
+}
+
+.welcome p{
+color:#555;
+font-size:15px;
+line-height:1.6;
+}
+
 
 /* ================= SEARCH ================= */
 
@@ -393,4 +413,48 @@ transform:scale(0.97);
 .tool,
 .icon{
 will-change:transform;
+}
+
+/* ================= FOOTER FIXED ================= */
+
+.footer{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:white;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+padding:10px 15px;
+z-index:1000;
+}
+
+.footerContent{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.footer p{
+font-size:12px;
+color:#777;
+margin:0;
+}
+
+.footerBtns{
+display:flex;
+gap:10px;
+}
+
+.footerBtns button{
+border:none;
+background:#f1f1f1;
+padding:10px;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.footerBtns button:hover{
+background:#e0e0e0;
 }
