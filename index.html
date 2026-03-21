@@ -1,3 +1,10 @@
+<!-- 
+FILE: index.html
+PURPOSE: Main homepage UI
+FEATURES: Sidebar, Tools Grid, Dark Mode, Loader, Ads
+LAST UPDATED: 2026
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,12 +15,17 @@
 <title>Hridoy PDF Tools – Free Online PDF Converter & Editor</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
 
 <!-- HEADER -->
 <header class="header">
@@ -33,11 +45,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <input type="text" id="toolSearch" placeholder="Search tools...">
 </div>
 
+<button class="menuBtn" onclick="toggleDark()">
+<i class="fa-solid fa-moon"></i>
+</button>
+
 <button class="menuBtn" onclick="openRight()">
 <i class="fa-solid fa-gear"></i>
 </button>
 
 </header>
+
+<!-- 🔥 AD (HEADER BELOW) -->
+<div class="adBox">Ad Space (Header)</div>
 
 <!-- LEFT SIDEBAR -->
 <div id="leftMenu" class="sidebar left">
@@ -51,7 +70,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <a href="image-compress.html"><i class="fa-solid fa-compress blue"></i> Compress Image</a>
 <a href="image-resize.html"><i class="fa-solid fa-expand purple"></i> Resize Image</a>
 <a href="image-crop.html"><i class="fa-solid fa-crop green"></i> Crop Image</a>
-
 </div>
 
 <!-- RIGHT SIDEBAR -->
@@ -60,34 +78,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <h3>Information</h3>
 
-<a href="about.html">
-<i class="fa-solid fa-circle-info"></i> About
-</a>
-
-<a href="contact.html">
-<i class="fa-solid fa-envelope"></i> Contact
-</a>
-
-<a href="privacy.html">
-<i class="fa-solid fa-shield-halved"></i> Privacy Policy
-</a>
-
-<a href="terms.html">
-<i class="fa-solid fa-file-contract"></i> Terms
-</a>
-
-<a href="disclaimer.html">
-<i class="fa-solid fa-triangle-exclamation"></i> Disclaimer
-</a>
-
-<a href="dmca.html">
-<i class="fa-solid fa-copyright"></i> DMCA
-</a>
-
-<a href="cookies.html">
-<i class="fa-solid fa-cookie-bite"></i> Cookie Policy
-</a>
-
+<a href="about.html"><i class="fa-solid fa-circle-info"></i> About</a>
+<a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+<a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+<a href="terms.html"><i class="fa-solid fa-file-contract"></i> Terms</a>
+<a href="disclaimer.html"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</a>
+<a href="dmca.html"><i class="fa-solid fa-copyright"></i> DMCA</a>
+<a href="cookies.html"><i class="fa-solid fa-cookie-bite"></i> Cookie Policy</a>
 
 </div>
 
@@ -110,6 +107,9 @@ Start exploring our powerful tools and take full control of your digital files t
 </p>
 
 </section>
+
+<!-- 🔥 AD (TOP AFTER WELCOME) -->
+<div class="adBox">Ad Space (Top)</div>
 
 <!-- TOOLS GRID -->
 <section class="grid">
@@ -149,6 +149,9 @@ Start exploring our powerful tools and take full control of your digital files t
 <h3>WEBP to JPG</h3>
 <p>Convert WEBP images to JPG.</p>
 </a>
+
+<!-- 🔥 MIDDLE AD -->
+<div class="adBox">Ad Space (Middle)</div>
 
 <a href="webp-to-png.html" class="tool">
 <div class="icon blue">W</div>
@@ -210,21 +213,17 @@ Start exploring our powerful tools and take full control of your digital files t
 <footer class="footer">
 
 <div class="footerTop">
-
 <p class="disclaimer">
 ⚠️ This website provides free tools for file conversion and processing. 
 We do not store your files permanently. Use at your own discretion.
 </p>
-
 </div>
 
 <div class="footerLinks">
-
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
 <a href="privacy.html">Privacy</a>
 <a href="terms.html">Terms</a>
-
 </div>
 
 <p class="copyright">
