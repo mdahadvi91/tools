@@ -1,3 +1,19 @@
+/*
+FILE: script.js
+PURPOSE: All interactive logic
+
+FEATURES:
+- Sidebar toggle
+- Search filter
+- File upload system
+- PDF convert
+- Dark mode ✅
+- Loader ✅
+
+LAST UPDATED: 2026
+*/
+
+
 // ================= SIDEBAR CONTROLS =================
 
 function openLeft(){
@@ -46,7 +62,6 @@ if(searchInput){
 
       let name=tool.getAttribute("data-name");
 
-      // fallback if data-name নাই
       if(!name){
         name=tool.innerText.toLowerCase();
       }
@@ -223,3 +238,36 @@ function toBase64(file){
   });
 
 }
+
+
+// ================= 🌙 DARK MODE =================
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    localStorage.setItem("theme","dark");
+  }else{
+    localStorage.setItem("theme","light");
+  }
+
+}
+
+
+// ================= ⚡ LOAD SETTINGS =================
+
+window.addEventListener("load", ()=>{
+
+  // load saved theme
+  if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+  }
+
+  // hide loader
+  const loader=document.getElementById("loader");
+  if(loader){
+    loader.style.display="none";
+  }
+
+});
