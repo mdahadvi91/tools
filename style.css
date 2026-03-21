@@ -431,45 +431,10 @@ will-change:transform;
 /* ================= FOOTER FIXED ================= */
 
 .footer{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:white;
-box-shadow:0 -2px 10px rgba(0,0,0,0.08);
-padding:12px 15px;
-z-index:1000;
-}
-
-.footerContent{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-}
-
-.footer p{
-font-size:12px;
+text-align:center;
+padding:20px;
 color:#777;
-margin:0;
-max-width:60%;
-}
-
-.footerBtns{
-display:flex;
-gap:8px;
-}
-
-.footerBtns button{
-border:none;
-background:#f1f1f1;
-padding:10px 12px;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-}
-
-/* 🔥 VERY IMPORTANT */
-body{
-padding-bottom:80px;
+background:white;
+border-top:1px solid #eee;
+margin-top:30px;
 }
