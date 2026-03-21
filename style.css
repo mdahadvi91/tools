@@ -187,18 +187,6 @@ margin-bottom:10px;
 /* ================= GLASS SIDEBAR (PRO) ================= */
 
 .sidebar{
-z-index:2000;
-}
-
-#overlay{
-z-index:1500;
-}
-
-.adSticky{
-z-index:1000;
-}
-
-.sidebar{
 position:fixed;
 top:0;
 width:260px;
