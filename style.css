@@ -183,18 +183,6 @@ color:white;
 font-size:14px;
 }
 
-
-/* sidebar icon colors */
-
-.sidebar a:nth-child(3) i{background:#ff5252;}
-.sidebar a:nth-child(4) i{background:#ff9800;}
-.sidebar a:nth-child(5) i{background:#9c27b0;}
-.sidebar a:nth-child(6) i{background:#2196f3;}
-
-.sidebar a:nth-child(8) i{background:#4caf50;}
-.sidebar a:nth-child(9) i{background:#607d8b;}
-.sidebar a:nth-child(10) i{background:#795548;}
-
 .sidebar h3{
 margin-top:20px;
 }
