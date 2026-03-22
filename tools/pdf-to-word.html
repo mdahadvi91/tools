@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF to Word – Hridoy PDF Tools</title>
+
+<link rel="stylesheet" href="../style.css">
+<script src="../assets/layout.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
+
+<style>
+.uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
+#dropArea:hover { background:#f0f0f0; }
+#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
+#preview div { position:relative; }
+#preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; }
+.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
+.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
+.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
+.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+<div id="header"></div>
+<div id="sidebar"></div>
+
+<main>
+<div id="adsTop" class="adTop"></div>
+
+<section class="uploadBox">
+<h2>📄 PDF to Word</h2>
+<div id="dropArea">📂 Click or Drag PDF Files</div>
+<input type="file" id="pdfInput" multiple accept="application/pdf" hidden>
+<div id="preview"></div>
+<button id="convertBtn" class="convertBtn">Convert to Word</button>
+</section>
+
+<div id="adsMiddle" class="adMiddle"></div>
+<div id="adsBottom" class="adBottom"></div>
+</main>
+
+<div class="adSticky">Ad Space</div>
+<div id="footer"></div>
+
+<script src="../script.js"></script>
+<script>
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+
+const input = document.getElementById("pdfInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
+const convertBtn = document.getElementById("convertBtn");
+
+let pdfs = [];
+
+drop.onclick = () => input.click();
+input.addEventListener("change", e => handleFiles(e.target.files));
+drop.addEventListener("dragover", e => e.preventDefault());
+drop.addEventListener("drop", e=>{
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+});
+
+function handleFiles(files){
+  for(let file of files) pdfs.push(file);
+  renderPreview();
+}
+
+function renderPreview(){
+  preview.innerHTML="";
+  pdfs.forEach((file, idx)=>{
+    const div = document.createElement("div");
+    const icon = document.createElement("div");
+    icon.innerText = "📄";
+    icon.style.fontSize = "50px";
+    div.appendChild(icon);
+
+    const cross = document.createElement("div");
+    cross.className="cross";
+    cross.innerText="×";
+    cross.onclick = ()=>{ pdfs.splice(idx,1); renderPreview(); }
+
+    div.appendChild(cross);
+    preview.appendChild(div);
+  });
+}
+
+// CONVERT (placeholder logic)
+convertBtn.onclick = ()=>{
+  if(pdfs.length===0){ alert("Select PDF files"); return; }
+
+  // এখানে তুমি PDF → Word conversion logic যুক্ত করবে
+  alert(pdfs.length + " PDF files ready for conversion to Word.");
+
+  pdfs=[];
+  preview.innerHTML="";
+}
+</script>
+
+</body>
+</html>
