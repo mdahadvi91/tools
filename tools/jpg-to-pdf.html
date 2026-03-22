@@ -10,12 +10,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+/* HEADER + SIDEBAR INTEGRATED */
 body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; }
-#header { position:fixed; top:0; left:0; width:100%; z-index:1000; background:#111; color:#fff; padding:15px 20px; box-shadow:0 2px 5px rgba(0,0,0,0.3); }
-#sidebar { position:fixed; left:0; top:60px; bottom:0; width:220px; background:#222; color:#fff; padding:20px; overflow:auto; }
-main { margin-left:240px; padding:80px 20px 40px 20px; }
+#header { position:fixed; top:0; left:0; width:100%; z-index:1000; background:#111; color:#fff; padding:15px 20px; box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:space-between; }
+#header .logo { font-size:20px; font-weight:bold; }
+#header .toolsToggle { cursor:pointer; font-size:20px; padding:5px 10px; background:#00c896; border-radius:5px; }
+#sidebar { position:fixed; top:60px; left:-240px; width:240px; bottom:0; background:#222; color:#fff; overflow:auto; transition:0.3s; padding:20px; z-index:999; }
+#sidebar.active { left:0; }
+#sidebar h3 { margin-top:0; }
+main { margin-top:60px; padding:20px 20px 40px 20px; transition:margin-left 0.3s; margin-left:0; }
+main.shift { margin-left:240px; }
+
+/* TOOL BOX */
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; background:#fafafa; }
+#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; background:#fafafa; text-align:center; }
 #dropArea:hover { background:#f0f0f0; }
 #preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
 #preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; position:relative; }
@@ -29,10 +37,26 @@ main { margin-left:240px; padding:80px 20px 40px 20px; }
 </head>
 <body>
 
-<div id="header">📄 Hridoy PDF Tools</div>
-<div id="sidebar">Tools Menu</div>
+<!-- HEADER -->
+<div id="header">
+  <div class="logo">📄 Hridoy PDF Tools</div>
+  <div class="toolsToggle" id="toolsToggle">☰ Tools</div>
+</div>
 
-<main>
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <h3>Tools Menu</h3>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+    <li><a href="jpg-to-png.html">JPG to PNG</a></li>
+    <li><a href="png-to-jpg.html">PNG to JPG</a></li>
+    <li><a href="image-compress.html">Compress Image</a></li>
+  </ul>
+</div>
+
+<!-- MAIN -->
+<main id="mainContent">
 <div class="uploadBox">
   <h2>JPG → PDF Converter</h2>
 
@@ -55,6 +79,17 @@ main { margin-left:240px; padding:80px 20px 40px 20px; }
 <div id="footer"></div>
 
 <script>
+// HEADER + SIDEBAR TOGGLE
+const sidebar = document.getElementById("sidebar");
+const toggleBtn = document.getElementById("toolsToggle");
+const mainContent = document.getElementById("mainContent");
+
+toggleBtn.onclick = ()=>{
+  sidebar.classList.toggle("active");
+  mainContent.classList.toggle("shift");
+}
+
+// FILE HANDLING
 const dropArea = document.getElementById("dropArea");
 const input = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
