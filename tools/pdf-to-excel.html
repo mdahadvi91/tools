@@ -7,7 +7,14 @@
 
 <link rel="stylesheet" href="../style.css">
 <script src="../assets/layout.js" defer></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
+
+<!-- SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <!-- ADS -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
@@ -16,46 +23,37 @@
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
 #dropArea:hover { background:#f0f0f0; }
-#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
-#preview div { position:relative; }
-#preview img, #preview .fileIcon { width:120px; height:120px; object-fit:cover; border-radius:5px; font-size:50px; display:flex; justify-content:center; align-items:center; }
-.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
-.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
-
+#preview { display:flex; justify-content:center; margin-bottom:20px; font-size:50px; }
+.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; }
 .adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
 .adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
 </style>
 </head>
+
 <body>
 
-<!-- LOADER -->
 <div id="loader"><div class="spinner"></div></div>
-
-<!-- HEADER -->
 <div id="header"></div>
-
-<!-- SIDEBAR -->
 <div id="sidebar"></div>
 
 <main>
 
-<!-- ADS TOP -->
 <div id="adsTop" class="adTop"></div>
 
 <section class="uploadBox">
-<h2>📄 PDF to Excel</h2>
 
-<div id="dropArea">📂 Click or Drag PDF Files</div>
-<input type="file" id="pdfInput" multiple accept="application/pdf" hidden>
+<h2>📊 PDF to Excel PRO</h2>
+
+<div id="dropArea">📂 Click or Drag PDF File</div>
+<input type="file" id="pdfInput" accept="application/pdf" hidden>
 
 <div id="preview"></div>
-<button id="convertBtn" class="convertBtn">Convert to Excel</button>
+
+<button id="convertBtn" class="convertBtn">Convert</button>
+
 </section>
 
-<!-- ADS MIDDLE -->
 <div id="adsMiddle" class="adMiddle"></div>
-
-<!-- ADS BOTTOM -->
 <div id="adsBottom" class="adBottom"></div>
 
 </main>
@@ -64,6 +62,7 @@
 <div id="footer"></div>
 
 <script src="../script.js"></script>
+
 <script>
 window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
 
@@ -72,52 +71,90 @@ const drop = document.getElementById("dropArea");
 const preview = document.getElementById("preview");
 const convertBtn = document.getElementById("convertBtn");
 
-let pdfs = [];
+let pdfFile = null;
 
-// CLICK
+// Upload
 drop.onclick = () => input.click();
 
-// INPUT CHANGE
-input.addEventListener("change", e => handleFiles(e.target.files));
+input.addEventListener("change", e => handleFile(e.target.files[0]));
 
-// DRAG & DROP
 drop.addEventListener("dragover", e => e.preventDefault());
+
 drop.addEventListener("drop", e=>{
   e.preventDefault();
-  handleFiles(e.dataTransfer.files);
+  handleFile(e.dataTransfer.files[0]);
 });
 
-function handleFiles(files){
-  for(let file of files) pdfs.push(file);
-  renderPreview();
+function handleFile(file){
+  pdfFile = file;
+  preview.innerHTML = "📄";
 }
 
-function renderPreview(){
-  preview.innerHTML = "";
-  pdfs.forEach((file, idx)=>{
-    const div = document.createElement("div");
-    const icon = document.createElement("div");
-    icon.className = "fileIcon";
-    icon.innerText = "📄";
-    div.appendChild(icon);
+// Convert
+convertBtn.onclick = async ()=>{
+  if(!pdfFile){ alert("Select PDF file"); return; }
 
-    const cross = document.createElement("div");
-    cross.className = "cross";
-    cross.innerText = "×";
-    cross.onclick = ()=>{ pdfs.splice(idx,1); renderPreview(); }
+  const buffer = await pdfFile.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
 
-    div.appendChild(cross);
-    preview.appendChild(div);
-  });
-}
+  let finalRows = [];
 
-// CONVERT PDF → EXCEL (placeholder logic)
-convertBtn.onclick = ()=>{
-  if(pdfs.length === 0){ alert("Select PDF files"); return; }
+  for(let p=1; p<=pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
 
-  alert(pdfs.length + " PDF file(s) ready to convert to Excel!");
+    // STEP 1: Extract with position
+    let items = content.items.map(i => ({
+      text: i.str,
+      x: i.transform[4],
+      y: i.transform[5]
+    }));
 
-  pdfs = [];
+    // STEP 2: Row detect (y position)
+    let rows = {};
+    items.forEach(i=>{
+      let key = Math.round(i.y);
+      if(!rows[key]) rows[key] = [];
+      rows[key].push(i);
+    });
+
+    // STEP 3: Sort rows (top → bottom)
+    let sortedRows = Object.keys(rows)
+      .sort((a,b)=>b-a)
+      .map(k=>rows[k]);
+
+    // STEP 4: Column detect (spacing)
+    sortedRows.forEach(r=>{
+      r.sort((a,b)=>a.x - b.x);
+
+      let row = [];
+      let lastX = 0;
+
+      r.forEach(cell=>{
+        if(cell.x - lastX > 50){ // spacing threshold
+          row.push("");
+        }
+        row.push(cell.text);
+        lastX = cell.x;
+      });
+
+      finalRows.push(row);
+    });
+  }
+
+  // STEP 5: Create Excel
+  const ws = XLSX.utils.aoa_to_sheet(finalRows);
+
+  // Better formatting
+  ws["!cols"] = finalRows[0].map(()=>({wch:20}));
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  // Download
+  XLSX.writeFile(wb, pdfFile.name.replace(".pdf",".xlsx"));
+
+  pdfFile = null;
   preview.innerHTML = "";
 }
 </script>
