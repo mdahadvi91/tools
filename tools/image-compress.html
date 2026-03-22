@@ -9,6 +9,8 @@
 <script src="../assets/layout.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
+
 <style>
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
@@ -32,7 +34,7 @@
 <div id="adsTop" class="adTop"></div>
 
 <section class="uploadBox">
-<h2>🖼️ Compress Image PRO</h2>
+<h2>🖼️ Compress Images</h2>
 <div id="dropArea">📂 Click or Drag Images</div>
 <input type="file" id="imageInput" multiple hidden>
 <div id="preview"></div>
@@ -88,6 +90,7 @@ function renderPreview(){
   });
 }
 
+// COMPRESS (quality 0.6)
 convertBtn.onclick = async ()=>{
   if(images.length===0){ alert("Select images"); return; }
 
@@ -106,7 +109,7 @@ convertBtn.onclick = async ()=>{
     ctx.drawImage(img,0,0);
 
     const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/jpeg",0.7); // compressed
+    a.href = canvas.toDataURL("image/jpeg",0.6); // compression
     a.download = file.name.replace(/\.[^/.]+$/,"")+".jpg";
     a.click();
   }
