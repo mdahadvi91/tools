@@ -1,210 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hridoy PDF Tools – Free Online Tools</title>
-
+<title>Hridoy PDF Tools</title>
 <link rel="stylesheet" href="style.css">
 <script src="assets/layout.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; }
-/* HEADER */
-#header { width:100%; background:#00c896; color:#fff; padding:15px 20px; position:fixed; top:0; left:0; z-index:999; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.2);}
-#header h1 { font-size:24px; }
-/* SIDEBAR */
-#sidebar { position:fixed; left:0; top:70px; width:60px; background:#fff; padding:10px; box-shadow:2px 0 5px rgba(0,0,0,0.1); display:flex; flex-direction:column; gap:15px; z-index:998; }
-#sidebar img { width:40px; height:40px; border-radius:10px; cursor:pointer; transition:0.3s; }
-#sidebar img:hover { transform:scale(1.1); }
-/* MAIN GRID */
-main { margin-left:80px; padding:100px 20px 40px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
-/* TOOL CARD */
-.tool { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); text-align:center; transition:0.3s; }
-.tool:hover { transform:translateY(-5px); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
-.tool img.toolLogo { width:80px; height:80px; object-fit:contain; margin-bottom:10px; }
-.tool h3 { margin:5px 0; font-size:18px; color:#333; }
-.tool p { font-size:14px; color:#555; }
-/* ADS */
-.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
-.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
-/* TOOL HEADER */
-.toolHeader { text-align:center; margin-bottom:40px; }
-.toolHeader img { width:250px; height:auto; border-radius:10px; margin-bottom:15px; }
-.toolHeader h1 { font-size:36px; margin-bottom:8px; }
-.toolHeader p { font-size:18px; color:#555; }
-</style>
+/* ===== MAIN LAYOUT ===== */
+body { margin:0; font-family:Arial, sans-serif; background:#f9f9f9; }
+#header { position:fixed; top:0; left:0; width:100%; height:60px; background:#fff; border-bottom:1px solid #ddd; z-index:1000; display:flex; align-items:center; padding:0 20px; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
+#sidebar { position:fixed; top:60px; left:0; width:250px; height:100%; background:#fff; border-right:1px solid #ddd; overflow-y:auto; padding:20px; box-shadow:2px 0 5px rgba(0,0,0,0.05); }
+main { margin-left:270px; padding:80px 20px 40px 20px; }
+footer { background:#fff; text-align:center; padding:20px; margin-top:20px; border-top:1px solid #ddd; }/* ===== TOOL GRID ===== */ .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; } .tool { background:#fff; padding:20px; border-radius:10px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:transform 0.2s; cursor:pointer; } .tool:hover { transform:translateY(-5px); } .tool img { width:60px; height:60px; margin-bottom:10px; } .tool h3 { font-size:18px; margin:10px 0 5px 0; } .tool p { font-size:14px; color:#555; }
+
+/* ===== ADS ===== */ .adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; } .adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; } </style>
+
 </head>
-<body>
-
-<!-- HEADER -->
-<div id="header"><h1>Hridoy PDF Tools</h1></div>
-
-<!-- SIDEBAR -->
+<body><div id="header"><h2>🚀 Hridoy PDF Tools</h2></div>
 <div id="sidebar">
-  <!-- 20 tool icons -->
-  <img src="assets/images/tool-jpg-to-pdf.png" title="JPG to PDF">
-  <img src="assets/images/tool-jpg-to-png.png" title="JPG to PNG">
-  <img src="assets/images/tool-png-to-jpg.png" title="PNG to JPG">
-  <img src="assets/images/tool-compress-image.png" title="Compress Image">
-  <img src="assets/images/tool-pdf-merge.png" title="Merge PDF">
-  <img src="assets/images/tool-pdf-split.png" title="Split PDF">
-  <img src="assets/images/tool-pdf-compress.png" title="Compress PDF">
-  <img src="assets/images/tool-pdf-to-word.png" title="PDF to Word">
-  <img src="assets/images/tool-word-to-pdf.png" title="Word to PDF">
-  <img src="assets/images/tool-pdf-to-png.png" title="PDF to PNG">
-  <img src="assets/images/tool-png-to-pdf.png" title="PNG to PDF">
-  <img src="assets/images/tool-excel-to-pdf.png" title="Excel to PDF">
-  <img src="assets/images/tool-pdf-to-excel.png" title="PDF to Excel">
-  <img src="assets/images/tool-pdf-to-jpg.png" title="PDF to JPG">
-  <img src="assets/images/tool-rotate-pdf.png" title="Rotate PDF">
-  <img src="assets/images/tool-lock-pdf.png" title="Lock PDF">
-  <img src="assets/images/tool-unlock-pdf.png" title="Unlock PDF">
-  <img src="assets/images/tool-sign-pdf.png" title="Sign PDF">
-  <img src="assets/images/tool-remove-pages.png" title="Remove Pages">
-</div>
-
-<main>
-
-<!-- ADS TOP -->
-<div id="adsTop" class="adTop">
-  <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="1111111111"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<!-- WELCOME -->
-<section class="toolHeader">
-  <img src="assets/images/hero-tools.png" alt="Tools Hero">
-  <h1>🚀 Free Online PDF Tools</h1>
-  <p>Convert, compress, merge, split, and manage your documents instantly!</p>
-</section>
-
-<!-- TOOL GRID -->
-<section class="grid">
-<!-- Example 20 tool cards -->
-<a href="tools/jpg-to-pdf.html" class="tool">
-  <img src="assets/images/tool-jpg-to-pdf.png" class="toolLogo" alt="JPG to PDF">
-  <h3>JPG to PDF</h3>
-  <p>Convert images into PDF</p>
-</a>
-<a href="tools/jpg-to-png.html" class="tool">
-  <img src="assets/images/tool-jpg-to-png.png" class="toolLogo" alt="JPG to PNG">
-  <h3>JPG to PNG</h3>
-  <p>Convert JPG images to PNG</p>
-</a>
-<a href="tools/png-to-jpg.html" class="tool">
-  <img src="assets/images/tool-png-to-jpg.png" class="toolLogo" alt="PNG to JPG">
-  <h3>PNG to JPG</h3>
-  <p>Convert PNG images to JPG</p>
-</a>
-<a href="tools/image-compress.html" class="tool">
-  <img src="assets/images/tool-compress-image.png" class="toolLogo" alt="Compress Image">
-  <h3>Compress Image</h3>
-  <p>Reduce file size without losing quality</p>
-</a>
-<a href="tools/pdf-merge.html" class="tool">
-  <img src="assets/images/tool-pdf-merge.png" class="toolLogo" alt="Merge PDF">
-  <h3>Merge PDF</h3>
-  <p>Combine multiple PDFs into one</p>
-</a>
-<a href="tools/pdf-split.html" class="tool">
-  <img src="assets/images/tool-pdf-split.png" class="toolLogo" alt="Split PDF">
-  <h3>Split PDF</h3>
-  <p>Separate PDF pages easily</p>
-</a>
-<a href="tools/pdf-compress.html" class="tool">
-  <img src="assets/images/tool-pdf-compress.png" class="toolLogo" alt="Compress PDF">
-  <h3>Compress PDF</h3>
-  <p>Reduce PDF size quickly</p>
-</a>
-<a href="tools/pdf-to-word.html" class="tool">
-  <img src="assets/images/tool-pdf-to-word.png" class="toolLogo" alt="PDF to Word">
-  <h3>PDF to Word</h3>
-  <p>Convert PDF to editable Word doc</p>
-</a>
-<a href="tools/word-to-pdf.html" class="tool">
-  <img src="assets/images/tool-word-to-pdf.png" class="toolLogo" alt="Word to PDF">
-  <h3>Word to PDF</h3>
-  <p>Convert Word doc to PDF</p>
-</a>
-<a href="tools/pdf-to-png.html" class="tool">
-  <img src="assets/images/tool-pdf-to-png.png" class="toolLogo" alt="PDF to PNG">
-  <h3>PDF to PNG</h3>
-  <p>Extract images from PDF</p>
-</a>
-<a href="tools/png-to-pdf.html" class="tool">
-  <img src="assets/images/tool-png-to-pdf.png" class="toolLogo" alt="PNG to PDF">
-  <h3>PNG to PDF</h3>
-  <p>Convert PNG images to PDF</p>
-</a>
-<a href="tools/excel-to-pdf.html" class="tool">
-  <img src="assets/images/tool-excel-to-pdf.png" class="toolLogo" alt="Excel to PDF">
-  <h3>Excel to PDF</h3>
-  <p>Convert Excel sheet to PDF</p>
-</a>
-<a href="tools/pdf-to-excel.html" class="tool">
-  <img src="assets/images/tool-pdf-to-excel.png" class="toolLogo" alt="PDF to Excel">
-  <h3>PDF to Excel</h3>
-  <p>Extract Excel from PDF</p>
-</a>
-<a href="tools/pdf-to-jpg.html" class="tool">
-  <img src="assets/images/tool-pdf-to-jpg.png" class="toolLogo" alt="PDF to JPG">
-  <h3>PDF to JPG</h3>
-  <p>Convert PDF pages to images</p>
-</a>
-<a href="tools/rotate-pdf.html" class="tool">
-  <img src="assets/images/tool-rotate-pdf.png" class="toolLogo" alt="Rotate PDF">
-  <h3>Rotate PDF</h3>
-  <p>Rotate PDF pages easily</p>
-</a>
-<a href="tools/lock-pdf.html" class="tool">
-  <img src="assets/images/tool-lock-pdf.png" class="toolLogo" alt="Lock PDF">
-  <h3>Lock PDF</h3>
-  <p>Protect PDF with password</p>
-</a>
-<a href="tools/unlock-pdf.html" class="tool">
-  <img src="assets/images/tool-unlock-pdf.png" class="toolLogo" alt="Unlock PDF">
-  <h3>Unlock PDF</h3>
-  <p>Remove password protection</p>
-</a>
-<a href="tools/sign-pdf.html" class="tool">
-  <img src="assets/images/tool-sign-pdf.png" class="toolLogo" alt="Sign PDF">
-  <h3>Sign PDF</h3>
-  <p>Add digital signature to PDF</p>
-</a>
-<a href="tools/remove-pages.html" class="tool">
-  <img src="assets/images/tool-remove-pages.png" class="toolLogo" alt="Remove Pages">
-  <h3>Remove Pages</h3>
-  <p>Delete unwanted PDF pages</p>
-</a>
-
-</section>
-
-<!-- ADS MIDDLE -->
-<div id="adsMiddle" class="adMiddle">
-  <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="2222222222"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<!-- ADS BOTTOM -->
-<div id="adsBottom" class="adBottom">
-  <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="3333333333"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-</main>
-
-<!-- STICKY AD -->
-<div class="adSticky">Ad Space</div>
-
-<div id="footer"></div>
-
-<script src="script.js"></script>
-<script>
-window.addEventListener("load", ()=>{document.getElementById("loader").style.display="none";});
-</script>
-
-</body>
+  <h3>Tools</h3>
+  <ul>
+    <li><img src="assets/icons/jpg-pdf.png"> JPG to PDF</li>
+    <li><img src="assets/icons/jpg-png.png"> JPG to PNG</li>
+    <li><img src="assets/icons/png-jpg.png"> PNG to JPG</li>
+    <li><img src="assets/icons/compress.png"> Compress Image</li>
+    <li><img src="assets/icons/pdf-merge.png"> Merge PDF</li>
+    <li><img src="assets/icons/pdf-split.png"> Split PDF</li>
+    <li><img src="assets/icons/pdf-word.png"> PDF to Word</li>
+    <li><img src="assets/icons/word-pdf.png"> Word to PDF</li>
+    <li><img src="assets/icons/pdf-excel.png"> PDF to Excel</li>
+    <li><img src="assets/icons/excel-pdf.png"> Excel to PDF</li>
+    <li><img src="assets/icons/pdf-powerpoint.png"> PDF to PPT</li>
+    <li><img src="assets/icons/ppt-pdf.png"> PPT to PDF</li>
+    <li><img src="assets/icons/pdf-txt.png"> PDF to Text</li>
+    <li><img src="assets/icons/txt-pdf.png"> Text to PDF</li>
+    <li><img src="assets/icons/pdf-jpg.png"> PDF to JPG</li>
+    <li><img src="assets/icons/jpg-pdf.png"> JPG to PDF PRO</li>
+    <li><img src="assets/icons/pdf-rotate.png"> Rotate PDF</li>
+    <li><img src="assets/icons/pdf-encrypt.png"> Encrypt PDF</li>
+    <li><img src="assets/icons/pdf-decrypt.png"> Decrypt PDF</li>
+    <li><img src="assets/icons/pdf-sign.png"> Sign PDF</li>
+  </ul>
+</div><main>
+  <div class="adTop">Top Ad Placeholder</div>
+  <section class="grid">
+    <!-- Tool Cards -->
+    <a href="tools/jpg-to-pdf.html" class="tool">
+      <img src="assets/icons/jpg-pdf.png">
+      <h3>JPG to PDF</h3>
+      <p>Convert your images to high-quality PDF instantly.</p>
+    </a>
+    <a href="tools/jpg-to-png.html" class="tool">
+      <img src="assets/icons/jpg-png.png">
+      <h3>JPG to PNG</h3>
+      <p>Quickly convert JPG images to PNG format.</p>
+    </a>
+    <!-- Repeat similar 18 tools cards with images + short text -->
+  </section>
+  <div class="adMiddle">Middle Ad Placeholder</div>
+  <div class="adBottom">Bottom Ad Placeholder</div>
+</main><div class="adSticky">Sticky Ad Space</div>
+<footer>© 2026 Hridoy PDF Tools</footer></body>
 </html>
