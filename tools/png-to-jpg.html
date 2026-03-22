@@ -22,30 +22,42 @@
 .cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
 .convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
 
-/* ADS */
 .adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
 .adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
 </style>
 </head>
 <body>
 
+<!-- LOADER -->
 <div id="loader"><div class="spinner"></div></div>
+
+<!-- HEADER -->
 <div id="header"></div>
+
+<!-- SIDEBAR -->
 <div id="sidebar"></div>
 
 <main>
+
+<!-- ADS TOP -->
 <div id="adsTop" class="adTop"></div>
 
 <section class="uploadBox">
-<h2>🖼️ PNG to JPG PRO</h2>
-<div id="dropArea">📂 Click or Drag Images</div>
-<input type="file" id="imageInput" multiple hidden>
+<h2>🖼️ PNG to JPG</h2>
+
+<div id="dropArea">📂 Click or Drag PNG Images</div>
+<input type="file" id="imageInput" multiple accept="image/png" hidden>
+
 <div id="preview"></div>
-<button id="convertBtn" class="convertBtn">Convert</button>
+<button id="convertBtn" class="convertBtn">Convert to JPG</button>
 </section>
 
+<!-- ADS MIDDLE -->
 <div id="adsMiddle" class="adMiddle"></div>
+
+<!-- ADS BOTTOM -->
 <div id="adsBottom" class="adBottom"></div>
+
 </main>
 
 <div class="adSticky">Ad Space</div>
@@ -62,9 +74,14 @@ const convertBtn = document.getElementById("convertBtn");
 
 let images = [];
 
+// CLICK
 drop.onclick = () => input.click();
-input.addEventListener("change", e=> handleFiles(e.target.files));
-drop.addEventListener("dragover", e=>e.preventDefault());
+
+// INPUT CHANGE
+input.addEventListener("change", e => handleFiles(e.target.files));
+
+// DRAG & DROP
+drop.addEventListener("dragover", e => e.preventDefault());
 drop.addEventListener("drop", e=>{
   e.preventDefault();
   handleFiles(e.dataTransfer.files);
@@ -76,15 +93,15 @@ function handleFiles(files){
 }
 
 function renderPreview(){
-  preview.innerHTML="";
+  preview.innerHTML = "";
   images.forEach((file, idx)=>{
     const div = document.createElement("div");
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
 
     const cross = document.createElement("div");
-    cross.className="cross";
-    cross.innerText="×";
+    cross.className = "cross";
+    cross.innerText = "×";
     cross.onclick = ()=>{ images.splice(idx,1); renderPreview(); }
 
     div.appendChild(img);
@@ -93,38 +110,32 @@ function renderPreview(){
   });
 }
 
-convertBtn.onclick = async ()=>{
-  if(images.length===0){ alert("Select images"); return; }
+// CONVERT PNG → JPG
+convertBtn.onclick = ()=>{
+  if(images.length === 0){ alert("Select images"); return; }
 
-  for(let i=0;i<images.length;i++){
-    const file = images[i];
-    const base64 = await toBase64(file);
-
-    const img = new Image();
-    img.src = base64;
-    await new Promise(r=>img.onload=r);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img,0,0);
-
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/jpeg",1.0);
-    a.download = file.name.replace(/\.[^/.]+$/,"")+".jpg";
-    a.click();
-  }
-
-  images=[]; preview.innerHTML="";
-}
-
-function toBase64(file){
-  return new Promise(res=>{
-    const r = new FileReader();
-    r.readAsDataURL(file);
-    r.onload = ()=>res(r.result);
+  images.forEach(file => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = e => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = ()=>{
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img,0,0);
+        const a = document.createElement("a");
+        a.href = canvas.toDataURL("image/jpeg",0.9); // JPG quality
+        a.download = file.name.replace(/\.[^/.]+$/, ".jpg");
+        a.click();
+      }
+    }
   });
+
+  images = [];
+  preview.innerHTML = "";
 }
 </script>
 
