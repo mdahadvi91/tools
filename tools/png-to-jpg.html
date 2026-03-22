@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PNG to JPG Converter</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../assets/layout.js" defer></script>
+<style>
+body { text-align:center; padding:30px; background:#111; color:#fff; font-family:Arial,sans-serif; }
+.box { border:2px dashed #555; padding:30px; border-radius:10px; margin:20px auto; max-width:400px; }
+input, button { margin-top:15px; }
+button { padding:10px 20px; border:none; background:#ff7f50; color:#fff; font-size:16px; cursor:pointer; border-radius:5px; }
+button:hover { background:#e26b3c; }
+a#downloadLink { display:none; margin-top:20px; color:#ff7f50; }
+</style>
+</head>
+<body>
+
+<div id="header"></div>
+<div id="sidebar"></div>
+
+<main>
+<h1>PNG → JPG Converter 🔥</h1>
+<div class="box">
+  <p>Select PNG Image</p>
+  <input type="file" id="upload" accept="image/png">
+  <br>
+  <button onclick="convert()">Convert to JPG</button>
+</div>
+<a id="downloadLink">Download JPG</a>
+</main>
+
+<div id="footer"></div>
+
+<script>
+function convert() {
+  const file = document.getElementById("upload").files[0];
+  if(!file){ alert("Please select an image"); return; }
+
+  const img = new Image();
+  const reader = new FileReader();
+
+  reader.onload = function(e){ img.src = e.target.result; }
+
+  img.onload = function(){
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.fillStyle = "#fff"; // white background
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0);
+
+    const jpgUrl = canvas.toDataURL("image/jpeg",1.0);
+    const link = document.getElementById("downloadLink");
+    link.href = jpgUrl;
+    link.download = "converted.jpg";
+    link.style.display="block";
+    link.innerText="Download JPG ✅";
+  }
+
+  reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
