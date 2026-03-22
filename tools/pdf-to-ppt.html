@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF to PPT ULTRA – Hridoy PDF Tools</title>
+
+<link rel="stylesheet" href="../style.css">
+<script src="../assets/layout.js" defer></script>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
+
+<!-- PPTX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.min.js"></script>
+
+<style>
+.uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; }
+#dropArea { border:2px dashed #aaa; padding:40px; text-align:center; cursor:pointer; }
+#preview { text-align:center; font-size:50px; margin:20px 0; }
+.convertBtn { padding:12px 25px; background:#00c896; color:#fff; border:none; cursor:pointer; display:block; margin:auto; }
+select { padding:10px; margin-bottom:15px; }
+</style>
+</head>
+
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+<div id="header"></div>
+<div id="sidebar"></div>
+
+<main>
+<section class="uploadBox">
+
+<h2>📊 PDF to PPT ULTRA</h2>
+
+<select id="theme">
+<option value="light">Light Theme</option>
+<option value="dark">Dark Theme</option>
+</select>
+
+<div id="dropArea">📂 Click or Drag PDF</div>
+<input type="file" id="pdfInput" accept="application/pdf" hidden>
+
+<div id="preview"></div>
+<button id="convertBtn" class="convertBtn">Convert</button>
+
+</section>
+</main>
+
+<div id="footer"></div>
+
+<script src="../script.js"></script>
+
+<script>
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+
+const input = document.getElementById("pdfInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
+const btn = document.getElementById("convertBtn");
+const themeSelect = document.getElementById("theme");
+
+let file = null;
+
+// Upload
+drop.onclick = ()=>input.click();
+input.onchange = e => handle(e.target.files[0]);
+drop.ondragover = e => e.preventDefault();
+drop.ondrop = e=>{
+  e.preventDefault();
+  handle(e.dataTransfer.files[0]);
+};
+
+function handle(f){
+  file = f;
+  preview.innerHTML = "📄";
+}
+
+// Convert
+btn.onclick = async ()=>{
+  if(!file){ alert("Select PDF"); return; }
+
+  const buffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
+
+  const pptx = new PptxGenJS();
+
+  // Theme
+  const theme = themeSelect.value;
+
+  // Get first page to detect ratio
+  const firstPage = await pdf.getPage(1);
+  const vp = firstPage.getViewport({ scale: 1 });
+
+  const ratio = vp.width / vp.height;
+
+  // Auto size
+  if(ratio > 1.3){
+    pptx.defineLayout({ name:'custom', width:10, height:5.625 });
+  } else {
+    pptx.defineLayout({ name:'custom', width:7.5, height:10 });
+  }
+  pptx.layout = 'custom';
+
+  // Faster rendering (parallel chunks)
+  const concurrency = 3;
+  let queue = [];
+
+  for(let p=1; p<=pdf.numPages; p++){
+    queue.push(renderPage(pdf, pptx, p, theme));
+
+    if(queue.length >= concurrency){
+      await Promise.all(queue);
+      queue = [];
+    }
+  }
+
+  await Promise.all(queue);
+
+  pptx.writeFile({ fileName: file.name.replace(".pdf",".pptx") });
+
+  file = null;
+  preview.innerHTML = "";
+};
+
+// Render function
+async function renderPage(pdf, pptx, pageNum, theme){
+  const page = await pdf.getPage(pageNum);
+
+  const viewport = page.getViewport({ scale: 2 });
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({
+    canvasContext: ctx,
+    viewport: viewport
+  }).promise;
+
+  const img = canvas.toDataURL("image/png");
+
+  const slide = pptx.addSlide();
+
+  // Theme background
+  slide.background = { color: theme === "dark" ? "000000" : "FFFFFF" };
+
+  slide.addImage({
+    data: img,
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%"
+  });
+}
+</script>
+
+</body>
+</html>
