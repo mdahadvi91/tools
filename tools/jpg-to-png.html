@@ -20,11 +20,6 @@ crossorigin="anonymous"></script>
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
 #dropArea:hover { background:#f0f0f0; }
-#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
-#preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; position:relative; }
-.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
-.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
-.convertBtn:hover { background:#00a67d; }
 .progress-container { width:100%; max-width:700px; margin:20px auto; height:20px; background:#eee; border-radius:10px; overflow:hidden; }
 .progress-bar { width:0%; height:100%; background:#00c896; transition:width 0.3s; }
 
@@ -63,13 +58,11 @@ crossorigin="anonymous"></script>
 <div id="dropArea">📂 Click or Drag JPG Images</div>
 <input type="file" id="imageInput" multiple hidden>
 
-<div id="preview"></div>
-
-<button id="convertBtn" class="convertBtn">Convert & Download PNGs</button>
-
 <div class="progress-container">
   <div class="progress-bar" id="progressBar"></div>
 </div>
+
+<button id="convertBtn" class="convertBtn">Convert & Download PNGs</button>
 
 </section>
 
@@ -106,7 +99,6 @@ window.addEventListener("load", ()=>{ document.getElementById("loader").style.di
 
 const input = document.getElementById("imageInput");
 const drop = document.getElementById("dropArea");
-const preview = document.getElementById("preview");
 const convertBtn = document.getElementById("convertBtn");
 const progressBar = document.getElementById("progressBar");
 
@@ -127,30 +119,13 @@ drop.addEventListener("drop", e=>{
 
 function handleFiles(files){
   for(let file of files) images.push(file);
-  renderPreview();
 }
 
-function renderPreview(){
-  preview.innerHTML="";
-  images.forEach((file, idx)=>{
-    const div = document.createElement("div");
-    div.style.position="relative";
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    const cross = document.createElement("div");
-    cross.className="cross";
-    cross.innerText="×";
-    cross.onclick = ()=> { images.splice(idx,1); renderPreview(); }
-    div.appendChild(img);
-    div.appendChild(cross);
-    preview.appendChild(div);
-  });
-}
-
-// Convert JPG → PNG and download each
+// Convert JPG → PNG & auto download
 convertBtn.onclick = async ()=>{
   if(images.length===0){ alert("Select images"); return; }
   progressBar.style.width="0%";
+
   for(let i=0;i<images.length;i++){
     const blob = await images[i].arrayBuffer().then(b=>new Blob([b],{type:'image/png'}));
     const a = document.createElement("a");
@@ -159,6 +134,8 @@ convertBtn.onclick = async ()=>{
     a.click();
     progressBar.style.width = ((i+1)/images.length*100)+"%";
   }
+
+  images=[]; // reset after conversion
 }
 
 </script>
