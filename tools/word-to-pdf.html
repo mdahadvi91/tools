@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word to PDF – Hridoy PDF Tools</title>
+
+<link rel="stylesheet" href="../style.css">
+<script src="../assets/layout.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- ADS -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
+
+<style>
+.uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
+#dropArea:hover { background:#f0f0f0; }
+#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
+#preview div { position:relative; }
+#preview .fileIcon { width:120px; height:120px; display:flex; justify-content:center; align-items:center; font-size:50px; border-radius:5px; background:#f5f5f5; }
+.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
+.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
+
+.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
+.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div></div>
+
+<!-- HEADER -->
+<div id="header"></div>
+
+<!-- SIDEBAR -->
+<div id="sidebar"></div>
+
+<main>
+
+<!-- ADS TOP -->
+<div id="adsTop" class="adTop"></div>
+
+<section class="uploadBox">
+<h2>📄 Word to PDF</h2>
+
+<div id="dropArea">📂 Click or Drag Word Files</div>
+<input type="file" id="wordInput" multiple accept=".doc,.docx" hidden>
+
+<div id="preview"></div>
+<button id="convertBtn" class="convertBtn">Convert to PDF</button>
+</section>
+
+<!-- ADS MIDDLE -->
+<div id="adsMiddle" class="adMiddle"></div>
+
+<!-- ADS BOTTOM -->
+<div id="adsBottom" class="adBottom"></div>
+
+</main>
+
+<div class="adSticky">Ad Space</div>
+<div id="footer"></div>
+
+<script src="../script.js"></script>
+<script>
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+
+const input = document.getElementById("wordInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
+const convertBtn = document.getElementById("convertBtn");
+
+let words = [];
+
+// CLICK
+drop.onclick = () => input.click();
+
+// INPUT CHANGE
+input.addEventListener("change", e => handleFiles(e.target.files));
+
+// DRAG & DROP
+drop.addEventListener("dragover", e => e.preventDefault());
+drop.addEventListener("drop", e=>{
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+});
+
+function handleFiles(files){
+  for(let file of files) words.push(file);
+  renderPreview();
+}
+
+function renderPreview(){
+  preview.innerHTML = "";
+  words.forEach((file, idx)=>{
+    const div = document.createElement("div");
+    const icon = document.createElement("div");
+    icon.className = "fileIcon";
+    icon.innerText = "📄";
+    div.appendChild(icon);
+
+    const cross = document.createElement("div");
+    cross.className = "cross";
+    cross.innerText = "×";
+    cross.onclick = ()=>{ words.splice(idx,1); renderPreview(); }
+
+    div.appendChild(cross);
+    preview.appendChild(div);
+  });
+}
+
+// CONVERT WORD → PDF (placeholder logic)
+convertBtn.onclick = ()=>{
+  if(words.length === 0){ alert("Select Word files"); return; }
+
+  alert(words.length + " Word file(s) ready to convert to PDF!");
+
+  words = [];
+  preview.innerHTML = "";
+}
+</script>
+
+</body>
+</html>
