@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JPG to PDF – Hridoy PDF Tools</title>
 
+<!-- MAIN STYLE -->
 <link rel="stylesheet" href="../style.css">
+
+<!-- LAYOUT SYSTEM -->
 <script src="../assets/layout.js" defer></script>
+
+<!-- ICON -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- PDF LIB -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-/* HEADER + SIDEBAR INTEGRATED */
-body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; }
-#header { position:fixed; top:0; left:0; width:100%; z-index:1000; background:#111; color:#fff; padding:15px 20px; box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:space-between; }
-#header .logo { font-size:20px; font-weight:bold; }
-#header .toolsToggle { cursor:pointer; font-size:20px; padding:5px 10px; background:#00c896; border-radius:5px; }
-#sidebar { position:fixed; top:60px; left:-240px; width:240px; bottom:0; background:#222; color:#fff; overflow:auto; transition:0.3s; padding:20px; z-index:999; }
-#sidebar.active { left:0; }
-#sidebar h3 { margin-top:0; }
-main { margin-top:60px; padding:20px 20px 40px 20px; transition:margin-left 0.3s; margin-left:0; }
-main.shift { margin-left:240px; }
+<!-- ADS LIB -->
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
+crossorigin="anonymous"></script>
 
-/* TOOL BOX */
+<style>
+/* TOOL BOX + PREVIEW */
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; background:#fafafa; text-align:center; }
+#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
 #dropArea:hover { background:#f0f0f0; }
 #preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
 #preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; position:relative; }
@@ -31,138 +35,168 @@ main.shift { margin-left:240px; }
 .convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
 .convertBtn:hover { background:#00a67d; }
 .pdfPreview { width:100%; height:500px; border:1px solid #ccc; margin-top:20px; display:none; }
-.progress-container { width:100%; max-width:700px; margin:20px auto; height:20px; background:#eee; border-radius:10px; overflow:hidden; }
-.progress-bar { width:0%; height:100%; background:#00c896; transition:width 0.3s; }
+
+/* ADS */
+.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
+.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
 </style>
+
 </head>
 <body>
 
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div></div>
+
 <!-- HEADER -->
-<div id="header">
-  <div class="logo">📄 Hridoy PDF Tools</div>
-  <div class="toolsToggle" id="toolsToggle">☰ Tools</div>
-</div>
+<div id="header"></div>
 
 <!-- SIDEBAR -->
-<div id="sidebar">
-  <h3>Tools Menu</h3>
-  <ul>
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
-    <li><a href="jpg-to-png.html">JPG to PNG</a></li>
-    <li><a href="png-to-jpg.html">PNG to JPG</a></li>
-    <li><a href="image-compress.html">Compress Image</a></li>
-  </ul>
+<div id="sidebar"></div>
+
+<main>
+
+<!-- ADS TOP -->
+<div id="adsTop" class="adTop">
+  <!-- Google Ad -->
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3714036715427207"
+       data-ad-slot="1111111111"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 </div>
 
-<!-- MAIN -->
-<main id="mainContent">
-<div class="uploadBox">
-  <h2>JPG → PDF Converter</h2>
+<section class="uploadBox">
 
-  <div id="dropArea">📂 Click or Drag Images Here</div>
-  <input type="file" id="imageInput" multiple hidden>
+<h2>📄 JPG to PDF PRO</h2>
 
-  <div id="preview"></div>
+<!-- DROP AREA -->
+<div id="dropArea">📂 Click or Drag Images</div>
+<input type="file" id="imageInput" multiple hidden>
 
-  <button id="convertBtn" class="convertBtn">Convert PDF</button>
-  <button id="downloadBtn" class="convertBtn" style="display:none;background:green;">Download PDF</button>
+<!-- PREVIEW -->
+<div id="preview"></div>
 
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
+<!-- BUTTONS -->
+<button id="convertBtn" class="convertBtn">Convert & Preview</button>
+<button id="downloadBtn" class="convertBtn" style="display:none;background:green;">Download PDF</button>
 
-  <iframe id="pdfPreview" class="pdfPreview"></iframe>
+<!-- PDF VIEW -->
+<iframe id="pdfPreview" class="pdfPreview" style="display:none;"></iframe>
+
+</section>
+
+<!-- ADS MIDDLE -->
+<div id="adsMiddle" class="adMiddle">
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3714036715427207"
+       data-ad-slot="2222222222"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 </div>
+
+<!-- ADS BOTTOM -->
+<div id="adsBottom" class="adBottom">
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3714036715427207"
+       data-ad-slot="3333333333"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 </main>
 
+<!-- STICKY AD -->
+<div class="adSticky">Ad Space</div>
+
+<!-- FOOTER -->
 <div id="footer"></div>
 
-<script>
-// HEADER + SIDEBAR TOGGLE
-const sidebar = document.getElementById("sidebar");
-const toggleBtn = document.getElementById("toolsToggle");
-const mainContent = document.getElementById("mainContent");
+<!-- SCRIPT -->
+<script src="../script.js"></script>
 
-toggleBtn.onclick = ()=>{
-  sidebar.classList.toggle("active");
-  mainContent.classList.toggle("shift");
-}
+<script>
+window.addEventListener("load", ()=>{
+  document.getElementById("loader").style.display = "none";
+});
 
 // FILE HANDLING
-const dropArea = document.getElementById("dropArea");
 const input = document.getElementById("imageInput");
+const drop = document.getElementById("dropArea");
 const preview = document.getElementById("preview");
 const convertBtn = document.getElementById("convertBtn");
 const downloadBtn = document.getElementById("downloadBtn");
-const progressBar = document.getElementById("progressBar");
 const pdfPreview = document.getElementById("pdfPreview");
 
 let images = [];
 let pdfBlob = null;
 
-// Click to select files
-dropArea.onclick = () => input.click();
+// CLICK
+drop.onclick = () => input.click();
 
-// Drag & Drop
-dropArea.addEventListener("dragover", e => e.preventDefault());
-dropArea.addEventListener("drop", e => {
+// INPUT
+input.addEventListener("change", (e)=>{
+  handleFiles(e.target.files);
+});
+
+// DRAG
+drop.addEventListener("dragover", e=>e.preventDefault());
+
+drop.addEventListener("drop", e=>{
   e.preventDefault();
   handleFiles(e.dataTransfer.files);
 });
 
-// File select
-input.addEventListener("change", e => handleFiles(e.target.files));
-
-// Handle files
+// HANDLE FILES
 function handleFiles(files){
   for(let file of files) images.push(file);
-  renderPreview();
+  render();
 }
 
-// Render preview
-function renderPreview(){
-  preview.innerHTML = "";
+// PREVIEW
+function render(){
+  preview.innerHTML="";
   images.forEach((file, idx)=>{
-    const div = document.createElement("div");
+    let div=document.createElement("div");
     div.style.position="relative";
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    const cross = document.createElement("div");
+    let img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    let cross=document.createElement("div");
     cross.className="cross";
     cross.innerText="×";
-    cross.onclick = ()=> { images.splice(idx,1); renderPreview(); }
+    cross.onclick = ()=>{ images.splice(idx,1); render(); }
     div.appendChild(img);
     div.appendChild(cross);
     preview.appendChild(div);
   });
 }
 
-// Convert to PDF (fixed A4, high-res)
+// CONVERT (fixed A4 high-res)
 convertBtn.onclick = async ()=>{
   if(images.length===0){ alert("Select images"); return; }
 
   const { jsPDF } = window.jspdf;
-  const w=210, h=297; // fixed A4 mm
+  const w = 210, h = 297; // A4 mm
   const pdf = new jsPDF("p","mm",[w,h]);
 
-  progressBar.style.width="0%";
-
   for(let i=0;i<images.length;i++){
-    const base64 = await toBase64(images[i]);
-    const img = new Image();
+    let base64 = await toBase64(images[i]);
+    let img = new Image();
     img.src = base64;
     await new Promise(r=>img.onload=r);
 
-    const ratio = Math.min(w/img.width, h/img.height);
-    const iw = img.width*ratio;
-    const ih = img.height*ratio;
-    const x=(w-iw)/2, y=(h-ih)/2;
+    let ratio = Math.min(w/img.width, h/img.height);
+    let iw = img.width*ratio;
+    let ih = img.height*ratio;
+    let x=(w-iw)/2, y=(h-ih)/2;
 
     if(i>0) pdf.addPage();
     pdf.addImage(base64,"JPEG",x,y,iw,ih);
-
-    progressBar.style.width = ((i+1)/images.length*100)+"%";
   }
 
   pdfBlob = pdf.output("blob");
@@ -171,24 +205,25 @@ convertBtn.onclick = async ()=>{
   downloadBtn.style.display="inline-block";
 }
 
-// Download PDF
+// DOWNLOAD
 downloadBtn.onclick = ()=>{
   if(pdfBlob){
-    const a = document.createElement("a");
+    let a=document.createElement("a");
     a.href = URL.createObjectURL(pdfBlob);
-    a.download = "Hridoy.pdf";
+    a.download="Hridoy.pdf";
     a.click();
   }
 }
 
-// Base64 helper
+// BASE64
 function toBase64(file){
   return new Promise(res=>{
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = ()=> res(reader.result);
+    let r=new FileReader();
+    r.readAsDataURL(file);
+    r.onload=()=>res(r.result);
   });
 }
+
 </script>
 
 </body>
