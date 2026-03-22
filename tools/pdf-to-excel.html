@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PDF to Word – Hridoy PDF Tools</title>
+<title>PDF to Excel – Hridoy PDF Tools</title>
 
 <link rel="stylesheet" href="../style.css">
 <script src="../assets/layout.js" defer></script>
@@ -43,13 +43,13 @@
 <div id="adsTop" class="adTop"></div>
 
 <section class="uploadBox">
-<h2>📄 PDF to Word</h2>
+<h2>📄 PDF to Excel</h2>
 
 <div id="dropArea">📂 Click or Drag PDF Files</div>
 <input type="file" id="pdfInput" multiple accept="application/pdf" hidden>
 
 <div id="preview"></div>
-<button id="convertBtn" class="convertBtn">Convert to Word</button>
+<button id="convertBtn" class="convertBtn">Convert to Excel</button>
 </section>
 
 <!-- ADS MIDDLE -->
@@ -111,12 +111,11 @@ function renderPreview(){
   });
 }
 
-// CONVERT PDF → WORD (placeholder logic)
+// CONVERT PDF → EXCEL (placeholder logic)
 convertBtn.onclick = ()=>{
   if(pdfs.length === 0){ alert("Select PDF files"); return; }
 
-  // এখানে তুমি PDF → Word conversion logic বসাবে
-  alert(pdfs.length + " PDF file(s) ready to convert to Word!");
+  alert(pdfs.length + " PDF file(s) ready to convert to Excel!");
 
   pdfs = [];
   preview.innerHTML = "";
