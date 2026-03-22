@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JPG to PDF – Smooth Converter</title>
+<title>JPG to PDF – Hridoy PDF Tools</title>
 
 <link rel="stylesheet" href="../style.css">
 <script src="../assets/layout.js" defer></script>
@@ -103,12 +103,12 @@ function renderPreview(){
   });
 }
 
-// Convert to PDF
+// Convert to PDF (fixed A4, high-res)
 convertBtn.onclick = async ()=>{
   if(images.length===0){ alert("Select images"); return; }
 
   const { jsPDF } = window.jspdf;
-  const w=210, h=297; // A4 mm fixed
+  const w=210, h=297; // fixed A4 mm
   const pdf = new jsPDF("p","mm",[w,h]);
 
   progressBar.style.width="0%";
