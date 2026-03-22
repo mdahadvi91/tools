@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
-
-<meta property="og:title" content="Hridoy PDF Tools">
-<meta property="og:description" content="Free online PDF tools">
-<meta property="og:type" content="website">
-<meta name="description" content="Free online PDF tools. Convert JPG to PDF, compress images and more.">
-<meta name="keywords" content="jpg to pdf, pdf tools, image converter, compress image">
-<meta name="author" content="Hridoy">
-
-<link rel="canonical" href="https://yourdomain.com/">
-<title>Hridoy PDF Tools</title>
+<title>Hridoy PDF Tools – All Free Tools</title>
 
 <link rel="stylesheet" href="style.css">
 <script src="assets/layout.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
 
+<style>
+/* GRID TOOL STYLING */
+.grid { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin:20px 0; }
+.tool { background:#fff; width:150px; text-align:center; padding:15px; border-radius:10px; text-decoration:none; color:#000; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:0.3s; }
+.tool:hover { transform:translateY(-5px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+.tool .icon { font-size:30px; margin-bottom:10px; display:block; }
+.welcome { text-align:center; margin:30px 0; }
+
+/* ADS */
+.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
+.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
+</style>
 </head>
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
-crossorigin="anonymous"></script>
-
 <body>
 
 <!-- LOADER -->
-<div id="loader">
-  <div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
 <!-- HEADER -->
 <div id="header"></div>
@@ -41,55 +37,66 @@ crossorigin="anonymous"></script>
 <div id="sidebar"></div>
 
 <main>
+  <!-- TOP AD -->
+  <div id="adsTop" class="adTop">
+    <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="1111111111"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<div id="adsTop"></div>
+  <!-- WELCOME -->
+  <section class="welcome">
+    <h1>🚀 Free Online PDF & Image Tools</h1>
+    <p>Convert, merge, split, compress and manage your files instantly!</p>
+  </section>
 
-<section class="welcome">
-<h1>🚀 Free Online PDF Tools</h1>
-<p>Convert, compress, and manage your files instantly.</p>
-</section>
+  <!-- MIDDLE AD -->
+  <div id="adsMiddle" class="adMiddle">
+    <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="2222222222"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<div id="adsMiddle"></div>
+  <!-- TOOL GRID -->
+  <section class="grid">
+    <a href="tools/jpg-to-pdf.html" class="tool"><span class="icon">🖼️</span>JPG → PDF</a>
+    <a href="tools/jpg-to-png.html" class="tool"><span class="icon">🖼️</span>JPG → PNG</a>
+    <a href="tools/png-to-jpg.html" class="tool"><span class="icon">🖼️</span>PNG → JPG</a>
+    <a href="tools/compress-image.html" class="tool"><span class="icon">📉</span>Compress Image</a>
+    <a href="tools/pdf-merge.html" class="tool"><span class="icon">📄</span>Merge PDF</a>
+    <a href="tools/pdf-split.html" class="tool"><span class="icon">✂️</span>Split PDF</a>
+    <a href="tools/pdf-rotate.html" class="tool"><span class="icon">🔄</span>Rotate PDF</a>
+    <a href="tools/pdf-lock.html" class="tool"><span class="icon">🔒</span>Lock PDF</a>
+    <a href="tools/pdf-unlock.html" class="tool"><span class="icon">🔓</span>Unlock PDF</a>
+    <a href="tools/pdf-to-word.html" class="tool"><span class="icon">📄➡️📝</span>PDF → Word</a>
+    <a href="tools/word-to-pdf.html" class="tool"><span class="icon">📝➡️📄</span>Word → PDF</a>
+    <a href="tools/pdf-to-excel.html" class="tool"><span class="icon">📄➡️📊</span>PDF → Excel</a>
+    <a href="tools/excel-to-pdf.html" class="tool"><span class="icon">📊➡️📄</span>Excel → PDF</a>
+    <a href="tools/pdf-to-ppt.html" class="tool"><span class="icon">📄➡️📈</span>PDF → PPT</a>
+    <a href="tools/ppt-to-pdf.html" class="tool"><span class="icon">📈➡️📄</span>PPT → PDF</a>
+    <a href="tools/pdf-to-jpg.html" class="tool"><span class="icon">📄➡️🖼️</span>PDF → JPG</a>
+    <a href="tools/jpg-to-bmp.html" class="tool"><span class="icon">🖼️➡️🟫</span>JPG → BMP</a>
+    <a href="tools/png-to-bmp.html" class="tool"><span class="icon">🖼️➡️🟫</span>PNG → BMP</a>
+    <a href="tools/image-resize.html" class="tool"><span class="icon">📐</span>Image Resize</a>
+    <a href="tools/pdf-compress-advanced.html" class="tool"><span class="icon">📉</span>PDF Compress Advanced</a>
+  </section>
 
-<section class="grid">
-
-<a href="tools/jpg-to-pdf.html" class="tool">
-<div class="icon red">J</div>
-<h3>JPG to PDF</h3>
-<p>Convert images into PDF</p>
-</a>
-
-<a href="tools/jpg-to-png.html" class="tool">
-<div class="icon orange">P</div>
-<h3>JPG to PNG</h3>
-<p>Convert JPG to PNG</p>
-</a>
-
-<a href="tools/png-to-jpg.html" class="tool">
-<div class="icon green">J</div>
-<h3>PNG to JPG</h3>
-<p>Convert PNG to JPG</p>
-</a>
-
-<a href="tools/image-compress.html" class="tool">
-<div class="icon blue">C</div>
-<h3>Compress Image</h3>
-<p>Reduce file size</p>
-</a>
-
-</section>
-
-<div id="adsBottom"></div>
+  <!-- BOTTOM AD -->
+  <div id="adsBottom" class="adBottom">
+    <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-3714036715427207" data-ad-slot="3333333333"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
 </main>
 
-<div id="footer"></div>
-
+<!-- STICKY AD -->
 <div class="adSticky">Ad Space</div>
 
-<!-- JS -->
-<script src="assets/layout.js"></script>
+<!-- FOOTER -->
+<div id="footer"></div>
+
 <script src="script.js"></script>
+<script>
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+</script>
 
 </body>
 </html>
