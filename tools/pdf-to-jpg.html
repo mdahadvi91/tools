@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF to JPG – Hridoy PDF Tools</title>
+
+<link rel="stylesheet" href="../style.css">
+<script src="../assets/layout.js" defer></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
+
+<!-- ADS -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
+crossorigin="anonymous"></script>
+
+<style>
+.uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+#dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
+#dropArea:hover { background:#f0f0f0; }
+#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
+#preview canvas { width:100px; border-radius:5px; }
+.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; }
+.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
+.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
+</style>
+
+</head>
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+<div id="header"></div>
+<div id="sidebar"></div>
+
+<main>
+
+<div id="adsTop" class="adTop"></div>
+
+<section class="uploadBox">
+
+<h2>🖼️ PDF to JPG</h2>
+
+<div id="dropArea">📂 Click or Drag PDF</div>
+<input type="file" id="pdfInput" accept="application/pdf" hidden>
+
+<div id="preview"></div>
+
+<button id="convertBtn" class="convertBtn">Convert</button>
+
+</section>
+
+<div id="adsMiddle" class="adMiddle"></div>
+<div id="adsBottom" class="adBottom"></div>
+
+</main>
+
+<div class="adSticky">Ad Space</div>
+<div id="footer"></div>
+
+<script src="../script.js"></script>
+
+<script>
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+
+const input = document.getElementById("pdfInput");
+const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
+const convertBtn = document.getElementById("convertBtn");
+
+let pdfFile = null;
+
+// Upload
+drop.onclick = () => input.click();
+
+input.addEventListener("change", e => handleFile(e.target.files[0]));
+
+drop.addEventListener("dragover", e => e.preventDefault());
+
+drop.addEventListener("drop", e=>{
+  e.preventDefault();
+  handleFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(file){
+  pdfFile = file;
+  preview.innerHTML = "📄";
+}
+
+// Convert
+convertBtn.onclick = async ()=>{
+  if(!pdfFile){ alert("Select PDF"); return; }
+
+  const buffer = await pdfFile.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
+
+  preview.innerHTML = "";
+
+  for(let p=1; p<=pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+
+    const viewport = page.getViewport({ scale: 2 }); // HD
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    await page.render({
+      canvasContext: ctx,
+      viewport: viewport
+    }).promise;
+
+    // Preview thumbnail
+    preview.appendChild(canvas);
+
+    // JPG download
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/jpeg", 0.95);
+    a.download = `page-${p}.jpg`;
+    a.click();
+  }
+
+  pdfFile = null;
+}
+</script>
+
+</body>
+</html>
