@@ -12,24 +12,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <!-- PDF.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.worker.min.js"></script>
 
-<!-- Mammoth for Word -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.7.0/mammoth.browser.min.js"></script>
+<!-- DOCX GENERATOR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.min.js"></script>
 
 <style>
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
-#dropArea:hover { background:#f0f0f0; }
-#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
-#preview .fileIcon { width:120px; height:120px; display:flex; justify-content:center; align-items:center; font-size:50px; border-radius:5px; background:#f5f5f5; }
-.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
+#preview { text-align:center; margin-bottom:20px; font-size:50px; }
 .convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; display:block; margin:auto; }
-.adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
-.adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
 </style>
-
 </head>
+
 <body>
 
 <div id="loader"><div class="spinner"></div></div>
@@ -37,76 +31,84 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <div id="sidebar"></div>
 
 <main>
-
-<div id="adsTop" class="adTop"></div>
-
 <section class="uploadBox">
-<h2>📄 PDF to Word</h2>
+<h2>📄 PDF to Word (REAL)</h2>
 
-<div id="dropArea">📂 Click or Drag PDF File</div>
+<div id="dropArea">📂 Click or Drag PDF</div>
 <input type="file" id="pdfInput" accept="application/pdf" hidden>
 
 <div id="preview"></div>
 <button id="convertBtn" class="convertBtn">Convert to Word</button>
 </section>
-
-<div id="adsMiddle" class="adMiddle"></div>
-<div id="adsBottom" class="adBottom"></div>
-
 </main>
 
-<div class="adSticky">Ad Space</div>
 <div id="footer"></div>
 
 <script src="../script.js"></script>
+
 <script>
-// ☑️ Drop & Upload
+window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
+
 const input = document.getElementById("pdfInput");
 const drop = document.getElementById("dropArea");
 const preview = document.getElementById("preview");
 const convertBtn = document.getElementById("convertBtn");
-let pdfFile;
 
+let pdfFile = null;
+
+// Upload
 drop.onclick = () => input.click();
 input.addEventListener("change", e => handleFile(e.target.files[0]));
 drop.addEventListener("dragover", e=>e.preventDefault());
-drop.addEventListener("drop", e=>{ e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
+drop.addEventListener("drop", e=>{
+  e.preventDefault();
+  handleFile(e.dataTransfer.files[0]);
+});
 
 function handleFile(file){
   pdfFile = file;
-  preview.innerHTML = `<div class="fileIcon">📄</div>`;
+  preview.innerHTML = "📄";
 }
 
-// ☑️ Convert on Click
-convertBtn.onclick = async () => {
-  if(!pdfFile){ alert("Select a PDF file first!"); return; }
+// Convert
+convertBtn.onclick = async ()=>{
+  if(!pdfFile){ alert("Select PDF"); return; }
 
-  // 📌 Extract text from PDF using pdf.js
   const arrayBuffer = await pdfFile.arrayBuffer();
-  const pdfDoc = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+
   let fullText = "";
 
-  for(let i=1; i<=pdfDoc.numPages; i++){
-    const page = await pdfDoc.getPage(i);
-    const textContent = await page.getTextContent();
-    const pageText = textContent.items.map(i=>i.str).join(" ");
+  for(let i=1; i<=pdf.numPages; i++){
+    const page = await pdf.getPage(i);
+    const text = await page.getTextContent();
+    const pageText = text.items.map(t => t.str).join(" ");
     fullText += pageText + "\n\n";
   }
 
-  // 📌 Use Mammoth to generate docx from plain text
-  const result = mammoth.convertToHtml({html: `<p>${fullText.replace(/\n/g, "</p><p>")}</p>`});
-  const htmlString = (await result).value;
+  // DOCX CREATE
+  const { Document, Packer, Paragraph, TextRun } = window.docx;
 
-  const docxBlob = await mammoth.convertToBlob({html: htmlString});
+  const doc = new Document({
+    sections: [{
+      children: fullText.split("\n").map(line =>
+        new Paragraph({
+          children: [new TextRun(line)]
+        })
+      )
+    }]
+  });
 
-  // 💾 Auto download
+  const blob = await Packer.toBlob(doc);
+
+  // DOWNLOAD
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(docxBlob);
-  a.download = pdfFile.name.replace(/\.pdf$/, ".docx");
+  a.href = URL.createObjectURL(blob);
+  a.download = pdfFile.name.replace(".pdf",".docx");
   a.click();
 
-  preview.innerHTML = "";
   pdfFile = null;
+  preview.innerHTML = "";
 }
 </script>
 
