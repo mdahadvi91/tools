@@ -1,226 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-
-<meta property="og:title" content="Hridoy PDF Tools">
-<meta property="og:description" content="Free online PDF tools">
-<meta property="og:type" content="website">
-
-<link rel="canonical" href="https://yourdomain.com/">
-<title>JPG to PDF – Hridoy PDF Tools</title>
-
-<!-- MAIN STYLE -->
+<title>JPG to PDF Converter</title>
 <link rel="stylesheet" href="../style.css">
-
-<!-- LAYOUT SYSTEM -->
 <script src="../assets/layout.js" defer></script>
-
-<!-- ICON -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- PDF LIB -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
-crossorigin="anonymous"></script>
+<style>
+body { background:#111; color:#fff; font-family:Arial,sans-serif; text-align:center; padding:20px; }
+h1 { margin-bottom:20px; }
+.upload-box { border:2px dashed #555; padding:20px; border-radius:10px; max-width:500px; margin:0 auto 20px; }
+input[type=file] { display:block; margin:15px auto; }
+button { padding:10px 20px; font-size:16px; cursor:pointer; background:#00c896; border:none; border-radius:5px; color:#fff; }
+button:hover { background:#00a67d; }
+.preview-container { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.preview-item { position:relative; border:1px solid #555; border-radius:5px; overflow:hidden; width:120px; height:120px; }
+.preview-item img { width:100%; height:100%; object-fit:cover; }
+.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; line-height:20px; text-align:center; cursor:pointer; }
+.progress-container { margin-top:20px; width:80%; max-width:400px; margin-left:auto; margin-right:auto; background:#222; border-radius:5px; height:20px; overflow:hidden; }
+.progress-bar { height:100%; width:0; background:#00c896; transition:width 0.3s; }
+#downloadLink { display:block; margin-top:20px; color:#00c896; font-size:16px; }
+</style>
 </head>
-
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="spinner"></div>
-</div>
-
-<!-- AUTO HEADER -->
 <div id="header"></div>
-
-<!-- AUTO SIDEBAR -->
 <div id="sidebar"></div>
 
 <main>
+<h1>JPG → PDF Converter</h1>
 
-<!-- ADS TOP -->
-<div id="adsTop"></div>
-
-<section class="uploadBox">
-
-<h2>📄 JPG to PDF PRO</h2>
-
-<!-- OPTIONS -->
-<div class="options">
-<select id="pageSize">
-<option value="a4">A4</option>
-<option value="a3">A3</option>
-<option value="a5">A5</option>
-<option value="letter">Letter</option>
-<option value="legal">Legal</option>
-</select>
-
-<select id="quality">
-<option value="1">High</option>
-<option value="0.7">Medium</option>
-<option value="0.4">Low</option>
-</select>
+<div class="upload-box">
+  <input type="file" id="fileInput" multiple accept="image/jpeg,image/png">
+  <button onclick="convertPDF()">Convert to PDF</button>
 </div>
 
-<!-- DROP AREA -->
-<div id="dropArea">📂 Click or Drag Images</div>
-<input type="file" id="imageInput" multiple hidden>
+<div class="preview-container" id="previewContainer"></div>
 
-<!-- PREVIEW -->
-<div id="preview"></div>
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
 
-<!-- BUTTONS -->
-<button id="convertBtn" class="convertBtn">Convert & Preview</button>
-<button id="downloadBtn" class="convertBtn" style="display:none;background:green;">
-Download PDF
-</button>
-
-<!-- PDF VIEW -->
-<iframe id="pdfPreview" class="pdfPreview" style="display:none;"></iframe>
-
-</section>
-
-<!-- ADS BOTTOM -->
-<div id="adsBottom"></div>
-
+<a id="downloadLink">Download PDF ✅</a>
 </main>
 
-<!-- AUTO FOOTER -->
 <div id="footer"></div>
 
-<!-- MAIN JS -->
-<script src="../script.js"></script>
-
-<!-- LOADER FIX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-window.addEventListener("load", ()=>{
-  document.getElementById("loader").style.display = "none";
-});
-</script>
+const { jsPDF } = window.jspdf;
+let files = [];
 
-<!-- TOOL SCRIPT -->
-<script>
+const fileInput = document.getElementById("fileInput");
+const previewContainer = document.getElementById("previewContainer");
+const progressBar = document.getElementById("progressBar");
+const downloadLink = document.getElementById("downloadLink");
 
-const input = document.getElementById("imageInput");
-const drop = document.getElementById("dropArea");
-const preview = document.getElementById("preview");
-
-let images = [];
-let pdfBlob = null;
-
-// CLICK
-drop.onclick = () => input.click();
-
-// INPUT
-input.addEventListener("change", (e)=>{
-  handleFiles(e.target.files);
-});
-
-// DRAG
-drop.addEventListener("dragover", e=>e.preventDefault());
-
-drop.addEventListener("drop", e=>{
-  e.preventDefault();
-  handleFiles(e.dataTransfer.files);
-});
-
-// HANDLE FILES
-function handleFiles(files){
-  for(let file of files){
-    images.push(file);
+fileInput.addEventListener("change", (e)=>{
+  for(const file of e.target.files){
+    files.push(file);
+    const reader = new FileReader();
+    const div = document.createElement("div");
+    div.classList.add("preview-item");
+    const cross = document.createElement("div");
+    cross.classList.add("cross");
+    cross.innerText="×";
+    cross.onclick = ()=>{ 
+      files = files.filter(f=>f!==file); 
+      div.remove();
+    };
+    div.appendChild(cross);
+    reader.onload = (ev)=>{
+      const img = document.createElement("img");
+      img.src = ev.target.result;
+      div.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+    previewContainer.appendChild(div);
   }
-  render();
-}
+});
 
-// PREVIEW
-function render(){
-  preview.innerHTML="";
-  images.forEach(file=>{
-    let img=document.createElement("img");
-    img.src=URL.createObjectURL(file);
-    preview.appendChild(img);
+function convertPDF(){
+  if(files.length===0){ alert("Select at least one file!"); return; }
+  const pdf = new jsPDF({ orientation:"portrait", unit:"px", format:"a4" });
+  let loaded = 0;
+  progressBar.style.width="0%";
+
+  files.forEach((file,index)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const ratio = Math.min(pdfWidth/img.width, pdfHeight/img.height);
+        const width = img.width * ratio;
+        const height = img.height * ratio;
+        if(index>0) pdf.addPage();
+        pdf.addImage(img, 'JPEG', (pdfWidth-width)/2, (pdfHeight-height)/2, width, height);
+        loaded++;
+        progressBar.style.width = ((loaded/files.length)*100)+"%";
+        if(loaded===files.length){
+          const pdfBlob = pdf.output('blob');
+          const url = URL.createObjectURL(pdfBlob);
+          downloadLink.href=url;
+          downloadLink.download="converted.pdf";
+          downloadLink.style.display="block";
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   });
 }
-
-// CONVERT
-document.getElementById("convertBtn").onclick = async ()=>{
-
-  if(images.length===0){
-    alert("Select images");
-    return;
-  }
-
-  const { jsPDF } = window.jspdf;
-
-  let size=document.getElementById("pageSize").value;
-
-  let sizes={
-    a4:[210,297],
-    a3:[297,420],
-    a5:[148,210],
-    letter:[216,279],
-    legal:[216,356]
-  };
-
-  let [w,h]=sizes[size];
-
-  let pdf=new jsPDF("p","mm",[w,h]);
-
-  for(let i=0;i<images.length;i++){
-
-    let base64=await toBase64(images[i]);
-
-    let img=new Image();
-    img.src=base64;
-
-    await new Promise(r=>img.onload=r);
-
-    let ratio=Math.min(w/img.width, h/img.height);
-
-    let iw=img.width*ratio;
-    let ih=img.height*ratio;
-
-    let x=(w-iw)/2;
-    let y=(h-ih)/2;
-
-    if(i>0) pdf.addPage();
-
-    pdf.addImage(base64,"JPEG",x,y,iw,ih);
-  }
-
-  pdfBlob=pdf.output("blob");
-
-  document.getElementById("pdfPreview").src = URL.createObjectURL(pdfBlob);
-  document.getElementById("pdfPreview").style.display="block";
-  document.getElementById("downloadBtn").style.display="inline-block";
-};
-
-// DOWNLOAD
-document.getElementById("downloadBtn").onclick=()=>{
-  if(pdfBlob){
-    let a=document.createElement("a");
-    a.href=URL.createObjectURL(pdfBlob);
-    a.download="Hridoy.pdf";
-    a.click();
-  }
-};
-
-// BASE64
-function toBase64(file){
-  return new Promise(res=>{
-    let r=new FileReader();
-    r.readAsDataURL(file);
-    r.onload=()=>res(r.result);
-  });
-}
-
 </script>
 
 </body>
