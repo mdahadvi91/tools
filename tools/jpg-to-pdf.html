@@ -24,7 +24,8 @@ crossorigin="anonymous"></script>
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
 #dropArea:hover { background:#f0f0f0; }
 #preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
-#preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; position:relative; }
+#preview div { position:relative; }
+#preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; }
 .cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
 .convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
 
@@ -68,7 +69,7 @@ crossorigin="anonymous"></script>
 <div id="preview"></div>
 
 <!-- CONVERT BUTTON -->
-<button id="convertBtn" class="convertBtn">Convert & Download PDF</button>
+<button id="convertBtn" class="convertBtn">Convert</button>
 
 </section>
 
@@ -134,11 +135,18 @@ function handleFiles(files){
 function renderPreview(){
   preview.innerHTML="";
   images.forEach((file, idx)=>{
-    const div=document.createElement("div");
-    div.style.position="relative";
-    const img=document.createElement("img");
+    const div = document.createElement("div");
+    const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
+
+    // CROSS BUTTON
+    const cross = document.createElement("div");
+    cross.className="cross";
+    cross.innerText="×";
+    cross.onclick = ()=>{ images.splice(idx,1); renderPreview(); }
+
     div.appendChild(img);
+    div.appendChild(cross);
     preview.appendChild(div);
   });
 }
@@ -152,34 +160,34 @@ convertBtn.onclick = async ()=>{
   const pdf = new jsPDF("p","mm",[w,h]);
 
   for(let i=0;i<images.length;i++){
-    let base64 = await toBase64(images[i]);
-    let img = new Image();
+    const base64 = await toBase64(images[i]);
+    const img = new Image();
     img.src = base64;
     await new Promise(r=>img.onload=r);
 
-    let ratio = Math.min(w/img.width, h/img.height);
-    let iw = img.width*ratio;
-    let ih = img.height*ratio;
-    let x=(w-iw)/2, y=(h-ih)/2;
+    const ratio = Math.min(w/img.width, h/img.height);
+    const iw = img.width*ratio;
+    const ih = img.height*ratio;
+    const x=(w-iw)/2, y=(h-ih)/2;
 
     if(i>0) pdf.addPage();
     pdf.addImage(base64,"JPEG",x,y,iw,ih);
   }
 
   // AUTO DOWNLOAD
-  let a=document.createElement("a");
+  const a = document.createElement("a");
   a.href = pdf.output("bloburl");
   a.download = "Hridoy.pdf";
   a.click();
 
-  images=[]; // reset images
+  images=[]; // reset
   preview.innerHTML="";
 }
 
 // BASE64
 function toBase64(file){
   return new Promise(res=>{
-    let r = new FileReader();
+    const r = new FileReader();
     r.readAsDataURL(file);
     r.onload = ()=>res(r.result);
   });
