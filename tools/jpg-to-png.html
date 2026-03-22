@@ -1,151 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>JPG to PNG Converter</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #111;
+      color: #fff;
+      padding: 30px;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
+    .box {
+      border: 2px dashed #555;
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
 
-<title>JPG to PNG – Hridoy PDF Tools</title>
+    input {
+      margin-top: 15px;
+    }
 
-<meta name="description" content="Convert JPG images to PNG online free.">
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: #00c896;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-<link rel="stylesheet" href="../style.css">
-<script src="../assets/layout.js" defer></script>
+    button:hover {
+      background: #00a67d;
+    }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
-crossorigin="anonymous"></script>
-
+    a {
+      display: none;
+      margin-top: 20px;
+      color: #00c896;
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="loader">
-  <div class="spinner"></div>
+<h1>JPG to PNG Converter 🔥</h1>
+
+<div class="box">
+  <p>Select JPG Image</p>
+  <input type="file" id="upload" accept="image/jpeg">
+  <br>
+  <button onclick="convert()">Convert to PNG</button>
 </div>
 
-<div id="header"></div>
-<div id="sidebar"></div>
-
-<main>
-
-<div id="adsTop"></div>
-
-<section class="uploadBox">
-
-<h2>🖼️ JPG to PNG</h2>
-
-<div id="dropArea">📂 Click or Drag JPG Images</div>
-<input type="file" id="imageInput" accept="image/jpeg" multiple hidden>
-
-<div id="preview"></div>
-
-<button id="convertBtn" class="convertBtn">Convert to PNG</button>
-
-</section>
-
-<div id="adsBottom"></div>
-
-</main>
-
-<div id="footer"></div>
-
-<script src="../script.js"></script>
+<a id="downloadLink">Download PNG</a>
 
 <script>
-window.addEventListener("load", ()=>{
-  const loader = document.getElementById("loader");
-  if(loader) loader.style.display = "none";
-});
-</script>
+function convert() {
+  const file = document.getElementById("upload").files[0];
 
-<!-- ✅ FIXED SCRIPT -->
-<script>
-
-window.addEventListener("DOMContentLoaded", ()=>{
-
-const input = document.getElementById("imageInput");
-const drop = document.getElementById("dropArea");
-const preview = document.getElementById("preview");
-const btn = document.getElementById("convertBtn");
-
-let images = [];
-
-// CLICK
-drop.addEventListener("click", ()=> input.click());
-
-// INPUT
-input.addEventListener("change", (e)=>{
-  handleFiles(e.target.files);
-});
-
-// DRAG
-drop.addEventListener("dragover", e=>e.preventDefault());
-
-drop.addEventListener("drop", e=>{
-  e.preventDefault();
-  handleFiles(e.dataTransfer.files);
-});
-
-// HANDLE
-function handleFiles(files){
-  for(let file of files){
-    if(file.type.includes("jpeg") || file.type.includes("jpg")){
-      images.push(file);
-    }
-  }
-  render();
-}
-
-// PREVIEW
-function render(){
-  preview.innerHTML="";
-  images.forEach(file=>{
-    let img=document.createElement("img");
-    img.src=URL.createObjectURL(file);
-    preview.appendChild(img);
-  });
-}
-
-// ✅ CONVERT FIXED
-btn.addEventListener("click", async ()=>{
-
-  if(images.length===0){
-    alert("Select JPG images");
+  if (!file) {
+    alert("Please select an image");
     return;
   }
 
-  for(let file of images){
+  const img = new Image();
+  const reader = new FileReader();
 
-    let img = new Image();
-    img.src = URL.createObjectURL(file);
+  reader.onload = function(e) {
+    img.src = e.target.result;
+  }
 
-    await new Promise(resolve=>{
-      img.onload = resolve;
-    });
+  img.onload = function() {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
 
-    let canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
 
-    let ctx = canvas.getContext("2d");
-    ctx.drawImage(img,0,0);
+    ctx.drawImage(img, 0, 0);
 
-    let pngUrl = canvas.toDataURL("image/png");
+    const pngUrl = canvas.toDataURL("image/png");
 
-    let a = document.createElement("a");
-    a.href = pngUrl;
-    a.download = file.name.replace(/\.jpe?g/i, ".png");
-    a.click();
+    const link = document.getElementById("downloadLink");
+    link.href = pngUrl;
+    link.download = "converted.png";
+    link.style.display = "block";
+    link.innerText = "Download PNG ✅";
   }
 
-});
-
-});
+  reader.readAsDataURL(file);
+}
 </script>
 
 </body>
