@@ -1,30 +1,85 @@
 <!-- LEFT MENU -->
 <div id="leftMenu" class="sidebar left">
 <button class="close" onclick="closeLeft()">✖</button>
-
 <h3>Tools</h3>
-
-<a href="/tools/jpg-to-pdf.html">JPG to PDF</a>
-<a href="/tools/jpg-to-png.html">JPG to PNG</a>
-<a href="/tools/png-to-jpg.html">PNG to JPG</a>
-<a href="/tools/image-compress.html">Compress</a>
-
+<!-- Tools links will be injected here -->
 </div>
 
 <!-- RIGHT MENU -->
 <div id="rightMenu" class="sidebar right">
 <button class="close" onclick="closeRight()">✖</button>
-
 <button class="darkBtn" onclick="toggleDark()">Dark Mode</button>
-
 <h3>Info</h3>
-
 <a href="/pages/about.html">About</a>
 <a href="/pages/contact.html">Contact</a>
 <a href="/pages/privacy.html">Privacy</a>
 <a href="/pages/terms.html">Terms</a>
 <a href="/pages/dmca.html">DMCA</a>
-
 </div>
 
-<div id="overlay" onclick="closeLeft();closeRight();"></div>
+<script>
+// 50+ Tools array
+const tools = [
+  {name:"JPG to PDF", href:"/tools/jpg-to-pdf.html"},
+  {name:"JPG to PNG", href:"/tools/jpg-to-png.html"},
+  {name:"PNG to JPG", href:"/tools/png-to-jpg.html"},
+  {name:"Compress Image", href:"/tools/image-compress.html"},
+  {name:"PDF to Word", href:"/tools/pdf-to-word.html"},
+  {name:"PDF to Excel", href:"/tools/pdf-to-excel.html"},
+  {name:"PDF to PPT", href:"/tools/pdf-to-ppt.html"},
+  {name:"PDF to JPG", href:"/tools/pdf-to-jpg.html"},
+  {name:"Word to PDF", href:"/tools/word-to-pdf.html"},
+  {name:"Excel to PDF", href:"/tools/excel-to-pdf.html"},
+  {name:"PPT to PDF", href:"/tools/ppt-to-pdf.html"},
+  {name:"HTML to PDF", href:"/tools/html-to-pdf.html"},
+  {name:"Merge PDF", href:"/tools/pdf-merge.html"},
+  {name:"Split PDF", href:"/tools/pdf-split.html"},
+  {name:"Compress PDF", href:"/tools/pdf-compress.html"},
+  {name:"Rotate PDF", href:"/tools/pdf-rotate.html"},
+  {name:"Protect PDF", href:"/tools/pdf-protect.html"},
+  {name:"Unlock PDF", href:"/tools/pdf-unlock.html"},
+  {name:"Edit PDF", href:"/tools/pdf-edit.html"},
+  {name:"Sign PDF", href:"/tools/pdf-sign.html"},
+  {name:"Watermark PDF", href:"/tools/pdf-watermark.html"},
+  {name:"PNG to PDF", href:"/tools/png-to-pdf.html"},
+  {name:"JPEG to PDF", href:"/tools/jpeg-to-pdf.html"},
+  {name:"TIFF to PDF", href:"/tools/tiff-to-pdf.html"},
+  {name:"WEBP to PDF", href:"/tools/webp-to-pdf.html"},
+  {name:"PDF to TXT", href:"/tools/pdf-to-txt.html"},
+  {name:"PDF to HTML", href:"/tools/pdf-to-html.html"},
+  {name:"Resize Image", href:"/tools/image-resize.html"},
+  {name:"Crop Image", href:"/tools/image-crop.html"},
+  {name:"Image to Text", href:"/tools/image-to-text.html"},
+  {name:"Text to PDF", href:"/tools/text-to-pdf.html"},
+  {name:"PDF OCR", href:"/tools/pdf-ocr.html"},
+  {name:"Image Merge", href:"/tools/image-merge.html"},
+  {name:"Image Rotate", href:"/tools/image-rotate.html"},
+  {name:"PDF Metadata", href:"/tools/pdf-metadata.html"},
+  {name:"PDF Split by Range", href:"/tools/pdf-split-range.html"},
+  {name:"Image Color Adjust", href:"/tools/image-color.html"},
+  {name:"PDF Thumbnail", href:"/tools/pdf-thumbnail.html"},
+  {name:"PDF Bookmark", href:"/tools/pdf-bookmark.html"},
+  {name:"PDF Page Number", href:"/tools/pdf-page-number.html"},
+  {name:"Image Watermark", href:"/tools/image-watermark.html"},
+  {name:"Convert EPS to PDF", href:"/tools/eps-to-pdf.html"},
+  {name:"PDF Compare", href:"/tools/pdf-compare.html"},
+  {name:"PDF Validate", href:"/tools/pdf-validate.html"},
+  {name:"Image Format Convert", href:"/tools/image-format.html"},
+  {name:"PDF Split by Size", href:"/tools/pdf-split-size.html"},
+  {name:"PDF Encrypt", href:"/tools/pdf-encrypt.html"},
+  {name:"PDF Decrypt", href:"/tools/pdf-decrypt.html"},
+  {name:"PDF Repair", href:"/tools/pdf-repair.html"},
+  {name:"PDF Optimize", href:"/tools/pdf-optimize.html"},
+  {name:"PDF Thumbnail Batch", href:"/tools/pdf-thumbnail-batch.html"}
+];
+
+// Inject tools into LEFT sidebar
+const leftMenu = document.getElementById("leftMenu");
+
+tools.forEach(tool => {
+  const a = document.createElement("a");
+  a.href = tool.href;
+  a.textContent = tool.name;
+  leftMenu.appendChild(a);
+});
+</script>
