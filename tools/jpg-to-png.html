@@ -1,116 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JPG to PNG – Hridoy PDF Tools</title>
 
 <link rel="stylesheet" href="../style.css">
 <script src="../assets/layout.js" defer></script>
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- ADS LIB -->
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207"
-crossorigin="anonymous"></script>
+<!-- ADS -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3714036715427207" crossorigin="anonymous"></script>
 
 <style>
 .uploadBox { background:#fff; padding:20px; border-radius:10px; max-width:700px; margin:auto; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
 #dropArea { border:2px dashed #aaa; padding:40px; margin-bottom:20px; border-radius:10px; cursor:pointer; text-align:center; background:#fafafa; }
 #dropArea:hover { background:#f0f0f0; }
-.progress-container { width:100%; max-width:700px; margin:20px auto; height:20px; background:#eee; border-radius:10px; overflow:hidden; }
-.progress-bar { width:0%; height:100%; background:#00c896; transition:width 0.3s; }
-
-/* ADS */
+#preview { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
+#preview div { position:relative; }
+#preview img { width:120px; height:120px; object-fit:cover; border-radius:5px; }
+.cross { position:absolute; top:3px; right:3px; background:red; color:#fff; border-radius:50%; width:20px; height:20px; text-align:center; line-height:20px; cursor:pointer; font-weight:bold; }
+.convertBtn { padding:12px 25px; background:#00c896; border:none; color:#fff; border-radius:5px; cursor:pointer; margin-right:10px; }
 .adTop, .adMiddle, .adBottom { margin:20px 0; text-align:center; }
 .adSticky { position:fixed; bottom:10px; right:10px; width:200px; height:60px; background:#eee; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.3); z-index:999; font-weight:bold; }
 </style>
-
 </head>
 <body>
 
-<!-- LOADER -->
 <div id="loader"><div class="spinner"></div></div>
-
-<!-- HEADER -->
 <div id="header"></div>
-
-<!-- SIDEBAR -->
 <div id="sidebar"></div>
 
 <main>
-
-<!-- ADS TOP -->
-<div id="adsTop" class="adTop">
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:320px;height:100px"
-       data-ad-client="ca-pub-3714036715427207"
-       data-ad-slot="1111111111"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+<div id="adsTop" class="adTop"></div>
 
 <section class="uploadBox">
-
-<h2>📄 JPG to PNG Converter</h2>
-
-<div id="dropArea">📂 Click or Drag JPG Images</div>
+<h2>🖼️ JPG to PNG PRO</h2>
+<div id="dropArea">📂 Click or Drag Images</div>
 <input type="file" id="imageInput" multiple hidden>
-
-<div class="progress-container">
-  <div class="progress-bar" id="progressBar"></div>
-</div>
-
-<button id="convertBtn" class="convertBtn">Convert & Download PNGs</button>
-
+<div id="preview"></div>
+<button id="convertBtn" class="convertBtn">Convert</button>
 </section>
 
-<!-- ADS MIDDLE -->
-<div id="adsMiddle" class="adMiddle">
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:320px;height:100px"
-       data-ad-client="ca-pub-3714036715427207"
-       data-ad-slot="2222222222"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<!-- ADS BOTTOM -->
-<div id="adsBottom" class="adBottom">
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:320px;height:100px"
-       data-ad-client="ca-pub-3714036715427207"
-       data-ad-slot="3333333333"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
+<div id="adsMiddle" class="adMiddle"></div>
+<div id="adsBottom" class="adBottom"></div>
 </main>
 
-<!-- STICKY AD -->
 <div class="adSticky">Ad Space</div>
-
-<!-- FOOTER -->
 <div id="footer"></div>
 
 <script src="../script.js"></script>
-
 <script>
 window.addEventListener("load", ()=>{ document.getElementById("loader").style.display="none"; });
 
 const input = document.getElementById("imageInput");
 const drop = document.getElementById("dropArea");
+const preview = document.getElementById("preview");
 const convertBtn = document.getElementById("convertBtn");
-const progressBar = document.getElementById("progressBar");
 
 let images = [];
 
-// CLICK
 drop.onclick = () => input.click();
-
-// INPUT
 input.addEventListener("change", e=> handleFiles(e.target.files));
-
-// DRAG
 drop.addEventListener("dragover", e=>e.preventDefault());
 drop.addEventListener("drop", e=>{
   e.preventDefault();
@@ -119,25 +70,60 @@ drop.addEventListener("drop", e=>{
 
 function handleFiles(files){
   for(let file of files) images.push(file);
+  renderPreview();
 }
 
-// Convert JPG → PNG & auto download
+function renderPreview(){
+  preview.innerHTML="";
+  images.forEach((file, idx)=>{
+    const div = document.createElement("div");
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+
+    const cross = document.createElement("div");
+    cross.className="cross";
+    cross.innerText="×";
+    cross.onclick = ()=>{ images.splice(idx,1); renderPreview(); }
+
+    div.appendChild(img);
+    div.appendChild(cross);
+    preview.appendChild(div);
+  });
+}
+
 convertBtn.onclick = async ()=>{
   if(images.length===0){ alert("Select images"); return; }
-  progressBar.style.width="0%";
 
   for(let i=0;i<images.length;i++){
-    const blob = await images[i].arrayBuffer().then(b=>new Blob([b],{type:'image/png'}));
+    const file = images[i];
+    const base64 = await toBase64(file);
+
+    const img = new Image();
+    img.src = base64;
+    await new Promise(r=>img.onload=r);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img,0,0);
+
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = images[i].name.replace(/\.[^/.]+$/,"")+".png";
+    a.href = canvas.toDataURL("image/png",1.0);
+    a.download = file.name.replace(/\.[^/.]+$/,"")+".png";
     a.click();
-    progressBar.style.width = ((i+1)/images.length*100)+"%";
   }
 
-  images=[]; // reset after conversion
+  images=[]; preview.innerHTML="";
 }
 
+function toBase64(file){
+  return new Promise(res=>{
+    const r = new FileReader();
+    r.readAsDataURL(file);
+    r.onload = ()=>res(r.result);
+  });
+}
 </script>
 
 </body>
