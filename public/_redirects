@@ -1,9 +1,0 @@
-# AHADEX Tools — Cloudflare Pages Redirects
-# ============================================================
-# This is a Single Page Application (SPA). Cloudflare Pages
-# first serves any real file that exists (assets, images,
-# sitemap, etc.). Only unmatched paths fall through to the
-# rule below, which serves index.html so React Router can
-# take over.
-
-/*  /index.html  200
