@@ -1,0 +1,26 @@
+/* ============================================================
+ * Planned Tool Translations (Bangla)
+ * ------------------------------------------------------------
+ * BN translations for tools listed in src/data/plannedTools.ts
+ * that are not yet implemented.
+ *
+ * These are used ONLY in the "Coming Soon" section.
+ * Once a planned tool is implemented, MOVE its translation to
+ * src/i18n/toolTranslations.ts.
+ * ============================================================ */
+
+import type { ToolTranslation } from "./toolTranslations";
+
+export const plannedToolTranslationsBn: Record<string, ToolTranslation> = {};
+
+export function getPlannedToolTranslation(
+  toolId: string,
+  lang: "en" | "bn",
+  fallback: { name: string; description: string }
+): { name: string; description: string } {
+  if (lang === "bn") {
+    const tr = plannedToolTranslationsBn[toolId];
+    if (tr) return tr;
+  }
+  return fallback;
+}

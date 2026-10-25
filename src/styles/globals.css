@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: auto;
+  }
+  html.dark { color-scheme: dark; }
+  html.light { color-scheme: light; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #1A1114;
+    color: #F5EAE3;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  html.light body {
+    background-color: #FDF8F3;
+    color: #2B1810;
+  }
+  #root { min-height: 100vh; }
+  h1, h2, h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  h4, h5, h6 { margin: 0; font-weight: 600; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  img, svg { display: block; max-width: 100%; }
+  ::selection { background-color: rgba(216, 139, 154, 0.35); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .text-silk-gradient {
+    background: linear-gradient(135deg, #B36878 0%, #D88B9A 40%, #C99667 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .text-silk-gradient-dark {
+    background: linear-gradient(135deg, #E8B4B8 0%, #D88B9A 40%, #E5C9A4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ============================================================
+ * THEME TRANSITION — smooth color change
+ * ============================================================ */
+
+html,
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* During theme switch — disable transition to avoid flash */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+/* Text color theme transition */
+h1, h2, h3, h4, h5, h6, p, span, a, button, div {
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  h1, h2, h3, h4, h5, h6, p, span, a, button, div {
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+ * LANGUAGE-BASED FONT FAMILY
+ * ============================================================ */
+
+/* Bengali — সব text-এ Bangla font */
+html[lang="bn"] body,
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] h3,
+html[lang="bn"] h4,
+html[lang="bn"] h5,
+html[lang="bn"] h6,
+html[lang="bn"] p,
+html[lang="bn"] span,
+html[lang="bn"] a,
+html[lang="bn"] button,
+html[lang="bn"] div,
+html[lang="bn"] input,
+html[lang="bn"] textarea,
+html[lang="bn"] label,
+html[lang="bn"] li {
+  font-family: "Hind Siliguri", "Baloo Da 2", "Noto Serif Bengali", system-ui, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+/* Bengali heading — bold, distinct */
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] .font-display {
+  font-family: "Baloo Da 2", "Hind Siliguri", "Noto Serif Bengali", system-ui, sans-serif !important;
+  font-weight: 700;
+  letter-spacing: -0.02em !important;
+}
+
+/* Bengali script class — soft handwriting style */
+html[lang="bn"] .font-script {
+  font-family: "Baloo Da 2", "Hind Siliguri", cursive !important;
+  font-weight: 600;
+  font-style: normal !important;
+}
+
+/* Arabic */
+html[lang="ar"] body,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] p,
+html[lang="ar"] span,
+html[lang="ar"] a,
+html[lang="ar"] button,
+html[lang="ar"] div,
+html[lang="ar"] input,
+html[lang="ar"] textarea,
+html[lang="ar"] label,
+html[lang="ar"] li {
+  font-family: "Noto Sans Arabic", "Noto Kufi Arabic", system-ui, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] .font-display {
+  font-family: "Noto Kufi Arabic", "Noto Sans Arabic", system-ui, sans-serif !important;
+  font-weight: 700;
+}
+
+/* Fix word spacing for Bengali */
+html[lang="bn"] p,
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] h3 {
+  word-spacing: 0.05em;
+}
+
+/* LiveText — Bengali letter-spacing reset */
+html[lang="bn"] .live-text,
+html[lang="bn"] .live-text > span {
+  font-family: "Hind Siliguri", "Baloo Da 2", sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+/* ❌ Disable wave on Bengali (fonts get messed up) */
+html[lang="bn"] .live-text > span,
+html[lang="ar"] .live-text > span {
+  animation: none !important;
+  display: inline !important;
+}
+
+/* ------------------------------------------------------------
+ * SSR-only fallback styles
+ * ------------------------------------------------------------
+ * Cloudflare middleware injects a small amount of HTML into the
+ * initial response so crawlers and JS-disabled users see content.
+ * These rules give that fallback minimal typography and spacing
+ * so it is readable even before React hydrates (or if React never
+ * hydrates at all). Once React mounts, the fallback is replaced.
+ * ------------------------------------------------------------ */
+[data-ssr="true"] {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+  color: var(--color-text-secondary, #4a4a4a);
+  line-height: 1.7;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+[data-ssr="true"] h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary, #1a1a1a);
+}
+
+[data-ssr="true"] h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 2.5rem 0 1rem;
+  color: var(--color-text-primary, #1a1a1a);
+}
+
+[data-ssr="true"] h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--color-text-primary, #1a1a1a);
+}
+
+[data-ssr="true"] p,
+[data-ssr="true"] li {
+  font-size: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+[data-ssr="true"] ul,
+[data-ssr="true"] ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+[data-ssr="true"] table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+[data-ssr="true"] th,
+[data-ssr="true"] td {
+  border: 1px solid rgba(139, 58, 79, 0.2);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+[data-ssr="true"] th {
+  background: rgba(216, 139, 154, 0.08);
+  font-weight: 600;
+}
+
+[data-ssr="true"] a {
+  color: #8B3A4F;
+  text-decoration: underline;
+}
+
+[data-ssr="true"] section[lang="bn"] {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(139, 58, 79, 0.15);
+}
+
+[data-ssr="true"] .tool-field-note {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  background: rgba(216, 139, 154, 0.05);
+  border-left: 4px solid #8B3A4F;
+  border-radius: 8px;
+}
+
+[data-ssr="true"] .tool-field-note h2 {
+  margin-top: 0;
+}
+
+/* Performance: decorative motion is disabled site-wide. */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}

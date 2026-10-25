@@ -1,0 +1,5 @@
+# ads.txt — Google AdSense Authorized Digital Sellers
+# ====================================================
+# AHADEX Tools — https://ahadex.online
+
+google.com, pub-5216241068377334, DIRECT, f08c47fec0942fa0
