@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "AHADEX Tools \u2014 Free, fast and private online tools for everyday digital tasks.",
+  "description": "AHADEX Tools — Free, fast and private online tools for everyday digital tasks.",
   "author": "AHADEX <mdahadvi91@gmail.com>",
   "license": "MIT",
   "homepage": "https://ahadex.online",
@@ -41,6 +41,7 @@
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261025.1",
     "@resvg/resvg-js": "^2.6.2",
     "@types/file-saver": "^2.0.7",
     "@types/node": "^22.5.0",
