@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Printer, FileDown, Loader2, Info } from "lucide-react";
 import { useLanguage } from "@contexts/LanguageContext";
 import { cn } from "@lib/cn";
@@ -14,6 +14,15 @@ export function ExportPanel({ data }: ExportPanelProps) {
   const { language } = useLanguage();
   const bn = language === "bn";
   const [busy, setBusy] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const handleExport = () => {
     setBusy(true);
@@ -21,7 +30,7 @@ export function ExportPanel({ data }: ExportPanelProps) {
       triggerPrint(data.settings.pageSize);
     } finally {
       // Give the browser time to open the dialog
-      setTimeout(() => setBusy(false), 1200);
+      timerRef.current = window.setTimeout(() => setBusy(false), 1200);
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Save,
   Copy as CopyIcon,
@@ -47,6 +47,16 @@ export function SavePanel({
   const bn = language === "bn";
 
   const [saved, setSaved] = useState(false);
+
+  const savedTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (savedTimerRef.current !== null) {
+        clearTimeout(savedTimerRef.current);
+      }
+    };
+  }, []);
   const [recent, setRecent] = useState<SavedCVMeta[]>([]);
 
   const refreshRecent = () => setRecent(getSavedCVs().slice(0, 5));
@@ -63,7 +73,7 @@ export function SavePanel({
       onCvIdChange(meta.id);
     }
     setSaved(true);
-    setTimeout(() => setSaved(false), 1400);
+    savedTimerRef.current = window.setTimeout(() => setSaved(false), 1400);
     refreshRecent();
   };
 
