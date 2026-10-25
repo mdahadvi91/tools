@@ -154,12 +154,12 @@ export function CookieConsentBanner() {
               </AnimatePresence>
 
               {/* Buttons */}
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className={cn("pt-1", expanded ? "flex" : "grid grid-cols-2 gap-2")}>
                 {expanded ? (
                   <button
                     type="button"
                     onClick={saveCustom}
-                    className="flex-1 min-w-[140px] h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all inline-flex items-center justify-center gap-1.5"
+                    className="w-full h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all inline-flex items-center justify-center gap-1.5"
                   >
                     <Check className="w-3.5 h-3.5" />
                     {t.save}
@@ -169,14 +169,14 @@ export function CookieConsentBanner() {
                     <button
                       type="button"
                       onClick={rejectAll}
-                      className="flex-1 min-w-[120px] h-10 rounded-xl bg-silk-rose/10 border border-silk-rose/30 text-[12px] font-semibold text-silk-rose hover:bg-silk-rose/20 transition-all"
+                      className="w-full h-10 rounded-xl bg-silk-rose/10 border border-silk-rose/30 text-[11px] sm:text-[12px] font-semibold text-silk-rose hover:bg-silk-rose/20 transition-all px-1 flex items-center justify-center text-center leading-tight"
                     >
                       {t.rejectAll}
                     </button>
                     <button
                       type="button"
                       onClick={acceptAll}
-                      className="flex-1 min-w-[120px] h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all"
+                      className="w-full h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[11px] sm:text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all px-1 flex items-center justify-center text-center leading-tight"
                     >
                       {t.acceptAll}
                     </button>
