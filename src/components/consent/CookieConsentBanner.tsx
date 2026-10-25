@@ -11,16 +11,6 @@ import {
   type ConsentChoice,
 } from "@lib/consent";
 
-/* ============================================================
- * Cookie Consent Banner
- * ------------------------------------------------------------
- * Appears on first visit. Three actions:
- *   - Accept all     (analytics + ads)
- *   - Reject all     (only necessary)
- *   - Customize      (individual toggles)
- * Choice is persisted and applied to Google Consent Mode v2.
- * ============================================================ */
-
 const COPY = {
   en: {
     title: "We value your privacy",
@@ -93,20 +83,20 @@ export function CookieConsentBanner() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="fixed bottom-3 left-3 right-3 sm:left-4 sm:right-4 lg:left-auto lg:right-6 lg:bottom-6 lg:max-w-md z-[60]"
         >
-          <div className="rounded-2xl bg-white/95 dark:bg-dark-surface/95 backdrop-blur-2xl border border-silk-rose/30 shadow-[0_20px_50px_-12px_rgba(43,24,16,0.35)] overflow-hidden">
-            <div className="h-[3px] bg-gradient-to-r from-transparent via-silk-rose to-transparent" />
+          <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden">
+            <div className="h-[3px] bg-gradient-to-r from-red-400 via-red-500 to-red-400" />
 
             <div className="p-4 sm:p-5 space-y-3">
               {/* Header */}
               <div className="flex items-start gap-3">
-                <span className="shrink-0 w-9 h-9 rounded-xl bg-silk-rose/15 border border-silk-rose/30 flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-silk-rose" />
+                <span className="shrink-0 w-9 h-9 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-red-500" />
                 </span>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-display font-bold text-[14px] sm:text-[15px] text-light-text dark:text-dark-text leading-tight">
+                  <h3 className="font-bold text-[14px] sm:text-[15px] text-gray-900 dark:text-white leading-tight">
                     {t.title}
                   </h3>
-                  <p className="mt-1 text-[12px] text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
+                  <p className="mt-1 text-[12px] text-gray-500 dark:text-gray-400 leading-relaxed">
                     {t.body}
                   </p>
                 </div>
@@ -123,18 +113,18 @@ export function CookieConsentBanner() {
                     className="overflow-hidden"
                   >
                     <div className="space-y-2 pt-1">
-                      <div className="flex items-start gap-3 p-2.5 rounded-xl bg-silk-rose/5 border border-silk-rose/15">
-                        <Shield className="w-4 h-4 text-silk-wine/60 dark:text-silk-rose/60 mt-0.5 shrink-0" />
+                      <div className="flex items-start gap-3 p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <Shield className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12px] font-semibold text-light-text dark:text-dark-text">
+                            <span className="text-[12px] font-semibold text-gray-900 dark:text-white">
                               {t.necessaryTitle}
                             </span>
-                            <span className="text-[9px] uppercase tracking-wider text-silk-rose font-semibold">
+                            <span className="text-[9px] uppercase tracking-wider text-red-500 font-semibold">
                               {t.always}
                             </span>
                           </div>
-                          <p className="text-[10px] text-light-textSecondary dark:text-dark-textSecondary mt-0.5 leading-relaxed">
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
                             {t.necessaryDesc}
                           </p>
                         </div>
@@ -158,13 +148,13 @@ export function CookieConsentBanner() {
                 )}
               </AnimatePresence>
 
-              {/* Action buttons — side by side on mobile */}
-              <div className="grid grid-cols-2 gap-2 pt-1">
+              {/* Action buttons */}
+              <div className="flex flex-row gap-2 pt-1 w-full">
                 {expanded ? (
                   <button
                     type="button"
                     onClick={saveCustom}
-                    className="col-span-2 h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all inline-flex items-center justify-center gap-1.5"
+                    className="w-full h-10 rounded-xl bg-red-600 text-white text-[12px] font-semibold hover:bg-red-700 transition-all flex items-center justify-center gap-1.5"
                   >
                     <Check className="w-3.5 h-3.5" />
                     {t.save}
@@ -174,14 +164,14 @@ export function CookieConsentBanner() {
                     <button
                       type="button"
                       onClick={rejectAll}
-                      className="h-10 rounded-xl bg-silk-rose/10 border border-silk-rose/40 text-[12px] font-semibold text-silk-rose hover:bg-silk-rose/20 transition-all px-2 flex items-center justify-center text-center"
+                      className="w-1/2 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-[12px] font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center"
                     >
                       {t.rejectAll}
                     </button>
                     <button
                       type="button"
                       onClick={acceptAll}
-                      className="h-10 rounded-xl bg-gradient-to-r from-silk-rose to-silk-wine-deep text-white text-[12px] font-semibold shadow-silk-soft hover:shadow-silk-deep transition-all px-2 flex items-center justify-center text-center"
+                      className="w-1/2 h-10 rounded-xl bg-red-600 text-white text-[12px] font-semibold hover:bg-red-700 transition-all flex items-center justify-center"
                     >
                       {t.acceptAll}
                     </button>
@@ -194,7 +184,7 @@ export function CookieConsentBanner() {
                 <button
                   type="button"
                   onClick={() => setExpanded((v) => !v)}
-                  className="inline-flex items-center gap-1 text-[11px] font-medium text-silk-rose hover:underline"
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-red-500 hover:underline"
                 >
                   {t.customize}
                   <ChevronDown
@@ -206,7 +196,7 @@ export function CookieConsentBanner() {
                 </button>
                 <Link
                   to="/cookie-policy"
-                  className="text-[11px] font-medium text-light-textSecondary dark:text-dark-textSecondary hover:text-silk-rose transition-colors"
+                  className="text-[11px] font-medium text-gray-500 hover:text-red-500 transition-colors"
                 >
                   {t.policy}
                 </Link>
@@ -237,14 +227,14 @@ function Toggle({
       className={cn(
         "w-full flex items-start gap-3 p-2.5 rounded-xl border text-left transition-all",
         checked
-          ? "bg-silk-rose/8 border-silk-rose/35"
-          : "bg-silk-rose/5 border-silk-rose/15 hover:border-silk-rose/30"
+          ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/50"
+          : "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-300"
       )}
     >
       <span
         className={cn(
           "mt-0.5 shrink-0 w-8 h-[18px] rounded-full transition-colors relative",
-          checked ? "bg-silk-rose" : "bg-silk-rose/25"
+          checked ? "bg-red-500" : "bg-gray-300 dark:bg-gray-600"
         )}
       >
         <span
@@ -255,10 +245,10 @@ function Toggle({
         />
       </span>
       <span className="flex-1 min-w-0">
-        <span className="block text-[12px] font-semibold text-light-text dark:text-dark-text">
+        <span className="block text-[12px] font-semibold text-gray-900 dark:text-white">
           {label}
         </span>
-        <span className="block text-[10px] text-light-textSecondary dark:text-dark-textSecondary mt-0.5 leading-relaxed">
+        <span className="block text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
           {desc}
         </span>
       </span>
