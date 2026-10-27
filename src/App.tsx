@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { MainLayout } from "@components/layout/MainLayout";
+import { tools } from "@/data/tools";
 import { ThemeProvider } from "@contexts/ThemeContext";
 import { LanguageProvider } from "@contexts/LanguageContext";
 import { Loader } from "@components/common/Loader";
@@ -28,9 +29,6 @@ const NotFoundPage = lazy(() => import("@pages/NotFoundPage"));
 /* ------------------------------------------------------------------
  * Tools
  * ------------------------------------------------------------------ */
-const PhotoQrTool = lazy(() => import("@tools/qr/photo-qr"));
-const VisitingCardTool = lazy(() => import("@tools/design/visiting-card"));
-const CVBuilderTool = lazy(() => import("@tools/documents/cv-builder"));
 
 const CVBuilderEditor = lazy(() =>
   import("@tools/documents/cv-builder/editor").then((m) => ({
@@ -43,6 +41,11 @@ const VisitingCardEditor = lazy(() =>
     default: m.Editor,
   }))
 );
+
+/* ------------------------------------------------------------------
+ * Dynamic Tool Components (Vite Glob Import)
+ * ------------------------------------------------------------------ */
+const toolModules = import.meta.glob("./tools/**/index.tsx");
 
 /* ------------------------------------------------------------------
  * Helpers
@@ -96,10 +99,30 @@ export default function App() {
               {/* 🚨 /tools route now renders the Tools listing page instead of redirecting */}
               <Route path="tools" element={<PageSuspense><ToolsIndexPage /></PageSuspense>} />
 
-              {/* ── Tools ── */}
-              <Route path="tools/photo-qr" element={<ToolSuspense><PhotoQrTool /></ToolSuspense>} />
-              <Route path="tools/visiting-card" element={<ToolSuspense><VisitingCardTool /></ToolSuspense>} />
-              <Route path="tools/cv-builder" element={<ToolSuspense><CVBuilderTool /></ToolSuspense>} />
+              {/* ── Dynamic Tools from Central Registry ── */}
+              {tools.map((tool) => {
+                const modulePath = Object.keys(toolModules).find((path) =>
+                  path.endsWith(`/${tool.id}/index.tsx`)
+                );
+                if (!modulePath) {
+                  console.warn(`[App] No component found for tool: ${tool.id}`);
+                  return null;
+                }
+                const Component = lazy(
+                  toolModules[modulePath] as () => Promise<{ default: React.ComponentType }>
+                );
+                return (
+                  <Route
+                    key={tool.id}
+                    path={tool.path.replace(/^\//, "")}
+                    element={
+                      <ToolSuspense>
+                        <Component />
+                      </ToolSuspense>
+                    }
+                  />
+                );
+              })}
 
               {/* Tool editors */}
               <Route path="tools/cv-builder/edit/:templateId" element={<ToolSuspense><CVBuilderEditor /></ToolSuspense>} />
