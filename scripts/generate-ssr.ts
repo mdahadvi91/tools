@@ -515,6 +515,41 @@ function buildRobotsTxt(): string {
   return `User-agent: *
 Allow: /
 
+# --- AI Crawlers & Assistants ---
+# Explicitly allowing major AI bots so our tools can be discovered and suggested.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 Sitemap: ${SITE}/sitemap.xml
 `;
 }
