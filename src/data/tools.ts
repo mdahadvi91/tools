@@ -360,3 +360,18 @@ export const CATEGORY_LABEL: Record<typeof TOOL_CATEGORIES[number], string> = {
   design: "Design",
   qr: "QR & Barcode",
 };
+
+
+/* Per-category visual identity — used by HomePage and ToolsIndexPage
+ * so both stay in sync with the SSR output. */
+export const CATEGORY_ICON: Record<typeof TOOL_CATEGORIES[number], string> = {
+  documents: "📄",
+  design: "🪪",
+  qr: "📱",
+};
+
+export const CATEGORY_COLOR: Record<typeof TOOL_CATEGORIES[number], string> = {
+  documents: "red",
+  design: "orange",
+  qr: "green",
+};
