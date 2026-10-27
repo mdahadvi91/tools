@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { subscribeToConsent, applyStoredConsent } from "@lib/consent";
+import { useEffect } from "react";
 
 declare global {
   interface Window {
@@ -9,26 +8,16 @@ declare global {
 }
 
 export function GoogleAnalyticsLoader() {
-  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(false);
-
-  // Subscribe to consent changes
-  useEffect(() => {
-    const unsubscribe = subscribeToConsent((state) => {
-      setHasAnalyticsConsent(!!state?.analytics);
-    });
-    return unsubscribe;
-  }, []);
-
   useEffect(() => {
     const enabled = import.meta.env.VITE_ENABLE_ANALYTICS === "true";
     const measurementId = (
       import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined
     )?.trim();
 
-    // 1. If not configured, or user hasn't consented to analytics, do NOTHING.
-    if (!enabled || !measurementId || !hasAnalyticsConsent) return;
+    // If not configured, do nothing.
+    if (!enabled || !measurementId) return;
 
-    // 2. Initialize dataLayer + gtag stub
+    // 1. Initialize dataLayer + gtag stub
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag !== "function") {
       window.gtag = function gtag(...args: unknown[]) {
@@ -36,15 +25,16 @@ export function GoogleAnalyticsLoader() {
       };
     }
 
-    // 3. If already loaded, just apply consent again (safety)
+    // 2. If already loaded, do nothing.
     if (
       document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
     ) {
-      applyStoredConsent();
       return;
     }
 
-    // 4. Load Google Analytics script ONLY NOW (after consent)
+    // 3. Load GA4. Consent Mode v2 defaults (denied) are already set inline
+    // in index.html. GA will not drop cookies until the Google CMP updates
+    // the consent signals.
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {
       send_page_view: false,
@@ -55,11 +45,7 @@ export function GoogleAnalyticsLoader() {
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
-
-    // 5. Apply the consent state to gtag
-    script.onload = () => applyStoredConsent();
-
-  }, [hasAnalyticsConsent]);
+  }, []);
 
   return null;
 }

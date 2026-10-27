@@ -65,7 +65,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "6. Consent Management",
         paragraphs: [
-          "When you first visit, our own consent banner lets you choose whether to allow analytics and advertising. Google Consent Mode defaults are configured before Google tags load, and the site sends consent updates when you save your choice. This custom banner is not represented as a Google-certified consent management platform.",
+          "When you visit from the EEA, UK, or Switzerland, a Google-certified Consent Management Platform (Google LLC CMP, TCF CMP ID 300) provided through Google AdSense's Privacy & Messaging feature collects your consent choices. Google Consent Mode v2 defaults are configured to denied before Google tags load, and the CMP automatically updates these signals based on your choices.",
           "Optional analytics and advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.",
           "To display the consent banner again, clear this site's stored site data in your browser and reload the page."
         ]
@@ -167,7 +167,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "৬. কনসেন্ট ম্যানেজমেন্ট",
         paragraphs: [
-          "প্রথমবার ভিজিট করলে আমাদের নিজস্ব কনসেন্ট ব্যানারে অ্যানালিটিক্স ও বিজ্ঞাপনের অনুমতি বেছে নেওয়া যায়। Google tag লোড হওয়ার আগেই Consent Mode-এর ডিফল্ট সেটিংস নির্ধারণ করা হয় এবং পছন্দ সেভ করলে Google-কে আপডেট পাঠানো হয়। এই কাস্টম ব্যানারকে Google-certified consent management platform বলে দাবি করা হচ্ছে না।",
+          "EEA, UK, বা Switzerland থেকে ভিজিট করলে, Google AdSense-এর Privacy & Messaging ফিচারের মাধ্যমে Google-এর একটি সার্টিফাইড Consent Management Platform (Google LLC CMP, TCF CMP ID 300) আপনার সম্মতির পছন্দ সংগ্রহ করে। Google tag লোড হওয়ার আগেই Google Consent Mode v2-এর ডিফল্ট সেটিংস denied করা থাকে, এবং আপনার পছন্দ অনুযায়ী CMP স্বয়ংক্রিয়ভাবে এই সিগন্যাল আপডেট করে।",
           "আপনি পছন্দ জানানোর আগে ঐচ্ছিক অ্যানালিটিক্স ও বিজ্ঞাপনের সম্মতির সংকেত ডিফল্টভাবে denied থাকে। তবুও পেজ থেকে Google-এর script-এর অনুরোধ যেতে পারে; সম্মতি প্রত্যাখ্যান করলেই প্রতিটি third-party network request বন্ধ হবে, এমন নিশ্চয়তা নেই।",
           "কনসেন্ট ব্যানার আবার দেখাতে ব্রাউজারে এই সাইটের সংরক্ষিত site data মুছে পেজ রিলোড করুন।"
         ]

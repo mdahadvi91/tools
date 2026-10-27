@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { subscribeToConsent } from "@lib/consent";
 
 declare global {
   interface Window {
@@ -23,31 +22,20 @@ const isValidSlotId = (s: string): boolean => SLOT_ID_RE.test(s);
 
 export function AdSenseSlot({ slot, label }: AdSenseSlotProps) {
   const adRef = useRef<HTMLModElement>(null);
-  const [hasAdsConsent, setHasAdsConsent] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   const valid = isValidSlotId(slot);
 
-  // Warn once in dev when a placeholder slot is used, so it is easy to spot.
+  // 1. Warn once in dev when a placeholder slot is used.
   useEffect(() => {
     if (!valid && import.meta.env.DEV) {
-      // eslint-disable-next-line no-console
       console.warn(
         `[AdSenseSlot] Ignoring invalid slot ID "${slot}". ` +
-          `Real AdSense slot IDs are 10-digit numbers. ` +
-          `Set a real slot ID in the component that renders this ad.`
+          `Real slot IDs are 10-digit numbers.`
       );
     }
   }, [valid, slot]);
-
-  // 1. Consent subscription (unchanged)
-  useEffect(() => {
-    const unsubscribe = subscribeToConsent((state) => {
-      setHasAdsConsent(!!state?.ads);
-    });
-    return unsubscribe;
-  }, []);
 
   // 2. Detect whether the AdSense script from index.html has loaded.
   useEffect(() => {
@@ -64,9 +52,10 @@ export function AdSenseSlot({ slot, label }: AdSenseSlotProps) {
     return () => clearInterval(interval);
   }, []);
 
-  // 3. Lazy-load the ad unit only when visible + consent + valid slot.
+  // 3. Lazy-load the ad unit only when visible + valid slot.
   useEffect(() => {
-    if (!valid || !hasAdsConsent || !adRef.current || !scriptLoaded) return;
+    if (!valid || !adRef.current || !scriptLoaded) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -78,25 +67,24 @@ export function AdSenseSlot({ slot, label }: AdSenseSlotProps) {
     );
     observer.observe(adRef.current);
     return () => observer.disconnect();
-  }, [valid, hasAdsConsent, scriptLoaded]);
+  }, [valid, scriptLoaded]);
 
-  // 4. Push to AdSense — only for valid slot IDs.
+  // 4. Push to AdSense.
+  // Google's Certified CMP + Consent Mode v2 will automatically handle
+  // personalization and block ads if consent is denied. We just push.
   useEffect(() => {
     if (!valid) return;
-    if (isVisible && hasAdsConsent && window.adsbygoogle) {
+    if (isVisible && window.adsbygoogle) {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
         console.error("AdSense push error:", e);
       }
     }
-  }, [valid, isVisible, hasAdsConsent]);
+  }, [valid, isVisible]);
 
   // Hard gates:
-  // - no consent → nothing
-  // - invalid slot ID (placeholder) → nothing (avoids broken ad requests
-  //   that can count against the site during AdSense review)
-  if (!hasAdsConsent) return null;
+  // - invalid slot ID (placeholder) -> nothing (avoids broken ad requests)
   if (!valid) return null;
 
   return (

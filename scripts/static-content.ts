@@ -74,7 +74,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p>Google and its advertising partners may process technical information such as browser or device data, cookie identifiers, approximate location, and interactions with ads, subject to Google's policies and applicable law.</p>
 <p>We do not place ads on top of tool workspaces, download buttons, or anywhere that would confuse the user about what is an ad and what is a tool.</p></section>
 <section><h2>6. Consent Management</h2>
-<p>When you first visit, our own consent banner lets you choose whether to allow analytics and advertising. Google Consent Mode defaults are configured before Google tags load, and the site sends consent updates when you save your choice. This custom banner is not represented as a Google-certified consent management platform.</p>
+<p>When you visit from the EEA, UK, or Switzerland, a Google-certified Consent Management Platform (Google LLC CMP, TCF CMP ID 300) provided through Google AdSense's Privacy &amp; Messaging feature collects your consent choices. Google Consent Mode v2 defaults are configured to denied before Google tags load, and the CMP automatically updates these signals based on your choices.</p>
 <p>Optional analytics and advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.</p>
 <p>To display the consent banner again, clear this site's stored site data in your browser and reload the page.</p></section>
 <section><h2>7. Third-party services</h2>
