@@ -16,11 +16,7 @@ export interface PlatformConfig {
   name: string;
   nameBn: string;
   color: string;
-  Icon: React.ComponentType<{
-    size?: number;
-    color?: string;
-    className?: string;
-  }>;
+  Icon: React.ElementType;
   fields: PlatformField[];
   buildPayload: (values: Record<string, string>) => string;
 }
