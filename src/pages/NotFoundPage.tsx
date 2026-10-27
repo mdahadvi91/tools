@@ -6,7 +6,6 @@ import { tools } from "@data/tools";
 import { getToolEmoji } from "@components/common/toolEmojis";
 import { getToolTranslation } from "@i18n/toolTranslations";
 import { useLanguage } from "@contexts/LanguageContext";
-import { trackEvent } from "@lib/analytics";
 import { cn } from "@lib/cn";
 
 const POPULAR_COUNT = 4;
@@ -27,10 +26,7 @@ export default function NotFoundPage() {
 
   // Track 404 visit
   useEffect(() => {
-    trackEvent("conversion_error" as never, {
-      tool_id: "404",
-      reason: location.pathname,
-    });
+    
   }, [location.pathname]);
 
   // Top tools by search volume

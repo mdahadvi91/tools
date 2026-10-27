@@ -66,7 +66,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p>We store a few small preferences in your browser's local storage:</p>
 <ul><li>Your preferred theme (light, dark, or system).</li><li>Your preferred language (English or Bengali).</li><li>Which tools you've marked as favourites.</li><li>Whether sound effects are enabled.</li></ul></section>
 <section><h2>4. Analytics</h2>
-<p>We use Google Analytics 4 to understand which pages are popular and how the site is being used. Analytics data is aggregated and anonymous. We do not send the contents of any file or text you enter into a tool.</p>
+<p>We use Cloudflare Web Analytics to understand which pages are popular. Cloudflare Web Analytics is a privacy-first, cookieless service that does not track individual users. We do not send the contents of any file or text you enter into a tool.</p>
 <p>If you prefer, you can block analytics with any modern ad blocker or browser privacy extension. The tools will continue to work normally.</p></section>
 <section><h2>5. Advertising</h2>
 <p>AHADEX Tools is supported by Google AdSense advertising, which helps keep our tools free. Google may use cookies and similar technologies for ad delivery and measurement, subject to applicable settings and consent signals.</p>
@@ -75,14 +75,14 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p>We do not place ads on top of tool workspaces, download buttons, or anywhere that would confuse the user about what is an ad and what is a tool.</p></section>
 <section><h2>6. Consent Management</h2>
 <p>When you visit from the EEA, UK, or Switzerland, a Google-certified Consent Management Platform (Google LLC CMP, TCF CMP ID 300) provided through Google AdSense's Privacy &amp; Messaging feature collects your consent choices. Google Consent Mode v2 defaults are configured to denied before Google tags load, and the CMP automatically updates these signals based on your choices.</p>
-<p>Optional analytics and advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.</p>
+<p>Optional advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.</p>
 <p>To display the consent banner again, clear this site's stored site data in your browser and reload the page.</p></section>
 <section><h2>7. Third-party services</h2>
 <p>The following third parties may receive limited technical data when you visit the site:</p>
-<ul><li>Google Analytics 4 — anonymous page-view and tool-usage analytics (measurement ID G-NJB6S9E9N3).</li><li>Google AdSense — advertising delivery and measurement (publisher ID ca-pub-5216241068377334).</li><li>Google Fonts — web font delivery (only your IP address is exposed to Google's servers).</li><li>Cloudflare — CDN, security, and performance (all traffic passes through Cloudflare's edge).</li></ul></section>
+<ul><li>Cloudflare Web Analytics — privacy-first, cookieless page-view analytics.</li><li>Google AdSense — advertising delivery and measurement (publisher ID ca-pub-5216241068377334).</li><li>Google Fonts — web font delivery (only your IP address is exposed to Google's servers).</li><li>Cloudflare — CDN, security, and performance (all traffic passes through Cloudflare's edge).</li></ul></section>
 <section><h2>8. Cookies and similar technologies</h2>
 <p>We use the following categories of cookies and browser storage:</p>
-<ul><li>Essential — needed for the site to function (consent preferences, theme, language).</li><li>Analytics — anonymous usage statistics via Google Analytics 4 (only after you consent).</li><li>Advertising — Google AdSense ad delivery and measurement, subject to consent signals, product settings, and applicable law.</li></ul></section>
+<ul><li>Essential — needed for the site to function (consent preferences, theme, language).</li><li>Analytics — Cloudflare Web Analytics does not use cookies, so no consent is required for it.</li><li>Advertising — Google AdSense ad delivery and measurement, subject to consent signals, product settings, and applicable law.</li></ul></section>
 <section><h2>9. Children's privacy</h2>
 <p>AHADEX Tools is suitable for general audiences. We do not knowingly collect personal information from anyone, including children under 13. If you believe a child has submitted personal information to us (for example, via the contact form), please email us and we'll delete it.</p></section>
 <section><h2>10. Your rights</h2>

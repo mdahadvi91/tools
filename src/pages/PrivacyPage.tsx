@@ -49,7 +49,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "4. Analytics",
         paragraphs: [
-          "We use Google Analytics 4 to understand which pages are popular and how the site is being used. Analytics data is aggregated and anonymous. We do not send the contents of any file or text you enter into a tool.",
+          "We use Cloudflare Web Analytics to understand which pages are popular. Cloudflare Web Analytics is a privacy-first, cookieless service that does not track individual users. We do not send the contents of any file or text you enter into a tool.",
           "If you prefer, you can block analytics with any modern ad blocker or browser privacy extension. The tools will continue to work normally."
         ]
       },
@@ -66,7 +66,7 @@ export const PRIVACY_CONTENT = {
         heading: "6. Consent Management",
         paragraphs: [
           "When you visit from the EEA, UK, or Switzerland, a Google-certified Consent Management Platform (Google LLC CMP, TCF CMP ID 300) provided through Google AdSense's Privacy & Messaging feature collects your consent choices. Google Consent Mode v2 defaults are configured to denied before Google tags load, and the CMP automatically updates these signals based on your choices.",
-          "Optional analytics and advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.",
+          "Optional advertising consent signals default to denied until you make a choice. Google scripts may still be requested by the page, and rejecting consent does not guarantee that every third-party network request is blocked.",
           "To display the consent banner again, clear this site's stored site data in your browser and reload the page."
         ]
       },
@@ -74,7 +74,7 @@ export const PRIVACY_CONTENT = {
         heading: "7. Third-party services",
         paragraphs: ["The following third parties may receive limited technical data when you visit the site:"],
         bullets: [
-          "Google Analytics 4 — anonymous page-view and tool-usage analytics (measurement ID G-NJB6S9E9N3).",
+          "Cloudflare Web Analytics — privacy-first, cookieless page-view analytics.",
           "Google AdSense — advertising delivery and measurement (publisher ID ca-pub-5216241068377334).",
           "Google Fonts — web font delivery (only your IP address is exposed to Google's servers).",
           "Cloudflare — CDN, security, and performance (all traffic passes through Cloudflare's edge)."
@@ -85,7 +85,7 @@ export const PRIVACY_CONTENT = {
         paragraphs: ["We use the following categories of cookies and browser storage:"],
         bullets: [
           "Essential — needed for the site to function (consent preferences, theme, language).",
-          "Analytics — anonymous usage statistics via Google Analytics 4 (only after you consent).",
+          "Analytics — Cloudflare Web Analytics does not use cookies, so no consent is required for it.",
           "Advertising — Google AdSense ad delivery and measurement, subject to consent signals, product settings, and applicable law."
         ]
       },
@@ -151,7 +151,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "৪. অ্যানালিটিক্স",
         paragraphs: [
-          "কোন পেজ জনপ্রিয় এবং সাইট কীভাবে ব্যবহৃত হয় বুঝতে আমরা Google Analytics 4 ব্যবহার করি। ডেটা aggregated ও anonymous। আমরা টুলে আপনার ফাইল বা টেক্সটের কনটেন্ট পাঠাই না।",
+          "কোন পেজ জনপ্রিয় তা বুঝতে আমরা Cloudflare Web Analytics ব্যবহার করি। Cloudflare Web Analytics একটি প্রাইভেসি-প্রথম, কুকি-বিহীন (cookieless) সার্ভিস যা ব্যক্তিগত ব্যবহারকারীদের ট্র্যাক করে না। আমরা টুলে আপনার ফাইল বা টেক্সটের কনটেন্ট পাঠাই না।",
           "আপনি চাইলে যেকোনো আধুনিক ad blocker বা browser privacy extension দিয়ে analytics ব্লক করতে পারেন। টুলগুলো স্বাভাবিকভাবে কাজ করবে।"
         ]
       },
@@ -168,7 +168,7 @@ export const PRIVACY_CONTENT = {
         heading: "৬. কনসেন্ট ম্যানেজমেন্ট",
         paragraphs: [
           "EEA, UK, বা Switzerland থেকে ভিজিট করলে, Google AdSense-এর Privacy & Messaging ফিচারের মাধ্যমে Google-এর একটি সার্টিফাইড Consent Management Platform (Google LLC CMP, TCF CMP ID 300) আপনার সম্মতির পছন্দ সংগ্রহ করে। Google tag লোড হওয়ার আগেই Google Consent Mode v2-এর ডিফল্ট সেটিংস denied করা থাকে, এবং আপনার পছন্দ অনুযায়ী CMP স্বয়ংক্রিয়ভাবে এই সিগন্যাল আপডেট করে।",
-          "আপনি পছন্দ জানানোর আগে ঐচ্ছিক অ্যানালিটিক্স ও বিজ্ঞাপনের সম্মতির সংকেত ডিফল্টভাবে denied থাকে। তবুও পেজ থেকে Google-এর script-এর অনুরোধ যেতে পারে; সম্মতি প্রত্যাখ্যান করলেই প্রতিটি third-party network request বন্ধ হবে, এমন নিশ্চয়তা নেই।",
+          "আপনি পছন্দ জানানোর আগে ঐচ্ছিক বিজ্ঞাপনের সম্মতির সংকেত ডিফল্টভাবে denied থাকে। তবুও পেজ থেকে Google-এর script-এর অনুরোধ যেতে পারে; সম্মতি প্রত্যাখ্যান করলেই প্রতিটি third-party network request বন্ধ হবে, এমন নিশ্চয়তা নেই।",
           "কনসেন্ট ব্যানার আবার দেখাতে ব্রাউজারে এই সাইটের সংরক্ষিত site data মুছে পেজ রিলোড করুন।"
         ]
       },
@@ -176,7 +176,7 @@ export const PRIVACY_CONTENT = {
         heading: "৭. থার্ড-পার্টি সেবা",
         paragraphs: ["নিম্নলিখিত থার্ড-পার্টিরা সাইট ভিজিটের সময় সীমিত টেকনিক্যাল ডেটা পেতে পারে:"],
         bullets: [
-          "Google Analytics 4 — anonymous page-view এবং tool-usage analytics (measurement ID G-NJB6S9E9N3)।",
+          "Cloudflare Web Analytics — প্রাইভেসি-প্রথম, কুকি-বিহীন page-view analytics।",
           "Google AdSense — বিজ্ঞাপন ডেলিভারি ও মাপ (publisher ID ca-pub-5216241068377334)।",
           "Google Fonts — ওয়েব ফন্ট ডেলিভারি (শুধু আপনার IP ঠিকানা Google-এর সার্ভারে যায়)।",
           "Cloudflare — CDN, সিকিউরিটি ও পারফরম্যান্স (সব ট্রাফিক Cloudflare edge দিয়ে যায়)।"
@@ -187,7 +187,7 @@ export const PRIVACY_CONTENT = {
         paragraphs: ["আমরা নিম্নলিখিত ধরনের cookies ও ব্রাউজার স্টোরেজ ব্যবহার করি:"],
         bullets: [
           "Essential — সাইট কাজ করার জন্য প্রয়োজন (কনসেন্ট পছন্দ, থিম, ভাষা)।",
-          "Analytics — Google Analytics 4-এর মাধ্যমে anonymous usage statistics (শুধু আপনার সম্মতির পরে)।",
+          "Analytics — Cloudflare Web Analytics কোনো কুকি ব্যবহার করে না, তাই এর জন্য সম্মতির প্রয়োজন নেই।",
           "বিজ্ঞাপন — সম্মতির সংকেত, পণ্যের সেটিংস ও প্রযোজ্য আইন অনুযায়ী Google AdSense-এর বিজ্ঞাপন প্রদর্শন ও পরিমাপ।"
         ]
       },

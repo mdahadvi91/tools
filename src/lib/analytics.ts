@@ -1,3 +1,1 @@
-export const trackEvent = (..._args: any[]) => {};
-export const trackPageView = (..._args: any[]) => {};
-export const analytics = { track: (..._args: any[]) => {} };
+// Analytics removed in favor of privacy-first Cloudflare Web Analytics.

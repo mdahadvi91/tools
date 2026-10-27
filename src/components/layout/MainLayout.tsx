@@ -9,8 +9,6 @@ import { PageTransition } from "./PageTransition";
 import { BackButton } from "@components/common/BackButton";
 import { AdSenseSlot } from "@components/ads/AdSenseSlot";
 import { AD_SLOTS } from "@constants/ads";
-import { GoogleAnalyticsLoader } from "@components/analytics/GoogleAnalyticsLoader";
-import { usePageTracking } from "@hooks/usePageTracking";
 
 export function MainLayout() {
 
@@ -18,7 +16,6 @@ export function MainLayout() {
   const [rightOpen, setRightOpen] = useState(false);
   const location = useLocation();
 
-  usePageTracking();
 
   /* ── Route-aware ad placement ──────────────────────────────
    * AdSense policy expects meaningful publisher content to be
@@ -58,7 +55,6 @@ export function MainLayout() {
 
   return (
     <>
-      <GoogleAnalyticsLoader />
       
 
       <Header

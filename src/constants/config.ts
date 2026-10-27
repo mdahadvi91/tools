@@ -25,7 +25,6 @@ export const DEFAULT_THEME = "system" as const;
 export const DEFAULT_LANGUAGE = "en" as const;
 
 export const FEATURE_FLAGS = {
-  enableAnalytics: import.meta.env?.VITE_ENABLE_ANALYTICS === "true",
   enableAdSense: import.meta.env?.VITE_ENABLE_ADSENSE === "true",
 
   /**
@@ -40,6 +39,3 @@ export const FEATURE_FLAGS = {
     import.meta.env?.VITE_ENABLE_AFFILIATE_RECOMMENDATIONS === "true",
 } as const;
 
-export const ANALYTICS_CONFIG = {
-  measurementId: (import.meta.env?.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim() ?? "",
-} as const;
