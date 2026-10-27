@@ -183,15 +183,20 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return Response.redirect(newUrl.toString(), 301);
   }
 
-  // 3. Editor routes: let the SPA handle them untouched
+  // 3. Editor routes: let the SPA handle them untouched, but explicitly
+  // forbid search engines from indexing or following these dynamic routes.
   if (
     url.pathname.startsWith("/tools/cv-builder/edit/") ||
     url.pathname.startsWith("/tools/visiting-card/edit/")
   ) {
     const shell = await fetchAsset(context.env, url.origin, "/index.html", context.request);
     if (shell) {
-      // No SSR injection for editor routes — noindex is set in _headers
-      return shell;
+      const headers = new Headers(shell.headers);
+      headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+      return new Response(shell.body, {
+        status: 200,
+        headers: headers,
+      });
     }
   }
 
