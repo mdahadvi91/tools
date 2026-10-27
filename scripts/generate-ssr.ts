@@ -8,6 +8,7 @@
  *   functions/_data.ts         → route title/description/og
  *   functions/_schema.ts       → JSON-LD graph per route
  *   public/sitemap.xml         → sitemap with image extensions
+ *   public/robots.txt          → robots rules pointing to sitemap
  *
  * Run: npm run generate:ssr
  * ============================================================ */
@@ -469,6 +470,15 @@ ${entries.join("\n")}
 `;
 }
 
+/* ---------- robots.txt ---------- */
+function buildRobotsTxt(): string {
+  return `User-agent: *
+Allow: /
+
+Sitemap: ${SITE}/sitemap.xml
+`;
+}
+
 /* ---------- write files ---------- */
 function writeAll() {
   console.log("▶ Generating SSR artifacts from src/data/tools.ts …");
@@ -532,6 +542,10 @@ export const GUIDE_META: Record<string, ToolMeta> = {};
   // 4. sitemap.xml
   writeFileSync(resolve(ROOT, "public/sitemap.xml"), buildSitemap());
   console.log("  ✓ public/sitemap.xml");
+
+  // 5. robots.txt
+  writeFileSync(resolve(ROOT, "public/robots.txt"), buildRobotsTxt());
+  console.log("  ✓ public/robots.txt");
 
   console.log("✅ Done.\n");
 }

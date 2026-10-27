@@ -1,22 +1,4 @@
 User-agent: *
 Allow: /
 
-Disallow: /404
-Disallow: /*?debug=true
-Disallow: /*?preview=true
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Mediapartners-Google
-Allow: /
-
-User-agent: AdsBot-Google
-Allow: /
-
-
-
 Sitemap: https://ahadex.online/sitemap.xml
