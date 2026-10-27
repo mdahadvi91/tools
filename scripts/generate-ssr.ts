@@ -27,7 +27,7 @@ const SITE = "https://ahadex.online";
 // Use a static date for static pages. Update this manually when you change
 // the content of about, privacy, terms, etc.
 const STATIC_LASTMOD = "2026-10-20";
-const GEN_DATE = TODAY;
+const GEN_DATE = STATIC_LASTMOD;
 
 /* ---------- helpers ---------- */
 function esc(s: string): string {
@@ -523,6 +523,15 @@ function buildSitemap(): string {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${entries.join("\n")}
 </urlset>
+`;
+}
+
+/* ---------- robots.txt ---------- */
+function buildRobotsTxt(): string {
+  return `User-agent: *
+Allow: /
+
+Sitemap: ${SITE}/sitemap.xml
 `;
 }
 
