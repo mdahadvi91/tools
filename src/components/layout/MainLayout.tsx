@@ -39,13 +39,22 @@ export function MainLayout() {
    *     header and body, which is standard for a text article.
    * ─────────────────────────────────────────────────────────── */
   const pathname = location.pathname;
-  const isToolPage = pathname.startsWith("/tools/");
-  const isEditorRoute = /^\/tools\/(cv-builder|visiting-card)\/edit\//.test(
-    pathname
-  );
+  const isEditorRoute = /^\/tools\/(cv-builder|visiting-card)\/edit\//.test(pathname);
 
-  const showTopAd = !isToolPage && !isEditorRoute;
-  const showBottomAd = !isEditorRoute;
+  // Explicit allowlist for pages that can show ads.
+  // Legal, contact, and trust pages (privacy, terms, etc.) are excluded
+  // to comply with AdSense policies against serving ads on non-content pages.
+  const isAdAllowedPage =
+    pathname === "/" ||
+    pathname === "/tools" ||
+    pathname === "/about" ||
+    (pathname.startsWith("/tools/") && !isEditorRoute);
+
+  // Top ads: only on home, tools index, and about
+  const showTopAd = isAdAllowedPage && !pathname.startsWith("/tools/");
+  
+  // Bottom ads: home, tools index, about, and individual tool pages
+  const showBottomAd = isAdAllowedPage;
 
   return (
     <>
