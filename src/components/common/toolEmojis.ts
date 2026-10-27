@@ -60,11 +60,8 @@ export const TOOL_EMOJIS: Record<string, string> = {
   "regex-tester": "🔣",
 
   // ---- Calculators ----
-  "percentage-calculator": "％",
-  "age-calculator": "🎂",
   "date-difference": "📅",
   "unit-converter": "📏",
-  "bmi-calculator": "💪",
 };
 
 export function getToolEmoji(toolId: string): string {

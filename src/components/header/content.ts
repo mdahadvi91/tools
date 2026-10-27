@@ -9,7 +9,7 @@ export const CONTENT = {
     searchOpen: "Open search",
     searchClose: "Close search",
     searchLabel: "Search",
-    searchPlaceholder: "Search tools — try 'JPG', 'PDF merge', 'QR'...",
+    searchPlaceholder: "Search tools — try 'CV', 'Card', 'QR'...",
     version: "v1.0",
   },
   bn: {
@@ -18,7 +18,7 @@ export const CONTENT = {
     searchOpen: "সার্চ খুলুন",
     searchClose: "সার্চ বন্ধ করুন",
     searchLabel: "সার্চ",
-    searchPlaceholder: "টুল খুঁজুন — যেমন 'JPG', 'PDF merge', 'QR'...",
+    searchPlaceholder: "টুল খুঁজুন — যেমন 'CV', 'কার্ড', 'QR'...",
     version: "v1.0",
   },
 } as const;
