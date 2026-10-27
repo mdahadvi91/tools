@@ -1,69 +1,59 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@contexts/LanguageContext";
-import "./HomePage.css"; 
+import { tools, TOOL_CATEGORIES, CATEGORY_LABEL } from "@/data/tools";
+import type { ToolCategory } from "@/types/tool";
+import "./HomePage.css";
+
+const ICON_BY_CATEGORY: Record<ToolCategory, string> = {
+  documents: "📄",
+  design: "🪪",
+  qr: "📱",
+};
+
+const COLOR_BY_CATEGORY: Record<ToolCategory, string> = {
+  documents: "red",
+  design: "orange",
+  qr: "green",
+};
+
+type Filter = "All" | ToolCategory;
 
 export default function HomePage() {
   const { language } = useLanguage();
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState<Filter>("All");
 
-  const toolsData = [
-    { 
-      id: 1, 
-      title: language === "bn" ? "সিভি বিল্ডার" : "CV Builder", 
-      desc: language === "bn" 
-        ? "পেশাদার, ATS-বান্ধব সিভি তৈরি করুন লাইভ প্রিভিউ এবং একাধিক টেমপ্লেটের মাধ্যমে।" 
-        : "Create a professional, ATS-compatible CV with live preview and multiple templates.", 
-      category: "documents", 
-      icon: "📄", 
-      color: "red",
-      path: "/tools/cv-builder" 
-    },
-    { 
-      id: 2, 
-      title: language === "bn" ? "ভিজিটিং কার্ড" : "Visiting Card", 
-      desc: language === "bn" 
-        ? "আপনার ব্রাউজারেই কাস্টম লোগো ও কিউআর কোডসহ সুন্দর বিজনেস কার্ড ডিজাইন করুন।" 
-        : "Design a stunning business card directly in your browser with custom logos and QR codes.", 
-      category: "design", 
-      icon: "🪪", 
-      color: "orange",
-      path: "/tools/visiting-card" 
-    },
-    { 
-      id: 3, 
-      title: language === "bn" ? "ফটো কিউআর" : "Photo QR", 
-      desc: language === "bn" 
-        ? "আপনার ছবিকে স্ক্যানযোগ্য কিউআর কোডে রূপান্তর করুন। লিংক, ওয়াইফাই বা কন্টাক্ট যোগ করুন।" 
-        : "Convert your photos into scannable QR codes instantly. Add links, WiFi, or contacts.", 
-      category: "qr", 
-      icon: "📱", 
-      color: "green",
-      path: "/tools/photo-qr" 
-    }
-  ];
+  const sortedTools = [...tools].sort(
+    (a, b) => (b.searchVolume ?? 0) - (a.searchVolume ?? 0)
+  );
 
-  const filters = [
+  const filteredTools =
+    activeFilter === "All"
+      ? sortedTools
+      : sortedTools.filter((t) => t.category === activeFilter);
+
+  const filters: { id: Filter; label: string }[] = [
     { id: "All", label: language === "bn" ? "সব" : "All" },
-    { id: "documents", label: language === "bn" ? "ডকুমেন্টস" : "Documents" },
-    { id: "design", label: language === "bn" ? "ডিজাইন" : "Design" },
-    { id: "qr", label: language === "bn" ? "কিউআর টুলস" : "QR Tools" },
+    ...TOOL_CATEGORIES.map((c) => ({
+      id: c,
+      label: language === "bn"
+        ? c === "documents" ? "ডকুমেন্টস" : c === "design" ? "ডিজাইন" : "কিউআর"
+        : CATEGORY_LABEL[c],
+    })),
   ];
-
-  const filteredTools = activeFilter === "All"
-    ? toolsData
-    : toolsData.filter(tool => tool.category === activeFilter);
 
   return (
     <div className="home-container">
       <section className="hero-section">
         <h1>
-          {language === "bn" ? "ফ্রি, প্রাইভেট ব্রাউজার-ভিত্তিক টুলস" : "Free, Private Browser-Based Tools"}
+          {language === "bn"
+            ? "ফ্রি, প্রাইভেট ব্রাউজার-ভিত্তিক টুলস"
+            : "Free, Private Browser-Based Tools"}
         </h1>
         <p>
-          {language === "bn" 
-            ? "প্রতিদিনের কাজের জন্য প্রয়োজনীয় সব টুল, একদম আপনার হাতের মুঠোয়। সবকিছু ১০০% ফ্রি এবং ব্যবহার করা সহজ! আপনার ফাইল আপনার ডিভাইসেই থাকে — কোনো সার্ভারে আপলোড হয় না।"
-            : "Every tool you need for everyday tasks, right at your fingertips. All are 100% FREE and easy to use! Your files stay on your device — nothing is uploaded to any server."}
+          {language === "bn"
+            ? `${tools.length}টি ফ্রি ব্রাউজার-ভিত্তিক টুল — আপনার ফাইল আপনার ডিভাইসেই থাকে, কোনো সার্ভারে আপলোড হয় না।`
+            : `${tools.length} free browser-based tools — your files stay on your device, nothing is uploaded to any server.`}
         </p>
       </section>
 
@@ -80,17 +70,21 @@ export default function HomePage() {
       </nav>
 
       <section className="tools-grid">
-        {filteredTools.map((tool) => (
-          <Link to={tool.path} key={tool.id} className="tool-card-link">
-            <div className="tool-card">
-              <div className={`tool-icon ${tool.color}`}>
-                {tool.icon}
+        {filteredTools.map((tool) => {
+          const title = language === "bn" ? tool.nameBn ?? tool.name : tool.name;
+          const desc = language === "bn" ? tool.descriptionBn ?? tool.description : tool.description;
+          return (
+            <Link to={tool.path} key={tool.id} className="tool-card-link">
+              <div className="tool-card">
+                <div className={`tool-icon ${COLOR_BY_CATEGORY[tool.category]}`}>
+                  {ICON_BY_CATEGORY[tool.category]}
+                </div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
               </div>
-              <h3>{tool.title}</h3>
-              <p>{tool.desc}</p>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </section>
     </div>
   );

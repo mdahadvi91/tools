@@ -10,9 +10,12 @@ const legacyTools: Tool[] = [
     id: "photo-qr",
     slug: "photo-qr",
     name: "Photo QR Code",
+    nameBn: "ফটো কিউআর কোড",
+    category: "qr",
     path: "/tools/photo-qr",
     searchVolume: 5000000,
     description: "Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.",
+    descriptionBn: "যেকোনো ছবিতে স্ক্যানযোগ্য QR ব্যাজ যোগ করুন — WhatsApp, Facebook, WiFi এবং আরও অনেক কিছু।",
     longDescription: "Photo QR Code lets you add a real, scannable QR code to any photo in seconds. Upload a picture, choose a platform (WhatsApp, Facebook, Instagram, Telegram, phone, email, WiFi, website, SMS, or contact card), enter your details, and we'll place a scannable QR badge on a corner of your photo. The photo stays exactly as it was — only the badge is added. Every QR is generated with error-correction level H so it remains readable even when printed, and includes the platform icon in the center.",
     keywords: ["photo", "qr", "image", "badge", "whatsapp", "facebook"],
     popular: true,
@@ -103,9 +106,12 @@ const legacyTools: Tool[] = [
     id: "visiting-card",
     slug: "visiting-card",
     name: "Visiting Card Maker",
+    nameBn: "ভিজিটিং কার্ড মেকার",
+    category: "design",
     path: "/tools/visiting-card",
     searchVolume: 200000,
     description: "Design professional visiting cards in seconds. 20 premium templates — front & back. Free, private, exports PNG/JPG.",
+    descriptionBn: "সেকেন্ডে পেশাদার ভিজিটিং কার্ড ডিজাইন করুন। ২০টি প্রিমিয়াম টেমপ্লেট — সামনে ও পেছনে। ফ্রি, প্রাইভেট, PNG/JPG এক্সপোর্ট।",
     longDescription: "Visiting Card Maker turns a blank canvas into a professional business card in under a minute. Choose from 20 hand-designed premium templates — each with a matching front and back — fill in your details, pick a logo, and download a high-resolution file in PNG, JPG, or PDF. Every card auto-generates a scannable QR code. Everything runs in your browser; the editing process is fully client-side.",
     keywords: ["visiting card", "business card", "card maker", "design", "print ready", "double side", "single side"],
     popular: true,
@@ -205,9 +211,12 @@ const legacyTools: Tool[] = [
     id: "cv-builder",
     slug: "cv-builder",
     name: "CV Builder",
+    nameBn: "সিভি বিল্ডার",
+    category: "documents",
     path: "/tools/cv-builder",
     searchVolume: 1500000,
     description: "Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.",
+    descriptionBn: "মিনিটে পেশাদার সিভি তৈরি করুন। আসল A4 টেমপ্লেট, লাইভ প্রিভিউ, সিলেক্টেবল-টেক্সট PDF এক্সপোর্ট, অটো-সেভ, সম্পূর্ণ ব্রাউজার-সাইড প্রাইভেসি।",
     longDescription: "CV Builder turns a blank page into a professional resume in under ten minutes. Choose a template, fill in your details, and download a print-ready PDF with selectable text, accurate page breaks, and full browser-side privacy. No account, no uploads, no watermarks.",
     keywords: ["cv", "resume", "cv builder", "resume builder", "pdf cv", "ats resume", "cv template"],
     popular: true,
@@ -341,3 +350,13 @@ export const tools: Tool[] = [
 ];
 
 export const TOOL_COUNT = tools.length;
+
+/* Category labels — kept in sync with the ToolCategory union in types/tool.ts.
+ * Used by the HomePage filter buttons and the /tools page grouping. */
+export const TOOL_CATEGORIES = ["documents", "design", "qr"] as const;
+
+export const CATEGORY_LABEL: Record<typeof TOOL_CATEGORIES[number], string> = {
+  documents: "Documents",
+  design: "Design",
+  qr: "QR & Barcode",
+};

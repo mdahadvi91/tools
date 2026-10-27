@@ -54,19 +54,33 @@ export interface ToolEditorialSection {
   body: string;
 }
 
+/**
+ * Tool categories. These are the ONLY categories the site currently
+ * ships. HomePage filter buttons, /tools SSR grouping, and the
+ * generator all read from this list. Add a new category here first,
+ * then update `CATEGORY_LABEL` in scripts/generate-ssr.ts.
+ */
+export type ToolCategory = "documents" | "design" | "qr";
+
 export interface Tool {
   id: string;
   slug: string;
   name: string;
+  /** Bengali display name — falls back to `name` when missing. */
+  nameBn?: string;
   description: string;
+  /** Bengali short description — falls back to `description` when missing. */
+  descriptionBn?: string;
   longDescription: string;
   keywords: string[];
   path: string;
-  /** 
-   * INTERNAL PRIORITIZATION METADATA ONLY. 
+  /** Category used for HomePage filters and /tools SSR grouping. */
+  category: ToolCategory;
+  /**
+   * INTERNAL PRIORITIZATION METADATA ONLY.
    * This is NOT an SEO ranking factor. It is used solely to sort the tools grid
-   * (higher volume = shown earlier) and for discovery. 
-   * New tools MUST declare this — see docs/TOOL_RULES.md. 
+   * (higher volume = shown earlier) and for discovery.
+   * New tools MUST declare this — see docs/TOOL_RULES.md.
    */
   searchVolume?: number;
   icon?: string;

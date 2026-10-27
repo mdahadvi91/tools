@@ -21,7 +21,9 @@
     "preview": "vite preview --port 4173",
     "lint": "tsc --noEmit",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist node_modules/.vite"
+    "clean": "rm -rf dist node_modules/.vite",
+    "generate:ssr": "tsx scripts/generate-ssr.ts",
+    "prebuild": "tsx scripts/generate-ssr.ts"
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
