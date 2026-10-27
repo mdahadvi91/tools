@@ -3,21 +3,18 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, Search, Sliders, X, Command } from "lucide-react";
 import { cn } from "@lib/cn";
 import { Logo } from "@components/common/Logo";
-import { useLanguage } from "@contexts/LanguageContext"; // 🚨 ইমপোর্ট যোগ করা হলো
+import { useLanguage } from "@contexts/LanguageContext";
+import { NAV_LINKS } from "./nav";
+import { CONTENT } from "./content";
 
 interface HeaderProps {
   onLeftMenuClick: () => void;
   onRightMenuClick: () => void;
 }
 
-const NAV_LINKS = [
-  { to: "/tools", label: "Tools" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-];
-
 export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
-  const { language } = useLanguage(); // 🚨 language ভেরিয়েবল ডিক্লেয়ার করা হলো
+  const { language } = useLanguage();
+  const t = CONTENT[language];
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
 
@@ -25,7 +22,6 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
     setSearchOpen(false);
   }, [location.pathname]);
 
-  // Cmd+K shortcut
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -45,7 +41,8 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
           className={cn(
             "relative flex items-center justify-between gap-3",
             "rounded-2xl lg:rounded-[24px]",
-            "h-16 lg:h-20 px-4 lg:px-6 bg-silk-cream/70 dark:bg-[#1A1114]/70 backdrop-blur-md border border-silk-rose/15 shadow-silk-soft"
+            "h-16 lg:h-20 px-4 lg:px-6",
+            "bg-silk-cream/70 dark:bg-[#1A1114]/70 backdrop-blur-md border border-silk-rose/15 shadow-silk-soft"
           )}
         >
           <span
@@ -53,12 +50,12 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
             className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-silk-rose to-transparent h-[2px] w-16"
           />
 
-          {/* ── LEFT: menu (mobile) + logo ── */}
+          {/* LEFT: menu + logo */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               type="button"
               onClick={onLeftMenuClick}
-              aria-label="Open menu"
+              aria-label={t.menu}
               className={cn(
                 "lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl shrink-0",
                 "bg-silk-rose/10 border border-silk-rose/25 text-silk-wine dark:text-silk-rose-soft"
@@ -66,11 +63,10 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
             >
               <Menu className="w-5 h-5" />
             </button>
-
             <Logo size="md" showText />
           </div>
 
-          {/* ── CENTER (desktop): nav ── */}
+          {/* CENTER: nav */}
           <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {NAV_LINKS.map((link) => (
               <NavLink
@@ -87,7 +83,7 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
               >
                 {({ isActive }) => (
                   <>
-                    <span>{link.label}</span>
+                    <span>{link.label[language]}</span>
                     {isActive && (
                       <span className="absolute -bottom-0.5 left-3 right-3 h-[2px] bg-gradient-to-r from-silk-rose to-silk-gold rounded-full" />
                     )}
@@ -97,12 +93,12 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
             ))}
           </nav>
 
-          {/* ── RIGHT: search + settings + version ── */}
+          {/* RIGHT: search + settings + version */}
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setSearchOpen((v) => !v)}
-              aria-label={searchOpen ? "Close search" : "Open search"}
+              aria-label={searchOpen ? t.searchClose : t.searchOpen}
               className={cn(
                 "group hidden sm:inline-flex items-center gap-2 pl-3 pr-2 py-2 rounded-xl",
                 "bg-silk-rose/8 border border-silk-rose/20",
@@ -111,7 +107,7 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
               )}
             >
               <Search className="w-3.5 h-3.5" />
-              <span className="text-xs font-medium">{language === "bn" ? "সার্চ" : "Search"}</span>
+              <span className="text-xs font-medium">{t.searchLabel}</span>
               <kbd className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-silk-rose/15 text-silk-wine dark:text-silk-rose-soft text-[10px] font-mono border border-silk-rose/20">
                 <Command className="w-2.5 h-2.5" />K
               </kbd>
@@ -120,18 +116,14 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
             <button
               type="button"
               onClick={() => setSearchOpen((v) => !v)}
-              aria-label={searchOpen ? "Close search" : "Open search"}
+              aria-label={searchOpen ? t.searchClose : t.searchOpen}
               className={cn(
                 "sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl",
                 "bg-silk-rose/10 border border-silk-rose/25 text-silk-wine dark:text-silk-rose-soft",
                 searchOpen && "bg-silk-rose/25 border-silk-rose/45"
               )}
             >
-              {searchOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Search className="w-5 h-5" />
-              )}
+              {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
             </button>
 
             <Link
@@ -140,14 +132,14 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
             >
               <span className="w-1.5 h-1.5 rounded-full bg-silk-rose" />
               <span className="text-[10px] font-mono font-medium text-silk-wine dark:text-silk-rose-soft tracking-wider">
-                v1.0
+                {t.version}
               </span>
             </Link>
 
             <button
               type="button"
               onClick={onRightMenuClick}
-              aria-label="Open settings"
+              aria-label={t.settings}
               className={cn(
                 "inline-flex items-center justify-center w-10 h-10 rounded-xl",
                 "bg-silk-rose/10 border border-silk-rose/25 text-silk-wine dark:text-silk-rose-soft"
@@ -176,7 +168,7 @@ export function Header({ onLeftMenuClick, onRightMenuClick }: HeaderProps) {
                 <Search className="w-5 h-5 text-silk-rose shrink-0" />
                 <input
                   type="text"
-                  placeholder={language === "bn" ? "টুল খুঁজুন..." : "Search tools — try 'JPG', 'PDF merge', 'QR'..."}
+                  placeholder={t.searchPlaceholder}
                   autoFocus
                   className="flex-1 bg-transparent outline-none text-light-text dark:text-dark-text placeholder:text-light-textSecondary/60 dark:placeholder:text-dark-textSecondary/60"
                 />

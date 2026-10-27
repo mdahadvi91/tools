@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "@components/common/ToastContainer";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Header } from "@components/header";
+import { Footer } from "@components/footer";
 import { LeftSidebar } from "./LeftSidebar";
 import { RightSidebar } from "./RightSidebar";
 import { PageTransition } from "./PageTransition";
