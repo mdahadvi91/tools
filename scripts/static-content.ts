@@ -22,7 +22,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
   <p>AHADEX Tools is supported by advertising shown outside the tool workspaces, and by occasional affiliate links where relevant. Ads never appear inside a tool workspace, on download buttons, or anywhere they could be mistaken for part of the tool.</p>
 
   <h2>How to contribute or report an issue</h2>
-  <p>The source code is available on <a href="https://github.com/mdahadvi91/AHADEX-TOOLS">GitHub</a>. Bug reports, feature requests, and pull requests are welcome.</p>
+  <p>The source code is available on <a href="https://github.com/mdahadvi91/tools">GitHub</a>. Bug reports, feature requests, and pull requests are welcome.</p>
 
   <h2>Editorial standards</h2>
   <p>Every article includes a "From our own testing" section documenting measurements from our own runs. We do not republish industry statistics without verification, and we do not make claims our own implementation cannot guarantee. For details, see our <a href="/editorial-policy">Editorial Policy</a>.</p>
@@ -46,7 +46,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 
   <h2>Alternative contact channels</h2>
   <ul>
-    <li><strong>GitHub issues</strong> — for bug reports and feature requests with code or screenshots: <a href="https://github.com/mdahadvi91/AHADEX-TOOLS/issues">github.com/mdahadvi91/AHADEX-TOOLS/issues</a></li>
+    <li><strong>GitHub issues</strong> — for bug reports and feature requests with code or screenshots: <a href="https://github.com/mdahadvi91/tools/issues">github.com/mdahadvi91/tools/issues</a></li>
     <li><strong>Email</strong> — for anything else: <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a></li>
   </ul>
 </article>`,

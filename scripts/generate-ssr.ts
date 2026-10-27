@@ -195,7 +195,7 @@ ${toolList}
   </div>
   <div>
     <h3>How can I report a bug or request a feature?</h3>
-    <p>Email <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a> or open an issue on <a href="https://github.com/mdahadvi91/AHADEX-TOOLS">GitHub</a>.</p>
+    <p>Email <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a> or open an issue on <a href="https://github.com/mdahadvi91/tools">GitHub</a>.</p>
   </div>
 </article>`;
 }
@@ -369,34 +369,53 @@ function buildSchema(): Record<string, object> {
 
   // Tool pages
   for (const t of tools) {
+    const graph: any[] = [
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE}${t.path}#app`,
+        name: t.name,
+        description: t.seo.description,
+        url: `${SITE}${t.path}`,
+        applicationCategory: "WebApplication",
+        operatingSystem: "Any (Browser)",
+        browserRequirements: "Requires JavaScript",
+        isAccessibleForFree: true,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        image: `${SITE}${t.seo.ogImage}`,
+        publisher: { "@type": "Organization", name: "AHADEX Tools", url: SITE },
+        featureList: t.features.map((f) => f.title),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${SITE}${t.path}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+          { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools` },
+          { "@type": "ListItem", position: 3, name: t.name, item: `${SITE}${t.path}` },
+        ],
+      },
+    ];
+
+    // Add FAQPage schema ONLY if there are actual visible FAQs on the page.
+    // Avoids schema stuffing — Google requires FAQ data to be visible.
+    if (t.faq && t.faq.length > 0) {
+      graph.push({
+        "@type": "FAQPage",
+        "@id": `${SITE}${t.path}#faq`,
+        mainEntity: t.faq.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: f.answer,
+          },
+        })),
+      });
+    }
+
     schema[t.path] = {
       "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SoftwareApplication",
-          "@id": `${SITE}${t.path}#app`,
-          name: t.name,
-          description: t.seo.description,
-          url: `${SITE}${t.path}`,
-          applicationCategory: "WebApplication",
-          operatingSystem: "Any (Browser)",
-          browserRequirements: "Requires JavaScript",
-          isAccessibleForFree: true,
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          image: `${SITE}${t.seo.ogImage}`,
-          publisher: { "@type": "Organization", name: "AHADEX Tools", url: SITE },
-          featureList: t.features.map((f) => f.title),
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": `${SITE}${t.path}#breadcrumb`,
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-            { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools` },
-            { "@type": "ListItem", position: 3, name: t.name, item: `${SITE}${t.path}` },
-          ],
-        },
-      ],
+      "@graph": graph,
     };
   }
 

@@ -9,7 +9,7 @@
   "homepage": "https://ahadex.online",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mdahadvi91/AHADEX-TOOLS.git"
+    "url": "git+https://github.com/mdahadvi91/tools.git"
   },
   "engines": {
     "node": ">=18.0.0",

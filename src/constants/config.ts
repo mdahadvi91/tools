@@ -7,9 +7,9 @@ export const APP_CONFIG = {
   domain: "ahadex.online",
   url: "https://ahadex.online",
   email: "mdahadvi91@gmail.com",
-  github: "https://github.com/mdahadvi91/AHADEX-TOOLS",
+  github: "https://github.com/mdahadvi91/tools",
   githubOwner: "mdahadvi91",
-  githubRepo: "AHADEX-TOOLS",
+  githubRepo: "tools",
 } as const;
 
 export const STORAGE_KEYS = {
