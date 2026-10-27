@@ -110,6 +110,16 @@ function buildHtml(
       `<meta property="og:image" content="${ogImage}" />`
     );
 
+    // twitter:title
+    html = html.replace(
+      /<meta name="twitter:title" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:title" content="${title}" />`
+    );
+    // twitter:description
+    html = html.replace(
+      /<meta name="twitter:description" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:description" content="${desc}" />`
+    );
     // twitter:image (fallback — index.html has one)
     html = html.replace(
       /<meta name="twitter:image" content="[^"]*"\s*\/?>/i,
