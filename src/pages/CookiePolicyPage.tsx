@@ -22,7 +22,7 @@ export const COOKIE_CONTENT = {
         bullets: [
           "Essential: None. AHADEX Tools does not require cookies to function — we use localStorage instead.",
           "Preferences: Stored in localStorage (theme, language, favourites, sound setting). These are stored only in your browser.",
-          "Analytics: Google Analytics 4 may set cookies to measure anonymous usage. You can block these without affecting the tools.",
+          "Analytics: Cloudflare Web Analytics is used and it does not use cookies. You can block these without affecting the tools.",
           "Advertising: Google AdSense may set cookies to serve relevant ads. You can opt out via your Google Ads Settings."
         ] 
       },
