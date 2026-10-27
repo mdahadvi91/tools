@@ -4,24 +4,68 @@ Free, fast, and private browser-based tools for everyday digital tasks.
 
 ## 🚀 Currently Available Tools (3)
 
-We are building a growing collection of privacy-first tools. Right now, the following tools are fully implemented and live:
+Every tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.
 
-1. **CV Builder** — Create a professional, ATS-compatible CV with live preview and multiple templates.
-2. **Visiting Card Maker** — Design business cards directly in your browser with custom logos and QR codes.
-3. **Photo QR Code** — Convert photos into scannable QR codes with links, WiFi, or contact information.
+1. **CV Builder** *(Documents)* — Create a professional, ATS-compatible CV with live preview, auto-save, and selectable-text PDF export.
+2. **Visiting Card Maker** *(Design)* — Design print-ready business cards with 20 premium templates, custom logos, and QR codes.
+3. **Photo QR Code** *(QR & Barcode)* — Add scannable QR codes (WhatsApp, WiFi, vCard, etc.) to any photo with high error correction.
+
+---
+
+## 🏗️ Architecture & Single Source of Truth
+
+This project is built around a **Central Registry** model. The file `src/data/tools.ts` is the **single source of truth** for the entire application. 
+
+### How the Auto-Generation Works
+We do not manually edit SEO files. Instead, running `npm run build` (or `npm run generate:ssr`) triggers `scripts/generate-ssr.ts`, which reads `src/data/tools.ts` and automatically generates:
+- `functions/_ssr-content.ts` (Server-Side Rendered HTML)
+- `functions/_data.ts` (Meta, OG, and Twitter tags)
+- `functions/_schema.ts` (JSON-LD Structured Data)
+- `public/sitemap.xml` (Sitemap with images)
+- `public/robots.txt` (Robots rules)
+
+### Adding a New Tool
+To add a new tool, you **never** touch the routing, sitemap, or SEO files manually:
+1. Add the tool's metadata (name, description, FAQ, features) to `src/data/tools.ts`.
+2. Create the React component at `src/tools/<category>/<tool-id>/index.tsx`.
+3. Run `npm run build`.
+
+Everything else (Routing via `import.meta.glob`, internal links, sitemap, and SSR) updates automatically.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **React 18 + TypeScript**
-- **Vite** for fast builds
-- **Tailwind CSS** for styling
-- **Cloudflare Pages** for hosting
-- **Browser-native APIs** (Canvas, FileReader) for 100% client-side processing
+- **Frontend:** React 18, TypeScript, Vite
+- **Styling:** Tailwind CSS, Framer Motion
+- **Hosting:** Cloudflare Pages (with Pages Functions for SSR)
+- **Processing:** Browser-native APIs (Canvas, FileReader, Web Crypto)
 
-## 🔒 Privacy First
+---
 
-All files are processed locally in your browser. Nothing is uploaded, stored, or tracked on our servers.
+## 🔒 Privacy, Security & Compliance
 
-## 📄 License
+- **Privacy First:** Files never leave the user's device.
+- **GDPR / Consent:** Integrated with **Google Certified CMP (TCF ID 300)** via AdSense Privacy & Messaging for EEA/UK traffic.
+- **Security Headers:** Strict `Content-Security-Policy` (CSP) enforced without `unsafe-eval`, plus `HSTS`, `X-Frame-Options`, and `Permissions-Policy`.
+- **404 Handling:** Custom Cloudflare Middleware ensures unknown routes return a true HTTP 404 status (preventing Soft 404s).
+
+---
+
+## 💻 Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# Run type checking
+npm run type-check
+
+# Build for production (auto-generates SSR artifacts)
+npm run build
+📄 License
 
 MIT © AHADEX Tools
