@@ -76,6 +76,8 @@ export interface Tool {
   path: string;
   /** Category used for HomePage filters and /tools SSR grouping. */
   category: ToolCategory;
+  /** ISO date string (YYYY-MM-DD) representing the last actual content update. */
+  lastModified?: string;
   /**
    * INTERNAL PRIORITIZATION METADATA ONLY.
    * This is NOT an SEO ranking factor. It is used solely to sort the tools grid

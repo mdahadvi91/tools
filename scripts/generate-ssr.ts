@@ -24,7 +24,9 @@ import { STATIC_SSR_CONTENT } from "./static-content";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://ahadex.online";
-const TODAY = new Date().toISOString().slice(0, 10);
+// Use a static date for static pages. Update this manually when you change
+// the content of about, privacy, terms, etc.
+const STATIC_LASTMOD = "2026-10-20";
 const GEN_DATE = TODAY;
 
 /* ---------- helpers ---------- */
@@ -459,7 +461,7 @@ function buildSchema(): Record<string, object> {
 function buildSitemap(): string {
   const urlEntry = (
     loc: string,
-    lastmod: string,
+    lastmod: string | undefined,
     changefreq: string,
     priority: string,
     image?: { loc: string; title: string; caption: string }
@@ -467,10 +469,13 @@ function buildSitemap(): string {
     const lines = [
       `  <url>`,
       `    <loc>${SITE}${loc}</loc>`,
-      `    <lastmod>${lastmod}</lastmod>`,
-      `    <changefreq>${changefreq}</changefreq>`,
-      `    <priority>${priority}</priority>`,
     ];
+    if (lastmod) {
+      lines.push(`    <lastmod>${lastmod}</lastmod>`);
+    }
+    lines.push(`    <changefreq>${changefreq}</changefreq>`);
+    lines.push(`    <priority>${priority}</priority>`);
+    
     if (image) {
       lines.push(`    <image:image>`);
       lines.push(`      <image:loc>${SITE}${image.loc}</image:loc>`);
@@ -483,37 +488,41 @@ function buildSitemap(): string {
   };
 
   const entries: string[] = [];
-  entries.push(urlEntry("/", TODAY, "weekly", "1.0"));
-  entries.push(urlEntry("/tools", TODAY, "weekly", "0.9"));
+  
+  // Dynamic tools from registry (use their actual lastModified)
+  entries.push(urlEntry("/", STATIC_LASTMOD, "weekly", "1.0"));
+  entries.push(urlEntry("/tools", STATIC_LASTMOD, "weekly", "0.9"));
+  
   for (const t of tools) {
     entries.push(
-      urlEntry(t.path, TODAY, "weekly", "0.9", {
+      urlEntry(t.path, t.lastModified, "weekly", "0.9", {
         loc: t.seo.ogImage,
         title: t.seo.title,
         caption: t.seo.description,
       })
     );
   }
-  entries.push(urlEntry("/about", TODAY, "monthly", "0.6"));
-  entries.push(urlEntry("/contact", TODAY, "monthly", "0.6"));
-  entries.push(urlEntry("/privacy", TODAY, "yearly", "0.3"));
-  entries.push(urlEntry("/terms", TODAY, "yearly", "0.3"));
-  entries.push(urlEntry("/disclaimer", TODAY, "yearly", "0.3"));
-  entries.push(urlEntry("/cookie-policy", TODAY, "yearly", "0.3"));
+
+  // Static pages (use STATIC_LASTMOD)
+  const staticPages = [
+    { path: "/about", freq: "monthly", pri: "0.6" },
+    { path: "/contact", freq: "monthly", pri: "0.6" },
+    { path: "/privacy", freq: "yearly", pri: "0.3" },
+    { path: "/terms", freq: "yearly", pri: "0.3" },
+    { path: "/disclaimer", freq: "yearly", pri: "0.3" },
+    { path: "/cookie-policy", freq: "yearly", pri: "0.3" },
+    { path: "/editorial-policy", freq: "yearly", pri: "0.3" },
+    { path: "/accessibility", freq: "yearly", pri: "0.3" },
+  ];
+
+  for (const page of staticPages) {
+    entries.push(urlEntry(page.path, STATIC_LASTMOD, page.freq, page.pri));
+  }
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${entries.join("\n")}
 </urlset>
-`;
-}
-
-/* ---------- robots.txt ---------- */
-function buildRobotsTxt(): string {
-  return `User-agent: *
-Allow: /
-
-Sitemap: ${SITE}/sitemap.xml
 `;
 }
 
