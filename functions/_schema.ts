@@ -446,6 +446,37 @@ export const SSR_SCHEMA: Record<string, object> = {
       }
     ]
   },
+  "/accessibility": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://ahadex.online/accessibility#page",
+        "url": "https://ahadex.online/accessibility",
+        "name": "Accessibility Statement",
+        "isPartOf": {
+          "@id": "https://ahadex.online/#website"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://ahadex.online/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Accessibility Statement",
+            "item": "https://ahadex.online/accessibility"
+          }
+        ]
+      }
+    ]
+  },
   "/editorial-policy": {
     "@context": "https://schema.org",
     "@graph": [

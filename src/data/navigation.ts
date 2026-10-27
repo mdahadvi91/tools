@@ -27,6 +27,8 @@ export const footerNav: NavSection[] = [
       { label: "Terms of Service", to: "/terms" },
       { label: "Disclaimer", to: "/disclaimer" },
       { label: "Cookie Policy", to: "/cookie-policy" },
+      { label: "Editorial Policy", to: "/editorial-policy" },
+      { label: "Accessibility", to: "/accessibility" },
     ],
   },
 ];

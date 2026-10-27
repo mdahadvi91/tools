@@ -135,6 +135,32 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>6. Contact</h2><p>Spotted an error? Email us at mdahadvi91@gmail.com and we'll fix it as soon as possible.</p></section>
 </article>`,
 
+
+  "/accessibility": `<article>
+    <h1>Accessible to everyone.</h1>
+    <p><strong>We want everyone to be able to use AHADEX Tools, regardless of ability or technology. We continuously work to improve accessibility across the site.</strong></p>
+    <p><em>Last updated: October 2026</em></p>
+    
+    <section><h2>1. Our Commitment</h2>
+    <p>AHADEX Tools aims to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA. These guidelines explain how to make web content more accessible for people with disabilities.</p>
+    <p>Because our tools run entirely in the browser, we have unique advantages: no waiting for server uploads or downloads, immediate visual feedback, and full functionality even on slower connections.</p></section>
+    
+    <section><h2>2. Keyboard Navigation</h2>
+    <p>We strive to ensure that all interactive elements (buttons, form inputs, links) can be accessed and operated using only a keyboard.</p>
+    <p>If you encounter any focus traps or unreachable elements, please let us know so we can fix them.</p></section>
+    
+    <section><h2>3. Screen Readers and Assistive Technology</h2>
+    <p>We use semantic HTML elements and ARIA (Accessible Rich Internet Applications) attributes where necessary to ensure our tools are understandable by screen readers.</p>
+    <p>Our color contrast ratios are tested to meet WCAG AA standards for text legibility.</p></section>
+    
+    <section><h2>4. Known Limitations</h2>
+    <p>While we aim for full accessibility, some complex visual tools (like the CV builder drag-and-drop interface or the visiting card canvas) may still present challenges for certain screen readers.</p>
+    <p>We are actively working on providing text-based alternatives and better keyboard controls for these visual tools.</p></section>
+    
+    <section><h2>5. Feedback and Contact</h2>
+    <p>We welcome your feedback on the accessibility of AHADEX Tools. If you encounter accessibility barriers, please email us at <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a>.</p>
+    <p>We aim to respond to accessibility feedback within 2 business days.</p></section>
+  </article>`,
   "/cookie-policy": `<article>
 <h1>How we use cookies.</h1>
 <p><strong>The minimum needed to make the site work. Nothing more, nothing shady.</strong></p>
