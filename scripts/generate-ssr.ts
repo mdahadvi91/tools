@@ -161,7 +161,7 @@ ${toolList}
   </ul>
 
   <h2>How the tools work</h2>
-  <p>Every tool is written in JavaScript and runs entirely in your browser using standard web APIs — the HTML5 Canvas API for images, the browser print pipeline for PDFs, and standard QR encoders for codes. When you upload a file, the file is read into memory by your browser and never travels over the network. You can verify this yourself: open your browser's developer tools, switch to the Network tab, and use any tool. You will see zero outbound file-upload requests. You can even turn off Wi-Fi after the page loads and every tool continues to work.</p>
+  <p>Every tool is written in JavaScript and runs entirely in your browser using standard web APIs — the HTML5 Canvas API for images, the browser print pipeline for PDFs, and standard QR encoders for codes. When you upload a file, the file is read into memory by your browser and never travels over the network. You can verify this yourself: open your browser's developer tools, switch to the Network tab, and use any tool. You will see zero outbound file-upload requests. Once the required tool assets are loaded, your files are processed locally in the browser and are never uploaded to our servers.</p>
 
   <h2>Why browser-based matters</h2>
   <p>Most online tools upload your files to a server. For passport photos, contracts, medical records, ID scans, and unreleased design work, that means a copy of your file sits on someone else's computer for minutes, hours, or longer. Some services claim to delete files immediately. Even so, the file has already been transmitted. AHADEX Tools avoids that entire class of risk by never sending anything anywhere.</p>
