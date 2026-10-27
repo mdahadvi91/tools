@@ -70,6 +70,11 @@ export const STATIC_META: Record<string, ToolMeta> = {
     "title": "Disclaimer — AHADEX Tools",
     "description": "Important information about the tools on AHADEX."
   },
+  "/editorial-policy": {
+    "path": "/editorial-policy",
+    "title": "Editorial Policy — AHADEX Tools",
+    "description": "Our commitment to accuracy, independence, and transparency."
+  },
   "/cookie-policy": {
     "path": "/cookie-policy",
     "title": "Cookie Policy — AHADEX Tools",

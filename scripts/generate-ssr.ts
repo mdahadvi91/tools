@@ -282,6 +282,11 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
       title: "Disclaimer — AHADEX Tools",
       description: "Important information about the tools on AHADEX.",
     },
+    "/editorial-policy": {
+      path: "/editorial-policy",
+      title: "Editorial Policy — AHADEX Tools",
+      description: "Our commitment to accuracy, independence, and transparency.",
+    },
     "/cookie-policy": {
       path: "/cookie-policy",
       title: "Cookie Policy — AHADEX Tools",
@@ -391,6 +396,7 @@ function buildSchema(): Record<string, object> {
     "/terms": "Terms of Service",
     "/disclaimer": "Disclaimer",
     "/cookie-policy": "Cookie Policy",
+    "/editorial-policy": "Editorial Policy",
   };
   for (const [path, title] of Object.entries(staticTitles)) {
     schema[path] = {
