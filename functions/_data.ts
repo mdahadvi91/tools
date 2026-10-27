@@ -26,7 +26,7 @@ export const TOOL_META: Record<string, ToolMeta> = {
   },
   "/tools/cv-builder": {
     "path": "/tools/cv-builder",
-    "title": "Free CV Builder — Create & Download Professional Resumes | AHADEX Tools",
+    "title": "Free CV Builder — Create Professional Resumes | AHADEX Tools",
     "description": "Build a professional CV in minutes. Real A4 templates, selectable-text PDF export, auto-save, full privacy.",
     "ogImage": "/images/og/tools/cv-builder-og.png"
   }
