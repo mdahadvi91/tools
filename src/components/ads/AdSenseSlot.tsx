@@ -70,8 +70,9 @@ export function AdSenseSlot({ slot, label }: AdSenseSlotProps) {
   }, [valid, scriptLoaded]);
 
   // 4. Push to AdSense.
-  // Google's Certified CMP + Consent Mode v2 will automatically handle
-  // personalization and block ads if consent is denied. We just push.
+  // Google CMP and Consent Mode provide consent signals.
+  // Ad serving and personalization follow Google's configured
+  // consent and serving rules, including limited ads where applicable.
   useEffect(() => {
     if (!valid) return;
     if (isVisible && window.adsbygoogle) {
