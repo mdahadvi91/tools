@@ -58,7 +58,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>File Processing vs. Website Analytics</h2>
 <p>Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Google Analytics 4) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Google Analytics 4 only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit.</p></section>
 <section><h2>1. The short version</h2>
-<p>AHADEX Tools is designed to be privacy-first. The tools run entirely in your browser. Your files — images, PDFs, text, and any other content — are never uploaded to our servers, never stored, and never analysed.</p>
+<p>AHADEX Tools is designed to be privacy-first. The tools run entirely in your browser. Your files — photos, CV data, and card designs — are never uploaded to our servers, never stored, and never analysed.</p>
 <p>The only data we collect is anonymous analytics (page views, tool opens) and whatever is needed to serve advertising. You don't need to create an account, and we don't ask for personal information.</p></section>
 <section><h2>2. What we do NOT collect</h2>
 <ul><li>The contents of any file you use with our tools.</li><li>Your name, email, or phone number (unless you contact us directly).</li><li>Your exact location.</li><li>Payment information — we don't process payments.</li><li>Passwords you generate or enter in any tool.</li></ul></section>
@@ -101,7 +101,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>1. Acceptance</h2>
 <p>By using AHADEX Tools ('the Service'), you agree to these Terms of Service. If you do not agree, please do not use the Service.</p></section>
 <section><h2>2. What the Service is</h2>
-<p>AHADEX Tools provides free, browser-based utilities for working with images, PDFs, text, QR codes, and other everyday tasks. All processing runs on your device.</p>
+<p>AHADEX Tools provides free, browser-based utilities for building CVs, designing visiting cards, and generating photo QR codes. All processing runs on your device.</p>
 <p>The Service is provided 'as-is' and 'as-available'. We do not guarantee that any specific tool will always be available, error-free, or produce a specific result.</p></section>
 <section><h2>3. Acceptable use</h2>
 <ul><li>Do not use the Service for anything illegal or harmful.</li><li>Do not process content you don't have the rights to.</li><li>Do not attempt to overload, scrape, or attack the Service.</li><li>Do not remove or hide advertisements or copyright notices.</li><li>Do not use automated scripts to abuse the Service.</li></ul></section>

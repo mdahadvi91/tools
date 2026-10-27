@@ -22,7 +22,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "1. The short version",
         paragraphs: [
-          "AHADEX Tools is designed to be privacy-first. The tools run entirely in your browser. Your files — images, PDFs, text, and any other content — are never uploaded to our servers, never stored, and never analysed.",
+          "AHADEX Tools is designed to be privacy-first. The tools run entirely in your browser. Your files — photos, CV data, and card designs — are never uploaded to our servers, never stored, and never analysed.",
           "The only data we collect is anonymous analytics (page views, tool opens) and whatever is needed to serve advertising. You don't need to create an account, and we don't ask for personal information."
         ]
       },
@@ -124,7 +124,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "১. সংক্ষিপ্ত সংস্করণ",
         paragraphs: [
-          "AHADEX Tools প্রাইভেসি-প্রথম দর্শনে ডিজাইন করা। টুলগুলো সম্পূর্ণ আপনার ব্রাউজারে চলে। আপনার ফাইল — ছবি, PDF, টেক্সট, বা অন্য যেকোনো কনটেন্ট — কখনো আমাদের সার্ভারে আপলোড হয় না, সংরক্ষণ হয় না, বিশ্লেষণ হয় না।",
+          "AHADEX Tools প্রাইভেসি-প্রথম দর্শনে ডিজাইন করা। টুলগুলো সম্পূর্ণ আপনার ব্রাউজারে চলে। আপনার ফাইল — ছবি, সিভি ডেটা, এবং কার্ড ডিজাইন — কখনো আমাদের সার্ভারে আপলোড হয় না, সংরক্ষণ হয় না, বিশ্লেষণ হয় না।",
           "আমরা শুধু anonymous analytics (পেজ ভিউ, টুল ওপেন) ও বিজ্ঞাপনের জন্য যা প্রয়োজন তা সংগ্রহ করি। আপনাকে অ্যাকাউন্ট খুলতে হবে না, আমরা ব্যক্তিগত তথ্য চাই না।"
         ]
       },
