@@ -176,7 +176,7 @@ const legacyTools: Tool[] = [
     ],
     faq: [
       { question: "Can I print this card at a professional print shop?", answer: "Yes. Our templates export at high resolution. However, note that this uses RGB colors, so very bright colors might look slightly different on CMYK printers." },
-      { question: "Does it include a QR code?", answer: "You can add a QR code using our Photo QR tool first, then upload it as the logo on your visiting card!" },
+      { question: "Does it include a QR code?", answer: "Yes. The card automatically generates a scannable QR code from your website URL." },
       { question: "Are the exported cards print-ready?", answer: "The exported files are high-resolution images or standard PDFs suitable for many home and office printers. However, if you are sending the file to a commercial print shop, they may require specific CMYK color profiles, bleed margins, or trim lines, which you should confirm directly with them." },
       { question: "Can I use my own custom logo?", answer: "Yes. You can upload your own logo in the Logo panel to replace the default placeholder." },
     ],
