@@ -29,7 +29,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { to: "/about", label: { en: "About", bn: "সম্পর্কে" } },
       { to: "/contact", label: { en: "Contact", bn: "যোগাযোগ" } },
       {
-        to: "https://github.com/mdahadvi91/AHADEX-TOOLS",
+        to: "https://github.com/mdahadvi91/tools",
         label: { en: "GitHub", bn: "GitHub" },
         external: true,
       },

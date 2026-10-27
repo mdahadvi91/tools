@@ -15,7 +15,7 @@ export const footerNav: NavSection[] = [
       { label: "Contact", to: "/contact" },
       {
         label: "GitHub",
-        to: "https://github.com/mdahadvi91/AHADEX-TOOLS",
+        to: "https://github.com/mdahadvi91/tools",
         external: true,
       },
     ],

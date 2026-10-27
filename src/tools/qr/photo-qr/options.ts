@@ -1,19 +1,19 @@
-import {
-  SiWhatsapp,
-  SiFacebook,
-  SiInstagram,
-  SiTelegram,
-} from "react-icons/si";
-import {
-  FiPhone,
-  FiMail,
-  FiWifi,
-  FiGlobe,
-  FiMessageSquare,
-  FiUser,
-  FiType,
-} from "react-icons/fi";
-import { Square, Squircle, Frame } from "lucide-react";
+import { 
+  MessageCircle, 
+  Share2, 
+  Camera, 
+  Send, 
+  Phone, 
+  Mail, 
+  Wifi, 
+  Globe, 
+  MessageSquare, 
+  User, 
+  Type,
+  Square, 
+  Squircle, 
+  Frame 
+} from "lucide-react";
 import type { PlatformConfig, Position, QrBackground } from "./types";
 
 /* ============================================================
@@ -26,7 +26,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "WhatsApp",
     nameBn: "হোয়াটসঅ্যাপ",
     color: "#25D366",
-    Icon: SiWhatsapp,
+    Icon: MessageCircle,
     fields: [
       {
         key: "phone",
@@ -45,7 +45,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Facebook",
     nameBn: "ফেসবুক",
     color: "#1877F2",
-    Icon: SiFacebook,
+    Icon: Share2,
     fields: [
       {
         key: "url",
@@ -63,7 +63,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Instagram",
     nameBn: "ইনস্টাগ্রাম",
     color: "#E4405F",
-    Icon: SiInstagram,
+    Icon: Camera,
     fields: [
       {
         key: "url",
@@ -81,7 +81,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Telegram",
     nameBn: "টেলিগ্রাম",
     color: "#0088CC",
-    Icon: SiTelegram,
+    Icon: Send,
     fields: [
       {
         key: "url",
@@ -99,7 +99,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Phone Call",
     nameBn: "ফোন কল",
     color: "#4A2A3A",
-    Icon: FiPhone,
+    Icon: Phone,
     fields: [
       {
         key: "phone",
@@ -117,7 +117,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Email",
     nameBn: "ইমেইল",
     color: "#8B3A4F",
-    Icon: FiMail,
+    Icon: Mail,
     fields: [
       {
         key: "email",
@@ -146,7 +146,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "WiFi",
     nameBn: "ওয়াইফাই",
     color: "#C99667",
-    Icon: FiWifi,
+    Icon: Wifi,
     fields: [
       {
         key: "ssid",
@@ -172,7 +172,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Website",
     nameBn: "ওয়েবসাইট",
     color: "#8B9DC7",
-    Icon: FiGlobe,
+    Icon: Globe,
     fields: [
       {
         key: "url",
@@ -190,7 +190,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "SMS",
     nameBn: "এসএমএস",
     color: "#B36878",
-    Icon: FiMessageSquare,
+    Icon: MessageSquare,
     fields: [
       {
         key: "phone",
@@ -219,7 +219,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Contact",
     nameBn: "যোগাযোগ",
     color: "#D88B9A",
-    Icon: FiUser,
+    Icon: User,
     fields: [
       {
         key: "name",
@@ -259,7 +259,7 @@ export const PLATFORMS: PlatformConfig[] = [
     name: "Plain Text",
     nameBn: "সাধারণ টেক্সট",
     color: "#4A2A3A",
-    Icon: FiType,
+    Icon: Type,
     fields: [
       {
         key: "text",
