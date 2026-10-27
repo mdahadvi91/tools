@@ -9,7 +9,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
   <p><strong>AHADEX Tools is a collection of free browser-based utilities built by <strong>Mohammad Ahad</strong>, an independent developer based in Dubai, United Arab Emirates. The site exists because most online tools upload your files to a server — and for many files, that is a risk worth avoiding.</strong></p>
 
   <h2>Why AHADEX Tools exists</h2>
-  <p>Most free online tools work the same way: you upload a file, a server processes it, you download the result. That model is simple for the developer but unnecessary for the user. Modern browsers can decode images, parse PDFs, generate cryptography, and run everything a server would otherwise do — directly on your device. The only thing the upload model adds is risk.</p>
+  <p>Most free online tools work the same way: you upload a file, a server processes it, you download the result. That model is simple for the developer but unnecessary for the user. Modern browsers can decode images, parse Visiting Cards, generate cryptography, and run everything a server would otherwise do — directly on your device. The only thing the upload model adds is risk.</p>
   <p>AHADEX Tools was built to demonstrate that the alternative is not only possible but better: same features, same speed, no uploads, no accounts, no watermarks.</p>
 
   <h2>What the site offers</h2>
@@ -37,7 +37,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     <li><strong>Bug reports</strong> — a tool not working correctly, a file type that fails to convert, a browser where something breaks. Please include the browser name and version and, if possible, the file type you used.</li>
     <li><strong>Feature requests</strong> — a new tool, a missing option, or an improvement to an existing one.</li>
     <li><strong>Accessibility issues</strong> — any barrier you encounter using a screen reader, keyboard navigation, or assistive technology. Accessibility reports are treated as priority.</li>
-    <li><strong>Privacy questions</strong> — anything about how the site handles data. The short answer: we do not upload or store the files you process with our tools, and we do not run analytics on your file content. Anonymous analytics and advertising services (Google Analytics and AdSense) may process limited information such as page views and cookie identifiers, according to their policies and your consent choices.</li>
+    <li><strong>Privacy questions</strong> — anything about how the site handles data. The short answer: we do not upload or store the files you process with our tools, and we do not run analytics on your file content. Anonymous analytics and advertising services (Cloudflare Web Analytics and AdSense) may process limited information such as page views and cookie identifiers, according to their policies and your consent choices.</li>
     <li><strong>Partnerships and press</strong> — reach out if you have a proposal or press enquiry.</li>
   </ul>
 
@@ -53,10 +53,10 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 
   "/privacy": `<article>
 <h1>Your privacy, protected.</h1>
-<p><strong>This page explains exactly what data we handle — and the answer is very little. We never upload or store the files you process with our tools, and we never run analytics on your file content. Anonymous usage analytics (Google Analytics) and advertising (Google AdSense) may process limited technical information such as page views, cookie identifiers, and approximate location, subject to your consent choices.</strong></p>
+<p><strong>This page explains exactly what data we handle — and the answer is very little. We never upload or store the files you process with our tools, and we never run analytics on your file content. Anonymous usage analytics (Cloudflare Web Analytics) and advertising (Google AdSense) may process limited technical information such as page views, cookie identifiers, and approximate location, subject to your consent choices.</strong></p>
 <p><em>Last updated: October 2026</em></p>
 <section><h2>File Processing vs. Website Analytics</h2>
-<p>Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Google Analytics 4) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Google Analytics 4 only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit.</p></section>
+<p>Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Cloudflare Web Analytics) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Cloudflare Web Analytics only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit.</p></section>
 <section><h2>1. The short version</h2>
 <p>AHADEX Tools is designed to be privacy-first. The tools run entirely in your browser. Your files — photos, CV data, and card designs — are never uploaded to our servers, never stored, and never analysed.</p>
 <p>The only data we collect is anonymous analytics (page views, tool opens) and whatever is needed to serve advertising. You don't need to create an account, and we don't ask for personal information.</p></section>
@@ -128,7 +128,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p><strong>What our tools are — and what they aren't. Please read this before relying on any result.</strong></p>
 <p><em>Last updated: October 2026</em></p>
 <section><h2>1. General information</h2><p>The tools on AHADEX Tools are provided for general informational and practical use. While we do our best to ensure accuracy, we make no guarantees about the results produced by any tool.</p></section>
-<section><h2>2. Not professional advice</h2><p>Calculators and information provided by the Service are for general reference only.</p><p>They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions.</p></section>
+<section><h2>2. Not professional advice</h2><p>The tools (CV Builder, Visiting Card Maker, Photo QR Code) and information provided by the Service are for general reference only.</p><p>They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions.</p></section>
 <section><h2>3. File handling</h2><p>All processing happens in your browser. We are not responsible for any corruption, loss, or unintended modification of your files.</p><p>Always keep a backup of your original files. Never rely on a single tool to preserve critical data.</p></section>
 <section><h2>4. Third-party links</h2><p>The Service may contain links to external websites (for example, our GitHub page or sponsor sites). We are not responsible for the content, policies, or practices of those sites.</p></section>
 <section><h2>5. Availability</h2><p>We aim to keep the Service online 24/7, but we cannot guarantee uninterrupted access. Downtime may occur for maintenance, updates, or issues outside our control.</p></section>

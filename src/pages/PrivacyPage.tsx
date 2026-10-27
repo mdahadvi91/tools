@@ -9,14 +9,14 @@ export const PRIVACY_CONTENT = {
   en: {
     eyebrow: "Privacy Policy",
     title: "Your privacy, protected.",
-    subtitle: "This page explains exactly what data we handle — and the answer is very little. We never upload or store the files you process with our tools, and we never run analytics on your file content. Anonymous usage analytics (Google Analytics) and advertising (Google AdSense) may process limited technical information such as page views, cookie identifiers, and approximate location, subject to your consent choices.",
+    subtitle: "This page explains exactly what data we handle — and the answer is very little. We never upload or store the files you process with our tools, and we never run analytics on your file content. Anonymous usage analytics (Cloudflare Web Analytics) and advertising (Google AdSense) may process limited technical information such as page views, cookie identifiers, and approximate location, subject to your consent choices.",
     lastUpdated: UPDATED_EN,
     contactEmail: CONTACT,
     sections: [
       {
         heading: "File Processing vs. Website Analytics",
         paragraphs: [
-          "Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Google Analytics 4) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Google Analytics 4 only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit."
+          "Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Cloudflare Web Analytics) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Cloudflare Web Analytics only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit."
         ]
       },
       {
@@ -113,13 +113,13 @@ export const PRIVACY_CONTENT = {
   bn: {
     eyebrow: "প্রাইভেসি পলিসি",
     title: "আপনার প্রাইভেসি, সুরক্ষিত।",
-    subtitle: "এই পেজে ব্যাখ্যা করা হয়েছে আমরা ঠিক কী ডেটা হ্যান্ডেল করি — এবং উত্তর হলো খুব সামান্য। আপনার টুলে প্রসেস করা ফাইল আমরা কখনো আপলোড বা সংরক্ষণ করি না, এবং আপনার ফাইল কনটেন্টে কখনো অ্যানালিটিক্স চালাই না। Anonymous usage analytics (Google Analytics) এবং বিজ্ঞাপন (Google AdSense) সীমিত প্রযুক্তিগত তথ্য প্রসেস করতে পারে — যেমন পেজ ভিউ, cookie identifier, এবং আনুমানিক অবস্থান — যা আপনার সম্মতির পছন্দের উপর নির্ভরশীল।",
+    subtitle: "এই পেজে ব্যাখ্যা করা হয়েছে আমরা ঠিক কী ডেটা হ্যান্ডেল করি — এবং উত্তর হলো খুব সামান্য। আপনার টুলে প্রসেস করা ফাইল আমরা কখনো আপলোড বা সংরক্ষণ করি না, এবং আপনার ফাইল কনটেন্টে কখনো অ্যানালিটিক্স চালাই না। Anonymous usage analytics (Cloudflare Web Analytics) এবং বিজ্ঞাপন (Google AdSense) সীমিত প্রযুক্তিগত তথ্য প্রসেস করতে পারে — যেমন পেজ ভিউ, cookie identifier, এবং আনুমানিক অবস্থান — যা আপনার সম্মতির পছন্দের উপর নির্ভরশীল।",
     lastUpdated: UPDATED_BN,
     contactEmail: CONTACT,
     sections: [
       {
         heading: "ফাইল প্রসেসিং বনাম ওয়েবসাইট অ্যানালিটিক্স",
-        paragraphs: ["গুরুত্বপূর্ণ পার্থক্য: আমাদের সমস্ত ফাইল প্রসেসিং ১০০% লোকাল এবং কোনো ফাইল কখনোই আপলোড হয় না। তবে ওয়েবসাইটটি ফ্রি রাখার জন্য আমরা বেনামী ওয়েবসাইট অ্যানালিটিক্স (Google Analytics 4) এবং বিজ্ঞাপন (Google AdSense) ব্যবহার করি। Google AdSense লোডার স্ক্রিপ্ট প্রতিটি পেজ লোডে উপস্থিত থাকে। Ad unit শুধু তখনই রেন্ডার হয় যখন আপনি বিজ্ঞাপনের সম্মতি দেন এবং বৈধ ad unit ID কনফিগার করা থাকে। Google Analytics 4 শুধু তখনই লোড হয় যখন আপনি অ্যানালিটিক্সের সম্মতি দেন। এই স্ক্রিপ্টগুলোর আপনার ফাইলগুলোর কোনো অ্যাক্সেস নেই, তবে তারা ওয়েবসাইট অ্যানালিটিক্স এবং ব্যক্তিগতকৃত বিজ্ঞাপনের জন্য কুকি ব্যবহার করতে পারে। আপনি আপনার ব্রাউজার সেটিংস এবং প্রথম ভিজিটে দেখানো কনসেন্ট ব্যানারের মাধ্যমে কুকি পছন্দ নিয়ন্ত্রণ করতে পারেন।"]
+        paragraphs: ["গুরুত্বপূর্ণ পার্থক্য: আমাদের সমস্ত ফাইল প্রসেসিং ১০০% লোকাল এবং কোনো ফাইল কখনোই আপলোড হয় না। তবে ওয়েবসাইটটি ফ্রি রাখার জন্য আমরা বেনামী ওয়েবসাইট অ্যানালিটিক্স (Cloudflare Web Analytics) এবং বিজ্ঞাপন (Google AdSense) ব্যবহার করি। Google AdSense লোডার স্ক্রিপ্ট প্রতিটি পেজ লোডে উপস্থিত থাকে। Ad unit শুধু তখনই রেন্ডার হয় যখন আপনি বিজ্ঞাপনের সম্মতি দেন এবং বৈধ ad unit ID কনফিগার করা থাকে। Cloudflare Web Analytics শুধু তখনই লোড হয় যখন আপনি অ্যানালিটিক্সের সম্মতি দেন। এই স্ক্রিপ্টগুলোর আপনার ফাইলগুলোর কোনো অ্যাক্সেস নেই, তবে তারা ওয়েবসাইট অ্যানালিটিক্স এবং ব্যক্তিগতকৃত বিজ্ঞাপনের জন্য কুকি ব্যবহার করতে পারে। আপনি আপনার ব্রাউজার সেটিংস এবং প্রথম ভিজিটে দেখানো কনসেন্ট ব্যানারের মাধ্যমে কুকি পছন্দ নিয়ন্ত্রণ করতে পারেন।"]
       },
       {
         heading: "১. সংক্ষিপ্ত সংস্করণ",
