@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { trackRecentTool } from "@lib/recentTools";
 import { ToolDataSections } from "@components/tools/ToolDataSections";
+import { RelatedToolsBlock } from "@components/tools/RelatedToolsBlock";
 import { useToolAnalytics } from "@hooks/useToolAnalytics";
 import { useLanguage } from "@contexts/LanguageContext";
 import { Hero } from "./Hero";
@@ -10,10 +11,8 @@ import { Intro } from "./Intro";
 import { HowTo } from "./HowTo";
 import { Features } from "./Features";
 import { FAQ } from "./FAQ";
-import { RelatedTools } from "./RelatedTools";
 import { ToolSchema } from "@components/seo/ToolSchema";
 import { ToolFieldNote } from "@components/tools/ToolFieldNote";
-import { photoQrData } from "./data";
 import { photoQrContent } from "./content";
 import { ToolBreadcrumb } from "@components/tools/ToolBreadcrumb";
 import { SmartInsights } from "./SmartInsights";
@@ -61,7 +60,7 @@ export default function PhotoQrTool() {
 
       <ToolFieldNote toolId="photo-qr" />
       <ToolDataSections toolId="photo-qr" />
-      <RelatedTools toolIds={photoQrData.relatedTools} />
+      <RelatedToolsBlock currentToolId="photo-qr" count={3} />
 
       <PhotoQRWizardModal isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />
     </div>
