@@ -95,6 +95,13 @@ function renderToolPage(t: Tool): string {
     out.push(`  </ul>`);
   }
 
+  if (t.supportedFormats?.length) {
+    out.push(`  <h2>Supported Formats</h2>`);
+    out.push(`  <ul>`);
+    for (const f of t.supportedFormats) out.push(`    <li>${esc(f)}</li>`);
+    out.push(`  </ul>`);
+  }
+
   if (t.limitations?.length) {
     out.push(`  <h2>Limitations</h2>`);
     out.push(`  <ul>`);

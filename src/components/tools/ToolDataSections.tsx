@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { tools } from "@data/tools";
-import { CheckCircle2, AlertTriangle, BarChart3 } from "lucide-react";
+import { CheckCircle2, AlertTriangle, BarChart3, FileType2 } from "lucide-react";
 
 export function ToolDataSections({ toolId }: { toolId: string }) {
   const tool = tools.find((t) => t.id === toolId);
@@ -9,8 +9,9 @@ export function ToolDataSections({ toolId }: { toolId: string }) {
   const useCases = tool.useCases || [];
   const limitations = tool.limitations || [];
   const benchmarks = tool.benchmarks || [];
+  const supportedFormats = tool.supportedFormats || [];
 
-  if (useCases.length === 0 && limitations.length === 0 && benchmarks.length === 0) return null;
+  if (useCases.length === 0 && limitations.length === 0 && benchmarks.length === 0 && supportedFormats.length === 0) return null;
 
   return (
     <div className="mx-auto max-w-3xl mt-12 mb-10 space-y-12">
@@ -37,6 +38,22 @@ export function ToolDataSections({ toolId }: { toolId: string }) {
                 ))}
               </tbody>
             </table>
+          </div>
+        </motion.article>
+      )}
+
+      {supportedFormats.length > 0 && (
+        <motion.article initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <div className="flex items-center gap-2 mb-4">
+            <FileType2 className="w-5 h-5 text-blue-500" />
+            <h2 className="font-serif font-black text-2xl text-light-text dark:text-dark-text">Supported Formats</h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {supportedFormats.map((format, i) => (
+              <span key={i} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                {format}
+              </span>
+            ))}
           </div>
         </motion.article>
       )}

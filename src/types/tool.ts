@@ -95,6 +95,7 @@ export interface Tool {
   deepDive?: ToolDeepDive[];
   useCases?: string[];
   limitations?: string[];
+  supportedFormats?: string[];
   benchmarks?: { label: string; value: string }[];
   privacy?: {
     processing: "browser" | "server";

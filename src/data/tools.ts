@@ -77,6 +77,7 @@ const legacyTools: Tool[] = [
       "Adding a website link to a printed event poster.",
       "Sharing contact details instantly without typing.",
     ],
+    supportedFormats: ["JPG", "PNG", "WebP"],
     limitations: [
       "Only generates static QR codes (content cannot be changed after download).",
       "Does not support dynamic tracking (cannot track how many times it was scanned).",
@@ -183,6 +184,7 @@ const legacyTools: Tool[] = [
       "Event attendees making quick networking cards.",
       "Adding a scannable contact card to a smartphone lock screen.",
     ],
+    supportedFormats: ["PNG", "JPG", "WebP", "SVG (Logo)", "PDF (Export)"],
     limitations: [
       "Uses RGB color space (screens), not CMYK (professional offset printing).",
       "For physical printing, you must export at a minimum of 300 DPI.",
