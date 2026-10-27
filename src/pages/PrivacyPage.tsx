@@ -16,7 +16,7 @@ export const PRIVACY_CONTENT = {
       {
         heading: "File Processing vs. Website Analytics",
         paragraphs: [
-          "Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website may use anonymous website analytics and (in the future) advertising scripts (like Google AdSense) to keep the site free. These scripts do not have access to your files, but they may use cookies for website analytics and personalized ads. You can control cookie preferences in your browser settings."
+          "Important distinction: While all our file processing is 100% local and no files are ever uploaded, our website uses anonymous website analytics (Google Analytics 4) and advertising (Google AdSense) to keep the site free. The Google AdSense loader script is present on every page load. Ad units only render after you grant advertising consent, and only where a valid ad unit ID is configured. Google Analytics 4 only loads after you grant analytics consent. These scripts do not have access to your files, but they may use cookies for website analytics and personalised ads. You can control cookie preferences in your browser settings and via the consent banner shown on first visit."
         ]
       },
       {
@@ -119,7 +119,7 @@ export const PRIVACY_CONTENT = {
     sections: [
       {
         heading: "ফাইল প্রসেসিং বনাম ওয়েবসাইট অ্যানালিটিক্স",
-        paragraphs: ["গুরুত্বপূর্ণ পার্থক্য: আমাদের সমস্ত ফাইল প্রসেসিং ১০০% লোকাল এবং কোনো ফাইল কখনোই আপলোড হয় না। তবে ওয়েবসাইটটি ফ্রি রাখার জন্য আমরা বেনামী ওয়েবসাইট অ্যানালিটিক্স এবং (ভবিষ্যতে) বিজ্ঞাপন স্ক্রিপ্ট (যেমন Google AdSense) ব্যবহার করতে পারি। এই স্ক্রিপ্টগুলোর আপনার ফাইলগুলোর কোনো অ্যাক্সেস নেই, তবে তারা ওয়েবসাইট অ্যানালিটিক্স এবং ব্যক্তিগতকৃত বিজ্ঞাপনের জন্য কুকি ব্যবহার করতে পারে। আপনি আপনার ব্রাউজার সেটিংসে কুকি পছন্দ নিয়ন্ত্রণ করতে পারেন।"]
+        paragraphs: ["গুরুত্বপূর্ণ পার্থক্য: আমাদের সমস্ত ফাইল প্রসেসিং ১০০% লোকাল এবং কোনো ফাইল কখনোই আপলোড হয় না। তবে ওয়েবসাইটটি ফ্রি রাখার জন্য আমরা বেনামী ওয়েবসাইট অ্যানালিটিক্স (Google Analytics 4) এবং বিজ্ঞাপন (Google AdSense) ব্যবহার করি। Google AdSense লোডার স্ক্রিপ্ট প্রতিটি পেজ লোডে উপস্থিত থাকে। Ad unit শুধু তখনই রেন্ডার হয় যখন আপনি বিজ্ঞাপনের সম্মতি দেন এবং বৈধ ad unit ID কনফিগার করা থাকে। Google Analytics 4 শুধু তখনই লোড হয় যখন আপনি অ্যানালিটিক্সের সম্মতি দেন। এই স্ক্রিপ্টগুলোর আপনার ফাইলগুলোর কোনো অ্যাক্সেস নেই, তবে তারা ওয়েবসাইট অ্যানালিটিক্স এবং ব্যক্তিগতকৃত বিজ্ঞাপনের জন্য কুকি ব্যবহার করতে পারে। আপনি আপনার ব্রাউজার সেটিংস এবং প্রথম ভিজিটে দেখানো কনসেন্ট ব্যানারের মাধ্যমে কুকি পছন্দ নিয়ন্ত্রণ করতে পারেন।"]
       },
       {
         heading: "১. সংক্ষিপ্ত সংস্করণ",
