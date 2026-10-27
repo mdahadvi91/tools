@@ -220,13 +220,19 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   }
 
   // 5. Direct file (sitemap.xml, ads.txt, assets, etc.)
-  const direct = await fetchAsset(
-    context.env,
-    url.origin,
-    url.pathname,
-    context.request
-  );
-  if (direct) return direct;
+  // Only fetch direct files if the path looks like an asset (has an extension
+  // or starts with /assets/). This prevents Cloudflare's SPA fallback from
+  // returning index.html with 200 for unknown routes.
+  const isAsset = url.pathname.startsWith("/assets/") || url.pathname.includes(".");
+  if (isAsset) {
+    const direct = await fetchAsset(
+      context.env,
+      url.origin,
+      url.pathname,
+      context.request
+    );
+    if (direct) return direct;
+  }
 
   // 6. 404 fallback — serve SPA shell (React renders NotFoundPage)
   const shell = await fetchAsset(
