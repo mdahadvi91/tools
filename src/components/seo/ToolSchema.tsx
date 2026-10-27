@@ -91,37 +91,8 @@ export function ToolSchema({ toolId }: ToolSchemaProps) {
       },
     ];
 
-    // FAQPage (if there are FAQs)
-    if (tool.faq.length > 0) {
-      graph.push({
-        "@type": "FAQPage",
-        "@id": `${canonical}#faq`,
-        mainEntity: tool.faq.map((f) => ({
-          "@type": "Question",
-          name: f.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: f.answer,
-          },
-        })),
-      });
-    }
-
-    // HowTo (if there are steps)
-    if (tool.howTo.length > 0) {
-      graph.push({
-        "@type": "HowTo",
-        "@id": `${canonical}#howto`,
-        name: `How to use ${translated.name}`,
-        step: tool.howTo.map((s) => ({
-          "@type": "HowToStep",
-          position: s.step,
-          name: s.title,
-          text: s.description,
-        })),
-      });
-    }
-
+    
+    
     const schema = {
       "@context": "https://schema.org",
       "@graph": graph,

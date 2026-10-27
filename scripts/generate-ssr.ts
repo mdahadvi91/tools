@@ -398,23 +398,7 @@ function buildSchema(): Record<string, object> {
       },
     ];
 
-    // Add FAQPage schema ONLY if there are actual visible FAQs on the page.
-    // Avoids schema stuffing — Google requires FAQ data to be visible.
-    if (t.faq && t.faq.length > 0) {
-      graph.push({
-        "@type": "FAQPage",
-        "@id": `${SITE}${t.path}#faq`,
-        mainEntity: t.faq.map((f) => ({
-          "@type": "Question",
-          name: f.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: f.answer,
-          },
-        })),
-      });
-    }
-
+    
     schema[t.path] = {
       "@context": "https://schema.org",
       "@graph": graph,

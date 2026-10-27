@@ -139,44 +139,6 @@ export const SSR_SCHEMA: Record<string, object> = {
             "item": "https://ahadex.online/tools/photo-qr"
           }
         ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://ahadex.online/tools/photo-qr#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Will the QR code still scan if I add a logo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, but scan reliability depends on size, contrast, placement, and the scanning environment. We use a high error-correction level to help the code remain readable, but you should test the final image with your own phone camera before mass printing."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What platforms can I generate QR codes for?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "WhatsApp, Facebook, Instagram, Telegram, WiFi, phone numbers, email, and plain text are all supported."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does this tool support dynamic QR codes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. We generate static QR codes. Once you download the image, the destination URL or text cannot be changed."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I embed a logo in the QR code?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. The tool automatically places the platform's icon in the center of the QR code."
-            }
-          }
-        ]
       }
     ]
   },
@@ -236,44 +198,6 @@ export const SSR_SCHEMA: Record<string, object> = {
             "item": "https://ahadex.online/tools/visiting-card"
           }
         ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://ahadex.online/tools/visiting-card#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Can I print this card at a professional print shop?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Our templates export at high resolution. However, note that this uses RGB colors, so very bright colors might look slightly different on CMYK printers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does it include a QR code?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "You can add a QR code using our Photo QR tool first, then upload it as the logo on your visiting card!"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Are the exported cards print-ready?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The exported files are high-resolution images or standard PDFs suitable for many home and office printers. However, if you are sending the file to a commercial print shop, they may require specific CMYK color profiles, bleed margins, or trim lines, which you should confirm directly with them."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I use my own custom logo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. You can upload your own logo in the Logo panel to replace the default placeholder."
-            }
-          }
-        ]
       }
     ]
   },
@@ -331,92 +255,6 @@ export const SSR_SCHEMA: Record<string, object> = {
             "position": 3,
             "name": "CV Builder",
             "item": "https://ahadex.online/tools/cv-builder"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://ahadex.online/tools/cv-builder#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Is this CV Builder really free?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Every template, every export format, every design control is available without an account, watermark, or hidden limit."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you upload my CV data anywhere?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Everything — forms, preview, PDF export, save/load — runs entirely in your browser. Nothing is sent to any server."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is the PDF ATS-friendly?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. The PDF is generated through the browser print pipeline, so text stays selectable. ATS parsers can read your job titles, dates, and skills. The ATS Cleanline template deliberately uses standard headings and no icon-only contact info."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I add a photo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, in the Design tab. Photos are optional and off by default — most corporate applications prefer no photo."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What page sizes are supported?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A4 (210 × 297 mm) and US Letter (216 × 279 mm). The PDF matches the exact print dimensions of your chosen size."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I have multiple CVs?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Saved CVs appear in the Save tab. You can create, duplicate, rename, and delete as many as you want. All stored locally in your browser."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What happens if I close the browser?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Your current work is auto-saved as a draft. When you return, a banner offers to recover it. Nothing is lost unless you explicitly discard it."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I export my CV as JSON?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. The Save tab has JSON export and import. Useful for backups or moving between devices."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I save my CV and edit it later?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Your progress is automatically saved in your browser's local storage, so you can close the tab and come back later."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is the exported PDF ATS-friendly?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. All our templates use clean, semantic text and standard fonts, which helps ensure your CV can be parsed correctly by most modern ATS software. However, specific ATS parsing results may vary depending on the system."
-            }
           }
         ]
       }
