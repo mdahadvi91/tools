@@ -1,11 +1,14 @@
 import { useState, useRef } from "react";
 import { X, Upload, Loader2, Download } from "lucide-react";
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
 export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [format, setFormat] = useState<"image/jpeg" | "image/png">("image/jpeg");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
   if (!isOpen) return null;
@@ -13,6 +16,17 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
+    
+    if (f.size > MAX_FILE_SIZE) {
+      setError("File is too large. Maximum size is 50MB.");
+      return;
+    }
+    if (f.type !== "image/webp") {
+      setError("Please upload a valid WebP image.");
+      return;
+    }
+
+    setError(null);
     setFile(f);
     setPreview(URL.createObjectURL(f));
   };
@@ -52,6 +66,7 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
       <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-lg relative shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"><X className="w-5 h-5"/></button>
         <h2 className="text-xl font-bold mb-6">WebP Converter</h2>
+        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
         
         {!file ? (
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-10 text-center rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">

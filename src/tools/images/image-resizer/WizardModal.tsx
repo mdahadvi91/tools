@@ -1,6 +1,10 @@
 import { useState, useRef } from "react";
 import { X, Upload, Loader2, Download } from "lucide-react";
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_PIXELS = 10000 * 10000; // 100 Megapixels
+const MAX_DIMENSION = 10000;
+
 export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -9,6 +13,7 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClo
   const [lockRatio, setLockRatio] = useState(true);
   const [ratio, setRatio] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
   if (!isOpen) return null;
@@ -16,6 +21,17 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClo
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
+    
+    if (f.size > MAX_FILE_SIZE) {
+      setError("File is too large. Maximum size is 50MB.");
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) {
+      setError("Invalid file type. Please upload JPG, PNG, or WebP.");
+      return;
+    }
+
+    setError(null);
     setFile(f);
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -43,6 +59,21 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClo
 
   const handleResize = () => {
     if (!preview || !imgRef.current) return;
+    
+    if (width <= 0 || height <= 0) {
+      setError("Width and height must be greater than 0.");
+      return;
+    }
+    if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+      setError(`Dimensions cannot exceed ${MAX_DIMENSION}px.`);
+      return;
+    }
+    if (width * height > MAX_PIXELS) {
+      setError("Output resolution is too large. Please reduce dimensions.");
+      return;
+    }
+
+    setError(null);
     setIsProcessing(true);
     
     setTimeout(() => {
@@ -68,6 +99,7 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClo
       <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-lg relative shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"><X className="w-5 h-5"/></button>
         <h2 className="text-xl font-bold mb-6">Image Resizer</h2>
+        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
         
         {!file ? (
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-10 text-center rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
