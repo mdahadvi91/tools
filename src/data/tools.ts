@@ -7,6 +7,29 @@ import { deepDives } from "./deep-dives";
 
 const legacyTools: Tool[] = [
   {
+    id: "color-picker",
+    slug: "color-picker",
+    name: "Color Picker",
+    nameBn: "কালার পিকার",
+    category: "design",
+    lastModified: "2026-10-28",
+    path: "/tools/color-picker",
+    searchVolume: 5000000,
+    description: "Pick colors from images and get HEX, RGB, and HSL codes instantly.",
+    descriptionBn: "ছবি থেকে কালার পিক করে HEX এবং RGB কোড নিন এক ক্লিকেই।",
+    longDescription: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. 100% browser-based.",
+    keywords: ["color picker", "hexadecimal color selector", "hex code finder", "rgb pick", "image color picker"],
+    popular: true,
+    newTool: true,
+    features: [{ title: "HEX, RGB & HSL", description: "Get exact color codes." }, { title: "Image Upload", description: "Pick colors from any image." }],
+    howTo: [{ step: 1, title: "Upload Image", description: "Select an image." }, { step: 2, title: "Click to Pick", description: "Click anywhere on the image." }, { step: 3, title: "Copy Code", description: "Copy the HEX or RGB code." }],
+    faq: [{ question: "What is a HEX color code?", answer: "A 6-digit hexadecimal representation used in web design." }],
+    useCases: ["Finding the exact color code of a brand logo for a website.", "Matching colors from a photo for graphic design."],
+    limitations: ["Requires an image file to pick from; manual color mixing is not available."],
+    relatedTools: ["image-resizer", "visiting-card"],
+    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX/RGB codes. 100% free.", ogImage: "/images/og/tools/color-picker-og.png" }
+  },
+  {
     id: "webp-converter",
     slug: "webp-converter",
     name: "WebP Converter",

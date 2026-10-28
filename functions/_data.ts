@@ -12,6 +12,12 @@ export interface ToolMeta {
 }
 
 export const TOOL_META: Record<string, ToolMeta> = {
+  "/tools/color-picker": {
+    "path": "/tools/color-picker",
+    "title": "Color Picker — HEX, RGB from Image | AHADEX Tools",
+    "description": "Pick colors from images and get HEX/RGB codes. 100% free.",
+    "ogImage": "/images/og/tools/color-picker-og.png"
+  },
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
     "title": "WebP to JPG Converter — Free Online Tool | AHADEX Tools",
@@ -53,14 +59,14 @@ export const TOOL_META: Record<string, ToolMeta> = {
 export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
-    "title": "AHADEX Tools — 6 Free, Private Browser-Based Tools",
-    "description": "6 free browser-based tools — WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
+    "title": "AHADEX Tools — 7 Free, Private Browser-Based Tools",
+    "description": "7 free browser-based tools — Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
-    "title": "All Tools — 6 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 6 free browser-based tools from AHADEX: WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+    "title": "All Tools — 7 Free Browser Utilities | AHADEX Tools",
+    "description": "Browse all 7 free browser-based tools from AHADEX: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {

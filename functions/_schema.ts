@@ -13,7 +13,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@id": "https://ahadex.online/#website",
         "url": "https://ahadex.online/",
         "name": "AHADEX Tools",
-        "description": "Free browser-based tools for everyday digital tasks. 6 tools: WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+        "description": "Free browser-based tools for everyday digital tasks. 7 tools: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
         "publisher": {
           "@id": "https://ahadex.online/#organization"
         }
@@ -35,8 +35,8 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "CollectionPage",
         "@id": "https://ahadex.online/tools#page",
         "url": "https://ahadex.online/tools",
-        "name": "All Tools — 6 free browser-based utilities",
-        "description": "Browse all 6 free browser-based tools from AHADEX Tools.",
+        "name": "All Tools — 7 free browser-based utilities",
+        "description": "Browse all 7 free browser-based tools from AHADEX Tools.",
         "isPartOf": {
           "@id": "https://ahadex.online/#website"
         }
@@ -47,36 +47,42 @@ export const SSR_SCHEMA: Record<string, object> = {
           {
             "@type": "ListItem",
             "position": 1,
+            "name": "Color Picker",
+            "url": "https://ahadex.online/tools/color-picker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
             "name": "WebP Converter",
             "url": "https://ahadex.online/tools/webp-converter"
           },
           {
             "@type": "ListItem",
-            "position": 2,
+            "position": 3,
             "name": "Image Resizer",
             "url": "https://ahadex.online/tools/image-resizer"
           },
           {
             "@type": "ListItem",
-            "position": 3,
+            "position": 4,
             "name": "Image to PDF",
             "url": "https://ahadex.online/tools/image-to-pdf"
           },
           {
             "@type": "ListItem",
-            "position": 4,
+            "position": 5,
             "name": "Photo QR Code",
             "url": "https://ahadex.online/tools/photo-qr"
           },
           {
             "@type": "ListItem",
-            "position": 5,
+            "position": 6,
             "name": "Visiting Card Maker",
             "url": "https://ahadex.online/tools/visiting-card"
           },
           {
             "@type": "ListItem",
-            "position": 6,
+            "position": 7,
             "name": "CV Builder",
             "url": "https://ahadex.online/tools/cv-builder"
           }
@@ -96,6 +102,61 @@ export const SSR_SCHEMA: Record<string, object> = {
             "position": 2,
             "name": "Tools",
             "item": "https://ahadex.online/tools"
+          }
+        ]
+      }
+    ]
+  },
+  "/tools/color-picker": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://ahadex.online/tools/color-picker#app",
+        "name": "Color Picker",
+        "description": "Pick colors from images and get HEX/RGB codes. 100% free.",
+        "url": "https://ahadex.online/tools/color-picker",
+        "applicationCategory": "WebApplication",
+        "operatingSystem": "Any (Browser)",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "image": "https://ahadex.online/images/og/tools/color-picker-og.png",
+        "publisher": {
+          "@type": "Organization",
+          "name": "AHADEX Tools",
+          "url": "https://ahadex.online"
+        },
+        "featureList": [
+          "HEX, RGB & HSL",
+          "Image Upload"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://ahadex.online/tools/color-picker#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://ahadex.online/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://ahadex.online/tools"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Color Picker",
+            "item": "https://ahadex.online/tools/color-picker"
           }
         ]
       }
