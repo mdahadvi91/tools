@@ -59,7 +59,7 @@ export const COOKIE_CONTENT = {
         bullets: [
           "Essential: কোনোটিই নয়। AHADEX Tools-এর কুকি ছাড়াই কাজ করে — আমরা localStorage ব্যবহার করি।",
           "Preferences: localStorage-এ সংরক্ষিত (theme, language, favourites, sound)। এগুলো কখনো ব্রাউজার ছাড়ে না।",
-          "Analytics: Google Analytics 4 anonymous ব্যবহার মাপতে কুকি সেট করতে পারে। টুল প্রভাবিত না করে block করতে পারেন।",
+          "Analytics: Cloudflare Web Analytics anonymous ব্যবহার মাপতে কুকি সেট করতে পারে। টুল প্রভাবিত না করে block করতে পারেন।",
           "Advertising: Google AdSense প্রাসঙ্গিক ad দেখাতে কুকি সেট করতে পারে। Google Ads Settings থেকে opt out করুন।"
         ] 
       },

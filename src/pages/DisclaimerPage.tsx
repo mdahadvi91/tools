@@ -20,7 +20,7 @@ export const DISCLAIMER_CONTENT = {
       { 
         heading: "2. Not professional advice", 
         paragraphs: [
-          "The tools (CV Builder, Visiting Card Maker, Photo QR Code) and information provided by the Service (including CV Builder, Visiting Card Maker, percentage, age, and date difference) are for general reference only.",
+          "The tools (CV Builder, Visiting Card Maker, Photo QR Code) and information provided by the Service (including CV Builder, Visiting Card Maker, CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) are for general reference only.",
           "They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions."
         ] 
       },
@@ -59,7 +59,7 @@ export const DISCLAIMER_CONTENT = {
       { 
         heading: "২. পেশাদার পরামর্শ নয়", 
         paragraphs: [
-          "সেবার ক্যালকুলেটর (CV Builder, Visiting Card Maker, percentage, age, date difference) শুধু সাধারণ রেফারেন্সের জন্য।",
+          "সেবার ক্যালকুলেটর (CV Builder, Visiting Card Maker, CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) শুধু সাধারণ রেফারেন্সের জন্য।",
           "এগুলো চিকিৎসা, আইন, আর্থিক বা অন্য কোনো পেশাদার পরামর্শের বিকল্প নয়। গুরুত্বপূর্ণ সিদ্ধান্তে যোগ্য পেশাদারের পরামর্শ নিন।"
         ] 
       },
