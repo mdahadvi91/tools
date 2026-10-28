@@ -20,7 +20,7 @@ export const DISCLAIMER_CONTENT = {
       { 
         heading: "2. Not professional advice", 
         paragraphs: [
-          "The tools (CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) and information provided by the Service (including CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) are for general reference only.",
+          "The tools (CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) and information provided by the Service are for general reference only.",
           "They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions."
         ] 
       },
