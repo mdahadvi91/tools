@@ -32,11 +32,16 @@
 
     <!-- Google Consent Mode v2 Default -->
     <!-- 🚨 Google AdSense Loader Script (অত্যন্ত জরুরি) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5216241068377334" crossorigin="anonymous"></script>
+    <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5216241068377334" crossorigin="anonymous"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta charset="UTF-8" />
-  </head>
+      <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+</head>
 
   <body>
     <div id="root" ></div>
