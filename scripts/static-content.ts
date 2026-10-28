@@ -171,4 +171,34 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>4. Local storage</h2><p>We primarily use localStorage (a modern alternative to cookies) to remember your theme, language, and preferences. Like cookies, this data stays entirely on your device.</p></section>
 <section><h2>5. Contact</h2><p>Questions about cookies or this policy? Email us at mdahadvi91@gmail.com.</p></section>
 </article>`,
+  "/editorial-policy": `<article>
+    <h1>How we create our content.</h1>
+    <p><strong>Our commitment to accuracy, independence, and transparency. We aim to provide the most reliable, privacy-first tools and documentation on the web.</strong></p>
+    <p><em>Last updated: October 2026</em></p>
+    
+    <section><h2>1. Accuracy and Fact-Checking</h2>
+    <p>Every technical guide, tool description, and article on AHADEX Tools is written by humans and reviewed for technical accuracy. We test our tools extensively across different browsers (Chrome, Safari, Firefox) and devices.</p>
+    <p>We do not publish industry statistics or claims without verification. If we mention a standard (like 300 DPI for printing or QR error correction levels), it is based on official specifications or direct testing.</p>
+    </section>
+    
+    <section><h2>2. Independence and Advertising</h2>
+    <p>AHADEX Tools is supported by advertising (Google AdSense). However, our advertising partners have no influence over our editorial content, tool rankings, or reviews.</p>
+    <p>We do not write sponsored posts disguised as regular content. Any affiliate links or sponsored placements (if present in the future) will be explicitly labeled.</p>
+    </section>
+    
+    <section><h2>3. Privacy and AI</h2>
+    <p>We do not use AI to generate our technical documentation or articles. Every piece of content is written by our team.</p>
+    <p>Our tools are built with a privacy-first architecture. We do not upload, store, or analyze the files you process with our tools.</p>
+    </section>
+    
+    <section><h2>4. Corrections Policy</h2>
+    <p>We strive for 100% accuracy, but mistakes can happen. If you spot a factual error, a broken link, or outdated technical information, please contact us immediately.</p>
+    <p>We will review your feedback and, if necessary, update the content and add a correction note at the bottom of the page.</p>
+    </section>
+    
+    <section><h2>5. Contact</h2>
+    <p>If you have questions about our editorial standards or want to report an issue, email us at <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a>. We aim to respond within 48 hours.</p>
+    </section>
+  </article>`,
+
 };

@@ -23,7 +23,8 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist node_modules/.vite",
     "generate:ssr": "tsx scripts/generate-ssr.ts",
-    "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts"
+    "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts && tsx scripts/validate.ts",
+    "validate": "tsx scripts/validate.ts"
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
