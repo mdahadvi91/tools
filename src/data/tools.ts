@@ -54,7 +54,7 @@ const legacyTools: Tool[] = [
     },
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
-      title: "Image to PDF Converter — Convert JPG, PNG to PDF Free | AHADEX Tools",
+      title: "Image to PDF Converter — JPG, PNG to PDF Free | AHADEX Tools",
       description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
       ogImage: "/images/og/tools/image-to-pdf-og.png",
     },
@@ -259,7 +259,7 @@ const legacyTools: Tool[] = [
     },
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
-      title: "Visiting Card Maker — Free Business Card Designer | AHADEX Tools",
+      title: "Visiting Card Maker — Free Business Card Designer | AHADEX",
       description: "Design print-ready visiting cards with live preview. 20 premium templates. Free, private, PNG/JPG export.",
       ogImage: "/images/og/tools/visiting-card-og.png",
     },
