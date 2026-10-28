@@ -21,6 +21,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { to: "/tools/cv-builder", label: { en: "CV Builder", bn: "সিভি বিল্ডার" } },
       { to: "/tools/visiting-card", label: { en: "Visiting Card", bn: "ভিজিটিং কার্ড" } },
       { to: "/tools/photo-qr", label: { en: "Photo QR", bn: "ফটো কিউআর" } },
+      { to: "/tools/image-to-pdf", label: { en: "Image to PDF", bn: "ইমেজ টু পিডিএফ" } },
+      { to: "/tools/image-resizer", label: { en: "Image Resizer", bn: "ইমেজ রিসাইজার" } },
     ],
   },
   {
@@ -28,11 +30,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { to: "/about", label: { en: "About", bn: "সম্পর্কে" } },
       { to: "/contact", label: { en: "Contact", bn: "যোগাযোগ" } },
-      {
-        to: "https://github.com/mdahadvi91/tools",
-        label: { en: "GitHub", bn: "GitHub" },
-        external: true,
-      },
+      { to: "https://github.com/mdahadvi91/tools", label: { en: "GitHub", bn: "GitHub" }, external: true },
     ],
   },
   {
@@ -42,6 +40,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { to: "/terms", label: { en: "Terms", bn: "শর্তাবলী" } },
       { to: "/disclaimer", label: { en: "Disclaimer", bn: "ডিসক্লেইমার" } },
       { to: "/cookie-policy", label: { en: "Cookies", bn: "কুকিজ" } },
+      { to: "/editorial-policy", label: { en: "Editorial Policy", bn: "সম্পাদকীয় নীতি" } },
+      { to: "/accessibility", label: { en: "Accessibility", bn: "অ্যাক্সেসিবিলিটি" } },
     ],
   },
 ];
