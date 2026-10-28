@@ -2,13 +2,14 @@
 
 Free, fast, and private browser-based tools for everyday digital tasks.
 
-## 🚀 Currently Available Tools (3)
+## 🚀 Currently Available Tools (4)
 
 Every tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.
 
-1. **CV Builder** *(Documents)* — Create a professional, ATS-compatible CV with live preview, auto-save, and selectable-text PDF export.
-2. **Visiting Card Maker** *(Design)* — Design print-ready business cards with 20 premium templates, custom logos, and QR codes.
-3. **Photo QR Code** *(QR & Barcode)* — Add scannable QR codes (WhatsApp, WiFi, vCard, etc.) to any photo with high error correction.
+1. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.
+2. **Photo QR Code** *(qr)* — Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.
+3. **Visiting Card Maker** *(design)* — Design professional visiting cards in seconds. 20 premium templates — front & back. Free, private, exports PNG/JPG.
+4. **CV Builder** *(documents)* — Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.
 
 ---
 

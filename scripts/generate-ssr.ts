@@ -13,7 +13,7 @@
  * Run: npm run generate:ssr
  * ============================================================ */
 
-import { writeFileSync } from "node:fs";
+import { writeFileSync, readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -224,13 +224,27 @@ ${sections}
 </article>`;
 }
 
+
+const buildDynamicTerms = (html: string): string => {
+  const toolNames = tools.map((t) => t.name).join(', ');
+  let updated = html.replace(/CV Builder, Visiting Card Maker, Photo QR Code/g, toolNames);
+  updated = updated.replace(/ছবি, PDF, টেক্সট, QR কোড ও অন্যান্য/g, tools.map((t) => t.nameBn || t.name).join(', '));
+  return updated;
+};
+
 /* ---------- _ssr-content.ts ---------- */
 function buildSsrContent(): Record<string, string> {
   const map: Record<string, string> = {};
   map["/"] = renderHomepage();
   map["/tools"] = renderToolsPage();
   for (const t of tools) map[t.path] = renderToolPage(t);
-  for (const [path, html] of Object.entries(STATIC_SSR_CONTENT)) map[path] = html;
+  for (const [path, html] of Object.entries(STATIC_SSR_CONTENT)) {
+    if (path === "/terms") {
+      map[path] = buildDynamicTerms(html);
+    } else {
+      map[path] = html;
+    }
+  }
   return map;
 }
 
@@ -554,6 +568,46 @@ Sitemap: ${SITE}/sitemap.xml
 `;
 }
 
+/* ---------- root files (README, index.html) ---------- */
+function updateRootFiles() {
+  // Update README.md
+  const readmePath = resolve(ROOT, "README.md");
+  if (existsSync(readmePath)) {
+    let readme = readFileSync(readmePath, "utf-8");
+    const toolList = tools.map((t, i) => `${i + 1}. **${t.name}** *(${t.category})* — ${t.description}`).join("\n");
+    
+    // Replace the entire tools section
+    readme = readme.replace(
+      /## 🚀 Currently Available Tools \(\d+\)[\s\S]*?---/,
+      `## 🚀 Currently Available Tools (${TOOL_COUNT})\n\nEvery tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.\n\n${toolList}\n\n---`
+    );
+    writeFileSync(readmePath, readme);
+    console.log("  ✓ README.md (auto-synced tool count & list)");
+  }
+
+  // Update index.html
+  const htmlPath = resolve(ROOT, "index.html");
+  if (existsSync(htmlPath)) {
+    let html = readFileSync(htmlPath, "utf-8");
+    const toolNames = tools.map(t => t.name).join(", ");
+    
+    // 1. Title
+    html = html.replace(/AHADEX Tools — \d+ Free, Fast, Private Online Tools/g, `AHADEX Tools — ${TOOL_COUNT} Free, Fast, Private Online Tools`);
+    
+    // 2. Meta Description
+    html = html.replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. 100% private, no uploads." />`);
+    
+    // 3. OG Description
+    html = html.replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. Files stay on your device." />`);
+    
+    // 4. Twitter Description
+    html = html.replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. 100% private, no uploads." />`);
+
+    writeFileSync(htmlPath, html);
+    console.log("  ✓ index.html (auto-synced title & meta)");
+  }
+}
+
 /* ---------- write files ---------- */
 function writeAll() {
   console.log("▶ Generating SSR artifacts from src/data/tools.ts …");
@@ -621,6 +675,9 @@ export const GUIDE_META: Record<string, ToolMeta> = {};
   // 5. robots.txt
   writeFileSync(resolve(ROOT, "public/robots.txt"), buildRobotsTxt());
   console.log("  ✓ public/robots.txt");
+
+  // Update root files
+  updateRootFiles();
 
   console.log("✅ Done.\n");
 }
