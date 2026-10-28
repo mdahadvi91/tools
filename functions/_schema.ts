@@ -188,7 +188,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         },
         "featureList": [
           "JPG & PNG Support",
-          "No Quality Loss",
+          "High-Quality Export",
           "Privacy First"
         ]
       },

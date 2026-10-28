@@ -10,12 +10,12 @@ export const webpConverterContent = {
     ],
     features: [
       { title: "JPG & PNG Support", description: "Convert to the most widely supported image formats." },
-      { title: "No Quality Loss", description: "JPG export retains high quality at 95% compression." },
+      { title: "High-Quality Export", description: "JPEG quality is set to 95%, while PNG export is completely lossless." },
       { title: "Privacy First", description: "No files are uploaded. 100% browser-based conversion." }
     ],
     faq: [
       { question: "Why should I convert WebP to JPG?", answer: "While WebP is great for the web, many older image editors, email clients, and devices do not support it. Converting to JPG ensures 100% compatibility." },
-      { question: "Will the image lose quality?", answer: "When converting to JPG, we use a high-quality compression setting (95%). While JPG is a lossy format, the difference is virtually invisible to the human eye." },
+      { question: "Will the image lose quality?", answer: "When converting to JPG, we set the compression quality to 95%. JPG is a lossy format, so minor compression artifacts may occur, but at 95% they are virtually invisible. If you need zero quality loss, choose the PNG export option, which is completely lossless." },
       { question: "Is this tool free?", answer: "Yes, it is completely free with no watermarks or limits." }
     ]
   },

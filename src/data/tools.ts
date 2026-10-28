@@ -44,7 +44,7 @@ const legacyTools: Tool[] = [
     keywords: ["webp converter", "webp to jpg", "webp to png", "convert webp", "webp to jpeg"],
     popular: false,
     newTool: true,
-    features: [{ title: "JPG & PNG Support", description: "Convert to the most widely supported formats." }, { title: "No Quality Loss", description: "High quality export." }, { title: "Privacy First", description: "100% browser-based." }],
+    features: [{ title: "JPG & PNG Support", description: "Convert to the most widely supported formats." }, { title: "High-Quality Export", description: "High quality export." }, { title: "Privacy First", description: "100% browser-based." }],
     howTo: [{ step: 1, title: "Upload WebP", description: "Select the WebP image." }, { step: 2, title: "Choose Format", description: "Select JPG or PNG." }, { step: 3, title: "Download", description: "Save the converted image." }],
     faq: [{ question: "Why convert WebP?", answer: "For compatibility with older devices." }],
     useCases: ["Sending images to clients who use older software.", "Uploading images to platforms that only accept JPG."],
