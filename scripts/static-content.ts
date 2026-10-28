@@ -49,6 +49,16 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     <li><strong>GitHub issues</strong> — for bug reports and feature requests with code or screenshots: <a href="https://github.com/mdahadvi91/tools/issues">github.com/mdahadvi91/tools/issues</a></li>
     <li><strong>Email</strong> — for anything else: <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a></li>
   </ul>
+
+  <h2>About AHADEX Tools</h2>
+  <p>AHADEX Tools is a free, privacy-first collection of browser-based utilities created by independent developer Mohammad Ahad. Every tool runs entirely in your browser—no files are uploaded to any server, no accounts are required, and there is no tracking of your content.</p>
+  <p>The site currently offers 7 tools across image processing, PDF generation, QR codes, CV building, and design utilities. Each tool is documented with step-by-step guides, FAQs, and technical specifications.</p>
+
+  <h2>Response times</h2>
+  <p>We aim to respond to all enquiries within 48 hours on business days. For urgent security reports, please include "URGENT" in the subject line.</p>
+
+  <h2>Before contacting us</h2>
+  <p>Many common questions are already answered in our tool documentation and FAQs. If you have a question about a specific tool, please check its page first. You can also visit our <a href="/about">About page</a> to understand our privacy philosophy and <a href="/editorial-policy">Editorial Policy</a> for details about how we create our content.</p>
 </article>`,
 
   "/privacy": `<article>
@@ -160,6 +170,28 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     <section><h2>5. Feedback and Contact</h2>
     <p>We welcome your feedback on the accessibility of AHADEX Tools. If you encounter accessibility barriers, please email us at <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a>.</p>
     <p>We aim to respond to accessibility feedback within 2 business days.</p></section>
+
+    <section><h2>6. Accessibility features in detail</h2>
+    <p>Every page on AHADEX Tools includes the following accessibility features:</p>
+    <ul>
+      <li><strong>Semantic HTML:</strong> Proper heading levels (H1 → H2 → H3), landmark regions, and ARIA labels where needed.</li>
+      <li><strong>Keyboard navigation:</strong> All interactive elements can be reached and used with keyboard only. Tab order follows visual flow.</li>
+      <li><strong>Focus indicators:</strong> A visible focus outline is shown on all focusable elements.</li>
+      <li><strong>Color contrast:</strong> Text meets WCAG AA contrast ratio (4.5:1 for normal text, 3:1 for large text).</li>
+      <li><strong>Resizable text:</strong> The layout works at 200% zoom without horizontal scrolling.</li>
+      <li><strong>Screen reader support:</strong> All form inputs have associated labels. Buttons have accessible names.</li>
+    </ul>
+    </section>
+
+    <section><h2>7. Reporting accessibility issues</h2>
+    <p>If you find a barrier we have not addressed, please let us know as soon as possible. Include:</p>
+    <ol>
+      <li>The page URL where you encountered the barrier.</li>
+      <li>The type of barrier (keyboard, screen reader, contrast, etc.).</li>
+      <li>Your browser and assistive technology if applicable.</li>
+    </ol>
+    <p>Accessibility reports are treated as priority tickets and are usually answered the same day.</p>
+    </section>
   </article>`,
   "/cookie-policy": `<article>
 <h1>How we use cookies.</h1>
@@ -170,7 +202,23 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>3. Managing cookies</h2><p>You can clear or block cookies from your browser settings at any time. Doing so will not affect the core functionality of any tool.</p><p>To opt out of personalised ads from Google, visit: https://adssettings.google.com</p></section>
 <section><h2>4. Local storage</h2><p>We primarily use localStorage (a modern alternative to cookies) to remember your theme, language, and preferences. Like cookies, this data stays entirely on your device.</p></section>
 <section><h2>5. Contact</h2><p>Questions about cookies or this policy? Email us at mdahadvi91@gmail.com.</p></section>
-</article>`,
+
+    <section><h2>6. How to control cookies in your browser</h2>
+    <p>All modern browsers give you control over cookies. Here are the direct links:</p>
+    <ul>
+      <li><strong>Chrome:</strong> Settings → Privacy and security → Cookies and other site data</li>
+      <li><strong>Firefox:</strong> Settings → Privacy & Security → Cookies and Site Data</li>
+      <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data</li>
+      <li><strong>Edge:</strong> Settings → Cookies and site permissions → Manage and delete cookies</li>
+    </ul>
+    <p>Blocking all cookies may affect functionality on some websites, but AHADEX Tools will continue working because our tools use localStorage instead of cookies.</p>
+    </section>
+
+    <section><h2>7. Why we don't use analytics cookies</h2>
+    <p>We use Cloudflare Web Analytics, which is a privacy-first analytics service that does not use cookies, does not fingerprint users, and does not track individuals across sites. It only counts page views and basic performance metrics.</p>
+    <p>This means we don't need to show you a cookie consent banner for our own analytics—which is a better experience for everyone.</p>
+    </section>
+  </article>`,
   "/editorial-policy": `<article>
     <h1>How we create our content.</h1>
     <p><strong>Our commitment to accuracy, independence, and transparency. We aim to provide the most reliable, privacy-first tools and documentation on the web.</strong></p>
@@ -198,6 +246,28 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     
     <section><h2>5. Contact</h2>
     <p>If you have questions about our editorial standards or want to report an issue, email us at <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a>. We aim to respond within 48 hours.</p>
+    </section>
+
+    <section><h2>6. Our editorial process</h2>
+    <p>Every tool page on AHADEX Tools goes through the following process:</p>
+    <ol>
+      <li><strong>Research:</strong> We identify the specific problem the tool solves and research existing solutions to understand user expectations.</li>
+      <li><strong>Implementation:</strong> The tool is built and tested internally across multiple browsers and devices.</li>
+      <li><strong>Documentation:</strong> We write the guide, FAQ, and technical specifications based on real testing.</li>
+      <li><strong>Technical accuracy:</strong> Every claim about file size, resolution, format support, or browser behavior is verified against the actual implementation.</li>
+      <li><strong>Review:</strong> Content is reviewed by the founder before publication.</li>
+    </ol>
+    <p>We do not use AI to generate our documentation. Every article is written by hand with real implementation experience.</p>
+    </section>
+
+    <section><h2>7. What we will never do</h2>
+    <ul>
+      <li>Publish unreviewed statistics or industry claims we have not verified.</li>
+      <li>Recommend a competitor's product without disclosing the relationship.</li>
+      <li>Write sponsored content disguised as editorial content.</li>
+      <li>Use AI to generate our technical documentation.</li>
+      <li>Promote a tool we have not personally tested.</li>
+    </ul>
     </section>
   </article>`,
 

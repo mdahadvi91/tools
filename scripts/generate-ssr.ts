@@ -279,7 +279,7 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/": {
       path: "/",
       title: `AHADEX Tools — ${TOOL_COUNT} Free, Private Browser-Based Tools`,
-      description: `${TOOL_COUNT} free browser-based tools — ${tools.map(t => t.name).join(", ")}. No server transmission, no accounts.`,
+      description: `7 free browser-based tools for CV, QR, PDF, image editing. No uploads—everything runs in your browser.`,
       ogImage: "/images/og/home-og.png",
     },
     "/tools": {
