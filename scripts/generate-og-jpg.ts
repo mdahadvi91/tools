@@ -28,7 +28,7 @@ for (const file of files) {
     writeFileSync(pngPath, pngData);
 
     // Step 2: Convert PNG to JPG using ImageMagick
-    execSync(`convert "${pngPath}" -background "#0A1024" -flatten -quality 95 "${jpgPath}"`);
+    execSync(`magick "${pngPath}" -background "#0A1024" -flatten -quality 95 "${jpgPath}"`);
     
     // Cleanup intermediate files (keep only JPG)
     unlinkSync(svgPath);
