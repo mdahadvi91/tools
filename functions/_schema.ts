@@ -189,9 +189,10 @@ export const SSR_SCHEMA: Record<string, object> = {
           "url": "https://ahadex.online"
         },
         "featureList": [
-          "JPG & PNG Support",
-          "High-Quality Export",
-          "Privacy First"
+          "JPG & PNG Export",
+          "JPEG 95% Quality",
+          "Lossless PNG",
+          "Memory Safe"
         ]
       },
       {
@@ -247,7 +248,8 @@ export const SSR_SCHEMA: Record<string, object> = {
         "featureList": [
           "Exact Pixel Control",
           "Aspect Ratio Lock",
-          "Browser Processing"
+          "Client-Side Rendering",
+          "Safe Limits"
         ]
       },
       {

@@ -8,8 +8,8 @@ Every tool runs **100% locally in your browser**. No files are uploaded, stored,
 
 1. **Color Picker** *(design)* — Pick colors from images and get HEX, RGB, and HSL codes instantly.
 2. **WebP Converter** *(images)* — Convert WebP images to JPG or PNG instantly in your browser. 100% free and private.
-3. **Image Resizer** *(images)* — Resize and scale images to exact pixel dimensions instantly. 100% free and private.
-4. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.
+3. **Image Resizer** *(images)* — Resize and scale images to exact pixel dimensions instantly. Private, client-side processing.
+4. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. Private, client-side processing.
 5. **Photo QR Code** *(qr)* — Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.
 6. **Visiting Card Maker** *(design)* — Design professional visiting cards in seconds. 20 premium templates — front & back. Free, private, exports PNG/JPG.
 7. **CV Builder** *(documents)* — Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.

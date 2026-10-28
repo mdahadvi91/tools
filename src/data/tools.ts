@@ -45,7 +45,21 @@ const legacyTools: Tool[] = [
       "Requires an image file to pick from; manual color mixing is not available.",
       "EyeDropper API may not be supported in all browsers (e.g., older Firefox versions)."
     ],
-    relatedTools: ["image-resizer", "visiting-card"],
+        editorialContent: [
+      {
+        heading: "What does the Color Picker do?",
+        body: "<p>Extracts exact HEX, RGB, and HSL color codes from any pixel in an uploaded image.</p>"
+      },
+      {
+        heading: "How does it work?",
+        body: "<p>The image is drawn to a hidden Canvas. When you click, we read the RGBA pixel data and convert it mathematically into HEX, RGB, and HSL formats.</p>"
+      },
+      {
+        heading: "What are the limits?",
+        body: "<p>Maximum file size is 50MB. EyeDropper API requires a modern browser (Chrome/Edge). Older browsers will fall back to canvas picking only.</p>"
+      }
+    ],
+relatedTools: ["image-resizer", "visiting-card"],
     seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.", ogImage: "/images/og/tools/color-picker-og.png" }
   },
     {
@@ -63,10 +77,11 @@ const legacyTools: Tool[] = [
     keywords: ["webp converter", "webp to jpg", "webp to png", "convert webp", "webp to jpeg"],
     popular: false,
     newTool: true,
-    features: [
-      { title: "JPG & PNG Support", description: "Convert to the most widely supported formats." },
-      { title: "High-Quality Export", description: "JPEG quality is set to 95%, while PNG export is completely lossless." },
-      { title: "Privacy First", description: "100% browser-based. Your images never leave your device." }
+        features: [
+      { title: "JPG & PNG Export", description: "Convert WebP to universally supported formats." },
+      { title: "JPEG 95% Quality", description: "High-quality compression for JPG output." },
+      { title: "Lossless PNG", description: "100% lossless export when choosing PNG." },
+      { title: "Memory Safe", description: "Uses Canvas.toBlob() instead of base64 to prevent memory bloat." }
     ],
     howTo: [
       { step: 1, title: "Upload WebP", description: "Select the WebP image you want to convert." },
@@ -85,8 +100,22 @@ const legacyTools: Tool[] = [
     limitations: [
       "Upscaling is not available; it converts at the original resolution."
     ],
-    relatedTools: ["image-resizer", "image-to-pdf"],
-    seo: { title: "WebP to JPG Converter — Free Online Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/webp-converter-og.png" }
+        editorialContent: [
+      {
+        heading: "What does the WebP Converter do?",
+        body: "<p>Converts modern WebP images into widely compatible JPG or PNG formats directly in the browser.</p>"
+      },
+      {
+        heading: "How does it work?",
+        body: "<p>The browser decodes the WebP file, draws it onto a Canvas, and re-encodes it to the chosen format via Canvas.toBlob().</p>"
+      },
+      {
+        heading: "What are the limits?",
+        body: "<p>Maximum file size is 50MB. Maximum pixel count is 100 Megapixels. Large images may take a few seconds to process.</p>"
+      }
+    ],
+relatedTools: ["image-resizer", "image-to-pdf"],
+    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/webp-converter-og.png" }
   },
     {
     id: "image-resizer",
@@ -97,16 +126,17 @@ const legacyTools: Tool[] = [
     lastModified: "2026-10-28",
     path: "/tools/image-resizer",
     searchVolume: 9000000,
-    description: "Resize and scale images to exact pixel dimensions instantly. 100% free and private.",
+    description: "Resize and scale images to exact pixel dimensions instantly. Private, client-side processing.",
     descriptionBn: "ছবির সাইজ এবং ডাইমেনশন পরিবর্তন করুন এক ক্লিকেই।",
     longDescription: "Quickly resize JPG, PNG, and WebP images to precise pixel dimensions. Perfect for social media, websites, or reducing file size without uploading to a server.",
     keywords: ["image resizer", "dimension editor", "resize image online", "scale image", "change image size"],
     popular: true,
     newTool: true,
-    features: [
-      { title: "Exact Pixel Control", description: "Type exact width and height values." },
-      { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." },
-      { title: "Browser Processing", description: "100% private. Files never leave your device." }
+        features: [
+      { title: "Exact Pixel Control", description: "Set width and height to precise pixel values." },
+      { title: "Aspect Ratio Lock", description: "Prevent distortion by linking width and height mathematically." },
+      { title: "Client-Side Rendering", description: "Uses HTML5 Canvas API. Files never leave your device." },
+      { title: "Safe Limits", description: "Enforces 50MB file size and 100MP output limits to prevent browser crashes." }
     ],
     howTo: [
       { step: 1, title: "Upload Image", description: "Select the image you want to resize." },
@@ -130,49 +160,19 @@ const legacyTools: Tool[] = [
         editorialContent: [
       {
         heading: "What does the Image Resizer do?",
-        body: `
-          <p>This tool allows you to change the dimensions (width and height) of any image directly in your browser. It scales the image to your exact pixel requirements without uploading the file to any server.</p>
-        `
+        body: "<p>Changes the dimensions (width and height) of JPG, PNG, and WebP images to exact pixel values. All processing is local.</p>"
       },
       {
         heading: "Who is it for?",
-        body: `
-          <p>Perfect for web developers, social media managers, photographers, and anyone who needs to fit images into specific size requirements (e.g., profile pictures, website headers, or email attachments).</p>
-        `
-      },
-      {
-        heading: "How does it work?",
-        body: `
-          <p>We use the HTML5 Canvas API. When you enter a new width and height, the browser draws the image onto a virtual canvas at the new dimensions and exports it as a downloadable file.</p>
-        `
-      },
-      {
-        heading: "What formats are supported?",
-        body: `
-          <p>We support standard web formats: JPG (JPEG), PNG, and WebP.</p>
-        `
+        body: "<p>Developers preparing assets, social media managers fitting image sizes, and users preparing photos for upload limits.</p>"
       },
       {
         heading: "What are the limits?",
-        body: `
-          <p>To prevent browser crashes, the maximum file size is 50MB, and the maximum output dimensions are 10,000 x 10,000 pixels. We also limit the total output to 100 Megapixels.</p>
-        `
-      },
-      {
-        heading: "Does it upload files?",
-        body: `
-          <p><strong>No.</strong> Your files are never uploaded. The entire process happens locally on your device using JavaScript.</p>
-        `
-      },
-      {
-        heading: "What happens with invalid input?",
-        body: `
-          <p>If you enter a negative number, zero, or dimensions that are too large, the tool will display a safe error message and prevent the browser from crashing.</p>
-        `
+        body: "<p>Maximum input file size is 50MB. Maximum output dimensions are 10,000 x 10,000 pixels. Upscaling may reduce visual sharpness.</p>"
       }
     ],
 relatedTools: ["image-to-pdf", "photo-qr"],
-    seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/image-resizer-og.png" }
+    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/image-resizer-og.png" }
   },
     {
     id: "image-to-pdf",
@@ -183,7 +183,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     lastModified: "2026-10-28",
     path: "/tools/image-to-pdf",
     searchVolume: 8000000,
-    description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.",
+    description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. Private, client-side processing.",
     descriptionBn: "ব্রাউজারেই JPG, PNG এবং WebP ছবিগুলোকে একটি PDF ফাইলে রূপান্তর করুন।",
     longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs 100% locally in your browser — no uploads, no accounts.",
     keywords: ["image to pdf", "jpg to pdf", "png to pdf", "webp to pdf", "convert image to pdf", "merge images to pdf", "photo to pdf"],
@@ -265,7 +265,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     ],
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
-      title: "Image to PDF Converter — JPG, PNG to PDF Free | AHADEX Tools",
+      title: "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
       description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
       ogImage: "/images/og/tools/image-to-pdf-og.png",
     },
@@ -363,7 +363,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     },
     relatedTools: ['cv-builder', 'visiting-card'],
     seo: {
-      title: "Photo QR Code — Add QR to Photos Free | AHADEX Tools",
+      title: "Photo QR Code — Add QR to Photos | AHADEX Tools",
       description: "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.",
       ogImage: "/images/og/tools/photo-qr-og.png",
     },

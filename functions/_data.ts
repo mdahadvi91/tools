@@ -20,25 +20,25 @@ export const TOOL_META: Record<string, ToolMeta> = {
   },
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
-    "title": "WebP to JPG Converter — Free Online Tool | AHADEX Tools",
+    "title": "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools",
     "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.",
     "ogImage": "/images/og/tools/webp-converter-og.png"
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
-    "title": "Image Resizer — Resize Image Dimensions Online Free | AHADEX Tools",
+    "title": "Image Resizer — Resize Image Dimensions Online | AHADEX Tools",
     "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.",
     "ogImage": "/images/og/tools/image-resizer-og.png"
   },
   "/tools/image-to-pdf": {
     "path": "/tools/image-to-pdf",
-    "title": "Image to PDF Converter — JPG, PNG to PDF Free | AHADEX Tools",
+    "title": "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
     "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
     "ogImage": "/images/og/tools/image-to-pdf-og.png"
   },
   "/tools/photo-qr": {
     "path": "/tools/photo-qr",
-    "title": "Photo QR Code — Add QR to Photos Free | AHADEX Tools",
+    "title": "Photo QR Code — Add QR to Photos | AHADEX Tools",
     "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.",
     "ogImage": "/images/og/tools/photo-qr-og.png"
   },
