@@ -25,9 +25,12 @@
     "generate:ssr": "tsx scripts/generate-ssr.ts",
     "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts && tsx scripts/validate.ts",
     "validate": "tsx scripts/validate.ts",
-    "ci": "npm run type-check && npm run generate:ssr && npm run validate && npm run build",
+    "ci": "npm run type-check && npm run generate:ssr && npm run validate && npm run test && npm run build",
     "check:drift": "git diff --exit-code functions/ public/sitemap.xml public/robots.txt public/images/og/ || (echo 'Generated files out of date' && exit 1)",
-    "audit:content": "tsx scripts/content-audit.ts"
+    "audit:content": "tsx scripts/content-audit.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
@@ -52,12 +55,14 @@
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^5.0.5",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",
     "rollup-plugin-visualizer": "^7.1.1",
     "tailwindcss": "^3.4.10",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4",
-    "vite": "^6.4.5"
+    "vite": "^6.4.5",
+    "vitest": "^5.0.5"
   }
 }
