@@ -9,6 +9,7 @@ import { SettingsPanel } from "./SettingsPanel";
 import { PreviewPanel } from "./PreviewPanel";
 import type { Position, QrBackground } from "./types";
 
+
 interface PhotoQRWizardModalProps {
   isOpen: boolean;
   onClose: () => void;

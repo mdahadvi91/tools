@@ -83,14 +83,25 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean, onClo
       const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.drawImage(imgRef.current!, 0, 0, width, height);
-        const resizedDataUrl = canvas.toDataURL(file?.type || "image/jpeg", 0.95);
-        const a = document.createElement("a");
-        a.href = resizedDataUrl;
-        a.download = `resized-${file?.name || 'image.jpg'}`;
-        a.click();
+        // Use toBlob for memory-safe export (avoids base64 bloat)
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = `resized-${file?.name || 'image.jpg'}`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }
+            setIsProcessing(false);
+            onClose();
+          },
+          file?.type || "image/jpeg",
+          0.95
+        );
+        return;
       }
-      setIsProcessing(false);
-      onClose();
     }, 500);
   };
 

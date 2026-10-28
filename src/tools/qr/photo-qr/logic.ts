@@ -3,6 +3,8 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { PlatformConfig, RenderOptions } from "./types";
 
+const MAX_PIXELS = 10000 * 10000; // 100MP hard limit
+
 /* ============================================================
  * IMAGE LOADING
  * ============================================================ */
@@ -194,6 +196,12 @@ export async function composePhoto(options: RenderOptions): Promise<Blob> {
   if (!payload) throw new Error("Empty payload");
 
   const img = await loadImageFromFile(photoFile);
+  
+  // Validate pixel count to prevent memory exhaustion
+  if (img.naturalWidth * img.naturalHeight > MAX_PIXELS) {
+    throw new Error(`Image resolution too large (${img.naturalWidth}x${img.naturalHeight}). Maximum allowed is 100 megapixels.`);
+  }
+  
   const W = img.naturalWidth;
   const H = img.naturalHeight;
   const minSide = Math.min(W, H);
@@ -263,6 +271,12 @@ export async function generatePreview(
   if (!payload) throw new Error("Empty payload");
 
   const img = await loadImageFromFile(photoFile);
+  
+  // Validate pixel count to prevent memory exhaustion
+  if (img.naturalWidth * img.naturalHeight > MAX_PIXELS) {
+    throw new Error(`Image resolution too large (${img.naturalWidth}x${img.naturalHeight}). Maximum allowed is 100 megapixels.`);
+  }
+  
   const W = img.naturalWidth;
   const H = img.naturalHeight;
 
