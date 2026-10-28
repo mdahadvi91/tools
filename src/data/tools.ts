@@ -60,7 +60,7 @@ const legacyTools: Tool[] = [
       }
     ],
 relatedTools: ["image-resizer", "visiting-card"],
-    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.", ogImage: "/images/og/tools/color-picker-og.png" }
+    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.", ogImage: "/images/og/tools/color-picker-og.jpg" }
   },
     {
     id: "webp-converter",
@@ -71,7 +71,7 @@ relatedTools: ["image-resizer", "visiting-card"],
     lastModified: "2026-10-28",
     path: "/tools/webp-converter",
     searchVolume: 6000000,
-    description: "Convert WebP images to JPG or PNG instantly in your browser. 100% free and private.",
+    description: "Convert WebP images to JPG or PNG instantly in your browser. Processed locally.",
     descriptionBn: "WebP ছবিকে JPG বা PNG ফরম্যাটে রূপান্তর করুন এক ক্লিকেই।",
     longDescription: "Convert modern WebP images to universally supported JPG or PNG formats. Perfect for compatibility with older software and devices.",
     keywords: ["webp converter", "webp to jpg", "webp to png", "convert webp", "webp to jpeg"],
@@ -115,7 +115,7 @@ relatedTools: ["image-resizer", "visiting-card"],
       }
     ],
 relatedTools: ["image-resizer", "image-to-pdf"],
-    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.", ogImage: "/images/og/tools/webp-converter-og.png" }
+    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/webp-converter-og.jpg" }
   },
     {
     id: "image-resizer",
@@ -135,7 +135,7 @@ relatedTools: ["image-resizer", "image-to-pdf"],
         features: [
       { title: "Exact Pixel Control", description: "Set width and height to precise pixel values." },
       { title: "Aspect Ratio Lock", description: "Prevent distortion by linking width and height mathematically." },
-      { title: "Client-Side Rendering", description: "Uses HTML5 Canvas API. Files never leave your device." },
+      { title: "Client-Side Rendering", description: "Uses HTML5 Canvas API. Files are processed locally." },
       { title: "Safe Limits", description: "Enforces 50MB file size and 100MP output limits to prevent browser crashes." }
     ],
     howTo: [
@@ -172,7 +172,7 @@ relatedTools: ["image-resizer", "image-to-pdf"],
       }
     ],
 relatedTools: ["image-to-pdf", "photo-qr"],
-    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.png" }
+    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.jpg" }
   },
     {
     id: "image-to-pdf",
@@ -267,7 +267,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     seo: {
       title: "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
       description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
-      ogImage: "/images/og/tools/image-to-pdf-og.png",
+      ogImage: "/images/og/tools/image-to-pdf-og.jpg",
     },
   },
   {
@@ -365,7 +365,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     seo: {
       title: "Photo QR Code — Add QR to Photos | AHADEX Tools",
       description: "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
-      ogImage: "/images/og/tools/photo-qr-og.png",
+      ogImage: "/images/og/tools/photo-qr-og.jpg",
     },
   },
   {
@@ -472,7 +472,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     seo: {
       title: "Visiting Card Maker — Free Business Card Designer | AHADEX",
       description: "Design print-ready visiting cards with live preview. 20 premium templates. Free, private, PNG/JPG export.",
-      ogImage: "/images/og/tools/visiting-card-og.png",
+      ogImage: "/images/og/tools/visiting-card-og.jpg",
     },
   },
   {
@@ -596,7 +596,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     seo: {
       title: "Free CV Builder — Create Professional Resumes | AHADEX Tools",
       description: "Build a professional CV in minutes. Real A4 templates, selectable-text PDF export, auto-save, full privacy.",
-      ogImage: "/images/og/tools/cv-builder-og.png",
+      ogImage: "/images/og/tools/cv-builder-og.jpg",
     },
   }
 ];

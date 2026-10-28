@@ -20,7 +20,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/color-picker-og.png</image:loc>
       <image:title>Color Picker — HEX, RGB from Image | AHADEX Tools</image:title>
-      <image:caption>Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.</image:caption>
+      <image:caption>Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>
@@ -31,7 +31,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/webp-converter-og.png</image:loc>
       <image:title>WebP to JPG Converter — Browser-Based Tool | AHADEX Tools</image:title>
-      <image:caption>Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.</image:caption>
+      <image:caption>Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>
@@ -42,7 +42,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/image-resizer-og.png</image:loc>
       <image:title>Image Resizer — Resize Image Dimensions Online | AHADEX Tools</image:title>
-      <image:caption>Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.</image:caption>
+      <image:caption>Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>

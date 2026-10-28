@@ -7,7 +7,7 @@ Free, fast, and private browser-based tools for everyday digital tasks.
 Every tool runs **entirely locally in your browser**. No files are uploaded, stored, or tracked on any server.
 
 1. **Color Picker** *(design)* — Pick colors from images and get HEX, RGB, and HSL codes instantly.
-2. **WebP Converter** *(images)* — Convert WebP images to JPG or PNG instantly in your browser. 100% free and private.
+2. **WebP Converter** *(images)* — Convert WebP images to JPG or PNG instantly in your browser. Processed locally.
 3. **Image Resizer** *(images)* — Resize and scale images to exact pixel dimensions instantly. Private, client-side processing.
 4. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. Private, client-side processing.
 5. **Photo QR Code** *(qr)* — Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.

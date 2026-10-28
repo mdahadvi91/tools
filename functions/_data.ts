@@ -15,19 +15,19 @@ export const TOOL_META: Record<string, ToolMeta> = {
   "/tools/color-picker": {
     "path": "/tools/color-picker",
     "title": "Color Picker — HEX, RGB from Image | AHADEX Tools",
-    "description": "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.",
+    "description": "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.",
     "ogImage": "/images/og/tools/color-picker-og.png"
   },
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
     "title": "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools",
-    "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.",
+    "description": "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.",
     "ogImage": "/images/og/tools/webp-converter-og.png"
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
     "title": "Image Resizer — Resize Image Dimensions Online | AHADEX Tools",
-    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.",
+    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.",
     "ogImage": "/images/og/tools/image-resizer-og.png"
   },
   "/tools/image-to-pdf": {
