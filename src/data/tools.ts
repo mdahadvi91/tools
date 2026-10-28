@@ -7,6 +7,27 @@ import { deepDives } from "./deep-dives";
 
 const legacyTools: Tool[] = [
   {
+    id: "image-resizer",
+    slug: "image-resizer",
+    name: "Image Resizer",
+    nameBn: "ইমেজ রিসাইজার",
+    category: "images",
+    lastModified: "2026-10-28",
+    path: "/tools/image-resizer",
+    searchVolume: 9000000,
+    description: "Resize and scale images to exact pixel dimensions instantly. 100% free and private.",
+    descriptionBn: "ছবির সাইজ এবং ডাইমেনশন পরিবর্তন করুন এক ক্লিকেই।",
+    longDescription: "Quickly resize JPG, PNG, and WebP images to precise pixel dimensions. Perfect for social media, websites, or reducing file size without uploading to a server.",
+    keywords: ["image resizer", "dimension editor", "resize image online", "scale image", "change image size"],
+    popular: true,
+    newTool: true,
+    features: [{ title: "Exact Pixel Control", description: "Type exact width and height values." }, { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." }, { title: "Browser Processing", description: "100% private. Files never leave your device." }],
+    howTo: [{ step: 1, title: "Upload Image", description: "Select the image you want to resize." }, { step: 2, title: "Set Dimensions", description: "Enter the new width and height." }, { step: 3, title: "Download", description: "Click resize and save your image." }],
+    faq: [{ question: "Will resizing reduce quality?", answer: "Downscaling preserves quality. Upscaling may pixelate." }],
+    relatedTools: ["image-to-pdf", "photo-qr"],
+    seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.", ogImage: "/images/og/tools/image-resizer-og.png" }
+  },
+    {
     id: "image-to-pdf",
     slug: "image-to-pdf",
     name: "Image to PDF",
@@ -454,11 +475,12 @@ export const TOOL_COUNT = tools.length;
 
 /* Category labels — kept in sync with the ToolCategory union in types/tool.ts.
  * Used by the HomePage filter buttons and the /tools page grouping. */
-export const TOOL_CATEGORIES = ["documents", "design", "qr"] as const;
+export const TOOL_CATEGORIES = ["documents", "design", "images", "qr"] as const;
 
 export const CATEGORY_LABEL: Record<typeof TOOL_CATEGORIES[number], string> = {
   documents: "Documents",
   design: "Design",
+  images: "Image Tools",
   qr: "QR & Barcode",
 };
 
@@ -468,11 +490,13 @@ export const CATEGORY_LABEL: Record<typeof TOOL_CATEGORIES[number], string> = {
 export const CATEGORY_ICON: Record<typeof TOOL_CATEGORIES[number], string> = {
   documents: "📄",
   design: "🪪",
+  images: "🖼️",
   qr: "📱",
 };
 
 export const CATEGORY_COLOR: Record<typeof TOOL_CATEGORIES[number], string> = {
   documents: "red",
   design: "orange",
+  images: "blue",
   qr: "green",
 };

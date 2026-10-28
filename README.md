@@ -2,14 +2,15 @@
 
 Free, fast, and private browser-based tools for everyday digital tasks.
 
-## 🚀 Currently Available Tools (4)
+## 🚀 Currently Available Tools (5)
 
 Every tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.
 
-1. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.
-2. **Photo QR Code** *(qr)* — Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.
-3. **Visiting Card Maker** *(design)* — Design professional visiting cards in seconds. 20 premium templates — front & back. Free, private, exports PNG/JPG.
-4. **CV Builder** *(documents)* — Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.
+1. **Image Resizer** *(images)* — Resize and scale images to exact pixel dimensions instantly. 100% free and private.
+2. **Image to PDF** *(documents)* — Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.
+3. **Photo QR Code** *(qr)* — Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.
+4. **Visiting Card Maker** *(design)* — Design professional visiting cards in seconds. 20 premium templates — front & back. Free, private, exports PNG/JPG.
+5. **CV Builder** *(documents)* — Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.
 
 ---
 

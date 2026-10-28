@@ -12,6 +12,12 @@ export interface ToolMeta {
 }
 
 export const TOOL_META: Record<string, ToolMeta> = {
+  "/tools/image-resizer": {
+    "path": "/tools/image-resizer",
+    "title": "Image Resizer — Resize Image Dimensions Online Free | AHADEX",
+    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.",
+    "ogImage": "/images/og/tools/image-resizer-og.png"
+  },
   "/tools/image-to-pdf": {
     "path": "/tools/image-to-pdf",
     "title": "Image to PDF Converter — JPG, PNG to PDF Free | AHADEX Tools",
@@ -41,14 +47,14 @@ export const TOOL_META: Record<string, ToolMeta> = {
 export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
-    "title": "AHADEX Tools — 4 Free, Private Browser-Based Tools",
-    "description": "4 free browser-based tools — Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
+    "title": "AHADEX Tools — 5 Free, Private Browser-Based Tools",
+    "description": "5 free browser-based tools — Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
-    "title": "All Tools — 4 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 4 free browser-based tools from AHADEX: Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+    "title": "All Tools — 5 Free Browser Utilities | AHADEX Tools",
+    "description": "Browse all 5 free browser-based tools from AHADEX: Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {

@@ -9,12 +9,14 @@ const ICON_BY_CATEGORY: Record<ToolCategory, string> = {
   documents: "📄",
   design: "🪪",
   qr: "📱",
+  images: "🖼️",
 };
 
 const COLOR_BY_CATEGORY: Record<ToolCategory, string> = {
   documents: "red",
   design: "orange",
   qr: "green",
+  images: "blue",
 };
 
 type Filter = "All" | ToolCategory;

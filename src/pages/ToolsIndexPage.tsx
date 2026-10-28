@@ -8,6 +8,7 @@ const CATEGORY_BG: Record<ToolCategory, string> = {
   documents: "bg-red-50 border border-red-100",
   design: "bg-orange-50 border border-orange-100",
   qr: "bg-green-50 border border-green-100",
+  images: "bg-blue-50 border border-blue-100",
 };
 
 export default function ToolsIndexPage() {

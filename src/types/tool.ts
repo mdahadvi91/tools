@@ -60,7 +60,7 @@ export interface ToolEditorialSection {
  * generator all read from this list. Add a new category here first,
  * then update `CATEGORY_LABEL` in scripts/generate-ssr.ts.
  */
-export type ToolCategory = "documents" | "design" | "qr";
+export type ToolCategory = "documents" | "design" | "qr" | "images";
 
 export interface Tool {
   id: string;
