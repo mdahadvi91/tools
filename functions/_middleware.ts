@@ -229,7 +229,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
           status: 200,
           headers: {
             "Content-Type": "text/html; charset=utf-8",
-            "Cache-Control": "public, max-age=300, s-maxage=300",
+            "Cache-Control": "private, no-cache, no-store, must-revalidate",
           },
         }),
         nonce
