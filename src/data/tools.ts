@@ -7,6 +7,29 @@ import { deepDives } from "./deep-dives";
 
 const legacyTools: Tool[] = [
   {
+    id: "webp-converter",
+    slug: "webp-converter",
+    name: "WebP Converter",
+    nameBn: "WebP কনভার্টার",
+    category: "images",
+    lastModified: "2026-10-28",
+    path: "/tools/webp-converter",
+    searchVolume: 6000000,
+    description: "Convert WebP images to JPG or PNG instantly in your browser. 100% free and private.",
+    descriptionBn: "WebP ছবিকে JPG বা PNG ফরম্যাটে রূপান্তর করুন এক ক্লিকেই।",
+    longDescription: "Convert modern WebP images to universally supported JPG or PNG formats. Perfect for compatibility with older software and devices. Everything runs locally in your browser.",
+    keywords: ["webp converter", "webp to jpg", "webp to png", "convert webp", "webp to jpeg"],
+    popular: false,
+    newTool: true,
+    features: [{ title: "JPG & PNG Support", description: "Convert to the most widely supported formats." }, { title: "No Quality Loss", description: "High quality export." }, { title: "Privacy First", description: "100% browser-based." }],
+    howTo: [{ step: 1, title: "Upload WebP", description: "Select the WebP image." }, { step: 2, title: "Choose Format", description: "Select JPG or PNG." }, { step: 3, title: "Download", description: "Save the converted image." }],
+    faq: [{ question: "Why convert WebP?", answer: "For compatibility with older devices." }],
+    useCases: ["Sending images to clients who use older software.", "Uploading images to platforms that only accept JPG."],
+    limitations: ["Upscaling is not available; it converts at the original resolution."],
+    relatedTools: ["image-resizer", "image-to-pdf"],
+    seo: { title: "WebP to JPG Converter — Free Online Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/webp-converter-og.png" }
+  },
+  {
     id: "image-resizer",
     slug: "image-resizer",
     name: "Image Resizer",

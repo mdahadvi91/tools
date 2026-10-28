@@ -12,6 +12,12 @@ export interface ToolMeta {
 }
 
 export const TOOL_META: Record<string, ToolMeta> = {
+  "/tools/webp-converter": {
+    "path": "/tools/webp-converter",
+    "title": "WebP to JPG Converter — Free Online Tool | AHADEX Tools",
+    "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.",
+    "ogImage": "/images/og/tools/webp-converter-og.png"
+  },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
     "title": "Image Resizer — Resize Image Dimensions Online Free | AHADEX",
@@ -47,14 +53,14 @@ export const TOOL_META: Record<string, ToolMeta> = {
 export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
-    "title": "AHADEX Tools — 5 Free, Private Browser-Based Tools",
-    "description": "5 free browser-based tools — Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
+    "title": "AHADEX Tools — 6 Free, Private Browser-Based Tools",
+    "description": "6 free browser-based tools — WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
-    "title": "All Tools — 5 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 5 free browser-based tools from AHADEX: Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+    "title": "All Tools — 6 Free Browser Utilities | AHADEX Tools",
+    "description": "Browse all 6 free browser-based tools from AHADEX: WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {
