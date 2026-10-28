@@ -1,17 +1,22 @@
+/* ============================================================
+ * AUTO-GENERATED RE-EXPORT
+ * Source of truth: src/data/tools.ts
+ * This file exists only for backward compatibility with
+ * Hero.tsx. Do NOT add metadata here — modify tools.ts.
+ * ============================================================ */
+
+import { tools } from "@/data/tools";
+
+const tool = tools.find((t) => t.id === "image-to-pdf")!;
+
 export const imageToPdfData = {
-  id: "image-to-pdf",
-  slug: "image-to-pdf",
-  name: "Image to PDF",
-  category: "documents" as const,
-  path: "/tools/image-to-pdf",
-  description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free, private, and secure.",
-  popular: true,
-  newTool: true,
-  keywords: ["image to pdf", "jpg to pdf", "png to pdf", "merge images to pdf", "convert picture to pdf", "webp to pdf"],
-  seo: {
-    title: "Image to PDF Converter — Convert JPG, PNG to PDF Free | AHADEX Tools",
-    description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
-    ogImage: "/images/og/tools/image-to-pdf-og.png",
-  },
-  relatedTools: ["cv-builder", "photo-qr"],
+  id: tool.id,
+  slug: tool.slug,
+  name: tool.name,
+  category: tool.category,
+  path: tool.path,
+  description: tool.description,
+  keywords: tool.keywords,
+  seo: tool.seo,
+  relatedTools: tool.relatedTools,
 };
