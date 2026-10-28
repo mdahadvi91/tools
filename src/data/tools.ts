@@ -24,6 +24,15 @@ const legacyTools: Tool[] = [
     features: [{ title: "Exact Pixel Control", description: "Type exact width and height values." }, { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." }, { title: "Browser Processing", description: "100% private. Files never leave your device." }],
     howTo: [{ step: 1, title: "Upload Image", description: "Select the image you want to resize." }, { step: 2, title: "Set Dimensions", description: "Enter the new width and height." }, { step: 3, title: "Download", description: "Click resize and save your image." }],
     faq: [{ question: "Will resizing reduce quality?", answer: "Downscaling preserves quality. Upscaling may pixelate." }],
+    useCases: [
+      "Resizing large DSLR photos for uploading to websites or email.",
+      "Scaling images down to fit social media profile picture requirements.",
+      "Reducing image dimensions to save storage space on your device."
+    ],
+    limitations: [
+      "Upscaling (making images larger) may result in a loss of sharpness or pixelation.",
+      "Cannot process images larger than 50MB due to browser memory limits."
+    ],
     relatedTools: ["image-to-pdf", "photo-qr"],
     seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.", ogImage: "/images/og/tools/image-resizer-og.png" }
   },
