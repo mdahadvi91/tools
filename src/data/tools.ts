@@ -60,7 +60,7 @@ const legacyTools: Tool[] = [
       }
     ],
 relatedTools: ["image-resizer", "visiting-card"],
-    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.", ogImage: "/images/og/tools/color-picker-og.jpg" }
+    seo: { title: "Color Picker — HEX, RGB Picker | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.", ogImage: "/images/og/tools/color-picker-og.jpg" }
   },
     {
     id: "webp-converter",
@@ -172,7 +172,7 @@ relatedTools: ["image-resizer", "image-to-pdf"],
       }
     ],
 relatedTools: ["image-to-pdf", "photo-qr"],
-    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.jpg" }
+    seo: { title: "Image Resizer — Resize Images Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.jpg" }
   },
     {
     id: "image-to-pdf",
@@ -265,7 +265,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     ],
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
-      title: "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
+      title: "Image to PDF — JPG, PNG to PDF | AHADEX Tools",
       description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
       ogImage: "/images/og/tools/image-to-pdf-og.jpg",
     },

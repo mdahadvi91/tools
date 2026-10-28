@@ -306,27 +306,27 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/terms": {
       path: "/terms",
       title: "Terms of Service — AHADEX Tools",
-      description: "Terms for using AHADEX Tools.",
+      description: "Read the terms of service for using AHADEX Tools — free, private, browser-based utilities.",
     },
     "/disclaimer": {
       path: "/disclaimer",
       title: "Disclaimer — AHADEX Tools",
-      description: "Important information about the tools on AHADEX.",
+      description: "Important disclaimer information about using AHADEX Tools and its free browser-based utilities.",
     },
     "/editorial-policy": {
       path: "/editorial-policy",
       title: "Editorial Policy — AHADEX Tools",
-      description: "Our commitment to accuracy, independence, and transparency.",
+      description: "Our editorial policy: accuracy, independence, transparency, and human-written content.",
     },
     "/accessibility": {
       path: "/accessibility",
       title: "Accessibility Statement — AHADEX Tools",
-      description: "Our commitment to making AHADEX Tools accessible to everyone.",
+      description: "Our accessibility statement: WCAG 2.1 AA compliance, keyboard navigation, and screen reader support.",
     },
     "/cookie-policy": {
       path: "/cookie-policy",
       title: "Cookie Policy — AHADEX Tools",
-      description: "How AHADEX Tools uses cookies and local storage.",
+      description: "Learn how AHADEX Tools uses cookies, local storage, and Cloudflare Web Analytics for privacy.",
     },
   };
 

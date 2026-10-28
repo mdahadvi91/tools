@@ -14,7 +14,7 @@ export interface ToolMeta {
 export const TOOL_META: Record<string, ToolMeta> = {
   "/tools/color-picker": {
     "path": "/tools/color-picker",
-    "title": "Color Picker — HEX, RGB from Image | AHADEX Tools",
+    "title": "Color Picker — HEX, RGB Picker | AHADEX Tools",
     "description": "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.",
     "ogImage": "/images/og/tools/color-picker-og.jpg"
   },
@@ -26,13 +26,13 @@ export const TOOL_META: Record<string, ToolMeta> = {
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
-    "title": "Image Resizer — Resize Image Dimensions Online | AHADEX Tools",
+    "title": "Image Resizer — Resize Images Online | AHADEX Tools",
     "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.",
     "ogImage": "/images/og/tools/image-resizer-og.jpg"
   },
   "/tools/image-to-pdf": {
     "path": "/tools/image-to-pdf",
-    "title": "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
+    "title": "Image to PDF — JPG, PNG to PDF | AHADEX Tools",
     "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
     "ogImage": "/images/og/tools/image-to-pdf-og.jpg"
   },
@@ -87,27 +87,27 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/terms": {
     "path": "/terms",
     "title": "Terms of Service — AHADEX Tools",
-    "description": "Terms for using AHADEX Tools."
+    "description": "Read the terms of service for using AHADEX Tools — free, private, browser-based utilities."
   },
   "/disclaimer": {
     "path": "/disclaimer",
     "title": "Disclaimer — AHADEX Tools",
-    "description": "Important information about the tools on AHADEX."
+    "description": "Important disclaimer information about using AHADEX Tools and its free browser-based utilities."
   },
   "/editorial-policy": {
     "path": "/editorial-policy",
     "title": "Editorial Policy — AHADEX Tools",
-    "description": "Our commitment to accuracy, independence, and transparency."
+    "description": "Our editorial policy: accuracy, independence, transparency, and human-written content."
   },
   "/accessibility": {
     "path": "/accessibility",
     "title": "Accessibility Statement — AHADEX Tools",
-    "description": "Our commitment to making AHADEX Tools accessible to everyone."
+    "description": "Our accessibility statement: WCAG 2.1 AA compliance, keyboard navigation, and screen reader support."
   },
   "/cookie-policy": {
     "path": "/cookie-policy",
     "title": "Cookie Policy — AHADEX Tools",
-    "description": "How AHADEX Tools uses cookies and local storage."
+    "description": "Learn how AHADEX Tools uses cookies, local storage, and Cloudflare Web Analytics for privacy."
   }
 };
 

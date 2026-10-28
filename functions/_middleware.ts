@@ -166,6 +166,15 @@ async function fetchAsset(
   }
 }
 
+// Security headers applied to every response (fallback for _headers not applying)
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+};
+
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
 
@@ -253,5 +262,16 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     });
   }
 
-  return context.next();
+  const response = await context.next();
+  const newHeaders = new Headers(response.headers);
+  for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+    if (!newHeaders.has(key)) {
+      newHeaders.set(key, value);
+    }
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
+  });
 };
