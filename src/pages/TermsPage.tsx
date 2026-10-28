@@ -1,5 +1,6 @@
 import { TrustPageLayout } from "@components/trust/TrustPageLayout";
 import { useLanguage } from "@contexts/LanguageContext";
+import { tools } from "@/data/tools";
 
 const CONTACT = "mdahadvi91@gmail.com";
 const UPDATED_EN = "Last updated: October 2026";
@@ -14,7 +15,7 @@ export const TERMS_CONTENT = {
     contactEmail: CONTACT,
     sections: [
       { heading: "1. Acceptance", paragraphs: ["By using AHADEX Tools ('the Service'), you agree to these Terms of Service. If you do not agree, please do not use the Service."] },
-      { heading: "2. What the Service is", paragraphs: ["AHADEX Tools provides free, browser-based utilities for building CVs, designing visiting cards, and generating photo QR codes. All processing runs on your device.", "The Service is provided 'as-is' and 'as-available'. We do not guarantee that any specific tool will always be available, error-free, or produce a specific result."] },
+      { heading: "2. What the Service is", paragraphs: [`AHADEX Tools provides free, browser-based utilities for building CVs, designing visiting cards, and generating photo QR codes. All processing runs on your device.`, "The Service is provided 'as-is' and 'as-available'. We do not guarantee that any specific tool will always be available, error-free, or produce a specific result."] },
       { heading: "3. Acceptable use", bullets: ["Do not use the Service for anything illegal or harmful.", "Do not process content you don't have the rights to.", "Do not attempt to overload, scrape, or attack the Service.", "Do not remove or hide advertisements or copyright notices.", "Do not use automated scripts to abuse the Service."] },
       { heading: "4. Your content", paragraphs: ["Because every tool runs in your browser, we never receive your files or text. You retain full ownership of everything you process with the Service. We claim no rights over your content."] },
       { heading: "5. Intellectual property", paragraphs: ["The AHADEX Tools name, logo, website design, and underlying code are owned by AHADEX. You may not copy, redistribute, or create derivative works without permission.", "Outputs you create with the tools (converted images, generated QR codes, formatted text) belong entirely to you."] },
@@ -33,7 +34,7 @@ export const TERMS_CONTENT = {
     contactEmail: CONTACT,
     sections: [
       { heading: "১. সম্মতি", paragraphs: ["AHADEX Tools ('সেবা') ব্যবহার করে আপনি এই শর্তাবলীতে সম্মত হচ্ছেন। যদি সম্মত না হন, সেবা ব্যবহার করবেন না।"] },
-      { heading: "২. সেবা কী", paragraphs: ["AHADEX Tools ফ্রি, ব্রাউজার-ভিত্তিক utility দেয় — ছবি, PDF, টেক্সট, QR কোড ও অন্যান্য প্রতিদিনের কাজের জন্য। সব প্রসেসিং আপনার ডিভাইসেই চলে।", "সেবা 'as-is' ও 'as-available' হিসেবে দেওয়া হয়। আমরা গ্যারান্টি দিই না যে কোনো নির্দিষ্ট টুল সবসময় উপলব্ধ, error-free, বা নির্দিষ্ট ফলাফল দেবে।"] },
+      { heading: "২. সেবা কী", paragraphs: [`AHADEX Tools ফ্রি, ব্রাউজার-ভিত্তিক utility দেয় — ${tools.map(t => t.nameBn || t.name).join(', ')} প্রতিদিনের কাজের জন্য। সব প্রসেসিং আপনার ডিভাইসেই চলে।`, "সেবা 'as-is' ও 'as-available' হিসেবে দেওয়া হয়। আমরা গ্যারান্টি দিই না যে কোনো নির্দিষ্ট টুল সবসময় উপলব্ধ, error-free, বা নির্দিষ্ট ফলাফল দেবে।"] },
       { heading: "৩. গ্রহণযোগ্য ব্যবহার", bullets: ["বেআইনি বা ক্ষতিকর কাজে সেবা ব্যবহার করবেন না।", "যে কনটেন্টের অধিকার নেই তা প্রসেস করবেন না।", "সেবা overload, scrape বা attack করার চেষ্টা করবেন না।", "বিজ্ঞাপন বা copyright notice সরাবেন না।", "স্বয়ংক্রিয় স্ক্রিপ্ট দিয়ে সেবার অপব্যবহার করবেন না।"] },
       { heading: "৪. আপনার কনটেন্ট", paragraphs: ["প্রতিটা টুল আপনার ব্রাউজারে চলার কারণে আমরা আপনার ফাইল বা টেক্সট পাই না। আপনি আপনার সব কনটেন্টের পূর্ণ মালিকানা রাখেন।"] },
       { heading: "৫. বৌদ্ধিক সম্পত্তি", paragraphs: ["AHADEX Tools-এর নাম, লোগো, ওয়েবসাইট ডিজাইন ও কোড AHADEX-এর মালিকানাধীন। অনুমতি ছাড়া copy, redistribute বা derivative কাজ করা যাবে না।", "টুল দিয়ে আপনি যা তৈরি করেন (রূপান্তরিত ছবি, QR কোড, formatted text) সম্পূর্ণ আপনার।"] },
