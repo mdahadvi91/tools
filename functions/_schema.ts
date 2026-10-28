@@ -13,7 +13,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@id": "https://ahadex.online/#website",
         "url": "https://ahadex.online/",
         "name": "AHADEX Tools",
-        "description": "Free browser-based tools for everyday digital tasks. 7 tools: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+        "description": "Free browser-based tools for everyday digital tasks. 7 tools: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No server transmission.",
         "publisher": {
           "@id": "https://ahadex.online/#organization"
         }
@@ -171,7 +171,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/webp-converter#app",
         "name": "WebP Converter",
-        "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.",
+        "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.",
         "url": "https://ahadex.online/tools/webp-converter",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
@@ -228,7 +228,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/image-resizer#app",
         "name": "Image Resizer",
-        "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.",
+        "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.",
         "url": "https://ahadex.online/tools/image-resizer",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
@@ -285,7 +285,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/image-to-pdf#app",
         "name": "Image to PDF",
-        "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+        "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
         "url": "https://ahadex.online/tools/image-to-pdf",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
@@ -342,7 +342,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/photo-qr#app",
         "name": "Photo QR Code",
-        "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.",
+        "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
         "url": "https://ahadex.online/tools/photo-qr",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
@@ -423,7 +423,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "Real-time preview",
           "High-res exports",
           "QR code included",
-          "No uploads",
+          "No server transmission",
           "Standard card sizes"
         ]
       },

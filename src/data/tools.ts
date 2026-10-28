@@ -17,7 +17,7 @@ const legacyTools: Tool[] = [
     searchVolume: 5000000,
     description: "Pick colors from images and get HEX, RGB, and HSL codes instantly.",
     descriptionBn: "ছবি থেকে কালার পিক করে HEX, RGB এবং HSL কোড নিন এক ক্লিকেই।",
-    longDescription: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. 100% browser-based and private.",
+    longDescription: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. runs entirely in your browser and private.",
     keywords: ["color picker", "hexadecimal color selector", "hex code finder", "rgb pick", "image color picker", "eyedropper tool"],
     popular: true,
     newTool: true,
@@ -25,7 +25,7 @@ const legacyTools: Tool[] = [
       { title: "HEX, RGB & HSL", description: "Get exact color codes in multiple formats." },
       { title: "Image Upload & Zoom", description: "Pick colors from any image with precision." },
       { title: "EyeDropper Support", description: "Use your browser's native eyedropper tool if supported." },
-      { title: "Privacy First", description: "100% browser-based. Your images never leave your device." }
+      { title: "Privacy First", description: "runs entirely in your browser. Your images are processed locally in your browser." }
     ],
     howTo: [
       { step: 1, title: "Upload Image", description: "Select an image (JPG, PNG, WebP) from your device." },
@@ -115,7 +115,7 @@ relatedTools: ["image-resizer", "visiting-card"],
       }
     ],
 relatedTools: ["image-resizer", "image-to-pdf"],
-    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/webp-converter-og.png" }
+    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.", ogImage: "/images/og/tools/webp-converter-og.png" }
   },
     {
     id: "image-resizer",
@@ -172,7 +172,7 @@ relatedTools: ["image-resizer", "image-to-pdf"],
       }
     ],
 relatedTools: ["image-to-pdf", "photo-qr"],
-    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/image-resizer-og.png" }
+    seo: { title: "Image Resizer — Resize Image Dimensions Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.png" }
   },
     {
     id: "image-to-pdf",
@@ -185,7 +185,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     searchVolume: 8000000,
     description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. Private, client-side processing.",
     descriptionBn: "ব্রাউজারেই JPG, PNG এবং WebP ছবিগুলোকে একটি PDF ফাইলে রূপান্তর করুন।",
-    longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs 100% locally in your browser — no uploads, no accounts.",
+    longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs entirely locally in your browser — no server transmission, no accounts.",
     keywords: ["image to pdf", "jpg to pdf", "png to pdf", "webp to pdf", "convert image to pdf", "merge images to pdf", "photo to pdf"],
     popular: true,
     newTool: true,
@@ -193,7 +193,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       { title: "Multiple Formats", description: "Supports JPG, PNG, and WebP image files." },
       { title: "Merge Images", description: "Combine multiple images into a single PDF file." },
       { title: "A4 Format", description: "Automatically scales images to fit standard A4 pages." },
-      { title: "Browser Processing", description: "Your images never leave your device. 100% private." }
+      { title: "Browser Processing", description: "Your images are processed locally in your browser. Client-side processing." }
     ],
     howTo: [
       { step: 1, title: "Upload Images", description: "Select one or more JPG, PNG, or WebP images from your device." },
@@ -266,7 +266,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
       title: "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
-      description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+      description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
       ogImage: "/images/og/tools/image-to-pdf-og.png",
     },
   },
@@ -321,7 +321,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       { title: "11 platforms supported", description: "WhatsApp, Facebook, Instagram, Telegram, phone call, email, WiFi, website, SMS, digital contact card, and plain text — all handled with the right deep-link format." },
       { title: "Original dimensions", description: "The exported image keeps the original pixel dimensions. The QR overlay is rendered on top, without aggressive re-encoding." },
       { title: "Live preview", description: "Every change updates the preview in real time, so you can see the result before you download it." },
-      { title: "Browser processing", description: "All processing happens inside your browser using the HTML5 Canvas API. The file is not uploaded to any server." },
+      { title: "Browser processing", description: "All processing happens inside your browser using the HTML5 Canvas API. The file is not transmitted to any server." },
     ],
     howTo: [
       { step: 1, title: "Upload your photo 📤", description: "Click the upload area or drag an image into it. We support JPG, PNG, and WebP up to 50 MB. Nothing gets uploaded — the file is read locally by your browser. 🔒" },
@@ -364,7 +364,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     relatedTools: ['cv-builder', 'visiting-card'],
     seo: {
       title: "Photo QR Code — Add QR to Photos | AHADEX Tools",
-      description: "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.",
+      description: "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
       ogImage: "/images/og/tools/photo-qr-og.png",
     },
   },
@@ -428,7 +428,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       { title: "Real-time preview", description: "Fonts, colors, positions, and your logo all reflect in real-time. You can see exactly what you'll get." },
       { title: "High-res exports", description: "Export high-resolution PNG, JPG, or PDF files. Always verify with your specific printer for bleed and color profile requirements." },
       { title: "QR code included", description: "Every card back has a scannable QR code generated from your website URL. Error-correction level H keeps it readable." },
-      { title: "No uploads", description: "Your card data is not sent to a server; the editing process runs locally in your browser via the Canvas API." },
+      { title: "No server transmission", description: "Your card data is not sent to a server; the editing process runs locally in your browser via the Canvas API." },
       { title: "Standard card sizes", description: "Standard, square, slim, and US sizes are all supported. Every dimension is measured in exact print millimetres." },
     ],
     howTo: [
@@ -486,7 +486,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     searchVolume: 1500000,
     description: "Build a professional CV in minutes. Real A4 templates, live preview, selectable-text PDF export, auto-save and full browser-side privacy.",
     descriptionBn: "মিনিটে পেশাদার সিভি তৈরি করুন। আসল A4 টেমপ্লেট, লাইভ প্রিভিউ, সিলেক্টেবল-টেক্সট PDF এক্সপোর্ট, অটো-সেভ, সম্পূর্ণ ব্রাউজার-সাইড প্রাইভেসি।",
-    longDescription: "CV Builder turns a blank page into a professional resume in under ten minutes. Choose a template, fill in your details, and download a print-ready PDF with selectable text, accurate page breaks, and full browser-side privacy. No account, no uploads, no watermarks.",
+    longDescription: "CV Builder turns a blank page into a professional resume in under ten minutes. Choose a template, fill in your details, and download a print-ready PDF with selectable text, accurate page breaks, and full browser-side privacy. No account, no server transmission, no watermarks.",
     keywords: ["cv", "resume", "cv builder", "resume builder", "pdf cv", "ats resume", "cv template"],
     popular: true,
     newTool: true,

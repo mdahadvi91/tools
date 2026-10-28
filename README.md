@@ -4,7 +4,7 @@ Free, fast, and private browser-based tools for everyday digital tasks.
 
 ## 🚀 Currently Available Tools (7)
 
-Every tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.
+Every tool runs **entirely locally in your browser**. No files are uploaded, stored, or tracked on any server.
 
 1. **Color Picker** *(design)* — Pick colors from images and get HEX, RGB, and HSL codes instantly.
 2. **WebP Converter** *(images)* — Convert WebP images to JPG or PNG instantly in your browser. 100% free and private.

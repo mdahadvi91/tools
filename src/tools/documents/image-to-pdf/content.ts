@@ -1,8 +1,8 @@
 export const imageToPdfContent = {
   en: {
     heroTag: "100% Free & Private",
-    heroSubtitle: "Convert JPG, PNG, and WebP images into a single PDF document instantly. No uploads, no watermarks, completely free. Perfect for merging receipts, ID cards, or scanned documents.",
-    privacyNote: "Your images are processed locally in your browser. They are never uploaded to our servers.",
+    heroSubtitle: "Convert JPG, PNG, and WebP images into a single PDF document instantly. No server transmission, no watermarks, completely free. Perfect for merging receipts, ID cards, or scanned documents.",
+    privacyNote: "Your images are processed locally in your browser. They are never transmitted to any server.",
     howTo: [
       { title: "Upload Images", description: "Select one or multiple images (JPG, PNG, WebP) from your device. You can select up to 20 images at once." },
       { title: "Arrange & Convert", description: "Click the Convert button. Our browser-based engine will automatically resize the images to fit standard A4 pages." },

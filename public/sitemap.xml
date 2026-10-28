@@ -31,7 +31,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/webp-converter-og.png</image:loc>
       <image:title>WebP to JPG Converter — Browser-Based Tool | AHADEX Tools</image:title>
-      <image:caption>Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.</image:caption>
+      <image:caption>Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>
@@ -42,7 +42,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/image-resizer-og.png</image:loc>
       <image:title>Image Resizer — Resize Image Dimensions Online | AHADEX Tools</image:title>
-      <image:caption>Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.</image:caption>
+      <image:caption>Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>
@@ -53,7 +53,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/image-to-pdf-og.png</image:loc>
       <image:title>Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools</image:title>
-      <image:caption>Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.</image:caption>
+      <image:caption>Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>
@@ -64,7 +64,7 @@
     <image:image>
       <image:loc>https://ahadex.online/images/og/tools/photo-qr-og.png</image:loc>
       <image:title>Photo QR Code — Add QR to Photos | AHADEX Tools</image:title>
-      <image:caption>Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.</image:caption>
+      <image:caption>Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.</image:caption>
     </image:image>
   </url>
   <url>

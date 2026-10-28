@@ -1,8 +1,8 @@
 export const webpConverterContent = {
   en: {
-    heroTag: "100% Client-Side",
+    heroTag: "Runs Entirely in Browser",
     heroSubtitle: "Convert modern WebP images to universally supported JPG or PNG formats. Perfect for compatibility with older software and devices. Everything runs locally.",
-    privacyNote: "Your images are processed in your browser. They are never uploaded to our servers.",
+    privacyNote: "Your images are processed in your browser. They are never transmitted to any server.",
     howTo: [
       { title: "Upload WebP", description: "Select the WebP image you want to convert." },
       { title: "Choose Format", description: "Select whether you want to save as JPG or PNG." },
@@ -11,7 +11,7 @@ export const webpConverterContent = {
     features: [
       { title: "JPG & PNG Support", description: "Convert to the most widely supported image formats." },
       { title: "High-Quality Export", description: "JPEG quality is set to 95%, while PNG export is completely lossless." },
-      { title: "Privacy First", description: "No files are uploaded. 100% browser-based conversion." }
+      { title: "Privacy First", description: "No files are uploaded. runs entirely in your browser conversion." }
     ],
     faq: [
       { question: "Why should I convert WebP to JPG?", answer: "While WebP is great for the web, many older image editors, email clients, and devices do not support it. Converting to JPG ensures 100% compatibility." },

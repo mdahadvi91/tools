@@ -58,7 +58,7 @@ function renderToolPage(t: Tool): string {
   out.push(`  <p><strong>${esc(t.description)}</strong></p>`);
   out.push(`  <p>${esc(t.longDescription)}</p>`);
   out.push(
-    `  <p class="privacy-notice"><strong>Privacy:</strong> Processed locally in your browser. Files are not uploaded. <a href="/privacy">Full policy</a></p>`
+    `  <p class="privacy-notice"><strong>Privacy:</strong> Processed locally in your browser. Files are not transmitted. <a href="/privacy">Full policy</a></p>`
   );
 
   for (const e of t.editorialContent ?? []) {
@@ -147,7 +147,7 @@ function renderHomepage(): string {
 
   return `<article>
   <h1>AHADEX Tools — Free browser tools that never upload your files</h1>
-  <p><strong>AHADEX Tools is a growing collection of free browser utilities. Right now it offers ${TOOL_COUNT} tools — ${tools.map((t) => t.name).join(", ")}. Every tool runs entirely inside your browser. Your files and tool input are processed locally and are not uploaded to our servers or stored anywhere. (Anonymous analytics and advertising scripts load separately — see the Privacy Policy for details.)</strong></p>
+  <p><strong>AHADEX Tools is a growing collection of free browser utilities. Right now it offers ${TOOL_COUNT} tools — ${tools.map((t) => t.name).join(", ")}. Every tool runs entirely inside your browser. Your files and tool input are processed locally and are not transmitted to our servers or stored anywhere. (Anonymous analytics and advertising scripts load separately — see the Privacy Policy for details.)</strong></p>
 
   <h2>What AHADEX Tools does</h2>
   <p>The site currently offers ${TOOL_COUNT} browser-based utilities across ${TOOL_CATEGORIES.length} categories:</p>
@@ -161,7 +161,7 @@ ${toolList}
   </ul>
 
   <h2>How the tools work</h2>
-  <p>Every tool is written in JavaScript and runs entirely in your browser using standard web APIs — the HTML5 Canvas API for images, client-side libraries like jsPDF for PDF generation, and standard QR encoders for codes. When you upload a file, the file is read into memory by your browser and never travels over the network. You can verify this yourself: open your browser's developer tools, switch to the Network tab, and use any tool. You will see zero outbound file-upload requests. Once the required tool assets are loaded, your files are processed locally in the browser and are never uploaded to our servers.</p>
+  <p>Every tool is written in JavaScript and runs entirely in your browser using standard web APIs — the HTML5 Canvas API for images, client-side libraries like jsPDF for PDF generation, and standard QR encoders for codes. When you upload a file, the file is read into memory by your browser and never travels over the network. You can verify this yourself: open your browser's developer tools, switch to the Network tab, and use any tool. You will see zero outbound file-upload requests. Once the required tool assets are loaded, your files are processed locally in the browser and are never transmitted to any server.</p>
 
   <h2>Why browser-based matters</h2>
   <p>Most online tools upload your files to a server. For passport photos, contracts, medical records, ID scans, and unreleased design work, that means a copy of your file sits on someone else's computer for minutes, hours, or longer. Some services claim to delete files immediately. Even so, the file has already been transmitted. AHADEX Tools avoids that entire class of risk by never sending anything anywhere.</p>
@@ -215,7 +215,7 @@ function renderToolsPage(): string {
 
   return `<article>
   <h1>All Tools — ${TOOL_COUNT} free browser-based utilities</h1>
-  <p><strong>AHADEX Tools currently offers ${TOOL_COUNT} browser-based utilities for ${TOOL_CATEGORIES.map((c) => CATEGORY_LABEL[c].toLowerCase()).join(", ")}. Every tool runs entirely in your browser — no uploads, no accounts, no watermarks.</strong></p>
+  <p><strong>AHADEX Tools currently offers ${TOOL_COUNT} browser-based utilities for ${TOOL_CATEGORIES.map((c) => CATEGORY_LABEL[c].toLowerCase()).join(", ")}. Every tool runs entirely in your browser — no server transmission, no accounts, no watermarks.</strong></p>
 
 ${sections}
 
@@ -279,13 +279,13 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/": {
       path: "/",
       title: `AHADEX Tools — ${TOOL_COUNT} Free, Private Browser-Based Tools`,
-      description: `${TOOL_COUNT} free browser-based tools — ${tools.map(t => t.name).join(", ")}. No uploads, no accounts.`,
+      description: `${TOOL_COUNT} free browser-based tools — ${tools.map(t => t.name).join(", ")}. No server transmission, no accounts.`,
       ogImage: "/images/og/home-og.png",
     },
     "/tools": {
       path: "/tools",
       title: `All Tools — ${TOOL_COUNT} Free Browser Utilities | AHADEX Tools`,
-      description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX: ${tools.map(t => t.name).join(", ")}. No uploads.`,
+      description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX: ${tools.map(t => t.name).join(", ")}. No server transmission.`,
       ogImage: "/images/og/default-og.png",
     },
     "/about": {
@@ -346,7 +346,7 @@ function buildSchema(): Record<string, object> {
         "@id": `${SITE}/#website`,
         url: `${SITE}/`,
         name: "AHADEX Tools",
-        description: `Free browser-based tools for everyday digital tasks. ${TOOL_COUNT} tools: ${tools.map(t => t.name).join(", ")}. No uploads.`,
+        description: `Free browser-based tools for everyday digital tasks. ${TOOL_COUNT} tools: ${tools.map(t => t.name).join(", ")}. No server transmission.`,
         publisher: { "@id": `${SITE}/#organization` },
       },
       {
@@ -587,7 +587,7 @@ function updateRootFiles() {
     // Replace the entire tools section
     readme = readme.replace(
       /## 🚀 Currently Available Tools \(\d+\)[\s\S]*?---/,
-      `## 🚀 Currently Available Tools (${TOOL_COUNT})\n\nEvery tool runs **100% locally in your browser**. No files are uploaded, stored, or tracked on any server.\n\n${toolList}\n\n---`
+      `## 🚀 Currently Available Tools (${TOOL_COUNT})\n\nEvery tool runs **entirely locally in your browser**. No files are uploaded, stored, or tracked on any server.\n\n${toolList}\n\n---`
     );
     writeFileSync(readmePath, readme);
     console.log("  ✓ README.md (auto-synced tool count & list)");
@@ -603,13 +603,13 @@ function updateRootFiles() {
     html = html.replace(/AHADEX Tools — \d+ Free, Fast, Private Online Tools/g, `AHADEX Tools — ${TOOL_COUNT} Free, Fast, Private Online Tools`);
     
     // 2. Meta Description
-    html = html.replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. 100% private, no uploads." />`);
+    html = html.replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. processed locally in your browser." />`);
     
     // 3. OG Description
-    html = html.replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. Files stay on your device." />`);
+    html = html.replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. Files are processed locally." />`);
     
     // 4. Twitter Description
-    html = html.replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. 100% private, no uploads." />`);
+    html = html.replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${TOOL_COUNT} free browser-based tools — ${toolNames}. processed locally in your browser." />`);
 
     writeFileSync(htmlPath, html);
     console.log("  ✓ index.html (auto-synced title & meta)");

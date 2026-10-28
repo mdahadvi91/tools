@@ -21,25 +21,25 @@ export const TOOL_META: Record<string, ToolMeta> = {
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
     "title": "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools",
-    "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.",
+    "description": "Convert WebP to JPG or PNG instantly. 100% free, private, no server transmission.",
     "ogImage": "/images/og/tools/webp-converter-og.png"
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
     "title": "Image Resizer — Resize Image Dimensions Online | AHADEX Tools",
-    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.",
+    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no server transmission.",
     "ogImage": "/images/og/tools/image-resizer-og.png"
   },
   "/tools/image-to-pdf": {
     "path": "/tools/image-to-pdf",
     "title": "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
-    "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+    "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
     "ogImage": "/images/og/tools/image-to-pdf-og.png"
   },
   "/tools/photo-qr": {
     "path": "/tools/photo-qr",
     "title": "Photo QR Code — Add QR to Photos | AHADEX Tools",
-    "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no uploads.",
+    "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
     "ogImage": "/images/og/tools/photo-qr-og.png"
   },
   "/tools/visiting-card": {
@@ -60,13 +60,13 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
     "title": "AHADEX Tools — 7 Free, Private Browser-Based Tools",
-    "description": "7 free browser-based tools — Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
+    "description": "7 free browser-based tools — Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No server transmission, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
     "title": "All Tools — 7 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 7 free browser-based tools from AHADEX: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
+    "description": "Browse all 7 free browser-based tools from AHADEX: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No server transmission.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {

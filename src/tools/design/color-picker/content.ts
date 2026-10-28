@@ -1,7 +1,7 @@
 export const colorPickerContent = {
   en: {
-    heroTag: "100% Client-Side",
-    heroSubtitle: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. 100% browser-based and private.",
+    heroTag: "Runs Entirely in Browser",
+    heroSubtitle: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. runs entirely in your browser and private.",
     privacyNote: "Your images are processed locally in your browser. Nothing is uploaded.",
     howTo: [
       { title: "Upload Image", description: "Select an image (JPG, PNG, WebP) from your device." },
@@ -12,7 +12,7 @@ export const colorPickerContent = {
       { title: "HEX, RGB & HSL", description: "Get exact color codes in multiple formats." },
       { title: "Image Upload & Zoom", description: "Pick colors from any image with precision." },
       { title: "EyeDropper Support", description: "Use your browser's native eyedropper tool if supported." },
-      { title: "Privacy First", description: "100% browser-based. Your images never leave your device." }
+      { title: "Privacy First", description: "runs entirely in your browser. Your images are processed locally in your browser." }
     ],
     faq: [
       { question: "What is a HEX color code?", answer: "A HEX code is a 6-digit hexadecimal representation of a color used in HTML, CSS, and design software (e.g., #FF0000 for red)." },

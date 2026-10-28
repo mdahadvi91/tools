@@ -1,8 +1,8 @@
 export const imageResizerContent = {
   en: {
-    heroTag: "100% Client-Side",
-    heroSubtitle: "Resize JPG, PNG, and WebP images to exact pixel dimensions. Lock the aspect ratio to prevent distortion. Everything runs locally in your browser—no uploads.",
-    privacyNote: "Your images are processed in your browser. They are never uploaded to our servers.",
+    heroTag: "Runs Entirely in Browser",
+    heroSubtitle: "Resize JPG, PNG, and WebP images to exact pixel dimensions. Lock the aspect ratio to prevent distortion. Everything runs locally in your browser—no server transmission.",
+    privacyNote: "Your images are processed in your browser. They are never transmitted to any server.",
     howTo: [
       { title: "Upload Image", description: "Select the image you want to resize." },
       { title: "Set Dimensions", description: "Enter the new width and height. Toggle 'Lock Ratio' to keep proportions." },
@@ -11,7 +11,7 @@ export const imageResizerContent = {
     features: [
       { title: "Exact Pixel Control", description: "Type exact width and height values." },
       { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." },
-      { title: "Browser Processing", description: "100% private. Files never leave your device." }
+      { title: "Browser Processing", description: "Client-side processing. Files never leave your device." }
     ],
     faq: [
       { question: "Will resizing reduce image quality?", answer: "If you downscale (make it smaller), quality is preserved. If you upscale (make it larger), the image may become pixelated because we do not artificially add fake pixels." },
