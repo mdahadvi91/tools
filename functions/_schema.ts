@@ -13,7 +13,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@id": "https://ahadex.online/#website",
         "url": "https://ahadex.online/",
         "name": "AHADEX Tools",
-        "description": "Free browser-based tools for everyday digital tasks. 4 tools, no uploads.",
+        "description": "Free browser-based tools for everyday digital tasks. 4 tools: Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
         "publisher": {
           "@id": "https://ahadex.online/#organization"
         }

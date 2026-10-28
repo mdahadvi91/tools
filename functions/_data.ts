@@ -42,13 +42,13 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
     "title": "AHADEX Tools — 4 Free, Private Browser-Based Tools",
-    "description": "4 free browser-based tools — CV Builder, Visiting Card Maker, and Photo QR Code. No uploads, no accounts.",
+    "description": "4 free browser-based tools — Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
     "title": "All Tools — 4 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 4 free browser-based tools from AHADEX: CV Builder, Visiting Card Maker, Photo QR Code. No uploads.",
+    "description": "Browse all 4 free browser-based tools from AHADEX: Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No uploads.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {

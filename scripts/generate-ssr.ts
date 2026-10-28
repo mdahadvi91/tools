@@ -279,13 +279,13 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/": {
       path: "/",
       title: `AHADEX Tools — ${TOOL_COUNT} Free, Private Browser-Based Tools`,
-      description: `${TOOL_COUNT} free browser-based tools — CV Builder, Visiting Card Maker, and Photo QR Code. No uploads, no accounts.`,
+      description: `${TOOL_COUNT} free browser-based tools — ${tools.map(t => t.name).join(", ")}. No uploads, no accounts.`,
       ogImage: "/images/og/home-og.png",
     },
     "/tools": {
       path: "/tools",
       title: `All Tools — ${TOOL_COUNT} Free Browser Utilities | AHADEX Tools`,
-      description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX: CV Builder, Visiting Card Maker, Photo QR Code. No uploads.`,
+      description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX: ${tools.map(t => t.name).join(", ")}. No uploads.`,
       ogImage: "/images/og/default-og.png",
     },
     "/about": {
@@ -346,7 +346,7 @@ function buildSchema(): Record<string, object> {
         "@id": `${SITE}/#website`,
         url: `${SITE}/`,
         name: "AHADEX Tools",
-        description: `Free browser-based tools for everyday digital tasks. ${TOOL_COUNT} tools, no uploads.`,
+        description: `Free browser-based tools for everyday digital tasks. ${TOOL_COUNT} tools: ${tools.map(t => t.name).join(", ")}. No uploads.`,
         publisher: { "@id": `${SITE}/#organization` },
       },
       {
