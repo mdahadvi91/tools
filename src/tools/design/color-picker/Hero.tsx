@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Sparkles, Zap } from "lucide-react";
 import { useLanguage } from "@contexts/LanguageContext";
-import { colorPickerData } from "./data";
+import { tools } from "@/data/tools";
 import { colorPickerContent } from "./content";
 
 export function Hero() {
@@ -17,7 +17,7 @@ export function Hero() {
           <span className="px-3 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-wider flex items-center gap-1"><Sparkles className="w-3 h-3"/> {content.heroTag}</span>
           <span className="px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium flex items-center gap-1"><Zap className="w-3 h-3"/> {language === "bn" ? "ফাইল আপনার ডিভাইসেই থাকে" : "Files stay on your device"}</span>
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4">{colorPickerData.name}</h1>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4">{tools.find(t => t.id === "color-picker")!.name}</h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">{content.heroSubtitle}</p>
       </div>
     </section>
