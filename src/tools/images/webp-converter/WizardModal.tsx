@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X, Upload, Loader2, Download } from "lucide-react";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
@@ -10,6 +10,15 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
   const [format, setFormat] = useState<"image/jpeg" | "image/png">("image/jpeg");
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Cleanup preview URL on unmount
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const imgRef = useRef<HTMLImageElement>(null);
 
   if (!isOpen) return null;
