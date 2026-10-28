@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ToolSchema } from "@components/seo/ToolSchema";
 import { ToolBreadcrumb } from "@components/tools/ToolBreadcrumb";
 import { RelatedToolsBlock } from "@components/tools/RelatedToolsBlock";
+import { AdSenseSlot } from "@components/ads/AdSenseSlot";
+import { AD_SLOTS } from "@constants/ads";
 import { Hero } from "./Hero";
 import { Features } from "./Features";
 import { FAQ } from "./FAQ";
@@ -31,7 +33,7 @@ export default function VisitingCardLanding() {
           {/* AdSense Slot */}
           <div className="my-10">
             <div className="h-24 bg-gray-50 dark:bg-gray-800 border border-dashed flex items-center justify-center rounded-xl text-gray-400 text-sm">
-              AdSense Ad Slot
+          <AdSenseSlot slot={AD_SLOTS.toolBottom} label="Advertisement" />
             </div>
           </div>
           

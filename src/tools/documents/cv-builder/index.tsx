@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { trackRecentTool } from "@lib/recentTools";
 import { ToolDataSections } from "@components/tools/ToolDataSections";
 import { useToolAnalytics } from "@hooks/useToolAnalytics";
-import { CVBuilderSEO } from "./SEO";
 import { CVBuilderHero } from "./components/Hero";
 import { CVBuilderIntro } from "./components/Intro";
 import { CVBuilderFeatures } from "./components/Features";
@@ -27,7 +26,6 @@ export default function CVBuilderTool() {
 
   return (
     <>
-      <CVBuilderSEO />
       <ToolSchema toolId="cv-builder" />
       <ToolBreadcrumb toolName="CV Builder" category="Design Tools" />
       
