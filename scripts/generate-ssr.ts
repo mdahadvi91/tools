@@ -238,12 +238,20 @@ function buildSsrContent(): Record<string, string> {
   map["/"] = renderHomepage();
   map["/tools"] = renderToolsPage();
   for (const t of tools) map[t.path] = renderToolPage(t);
+  const TOOL_LIST_EN = tools.map(t => t.name).join(", ");
+  const TOOL_COUNT_STR = TOOL_COUNT.toString();
+
   for (const [path, html] of Object.entries(STATIC_SSR_CONTENT)) {
+    let finalHtml = html;
+    // Replace placeholders with actual dynamic data
+    finalHtml = finalHtml.replace(/{{TOOL_COUNT}}/g, TOOL_COUNT_STR);
+    finalHtml = finalHtml.replace(/{{TOOL_LIST}}/g, TOOL_LIST_EN);
+    
+    // Apply dynamic terms if needed (legacy fallback)
     if (path === "/terms") {
-      map[path] = buildDynamicTerms(html);
-    } else {
-      map[path] = html;
+      finalHtml = buildDynamicTerms(finalHtml);
     }
+    map[path] = finalHtml;
   }
   return map;
 }

@@ -13,7 +13,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
   <p>AHADEX Tools was built to demonstrate that the alternative is not only possible but better: same features, same speed, no uploads, no accounts, no watermarks.</p>
 
   <h2>What the site offers</h2>
-  <p>3 free browser-based tools across three categories — documents, design, and QR &amp; Barcode. Every tool runs entirely in your browser using standard web APIs. No tool sends your file anywhere, and no tool requires you to create an account.</p>
+  <p>{{TOOL_COUNT}} free browser-based tools across three categories — documents, design, and QR &amp; Barcode. Every tool runs entirely in your browser using standard web APIs. No tool sends your file anywhere, and no tool requires you to create an account.</p>
 
   <h2>Who writes and maintains the site</h2>
   <p>AHADEX Tools is written and maintained by <strong>Mohammad Ahad</strong>. Every tool, every article, and every piece of documentation on this site is authored by him. Contact: <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a>.</p>
@@ -101,7 +101,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>1. Acceptance</h2>
 <p>By using AHADEX Tools ('the Service'), you agree to these Terms of Service. If you do not agree, please do not use the Service.</p></section>
 <section><h2>2. What the Service is</h2>
-<p>AHADEX Tools provides free, browser-based utilities for building CVs, designing visiting cards, and generating photo QR codes. All processing runs on your device.</p>
+<p>AHADEX Tools provides free, browser-based utilities for {{TOOL_LIST}}. All processing runs on your device.</p>
 <p>The Service is provided 'as-is' and 'as-available'. We do not guarantee that any specific tool will always be available, error-free, or produce a specific result.</p></section>
 <section><h2>3. Acceptable use</h2>
 <ul><li>Do not use the Service for anything illegal or harmful.</li><li>Do not process content you don't have the rights to.</li><li>Do not attempt to overload, scrape, or attack the Service.</li><li>Do not remove or hide advertisements or copyright notices.</li><li>Do not use automated scripts to abuse the Service.</li></ul></section>
@@ -128,7 +128,7 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p><strong>What our tools are — and what they aren't. Please read this before relying on any result.</strong></p>
 <p><em>Last updated: October 2026</em></p>
 <section><h2>1. General information</h2><p>The tools on AHADEX Tools are provided for general informational and practical use. While we do our best to ensure accuracy, we make no guarantees about the results produced by any tool.</p></section>
-<section><h2>2. Not professional advice</h2><p>The tools (CV Builder, Visiting Card Maker, Photo QR Code, and Image to PDF) and information provided by the Service are for general reference only.</p><p>They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions.</p></section>
+<section><h2>2. Not professional advice</h2><p>The tools ({{TOOL_LIST}}, and Image to PDF) and information provided by the Service are for general reference only.</p><p>They are not a substitute for professional advice — medical, legal, financial, or otherwise. Always consult a qualified professional for important decisions.</p></section>
 <section><h2>3. File handling</h2><p>All processing happens in your browser. We are not responsible for any corruption, loss, or unintended modification of your files.</p><p>Always keep a backup of your original files. Never rely on a single tool to preserve critical data.</p></section>
 <section><h2>4. Third-party links</h2><p>The Service may contain links to external websites (for example, our GitHub page or sponsor sites). We are not responsible for the content, policies, or practices of those sites.</p></section>
 <section><h2>5. Availability</h2><p>We aim to keep the Service online 24/7, but we cannot guarantee uninterrupted access. Downtime may occur for maintenance, updates, or issues outside our control.</p></section>
