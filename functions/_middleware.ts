@@ -1,32 +1,5 @@
 /* ============================================================
- * Cloudflare Pages Middleware — SSR meta + content injection
- * ------------------------------------------------------------
- * The site is a Vite + React SPA: dist/index.html has only a
- * <div id="root"> and no meaningful body content. Google and
- * AdSense reviewers prefer pages whose initial HTML contains
- * the real title, description, canonical, schema, and article
- * text — not just a JS mount point.
- *
- * This middleware closes that gap without a build-time route
- * generator:
- *
- *   1. www → non-www (301)
- *   2. trailing slash → no trailing slash (301)
- *   3. Fetch dist/index.html, then for every known route:
- *        - rewrite <title>
- *        - rewrite <meta name="description">
- *        - rewrite <link rel="canonical">
- *        - rewrite og:title / og:description / og:url / og:image
- *        - inject JSON-LD <script> from SSR_SCHEMA
- *        - inject SSR_CONTENT HTML inside <div id="root">
- *      So crawlers and no-JS clients see real content.
- *   4. /sitemap.xml, /ads.txt, etc. are served as static files.
- *   5. Unknown path → 404 fallback.
- *
- * All the content lives in three generated data files:
- *   functions/_data.ts          → titles + descriptions + OG
- *   functions/_ssr-content.ts   → <article> HTML per route
- *   functions/_schema.ts        → JSON-LD @graph per route
+ * Cloudflare Pages Middleware — SSR + Security Headers
  * ============================================================ */
 
 import { TOOL_META, STATIC_META, type ToolMeta } from "./_data";
@@ -39,8 +12,29 @@ interface Env {
 
 const SITE = "https://ahadex.online";
 
-/** Look up the meta for a path. Tools and static pages live in
- *  separate maps; both are keyed by full path with a leading / . */
+const SECURITY_HEADERS: Record<string, string> = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+  "Content-Security-Policy":
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com;",
+};
+
+/** Wrap ANY response with security headers */
+function wrap(response: Response): Response {
+  const h = new Headers(response.headers);
+  for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+    if (!h.has(k)) h.set(k, v);
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: h,
+  });
+}
+
 function lookupMeta(path: string): ToolMeta | null {
   return TOOL_META[path] ?? STATIC_META[path] ?? null;
 }
@@ -53,8 +47,6 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** Rewrite the SPA shell with route-specific SEO metadata and
- *  pre-rendered article content. */
 function buildHtml(
   shell: string,
   path: string,
@@ -74,59 +66,44 @@ function buildHtml(
         : `${SITE}${meta.ogImage}`
       : `${SITE}/images/og/default-og.png`;
 
-    // <title>
     html = html.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
-
-    // meta description
     html = html.replace(
       /<meta name="description" content="[^"]*"\s*\/?>/i,
       `<meta name="description" content="${desc}" />`
     );
-
-    // canonical
     html = html.replace(
       /<link rel="canonical" href="[^"]*"\s*\/?>/i,
       `<link rel="canonical" href="${canonical}" />`
     );
-
-    // og:title
     html = html.replace(
       /<meta property="og:title" content="[^"]*"\s*\/?>/i,
       `<meta property="og:title" content="${title}" />`
     );
-    // og:description
     html = html.replace(
       /<meta property="og:description" content="[^"]*"\s*\/?>/i,
       `<meta property="og:description" content="${desc}" />`
     );
-    // og:url
     html = html.replace(
       /<meta property="og:url" content="[^"]*"\s*\/?>/i,
       `<meta property="og:url" content="${canonical}" />`
     );
-    // og:image
     html = html.replace(
       /<meta property="og:image" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:image" content="${ogImage}" />`
+      `<meta property="og:image" content="${ogImage}" />\n    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />`
     );
-
-    // twitter:title
-    html = html.replace(
-      /<meta name="twitter:title" content="[^"]*"\s*\/?>/i,
-      `<meta name="twitter:title" content="${title}" />`
-    );
-    // twitter:description
-    html = html.replace(
-      /<meta name="twitter:description" content="[^"]*"\s*\/?>/i,
-      `<meta name="twitter:description" content="${desc}" />`
-    );
-    // twitter:image (fallback — index.html has one)
     html = html.replace(
       /<meta name="twitter:image" content="[^"]*"\s*\/?>/i,
       `<meta name="twitter:image" content="${ogImage}" />`
     );
+    html = html.replace(
+      /<meta name="twitter:title" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:title" content="${title}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:description" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:description" content="${desc}" />`
+    );
 
-    // Insert JSON-LD just before </head>
     if (schema) {
       const jsonLd = JSON.stringify(schema).replace(/</g, "\\u003c");
       html = html.replace(
@@ -136,9 +113,6 @@ function buildHtml(
     }
   }
 
-  // Inject SSR article body into the SPA mount point so that
-  // non-JS crawlers see real content. React will replace it on
-  // hydration, so there is no visual duplicate.
   if (ssrBody) {
     html = html.replace(
       /<div id="root"\s*>\s*<\/div>/i,
@@ -166,34 +140,24 @@ async function fetchAsset(
   }
 }
 
-// Security headers applied to every response (fallback for _headers not applying)
-const SECURITY_HEADERS = {
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-  "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
-};
-
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
 
-  // 1. www → non-www
+  // 1. www → non-www (with headers)
   if (url.hostname === "www.ahadex.online") {
     const newUrl = new URL(url);
     newUrl.hostname = "ahadex.online";
-    return Response.redirect(newUrl.toString(), 301);
+    return wrap(Response.redirect(newUrl.toString(), 301));
   }
 
   // 2. Trailing slash → no trailing slash
   if (url.pathname !== "/" && url.pathname.endsWith("/")) {
     const newUrl = new URL(url);
     newUrl.pathname = url.pathname.slice(0, -1);
-    return Response.redirect(newUrl.toString(), 301);
+    return wrap(Response.redirect(newUrl.toString(), 301));
   }
 
-  // 3. Editor routes: let the SPA handle them untouched, but explicitly
-  // forbid search engines from indexing or following these dynamic routes.
+  // 3. Editor routes: noindex
   if (
     url.pathname.startsWith("/tools/cv-builder/edit/") ||
     url.pathname.startsWith("/tools/visiting-card/edit/")
@@ -202,76 +166,50 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     if (shell) {
       const headers = new Headers(shell.headers);
       headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
-      return new Response(shell.body, {
-        status: 200,
-        headers: headers,
-      });
+      return wrap(new Response(shell.body, { status: 200, headers }));
     }
   }
 
-  // 4. Known route → rewrite shell with route-specific SEO
+  // 4. Known route → SSR rewrite
   const meta = lookupMeta(url.pathname);
   if (meta) {
-    const shell = await fetchAsset(
-      context.env,
-      url.origin,
-      "/index.html",
-      context.request
-    );
+    const shell = await fetchAsset(context.env, url.origin, "/index.html", context.request);
     if (shell) {
       const body = await shell.text();
       const ssrBody = SSR_CONTENT[url.pathname] ?? null;
       const schema = (SSR_SCHEMA[url.pathname] as object) ?? null;
       const rewritten = buildHtml(body, url.pathname, meta, ssrBody, schema);
-      return new Response(rewritten, {
-        status: 200,
-        headers: {
-          "Content-Type": "text/html; charset=utf-8",
-          "Cache-Control": "public, max-age=300, s-maxage=300",
-        },
-      });
+      return wrap(
+        new Response(rewritten, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Cache-Control": "public, max-age=300, s-maxage=300",
+          },
+        })
+      );
     }
   }
 
-  // 5. Direct file (sitemap.xml, ads.txt, assets, etc.)
-  // Only fetch direct files if the path looks like an asset (has an extension
-  // or starts with /assets/). This prevents Cloudflare's SPA fallback from
-  // returning index.html with 200 for unknown routes.
+  // 5. Direct asset (only for /assets/ or files with extension)
   const isAsset = url.pathname.startsWith("/assets/") || url.pathname.includes(".");
   if (isAsset) {
-    const direct = await fetchAsset(
-      context.env,
-      url.origin,
-      url.pathname,
-      context.request
-    );
-    if (direct) return direct;
+    const direct = await fetchAsset(context.env, url.origin, url.pathname, context.request);
+    if (direct) return wrap(direct);
   }
 
-  // 6. 404 fallback — serve SPA shell (React renders NotFoundPage)
-  const shell = await fetchAsset(
-    context.env,
-    url.origin,
-    "/index.html",
-    context.request
-  );
+  // 6. 404 fallback
+  const shell = await fetchAsset(context.env, url.origin, "/index.html", context.request);
   if (shell) {
-    return new Response(shell.body, {
-      status: 404,
-      headers: shell.headers,
-    });
+    return wrap(
+      new Response(shell.body, {
+        status: 404,
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+      })
+    );
   }
 
+  // 7. Final fallback: pass-through with security headers
   const response = await context.next();
-  const newHeaders = new Headers(response.headers);
-  for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
-    if (!newHeaders.has(key)) {
-      newHeaders.set(key, value);
-    }
-  }
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers: newHeaders,
-  });
+  return wrap(response);
 };
