@@ -15,6 +15,21 @@ export function ToolDataSections({ toolId }: { toolId: string }) {
 
   return (
     <div className="mx-auto max-w-3xl mt-12 mb-10 space-y-12">
+      {/* Editorial Content */}
+      {tool.editorialContent?.map((section, i) => (
+        <motion.article key={`editorial-${i}`} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <h2 className="font-serif font-black text-2xl text-light-text dark:text-dark-text mb-4">{section.heading}</h2>
+          <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none text-light-textSecondary dark:text-dark-textSecondary" dangerouslySetInnerHTML={{ __html: section.body }} />
+        </motion.article>
+      ))}
+
+      {/* Deep Dives */}
+      {tool.deepDive?.map((section, i) => (
+        <motion.article key={`deepdive-${i}`} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <h2 className="font-serif font-black text-2xl text-light-text dark:text-dark-text mb-4">{section.heading}</h2>
+          <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none text-light-textSecondary dark:text-dark-textSecondary" dangerouslySetInnerHTML={{ __html: section.body }} />
+        </motion.article>
+      ))}
       {benchmarks.length > 0 && (
         <motion.article initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <div className="flex items-center gap-2 mb-4">

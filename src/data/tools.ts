@@ -52,6 +52,49 @@ const legacyTools: Tool[] = [
       storage: "none",
       externalService: false,
     },
+    editorialContent: [
+      {
+        heading: "Why Client-Side Conversion is Safer Than Cloud Converters",
+        body: `
+          <p>Most online Image to PDF converters require you to upload your files to their servers. Once uploaded, your private documents (like receipts, ID cards, or medical records) sit on a server that you do not control. Even if the service promises to delete them after an hour, the file has already traveled over the internet, creating a window of risk.</p>
+          <p>AHADEX Tools takes a fundamentally different approach. By utilizing modern browser APIs like <code>FileReader</code>, <code>Canvas</code>, and <code>jsPDF</code>, the entire conversion process happens inside your device's RAM. When you click "Convert", your browser compiles the PDF locally and hands it back to you. We do not have a backend server that receives your files. You can verify this by opening your browser's Developer Tools, switching to the Network tab, and watching as you convert a file—you will see zero outbound file uploads.</p>
+        `
+      },
+      {
+        heading: "JPG vs. PNG vs. WebP: Which format should you use for PDFs?",
+        body: `
+          <p>When merging images into a PDF, the format of your source images matters significantly for the final file size and visual quality:</p>
+          <ul>
+            <li><strong>JPG (JPEG):</strong> Best for photographs and complex images with millions of colors. JPG uses lossy compression, meaning it discards some data to save space. It is perfect for scanned photos or casual documents.</li>
+            <li><strong>PNG:</strong> Best for screenshots, text documents, and images with transparency. PNG uses lossless compression, so text remains razor-sharp. However, PNG files are much larger than JPGs.</li>
+            <li><strong>WebP:</strong> A modern format developed by Google. It offers the best of both worlds—excellent quality at smaller file sizes. WebP is highly efficient, though very old PDF readers might struggle with it.</li>
+          </ul>
+          <p><strong>Pro Tip:</strong> If you are scanning a text document, use PNG. If you are merging family photos, use JPG or WebP to keep the PDF size small.</p>
+        `
+      }
+    ],
+    deepDive: [
+      {
+        heading: "How to create a PDF from photos of documents (The Right Way)",
+        body: `
+          <p>Using your phone camera to scan documents is convenient, but doing it right is crucial for readability.</p>
+          <ol>
+            <li><strong>Lighting is everything:</strong> Place your document on a flat surface near a window for natural light. Avoid casting a shadow with your phone.</li>
+            <li><strong>Keep it flat:</strong> Ensure the paper has no folds or creases. The flatter the image, the cleaner the PDF.</li>
+            <li><strong>Crop and straighten:</strong> Most modern smartphones auto-detect document edges. Use that feature before uploading to ensure perfect alignment.</li>
+            <li><strong>Contrast:</strong> If the text is faint, use your phone's built-in photo editor to increase contrast slightly before converting to PDF.</li>
+          </ol>
+        `
+      },
+      {
+        heading: "Why does the PDF file size change after conversion?",
+        body: `
+          <p>You might notice that a 2MB JPG file results in a 5MB PDF, or vice versa. This happens because PDF is a container format, not just an image format.</p>
+          <p>When we create a PDF, the engine embeds your image onto an A4 canvas. If your image is very high resolution (e.g., 4000x3000 pixels) and you place it on an A4 page, the PDF retains that high resolution, resulting in a larger file. Conversely, if you merge several small images, the PDF structure itself has a small overhead (usually a few kilobytes).</p>
+          <p>Because AHADEX Tools processes everything in your browser's RAM, the final file size depends entirely on your device's memory limits and the source images. We do not artificially compress your images (which would degrade quality), ensuring your documents remain pixel-perfect.</p>
+        `
+      }
+    ],
     relatedTools: ['cv-builder', 'photo-qr'],
     seo: {
       title: "Image to PDF Converter — JPG, PNG to PDF Free | AHADEX Tools",
