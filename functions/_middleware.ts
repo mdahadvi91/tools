@@ -22,11 +22,36 @@ const SECURITY_HEADERS: Record<string, string> = {
     "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com;",
 };
 
+function generateNonce(): string {
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return btoa(String.fromCharCode(...array));
+}
+
+
 /** Wrap ANY response with security headers */
-function wrap(response: Response): Response {
+
+function buildCsp(nonce: string): string {
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com",
+    "img-src 'self' data: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+    "connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+    "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com",
+  ].join("; ");
+}
+
+function wrap(response: Response, nonce?: string): Response {
   const h = new Headers(response.headers);
   for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+    if (k === "Content-Security-Policy") continue; // Will set dynamically
     if (!h.has(k)) h.set(k, v);
+  }
+  // Set CSP with nonce (if provided) or default
+  if (!h.has("Content-Security-Policy")) {
+    h.set("Content-Security-Policy", buildCsp(nonce || ""));
   }
   return new Response(response.body, {
     status: response.status,
@@ -45,6 +70,21 @@ function escapeHtml(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+
+function injectConsentScript(html: string, nonce: string): string {
+  const consentScript = `<script nonce="${nonce}">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied'
+    });
+  </script>`;
+  return html.replace(/<head[^>]*>/i, (match) => match + consentScript);
 }
 
 function buildHtml(
@@ -178,7 +218,12 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       const body = await shell.text();
       const ssrBody = SSR_CONTENT[url.pathname] ?? null;
       const schema = (SSR_SCHEMA[url.pathname] as object) ?? null;
-      const rewritten = buildHtml(body, url.pathname, meta, ssrBody, schema);
+      let rewritten = buildHtml(body, url.pathname, meta, ssrBody, schema);
+      
+      // Generate nonce and inject consent script
+      const nonce = generateNonce();
+      rewritten = injectConsentScript(rewritten, nonce);
+      
       return wrap(
         new Response(rewritten, {
           status: 200,
@@ -186,7 +231,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
             "Content-Type": "text/html; charset=utf-8",
             "Cache-Control": "public, max-age=300, s-maxage=300",
           },
-        })
+        }),
+        nonce
       );
     }
   }
@@ -201,11 +247,15 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   // 6. 404 fallback
   const shell = await fetchAsset(context.env, url.origin, "/index.html", context.request);
   if (shell) {
+    const body = await shell.text();
+    const nonce = generateNonce();
+    const rewritten = injectConsentScript(body, nonce);
     return wrap(
-      new Response(shell.body, {
+      new Response(rewritten, {
         status: 404,
         headers: { "Content-Type": "text/html; charset=utf-8" },
-      })
+      }),
+      nonce
     );
   }
 
