@@ -15,7 +15,7 @@ export const TOOL_META: Record<string, ToolMeta> = {
   "/tools/color-picker": {
     "path": "/tools/color-picker",
     "title": "Color Picker — HEX, RGB from Image | AHADEX Tools",
-    "description": "Pick colors from images and get HEX/RGB codes. 100% free.",
+    "description": "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.",
     "ogImage": "/images/og/tools/color-picker-og.png"
   },
   "/tools/webp-converter": {
@@ -26,8 +26,8 @@ export const TOOL_META: Record<string, ToolMeta> = {
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
-    "title": "Image Resizer — Resize Image Dimensions Online Free | AHADEX",
-    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.",
+    "title": "Image Resizer — Resize Image Dimensions Online Free | AHADEX Tools",
+    "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.",
     "ogImage": "/images/og/tools/image-resizer-og.png"
   },
   "/tools/image-to-pdf": {

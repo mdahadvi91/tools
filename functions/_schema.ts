@@ -114,7 +114,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/color-picker#app",
         "name": "Color Picker",
-        "description": "Pick colors from images and get HEX/RGB codes. 100% free.",
+        "description": "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.",
         "url": "https://ahadex.online/tools/color-picker",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
@@ -133,7 +133,9 @@ export const SSR_SCHEMA: Record<string, object> = {
         },
         "featureList": [
           "HEX, RGB & HSL",
-          "Image Upload"
+          "Image Upload & Zoom",
+          "EyeDropper Support",
+          "Privacy First"
         ]
       },
       {
@@ -225,7 +227,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/image-resizer#app",
         "name": "Image Resizer",
-        "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.",
+        "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.",
         "url": "https://ahadex.online/tools/image-resizer",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",

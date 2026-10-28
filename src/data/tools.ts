@@ -6,7 +6,7 @@ import { deepDives } from "./deep-dives";
  * ============================================================ */
 
 const legacyTools: Tool[] = [
-  {
+    {
     id: "color-picker",
     slug: "color-picker",
     name: "Color Picker",
@@ -16,20 +16,39 @@ const legacyTools: Tool[] = [
     path: "/tools/color-picker",
     searchVolume: 5000000,
     description: "Pick colors from images and get HEX, RGB, and HSL codes instantly.",
-    descriptionBn: "ছবি থেকে কালার পিক করে HEX এবং RGB কোড নিন এক ক্লিকেই।",
-    longDescription: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. 100% browser-based.",
-    keywords: ["color picker", "hexadecimal color selector", "hex code finder", "rgb pick", "image color picker"],
+    descriptionBn: "ছবি থেকে কালার পিক করে HEX, RGB এবং HSL কোড নিন এক ক্লিকেই।",
+    longDescription: "Upload any image and click to pick exact colors. Extract HEX, RGB, and HSL codes instantly for your design projects. 100% browser-based and private.",
+    keywords: ["color picker", "hexadecimal color selector", "hex code finder", "rgb pick", "image color picker", "eyedropper tool"],
     popular: true,
     newTool: true,
-    features: [{ title: "HEX, RGB & HSL", description: "Get exact color codes." }, { title: "Image Upload", description: "Pick colors from any image." }],
-    howTo: [{ step: 1, title: "Upload Image", description: "Select an image." }, { step: 2, title: "Click to Pick", description: "Click anywhere on the image." }, { step: 3, title: "Copy Code", description: "Copy the HEX or RGB code." }],
-    faq: [{ question: "What is a HEX color code?", answer: "A 6-digit hexadecimal representation used in web design." }],
-    useCases: ["Finding the exact color code of a brand logo for a website.", "Matching colors from a photo for graphic design."],
-    limitations: ["Requires an image file to pick from; manual color mixing is not available."],
+    features: [
+      { title: "HEX, RGB & HSL", description: "Get exact color codes in multiple formats." },
+      { title: "Image Upload & Zoom", description: "Pick colors from any image with precision." },
+      { title: "EyeDropper Support", description: "Use your browser's native eyedropper tool if supported." },
+      { title: "Privacy First", description: "100% browser-based. Your images never leave your device." }
+    ],
+    howTo: [
+      { step: 1, title: "Upload Image", description: "Select an image (JPG, PNG, WebP) from your device." },
+      { step: 2, title: "Click to Pick", description: "Click anywhere on the image to pick a color." },
+      { step: 3, title: "Copy Code", description: "Instantly copy the HEX, RGB, or HSL color code." }
+    ],
+    faq: [
+      { question: "What is a HEX color code?", answer: "A HEX code is a 6-digit hexadecimal representation of a color used in HTML, CSS, and design software (e.g., #FF0000 for red)." },
+      { question: "Can I pick colors from any image?", answer: "Yes, as long as it is a standard image format like JPG, PNG, or WebP, you can upload it and pick colors." },
+      { question: "Is this color picker free?", answer: "Yes, it is completely free with no watermarks or limits." }
+    ],
+    useCases: [
+      "Finding the exact color code of a brand logo for a website.",
+      "Matching colors from a photo for graphic design."
+    ],
+    limitations: [
+      "Requires an image file to pick from; manual color mixing is not available.",
+      "EyeDropper API may not be supported in all browsers (e.g., older Firefox versions)."
+    ],
     relatedTools: ["image-resizer", "visiting-card"],
-    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX/RGB codes. 100% free.", ogImage: "/images/og/tools/color-picker-og.png" }
+    seo: { title: "Color Picker — HEX, RGB from Image | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. 100% free, private.", ogImage: "/images/og/tools/color-picker-og.png" }
   },
-  {
+    {
     id: "webp-converter",
     slug: "webp-converter",
     name: "WebP Converter",
@@ -44,15 +63,32 @@ const legacyTools: Tool[] = [
     keywords: ["webp converter", "webp to jpg", "webp to png", "convert webp", "webp to jpeg"],
     popular: false,
     newTool: true,
-    features: [{ title: "JPG & PNG Support", description: "Convert to the most widely supported formats." }, { title: "High-Quality Export", description: "High quality export." }, { title: "Privacy First", description: "100% browser-based." }],
-    howTo: [{ step: 1, title: "Upload WebP", description: "Select the WebP image." }, { step: 2, title: "Choose Format", description: "Select JPG or PNG." }, { step: 3, title: "Download", description: "Save the converted image." }],
-    faq: [{ question: "Why convert WebP?", answer: "For compatibility with older devices." }],
-    useCases: ["Sending images to clients who use older software.", "Uploading images to platforms that only accept JPG."],
-    limitations: ["Upscaling is not available; it converts at the original resolution."],
+    features: [
+      { title: "JPG & PNG Support", description: "Convert to the most widely supported formats." },
+      { title: "High-Quality Export", description: "JPEG quality is set to 95%, while PNG export is completely lossless." },
+      { title: "Privacy First", description: "100% browser-based. Your images never leave your device." }
+    ],
+    howTo: [
+      { step: 1, title: "Upload WebP", description: "Select the WebP image you want to convert." },
+      { step: 2, title: "Choose Format", description: "Select whether you want to save as JPG or PNG." },
+      { step: 3, title: "Download", description: "Click convert and instantly download your new image." }
+    ],
+    faq: [
+      { question: "Why should I convert WebP to JPG?", answer: "While WebP is great for the web, many older image editors, email clients, and devices do not support it. Converting to JPG ensures 100% compatibility." },
+      { question: "Will the image lose quality?", answer: "When converting to JPG, we set the compression quality to 95%. JPG is a lossy format, so minor compression artifacts may occur, but at 95% they are virtually invisible. If you need zero quality loss, choose the PNG export option, which is completely lossless." },
+      { question: "Is this tool free?", answer: "Yes, it is completely free with no watermarks or limits." }
+    ],
+    useCases: [
+      "Sending images to clients who use older software.",
+      "Uploading images to platforms that only accept JPG."
+    ],
+    limitations: [
+      "Upscaling is not available; it converts at the original resolution."
+    ],
     relatedTools: ["image-resizer", "image-to-pdf"],
     seo: { title: "WebP to JPG Converter — Free Online Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/webp-converter-og.png" }
   },
-  {
+    {
     id: "image-resizer",
     slug: "image-resizer",
     name: "Image Resizer",
@@ -67,9 +103,21 @@ const legacyTools: Tool[] = [
     keywords: ["image resizer", "dimension editor", "resize image online", "scale image", "change image size"],
     popular: true,
     newTool: true,
-    features: [{ title: "Exact Pixel Control", description: "Type exact width and height values." }, { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." }, { title: "Browser Processing", description: "100% private. Files never leave your device." }],
-    howTo: [{ step: 1, title: "Upload Image", description: "Select the image you want to resize." }, { step: 2, title: "Set Dimensions", description: "Enter the new width and height." }, { step: 3, title: "Download", description: "Click resize and save your image." }],
-    faq: [{ question: "Will resizing reduce quality?", answer: "Downscaling preserves quality. Upscaling may pixelate." }],
+    features: [
+      { title: "Exact Pixel Control", description: "Type exact width and height values." },
+      { title: "Aspect Ratio Lock", description: "Prevent image distortion by linking dimensions." },
+      { title: "Browser Processing", description: "100% private. Files never leave your device." }
+    ],
+    howTo: [
+      { step: 1, title: "Upload Image", description: "Select the image you want to resize." },
+      { step: 2, title: "Set Dimensions", description: "Enter the new width and height. Toggle 'Lock Ratio' to keep proportions." },
+      { step: 3, title: "Download", description: "Click resize and save your perfectly scaled image." }
+    ],
+    faq: [
+      { question: "Will resizing reduce image quality?", answer: "If you downscale (make it smaller), quality is preserved. If you upscale (make it larger), the image may become pixelated because we do not artificially add fake pixels." },
+      { question: "What formats are supported?", answer: "JPG, PNG, and WebP are fully supported." },
+      { question: "Is it free?", answer: "Yes, completely free with no watermarks." }
+    ],
     useCases: [
       "Resizing large DSLR photos for uploading to websites or email.",
       "Scaling images down to fit social media profile picture requirements.",
@@ -80,7 +128,7 @@ const legacyTools: Tool[] = [
       "Cannot process images larger than 50MB due to browser memory limits."
     ],
     relatedTools: ["image-to-pdf", "photo-qr"],
-    seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private.", ogImage: "/images/og/tools/image-resizer-og.png" }
+    seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/image-resizer-og.png" }
   },
     {
     id: "image-to-pdf",
