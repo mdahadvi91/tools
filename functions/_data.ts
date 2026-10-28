@@ -12,6 +12,12 @@ export interface ToolMeta {
 }
 
 export const TOOL_META: Record<string, ToolMeta> = {
+  "/tools/image-to-pdf": {
+    "path": "/tools/image-to-pdf",
+    "title": "Image to PDF Converter — Convert JPG, PNG to PDF Free | AHADEX Tools",
+    "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+    "ogImage": "/images/og/tools/image-to-pdf-og.png"
+  },
   "/tools/photo-qr": {
     "path": "/tools/photo-qr",
     "title": "Photo QR Code — Add QR to Photos Free | AHADEX Tools",
@@ -35,14 +41,14 @@ export const TOOL_META: Record<string, ToolMeta> = {
 export const STATIC_META: Record<string, ToolMeta> = {
   "/": {
     "path": "/",
-    "title": "AHADEX Tools — 3 Free, Private Browser-Based Tools",
-    "description": "3 free browser-based tools — CV Builder, Visiting Card Maker, and Photo QR Code. No uploads, no accounts.",
+    "title": "AHADEX Tools — 4 Free, Private Browser-Based Tools",
+    "description": "4 free browser-based tools — CV Builder, Visiting Card Maker, and Photo QR Code. No uploads, no accounts.",
     "ogImage": "/images/og/home-og.png"
   },
   "/tools": {
     "path": "/tools",
-    "title": "All Tools — 3 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 3 free browser-based tools from AHADEX: CV Builder, Visiting Card Maker, Photo QR Code. No uploads.",
+    "title": "All Tools — 4 Free Browser Utilities | AHADEX Tools",
+    "description": "Browse all 4 free browser-based tools from AHADEX: CV Builder, Visiting Card Maker, Photo QR Code. No uploads.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {

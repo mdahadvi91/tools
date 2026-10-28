@@ -13,7 +13,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@id": "https://ahadex.online/#website",
         "url": "https://ahadex.online/",
         "name": "AHADEX Tools",
-        "description": "Free browser-based tools for everyday digital tasks. 3 tools, no uploads.",
+        "description": "Free browser-based tools for everyday digital tasks. 4 tools, no uploads.",
         "publisher": {
           "@id": "https://ahadex.online/#organization"
         }
@@ -35,8 +35,8 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "CollectionPage",
         "@id": "https://ahadex.online/tools#page",
         "url": "https://ahadex.online/tools",
-        "name": "All Tools — 3 free browser-based utilities",
-        "description": "Browse all 3 free browser-based tools from AHADEX Tools.",
+        "name": "All Tools — 4 free browser-based utilities",
+        "description": "Browse all 4 free browser-based tools from AHADEX Tools.",
         "isPartOf": {
           "@id": "https://ahadex.online/#website"
         }
@@ -47,18 +47,24 @@ export const SSR_SCHEMA: Record<string, object> = {
           {
             "@type": "ListItem",
             "position": 1,
+            "name": "Image to PDF",
+            "url": "https://ahadex.online/tools/image-to-pdf"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
             "name": "Photo QR Code",
             "url": "https://ahadex.online/tools/photo-qr"
           },
           {
             "@type": "ListItem",
-            "position": 2,
+            "position": 3,
             "name": "Visiting Card Maker",
             "url": "https://ahadex.online/tools/visiting-card"
           },
           {
             "@type": "ListItem",
-            "position": 3,
+            "position": 4,
             "name": "CV Builder",
             "url": "https://ahadex.online/tools/cv-builder"
           }
@@ -78,6 +84,63 @@ export const SSR_SCHEMA: Record<string, object> = {
             "position": 2,
             "name": "Tools",
             "item": "https://ahadex.online/tools"
+          }
+        ]
+      }
+    ]
+  },
+  "/tools/image-to-pdf": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://ahadex.online/tools/image-to-pdf#app",
+        "name": "Image to PDF",
+        "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+        "url": "https://ahadex.online/tools/image-to-pdf",
+        "applicationCategory": "WebApplication",
+        "operatingSystem": "Any (Browser)",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "image": "https://ahadex.online/images/og/tools/image-to-pdf-og.png",
+        "publisher": {
+          "@type": "Organization",
+          "name": "AHADEX Tools",
+          "url": "https://ahadex.online"
+        },
+        "featureList": [
+          "Multiple Formats",
+          "Merge Images",
+          "A4 Format",
+          "Browser Processing"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://ahadex.online/tools/image-to-pdf#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://ahadex.online/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://ahadex.online/tools"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Image to PDF",
+            "item": "https://ahadex.online/tools/image-to-pdf"
           }
         ]
       }

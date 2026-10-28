@@ -7,6 +7,59 @@ import { deepDives } from "./deep-dives";
 
 const legacyTools: Tool[] = [
   {
+    id: "image-to-pdf",
+    slug: "image-to-pdf",
+    name: "Image to PDF",
+    nameBn: "ইমেজ টু পিডিএফ",
+    category: "documents",
+    lastModified: "2026-10-28",
+    path: "/tools/image-to-pdf",
+    searchVolume: 8000000,
+    description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.",
+    descriptionBn: "ব্রাউজারেই JPG, PNG এবং WebP ছবিগুলোকে একটি PDF ফাইলে রূপান্তর করুন।",
+    longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs 100% locally in your browser — no uploads, no accounts.",
+    keywords: ["image to pdf", "jpg to pdf", "png to pdf", "merge images", "convert to pdf"],
+    popular: true,
+    newTool: true,
+    features: [
+      { title: "Multiple Formats", description: "Supports JPG, PNG, and WebP image files." },
+      { title: "Merge Images", description: "Combine multiple images into a single PDF file." },
+      { title: "A4 Format", description: "Automatically scales images to fit standard A4 pages." },
+      { title: "Browser Processing", description: "Your images never leave your device. 100% private." }
+    ],
+    howTo: [
+      { step: 1, title: "Upload Images", description: "Select one or more JPG, PNG, or WebP images from your device." },
+      { step: 2, title: "Convert", description: "Click the 'Convert to PDF' button to process your images locally." },
+      { step: 3, title: "Download", description: "Your merged PDF will be downloaded automatically." }
+    ],
+    faq: [
+      { question: "Are my images uploaded to a server?", answer: "No. All processing happens entirely in your browser using the jsPDF library. Your files stay on your device." },
+      { question: "Can I merge multiple images into one PDF?", answer: "Yes, you can select multiple images and they will be merged sequentially into a single PDF." },
+      { question: "What image formats are supported?", answer: "Currently, JPG, PNG, and WebP are supported." }
+    ],
+    useCases: [
+      "Turning photos of documents into a single PDF for email.",
+      "Creating a portfolio PDF from design images.",
+      "Merging scanned pages into one document."
+    ],
+    limitations: [
+      "Very large images may take a few seconds to process depending on your device's memory.",
+      "Advanced PDF editing (like text addition) is not supported."
+    ],
+    privacy: {
+      processing: "browser",
+      uploadRequired: false,
+      storage: "none",
+      externalService: false,
+    },
+    relatedTools: ['cv-builder', 'photo-qr'],
+    seo: {
+      title: "Image to PDF Converter — Convert JPG, PNG to PDF Free | AHADEX Tools",
+      description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no uploads.",
+      ogImage: "/images/og/tools/image-to-pdf-og.png",
+    },
+  },
+  {
     id: "photo-qr",
     slug: "photo-qr",
     name: "Photo QR Code",
