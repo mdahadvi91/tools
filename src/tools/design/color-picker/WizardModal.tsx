@@ -1,6 +1,10 @@
 import { useState, useRef } from "react";
 import { X, Upload, Copy, Check, Pipette, ZoomIn } from "lucide-react";
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_PIXELS = 10000 * 10000; // 100MP
+const SUPPORTED_MIMES = ["image/jpeg", "image/png", "image/webp"];
+
 export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [image, setImage] = useState<string | null>(null);
   const [color, setColor] = useState<{ hex: string, rgb: string, hsl: string } | null>(null);
@@ -16,20 +20,48 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
     const f = e.target.files?.[0];
     if (!f) return;
 
-    if (f.size > 50 * 1024 * 1024) {
+    // 1. File size validation
+    if (f.size > MAX_FILE_SIZE) {
       setError("File is too large. Maximum size is 50MB.");
       return;
     }
-    if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) {
+
+    // 2. MIME type validation
+    if (!SUPPORTED_MIMES.includes(f.type)) {
       setError("Invalid format. Please upload JPG, PNG, or WebP.");
       return;
     }
 
     setError(null);
     const reader = new FileReader();
+    
+    // 3. FileReader error handling
+    reader.onerror = () => setError("Failed to read file. It may be corrupted.");
+    
     reader.onload = (event) => {
-      setImage(event.target?.result as string);
+      const dataUrl = event.target?.result as string;
+      if (!dataUrl) {
+        setError("Failed to read file.");
+        return;
+      }
+
+      const img = new Image();
+      
+      // 4. Decode error handling
+      img.onerror = () => setError("Image decode failed. File may be corrupted.");
+      
+      img.onload = () => {
+        // 5. Pixel count validation
+        if (img.width * img.height > MAX_PIXELS) {
+          setError(`Image resolution too large (${img.width}x${img.height}). Maximum allowed is 100 megapixels.`);
+          return;
+        }
+        setImage(dataUrl);
+      };
+      
+      img.src = dataUrl;
     };
+    
     reader.readAsDataURL(f);
   };
 
@@ -120,6 +152,7 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-10 text-center rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
             <Upload className="w-10 h-10 mx-auto text-gray-400 mb-4" />
             <input type="file" accept="image/jpeg, image/png, image/webp" onChange={handleUpload} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100" />
+            <p className="text-xs text-gray-400 mt-2">Max 50MB. JPG, PNG, or WebP.</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -162,7 +195,6 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
 
             {color && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* HEX Card */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
                   <div>
                     <p className="text-xs text-gray-500 font-semibold uppercase">HEX</p>
@@ -173,7 +205,6 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
                   </button>
                 </div>
 
-                {/* RGB Card */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
                   <div>
                     <p className="text-xs text-gray-500 font-semibold uppercase">RGB</p>
@@ -184,13 +215,10 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
                   </button>
                 </div>
 
-                {/* HSL Card */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center gap-2">
-                    <div>
-                      <p className="text-xs text-gray-500 font-semibold uppercase">HSL</p>
-                      <p className="font-mono font-bold text-sm">{color.hsl}</p>
-                    </div>
+                  <div>
+                    <p className="text-xs text-gray-500 font-semibold uppercase">HSL</p>
+                    <p className="font-mono font-bold text-sm">{color.hsl}</p>
                   </div>
                   <button onClick={() => copyToClipboard(color.hsl, 'hsl')} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
                     {copied === 'hsl' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
