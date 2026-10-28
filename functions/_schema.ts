@@ -364,7 +364,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "Platform icon inside",
           "11 platforms supported",
           "Original dimensions",
-          "Live preview",
+          "Real-time photo preview",
           "Browser processing"
         ]
       },
@@ -479,11 +479,11 @@ export const SSR_SCHEMA: Record<string, object> = {
         },
         "featureList": [
           "Real templates",
-          "Live preview",
+          "Live CV preview",
           "Selectable-text PDF",
           "Save and load",
           "Design control",
-          "Private by design"
+          "Client-side processing"
         ]
       },
       {

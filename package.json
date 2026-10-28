@@ -26,7 +26,8 @@
     "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts && tsx scripts/validate.ts",
     "validate": "tsx scripts/validate.ts",
     "ci": "npm run type-check && npm run generate:ssr && npm run validate && npm run build",
-    "check:drift": "git diff --exit-code functions/ public/sitemap.xml public/robots.txt public/images/og/ || (echo 'Generated files out of date' && exit 1)"
+    "check:drift": "git diff --exit-code functions/ public/sitemap.xml public/robots.txt public/images/og/ || (echo 'Generated files out of date' && exit 1)",
+    "audit:content": "tsx scripts/content-audit.ts"
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
