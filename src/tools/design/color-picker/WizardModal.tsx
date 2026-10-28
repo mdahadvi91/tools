@@ -1,15 +1,12 @@
 import { useState, useRef } from "react";
 import { X, Upload, Copy, Check, Pipette, ZoomIn } from "lucide-react";
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-const MAX_PIXELS = 10000 * 10000; // 100 Megapixels
-
 export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [image, setImage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState<{ hex: string, rgb: string, hsl: string } | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [error, setError] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -19,7 +16,7 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
     const f = e.target.files?.[0];
     if (!f) return;
 
-    if (f.size > MAX_FILE_SIZE) {
+    if (f.size > 50 * 1024 * 1024) {
       setError("File is too large. Maximum size is 50MB.");
       return;
     }
@@ -31,15 +28,7 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
     setError(null);
     const reader = new FileReader();
     reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        if (img.width * img.height > MAX_PIXELS) {
-          setError("Image resolution is too large to process safely.");
-        } else {
-          setImage(event.target?.result as string);
-        }
-      };
-      img.src = event.target?.result as string;
+      setImage(event.target?.result as string);
     };
     reader.readAsDataURL(f);
   };
@@ -68,8 +57,11 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
 
     const pixel = ctx.getImageData(x, y, 1, 1).data;
     const r = pixel[0], g = pixel[1], b = pixel[2];
@@ -83,14 +75,13 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
   };
 
   const useEyeDropper = async () => {
-    // Feature detection for EyeDropper API
     if (!('EyeDropper' in window)) {
-      setError("Your browser does not support the EyeDropper API. Please use a modern browser like Chrome or Edge.");
+      setError("Your browser does not support the EyeDropper API. Please use Chrome or Edge.");
       return;
     }
-    setError(null);
     try {
-      const eyeDropper = new (window as any).EyeDropper();
+      // @ts-ignore
+      const eyeDropper = new window.EyeDropper();
       const result = await eyeDropper.open();
       const hex = result.sRGBHex.toUpperCase();
       
@@ -103,24 +94,28 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
         rgb: `rgb(${r}, ${g}, ${b})`, 
         hsl: rgbToHsl(r, g, b) 
       });
+      setError(null);
     } catch (e) {
-      console.log("EyeDropper cancelled");
+      // User cancelled - no error needed
     }
   };
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopied(type);
+    setTimeout(() => setCopied(null), 2000);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-2xl relative shadow-2xl">
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"><X className="w-5 h-5"/></button>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-3xl relative shadow-2xl max-h-[90vh] overflow-y-auto">
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full z-10">
+          <X className="w-5 h-5"/>
+        </button>
         <h2 className="text-xl font-bold mb-6">Color Picker</h2>
-        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
         
+        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
+
         {!image ? (
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-10 text-center rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
             <Upload className="w-10 h-10 mx-auto text-gray-400 mb-4" />
@@ -128,19 +123,19 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
+            <div className="flex flex-wrap gap-4 justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
               <div className="flex items-center gap-2">
                 <ZoomIn className="w-4 h-4 text-gray-500" />
                 <input type="range" min="1" max="3" step="0.1" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} className="w-32" />
-                <span className="text-xs text-gray-500">{Math.round(zoom * 100)}%</span>
+                <span className="text-xs text-gray-500 w-12">{Math.round(zoom * 100)}%</span>
               </div>
-              <button onClick={useEyeDropper} className="flex items-center gap-2 text-sm font-medium bg-white dark:bg-gray-700 px-3 py-1.5 rounded shadow border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                <Pipette className="w-4 h-4" /> Use System EyeDropper
+              <button onClick={useEyeDropper} className="flex items-center gap-2 text-sm font-medium bg-white dark:bg-gray-700 px-3 py-1.5 rounded-lg shadow border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">
+                <Pipette className="w-4 h-4" /> System EyeDropper
               </button>
             </div>
 
             <div className="flex justify-center bg-gray-100 dark:bg-gray-800 rounded-xl overflow-auto max-h-[400px] cursor-crosshair relative">
-              <div style={{ transform: `scale(${zoom})`, transformOrigin: 'top left' }}>
+              <div style={{ transform: `scale(${zoom})`, transformOrigin: 'top left', transition: 'transform 0.1s' }}>
                 <img 
                   src={image} 
                   alt="Upload" 
@@ -166,35 +161,39 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
             </div>
 
             {color && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {/* HEX Card */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
                   <div>
                     <p className="text-xs text-gray-500 font-semibold uppercase">HEX</p>
                     <p className="font-mono font-bold text-lg">{color.hex}</p>
                   </div>
-                  <button onClick={() => copyToClipboard(color.hex)} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
-                    {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                  <button onClick={() => copyToClipboard(color.hex, 'hex')} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
+                    {copied === 'hex' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
+
+                {/* RGB Card */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
                   <div>
                     <p className="text-xs text-gray-500 font-semibold uppercase">RGB</p>
                     <p className="font-mono font-bold text-sm">{color.rgb}</p>
                   </div>
-                  <button onClick={() => copyToClipboard(color.rgb)} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
-                    <Copy className="w-4 h-4" />
+                  <button onClick={() => copyToClipboard(color.rgb, 'rgb')} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
+                    {copied === 'rgb' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 col-span-full">
-                  <div className="flex items-center gap-4">
+
+                {/* HSL Card */}
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center gap-2">
                     <div>
                       <p className="text-xs text-gray-500 font-semibold uppercase">HSL</p>
                       <p className="font-mono font-bold text-sm">{color.hsl}</p>
                     </div>
-                    <div className="w-8 h-8 rounded-full shadow-inner" style={{ backgroundColor: color.hex }} />
                   </div>
-                  <button onClick={() => copyToClipboard(color.hsl)} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
-                    <Copy className="w-4 h-4" />
+                  <button onClick={() => copyToClipboard(color.hsl, 'hsl')} className="p-2 text-gray-500 hover:bg-white dark:hover:bg-gray-700 rounded-lg">
+                    {copied === 'hsl' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
