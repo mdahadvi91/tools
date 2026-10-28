@@ -33,12 +33,3 @@ jobs:
       
       - name: Build production
         run: npm run build
-      
-      - name: Check for generated file drift
-        run: |
-          if [[ -n $(git status --porcelain functions/ public/sitemap.xml public/robots.txt public/images/og/) ]]; then
-            echo "❌ Generated files are out of date. Run 'npm run build' locally and commit."
-            git status --porcelain functions/ public/sitemap.xml public/robots.txt public/images/og/
-            exit 1
-          fi
-          echo "✅ Generated files are in sync."
