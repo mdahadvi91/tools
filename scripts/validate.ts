@@ -3,7 +3,6 @@
  * ------------------------------------------------------------
  * CI Validation: Ensures every route in tools.ts and static
  * pages has proper metadata, SSR, sitemap, and schema.
- * Fails the build if any mismatch is found.
  * ============================================================ */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -53,7 +52,6 @@ if (errors === 0) success(`All ${tools.length} tools have required fields.\n`);
 // --- 2. Check that every tool component exists ---
 console.log("📋 [2] Validating Tool Component Files");
 for (const tool of tools) {
-  // Category folder mapping
   const categoryFolder: Record<string, string> = {
     documents: "documents",
     design: "design",
@@ -72,9 +70,8 @@ for (const tool of tools) {
 }
 if (errors === 0) success(`All tool components exist.\n`);
 
-// --- 3. Check generated SSR, Data, Schema files ---
+// --- 3. Check generated files exist ---
 console.log("📋 [3] Validating Generated Artifacts");
-
 const ssrPath = resolve(ROOT, "functions/_ssr-content.ts");
 const dataPath = resolve(ROOT, "functions/_data.ts");
 const schemaPath = resolve(ROOT, "functions/_schema.ts");
@@ -96,74 +93,150 @@ for (const file of requiredFiles) {
 }
 if (errors === 0) success(`All generated artifacts exist.\n`);
 
-// --- 4. Validate every tool has entry in _ssr-content, _data, _schema, sitemap ---
+// --- 4. Load generated content into memory ---
+let ssrContent = "";
+let dataContent = "";
+let schemaContent = "";
+let sitemapContent = "";
+
+if (existsSync(ssrPath)) ssrContent = readFileSync(ssrPath, "utf-8");
+if (existsSync(dataPath)) dataContent = readFileSync(dataPath, "utf-8");
+if (existsSync(schemaPath)) schemaContent = readFileSync(schemaPath, "utf-8");
+if (existsSync(sitemapPath)) sitemapContent = readFileSync(sitemapPath, "utf-8");
+
+// --- 5. Tool coverage in generated files ---
 console.log("📋 [4] Validating Tool Coverage in Generated Files");
-
-if (existsSync(ssrPath) && existsSync(dataPath) && existsSync(schemaPath) && existsSync(sitemapPath)) {
-  const ssrContent = readFileSync(ssrPath, "utf-8");
-  const dataContent = readFileSync(dataPath, "utf-8");
-  const schemaContent = readFileSync(schemaPath, "utf-8");
-  const sitemapContent = readFileSync(sitemapPath, "utf-8");
-
-  for (const tool of tools) {
-    const path = tool.path;
-    if (!ssrContent.includes(`"${path}"`)) {
-      error(`Tool ${tool.id} missing from _ssr-content.ts (${path})`);
-    }
-    if (!dataContent.includes(`"${path}"`)) {
-      error(`Tool ${tool.id} missing from _data.ts (${path})`);
-    }
-    if (!schemaContent.includes(`"${path}"`)) {
-      error(`Tool ${tool.id} missing from _schema.ts (${path})`);
-    }
-    if (!sitemapContent.includes(path)) {
-      error(`Tool ${tool.id} missing from sitemap.xml (${path})`);
-    }
+for (const tool of tools) {
+  if (!ssrContent.includes(`"${tool.path}"`)) {
+    error(`Tool ${tool.id} missing from _ssr-content.ts (${tool.path})`);
+  }
+  if (!dataContent.includes(`"${tool.path}"`)) {
+    error(`Tool ${tool.id} missing from _data.ts (${tool.path})`);
+  }
+  if (!schemaContent.includes(`"${tool.path}"`)) {
+    error(`Tool ${tool.id} missing from _schema.ts (${tool.path})`);
+  }
+  if (!sitemapContent.includes(tool.path)) {
+    error(`Tool ${tool.id} missing from sitemap.xml (${tool.path})`);
   }
 }
 if (errors === 0) success(`All ${tools.length} tools covered in SSR, Data, Schema, Sitemap.\n`);
 
-// --- 5. Validate static pages coverage ---
+// --- 6. Static pages coverage ---
 console.log("📋 [5] Validating Static Pages Coverage");
-
 const staticPages = [
   "/", "/tools", "/about", "/contact", "/privacy", "/terms",
   "/disclaimer", "/cookie-policy", "/editorial-policy", "/accessibility"
 ];
-
-if (existsSync(ssrPath) && existsSync(dataPath) && existsSync(sitemapPath)) {
-  const ssrContent = readFileSync(ssrPath, "utf-8");
-  const dataContent = readFileSync(dataPath, "utf-8");
-  const sitemapContent = readFileSync(sitemapPath, "utf-8");
-
-  for (const path of staticPages) {
-    if (!ssrContent.includes(`"${path}"`)) {
-      error(`Static page ${path} missing from _ssr-content.ts`);
-    }
-    if (!dataContent.includes(`"${path}"`)) {
-      error(`Static page ${path} missing from _data.ts`);
-    }
-    if (!sitemapContent.includes(path === "/" ? `${path}<` : path)) {
-      // Note: "/" is tricky in sitemap; skip strict check for root
-      if (path !== "/") warn(`Static page ${path} missing from sitemap.xml`);
-    }
+for (const path of staticPages) {
+  if (!ssrContent.includes(`"${path}"`)) {
+    error(`Static page ${path} missing from _ssr-content.ts`);
+  }
+  if (!dataContent.includes(`"${path}"`)) {
+    error(`Static page ${path} missing from _data.ts`);
   }
 }
 if (errors === 0) success(`All ${staticPages.length} static pages covered.\n`);
 
-// --- 6. Validate that no orphan tool paths exist ---
-console.log("📋 [6] Validating No Orphan Tool Paths in Registry");
-
-const registeredPaths = new Set(tools.map(t => t.path));
-const toolPathRegex = /path:\s*"([^"]+)"/g;
-
-if (existsSync(dataPath)) {
-  const dataContent = readFileSync(dataPath, "utf-8");
-  const matches = [...dataContent.matchAll(toolPathRegex)];
-  // (This check will be expanded in future iterations)
+// --- 7. True Orphan Path Detection ---
+console.log("📋 [6] Validating No Orphan Paths");
+const dataPathRegex = /"(\/(?:[^"]*))":\s*\{/g;
+const dataPaths = new Set<string>();
+let match;
+while ((match = dataPathRegex.exec(dataContent)) !== null) {
+  dataPaths.add(match[1]);
 }
 
-if (errors === 0) success(`No orphan paths detected.\n`);
+const expectedPaths = new Set<string>([
+  ...tools.map(t => t.path),
+  ...staticPages,
+]);
+
+const orphansInData = [...expectedPaths].filter(p => !dataPaths.has(p));
+if (orphansInData.length > 0) {
+  for (const p of orphansInData) {
+    error(`Orphan path (in registry but missing from _data.ts): ${p}`);
+  }
+}
+
+const extrasInData = [...dataPaths].filter(p => !expectedPaths.has(p));
+if (extrasInData.length > 0) {
+  for (const p of extrasInData) {
+    warn(`Extra path (in _data.ts but not in registry): ${p}`);
+  }
+}
+
+if (orphansInData.length === 0 && extrasInData.length === 0) {
+  success(`No orphan paths. All ${expectedPaths.size} expected paths are in _data.ts.\n`);
+}
+
+// --- 8. Duplicate Route Detection ---
+console.log("📋 [7] Validating No Duplicate Routes");
+const routeCounts = new Map<string, number>();
+for (const tool of tools) {
+  routeCounts.set(tool.path, (routeCounts.get(tool.path) || 0) + 1);
+}
+for (const page of staticPages) {
+  routeCounts.set(page, (routeCounts.get(page) || 0) + 1);
+}
+let duplicateFound = false;
+for (const [path, count] of routeCounts.entries()) {
+  if (count > 1) {
+    error(`Duplicate route detected: ${path} appears ${count} times`);
+    duplicateFound = true;
+  }
+}
+if (!duplicateFound) {
+  success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
+}
+
+// --- 9. Registry ↔ Generated Metadata Equality ---
+console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
+let metadataErrors = 0;
+for (const tool of tools) {
+  const escapedPath = tool.path;
+  const escapedTitle = tool.seo.title.replace(/"/g, '\\"');
+  const escapedDesc = tool.seo.description.replace(/"/g, '\\"');
+  
+  if (!dataContent.includes(`"title": "${escapedTitle}"`) && !dataContent.includes(`"title": "${escapedTitle}"`.replace(/\\"/g, '"'))) {
+    error(`Metadata mismatch for ${tool.id}: title "${tool.seo.title}" not found in _data.ts`);
+    metadataErrors++;
+  }
+  if (!dataContent.includes(escapedDesc) && !dataContent.includes(tool.seo.description)) {
+    error(`Metadata mismatch for ${tool.id}: description not found in _data.ts`);
+    metadataErrors++;
+  }
+  if (tool.seo.ogImage && !dataContent.includes(tool.seo.ogImage)) {
+    error(`Metadata mismatch for ${tool.id}: ogImage "${tool.seo.ogImage}" not found in _data.ts`);
+    metadataErrors++;
+  }
+}
+if (metadataErrors === 0) {
+  success(`Registry metadata matches generated _data.ts for all ${tools.length} tools.\n`);
+}
+
+// --- 10. Title/Description Uniqueness Across All Routes ---
+console.log("📋 [9] Validating Title/Description Uniqueness");
+const titles = new Set<string>();
+const descriptions = new Set<string>();
+let duplicatesFound = false;
+
+for (const tool of tools) {
+  if (titles.has(tool.seo.title)) {
+    error(`Duplicate title across tools: "${tool.seo.title}"`);
+    duplicatesFound = true;
+  }
+  titles.add(tool.seo.title);
+  
+  if (descriptions.has(tool.seo.description)) {
+    error(`Duplicate description across tools: "${tool.seo.description.substring(0, 50)}..."`);
+    duplicatesFound = true;
+  }
+  descriptions.add(tool.seo.description);
+}
+if (!duplicatesFound) {
+  success(`All tool titles (${titles.size}) and descriptions (${descriptions.size}) are unique.\n`);
+}
 
 // --- Final Summary ---
 console.log("=".repeat(60));
