@@ -27,8 +27,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>This tool always uses level H because the platform logo sits inside the QR. Level H allows up to 30% of the surface to be obscured — well above the ~7-8% the logo covers.</p>
-      `,
-    },
+      `},
     {
       heading: "Sizing rules for printed QR badges",
       body: `
@@ -40,8 +39,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Storefront or billboard (10 m):</strong> 1 × 1 m minimum.</li>
         </ul>
         <p>As a rule of thumb, the QR side should be at least 1/10 of the scan distance. If the code and the phone camera will be 30 cm apart, the QR should be at least 3 cm wide.</p>
-      `,
-    },
+      `},
     {
       heading: "11 supported platforms and what each encodes",
       body: `
@@ -57,96 +55,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Contact (vCard):</strong> embeds name, phone, email — saves straight to contacts.</li>
           <li><strong>Plain text:</strong> a short message that appears on scan.</li>
         </ul>
-      `,
-    },
-  ],
-
-  "image-compressor": [
-    {
-      heading: "What lossy compression actually discards",
-      body: `
-        <p>JPG and WebP use lossy compression: they deliberately throw away information that the human visual system is unlikely to notice.</p>
-        <ul>
-          <li><strong>Chroma subsampling:</strong> color data is stored at lower resolution than brightness. The eye is less sensitive to fine color detail, so this halves the data with no visible change on most photos.</li>
-          <li><strong>High-frequency detail:</strong> very fine texture, subtle noise, and single-pixel edges are quantized — approximated with nearby values instead of stored exactly.</li>
-          <li><strong>Gradients:</strong> smooth transitions are simplified into steps. At high quality the steps are invisible; at low quality they become banding.</li>
-        </ul>
-        <p>PNG is lossless — it discards nothing, which is why PNG files are 3-10× larger for photographic content.</p>
-      `,
-    },
-    {
-      heading: "Recommended quality settings by use case",
-      body: `
-        <table>
-          <thead><tr><th>Use case</th><th>Quality</th><th>Max width</th><th>Expected saving</th></tr></thead>
-          <tbody>
-            <tr><td>Email attachment (photo)</td><td>75</td><td>1600 px</td><td>70–85%</td></tr>
-            <tr><td>Blog hero image</td><td>80</td><td>1920 px</td><td>65–80%</td></tr>
-            <tr><td>E-commerce product photo</td><td>82</td><td>1200 px</td><td>65–80%</td></tr>
-            <tr><td>Instagram feed</td><td>85</td><td>1080 px</td><td>60–75%</td></tr>
-            <tr><td>Retina display (mobile)</td><td>85</td><td>2160 px</td><td>55–70%</td></tr>
-            <tr><td>Print-ready (300 DPI)</td><td>92</td><td>original</td><td>30–50%</td></tr>
-            <tr><td>Archival</td><td>95</td><td>original</td><td>15–30%</td></tr>
-          </tbody>
-        </table>
-      `,
-    },
-    {
-      heading: "When compression makes files larger",
-      body: `
-        <p>Compression reduces size — except when it doesn't. Two cases:</p>
-        <ul>
-          <li><strong>Already-compressed source:</strong> Re-compressing a photo that was already saved as JPG at 60% quality will often make it slightly larger, because the tool re-applies standard quantization that fights the existing compression artifacts. Always start from the original file.</li>
-          <li><strong>PNG with fine detail:</strong> A screenshot with anti-aliased text compresses poorly as JPG. The output can exceed the PNG source. In that case, keep the PNG and use a PNG optimizer instead.</li>
-        </ul>
-      `,
-    },
-
-{
-      heading: "Tool documentation — compression reference",
-      body: `
-        <p>This section documents exactly how this compressor behaves, what it cannot do, and how to pick the right settings. All numbers below are from our own test runs, not general claims.</p>
-        <h3>Real compression test — 20 images across three categories</h3>
-        <table>
-          <thead><tr><th>Source</th><th>Original</th><th>Quality 80</th><th>Quality 70</th><th>Quality 50</th></tr></thead>
-          <tbody>
-            <tr><td>Phone photo (12 MP JPEG)</td><td>3.2 MB</td><td>420 KB</td><td>310 KB</td><td>190 KB</td></tr>
-            <tr><td>Product shot on white (JPEG)</td><td>2.4 MB</td><td>340 KB</td><td>260 KB</td><td>160 KB</td></tr>
-            <tr><td>Screenshot (PNG, sharp text)</td><td>420 KB</td><td>290 KB WebP</td><td>180 KB WebP</td><td>120 KB WebP</td></tr>
-            <tr><td>Blog hero (JPEG, 1600×900)</td><td>640 KB</td><td>180 KB</td><td>130 KB</td><td>85 KB</td></tr>
-            <tr><td>Logo with transparency (PNG)</td><td>48 KB</td><td>35 KB WebP</td><td>28 KB WebP</td><td>22 KB WebP</td></tr>
-          </tbody>
-        </table>
-        <p>At quality 80, every image in our test set was below 500 KB and visually very close to the source at normal viewing distance on a colour-calibrated display. Below quality 70, subtle banding starts to appear in smooth gradients (skies, studio backgrounds). Below quality 50, text inside screenshots becomes visibly soft.</p>
-
-        <h3>When NOT to use this tool</h3>
-        <ul>
-          <li><strong>Print-ready output at 300 DPI.</strong> Compression discards pixel data. For anything going to a print shop, keep the original or use PNG.</li>
-          <li><strong>Archival masters.</strong> Never compress the only copy of a photo. Keep originals and compress copies for distribution.</li>
-          <li><strong>Images with transparency for print.</strong> The PNG-to-WebP path preserves alpha, but converting to JPG fills transparency with white. If your print shop requires JPG with a specific background colour, composite manually first.</li>
-          <li><strong>Precision technical imagery.</strong> Medical scans, engineering diagrams, and forensic photos should not go through a lossy step.</li>
-          <li><strong>Already-compressed sources.</strong> Re-compressing a quality-60 JPG often produces a larger file because the tool cannot recover the detail already lost. Start from the original.</li>
-        </ul>
-
-        <h3>Browser compression limitations</h3>
-        <ul>
-          <li>The compressor uses the browser's built-in encoder via <code>canvas.toBlob()</code>. It is fast and universal, but the browser does not expose every encoder parameter — no chroma subsampling control, no progressive JPEG option, no WebP method tuning.</li>
-          <li>Maximum image dimensions depend on the browser canvas. Chrome, Firefox, and Safari cap at roughly 16,384 × 16,384 pixels. Larger images are downscaled before compression.</li>
-          <li>PNG output is only available through <code>canvas.toBlob('image/png')</code>, which uses the browser's lossless PNG encoder — this is different from libpng and may produce slightly different file sizes than a desktop tool.</li>
-          <li>WebP encoding requires a browser released in 2020 or later. Every version of Chrome, Firefox, and Safari since then supports it.</li>
-        </ul>
-
-        <h3>How this tool processes your image</h3>
-        <ol>
-          <li>The file is read with the File API into an <code>ArrayBuffer</code> in memory.</li>
-          <li>The buffer is decoded using <code>createImageBitmap()</code>, which understands JPG, PNG, and WebP.</li>
-          <li>If a max width is set and the image is larger, it is drawn onto an off-screen canvas at the reduced size.</li>
-          <li>The canvas is re-encoded with <code>toBlob()</code> at the chosen quality and format.</li>
-          <li>The resulting Blob is offered as a download link. The original buffer and canvas are released.</li>
-        </ol>
-        <p>None of these steps involve a network request. You can verify this in the browser's developer tools — open the Network tab before you drop a file and watch for zero outbound requests during processing.</p>
-      `,
-    },
+      `},
   ],
 
   "image-resizer": [
@@ -159,8 +68,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Crop</strong> — keeps a rectangular region and discards the rest. Use this when you need a specific aspect ratio (1:1 for Instagram, 16:9 for YouTube) and don't mind losing the edges.</li>
         </ul>
         <p>Rule of thumb: resize when you want to make the image bigger or smaller for a target device; crop when you need to remove parts to match a shape.</p>
-      `,
-    },
+      `},
     {
       heading: "Upscaling limits",
       body: `
@@ -170,8 +78,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>4× upscale:</strong> visible softening. Text loses crispness, fine texture becomes blurry.</li>
           <li><strong>8× or more:</strong> strongly blurred. Use AI upscaling software instead — this tool cannot invent detail that does not exist in the source.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "DPI is not resolution",
       body: `
@@ -182,8 +89,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Resizing a 3000-pixel image to 1500 pixels halves the printable size at 300 DPI.</li>
         </ul>
         <p>This tool changes actual pixel dimensions — the number that truly matters.</p>
-      `,
-    },
+      `},
   ],
 
   "image-cropper": [
@@ -202,8 +108,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>1.91:1</td><td>Facebook / Twitter / LinkedIn link cards</td><td>1200 × 630</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "The rule of thirds for better crops",
       body: `
@@ -214,8 +119,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>If the subject is looking left, leave more space on the left (lead room).</li>
           <li>Never crop exactly at a joint — elbows, knees, wrists. Crop between joints or well inside them.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Cropping never loses quality",
       body: `
@@ -226,8 +130,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>The cropped region looks exactly like the original would if you zoomed in.</li>
           <li>The only "loss" is the discarded area, which you chose to remove.</li>
         </ul>
-      `,
-    },
+      `},
   ],
 
   "image-metadata-viewer": [
@@ -244,8 +147,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Software:</strong> what app edited the file last.</li>
           <li><strong>Author:</strong> name, copyright, sometimes serial number.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Where metadata survives and where it is stripped",
       body: `
@@ -262,8 +164,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>WhatsApp (as document)</td><td>Preserved</td><td>Preserved</td><td>Preserved</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "Privacy risks of unstripped metadata",
       body: `
@@ -274,8 +175,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Camera model and settings created a device fingerprint, linking accounts across platforms.</li>
         </ul>
         <p>The fix is simple: check metadata before sharing, and strip it if the location or device information should stay private.</p>
-      `,
-    },
+      `},
   ],
 
   "image-to-sketch": [
@@ -290,8 +190,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Color-dodge blend:</strong> combine grayscale and blurred-inverted using <code>result = gray / (255 − blurredInv)</code>.</li>
         </ol>
         <p>The result is dark strokes on white paper, weighted by the blur radius: small radius gives fine pencil, large radius gives charcoal.</p>
-      `,
-    },
+      `},
     {
       heading: "Best source photos for a sketch",
       body: `
@@ -302,15 +201,13 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Front-facing subjects:</strong> portraits with even lighting work best.</li>
         </ul>
         <p>Photos that fail: heavy shadows, low-contrast lighting, and shots with a lot of text or fine patterns.</p>
-      `,
-    },
+      `},
     {
       heading: "Why the output is grayscale",
       body: `
         <p>Pencil sketches are intrinsically grayscale — a graphite stick has no color. Keeping the output monochrome is not a limitation, it is the point. A colored "pencil" looks like a filter, not a drawing.</p>
         <p>If you want a colored line-art look, use the Image to Cartoon tool instead — it preserves color through posterization while applying the same edge detection.</p>
-      `,
-    },
+      `},
   ],
 
   "image-to-cartoon": [
@@ -323,8 +220,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Sobel edge detection:</strong> finds boundaries between regions by measuring the brightness gradient.</li>
           <li><strong>Outline blend:</strong> the detected edges are drawn as dark lines on top of the posterized color.</li>
         </ol>
-      `,
-    },
+      `},
     {
       heading: "Tuning the three sliders",
       body: `
@@ -333,8 +229,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Edge strength (0-2):</strong> how dark the outlines are. 0 = no outlines (just posterized color). 2 = heavy comic-book contours. Start at 1.</li>
           <li><strong>Smoothness (0-10):</strong> blur applied before posterization. High values remove noise and skin texture, producing cleaner flat regions. Start at 3.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Best use cases",
       body: `
@@ -344,8 +239,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Book illustrations:</strong> indie authors use this as a first pass before manual refinement.</li>
           <li><strong>Stickers and merchandise:</strong> a cel-shaded portrait prints well on mugs and t-shirts.</li>
         </ul>
-      `,
-    },
+      `},
   ],
 
 
@@ -363,8 +257,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Metadata — the first file's metadata typically wins.</li>
         </ul>
         <p>What is not preserved: the original document's digital signature on signed PDFs. Merging breaks signatures because the bytes change.</p>
-      `,
-    },
+      `},
     {
       heading: "Merging encrypted or signed PDFs",
       body: `
@@ -374,8 +267,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>User-password protected (opening restricted):</strong> Cannot be opened without the password. Decrypt first in a PDF reader, then merge.</li>
           <li><strong>Digitally signed:</strong> Merging invalidates the signature. If you need a signed merged document, sign after merging.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Managing the merged file size",
       body: `
@@ -385,8 +277,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Email providers cap attachments at 20-25 MB — compress images inside the PDFs first, or split the merge into batches.</li>
           <li>For text-only PDFs, file size is small regardless of page count.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Tool documentation — merge reference",
       body: `
@@ -441,8 +332,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Total processing time scales linearly with total page count and file size. A 20-file merge of text documents typically completes in a few seconds.</li>
           <li>No page-count limit — the only constraint is browser memory.</li>
         </ul>
-      `,
-    },
+      `},
 
     ],
 
@@ -462,8 +352,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>Ranges must be ascending within a pair (<code>1-5</code>, not <code>5-1</code>). To reverse order, list the pages individually.</p>
-      `,
-    },
+      `},
     {
       heading: "Byte-for-byte copy explained",
       body: `
@@ -474,8 +363,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Embedded fonts remain embedded.</li>
           <li>File size scales roughly linearly with the number of pages kept.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Practical limits",
       body: `
@@ -485,8 +373,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Encrypted PDFs:</strong> Cannot open without the password.</li>
           <li><strong>Malformed PDFs:</strong> pdf-lib is more forgiving than most readers but cannot repair broken cross-reference tables.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Tool documentation — split reference",
       body: `
@@ -531,8 +418,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
 
         <h3>Verification</h3>
         <p>To confirm the copy is truly byte-for-byte, open any split output in a text-aware PDF reader. Text remains selectable and searchable, images render at their original resolution, and embedded fonts are preserved — none of which would survive a re-render or re-compression.</p>
-      `,
-    },
+      `},
 
     ],
 
@@ -546,8 +432,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Scanned PDFs</strong> — images of paper. There is no text layer; the pixels only look like text. Extraction returns an empty string.</li>
         </ul>
         <p>To extract text from a scan, you need OCR (optical character recognition) software — a fundamentally different process.</p>
-      `,
-    },
+      `},
     {
       heading: "Line breaks, paragraphs, and reading order",
       body: `
@@ -557,15 +442,13 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Collapse to paragraphs:</strong> merges lines that appear to be the same paragraph. Best for prose.</li>
           <li><strong>Page separators:</strong> inserts <code>--- Page N ---</code> markers between pages.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Unicode and non-Latin scripts",
       body: `
         <p>The output is UTF-8 plain text, so any script the PDF contains is preserved: Latin, Bengali, Arabic, Devanagari, Chinese, Japanese, Korean, emoji.</p>
         <p>One caveat: PDFs that embed fonts without proper Unicode mapping (some older or hand-built files) may extract garbled text. This is a defect in the source PDF, not in the extractor.</p>
-      `,
-    },
+      `},
   ],
 
   "pdf-rotator": [
@@ -580,15 +463,13 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Embedded images keep their original encoding.</li>
           <li>The visual result is identical to the source — just rotated.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Why some readers show the same PDF differently",
       body: `
         <p>Some applications ignore the PDF rotation metadata and display every page at 0°. This is why a scan that looks sideways in Chrome may look upright in Preview.</p>
         <p>Physically setting the rotation value fixes this: every reader that respects the standard will now agree on orientation. Readers that ignore it will continue to show the pages unchanged — but they were never the problem.</p>
-      `,
-    },
+      `},
     {
       heading: "Rotating selectively",
       body: `
@@ -598,8 +479,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Landscape diagrams:</strong> keep text pages portrait but rotate chart pages to landscape reading orientation.</li>
         </ul>
         <p>Use the page field to target specific pages: <code>3</code>, <code>1-5</code>, or <code>1-3, 8, 10-12</code>. Apply the rotation, download, and repeat for other pages if needed.</p>
-      `,
-    },
+      `},
   ],
 
   "svg-to-png": [
@@ -617,8 +497,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>The browser caps canvas dimensions around 16,384 × 16,384 pixels. Beyond that, output varies or fails.</p>
-      `,
-    },
+      `},
     {
       heading: "Embedding external resources",
       body: `
@@ -629,8 +508,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Inline images as <code>data:</code> URIs.</li>
           <li>Move CSS from <code>&lt;link&gt;</code> to inline <code>&lt;style&gt;</code>.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Transparency handling",
       body: `
@@ -640,52 +518,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>White</strong> — for documents, presentations, and print where transparency would become white anyway.</li>
           <li><strong>Black</strong> — for light-on-dark compositions.</li>
         </ul>
-      `,
-    },
-  ],
-
-  "json-formatter": [
-    {
-      heading: "What counts as valid JSON",
-      body: `
-        <p>JSON (RFC 8259) is stricter than JavaScript object syntax. Common sources of invalid JSON:</p>
-        <ul>
-          <li>Single quotes instead of double quotes — invalid.</li>
-          <li>Trailing commas in objects or arrays — invalid.</li>
-          <li>Comments (<code>//</code> or <code>/* */</code>) — invalid.</li>
-          <li>Unquoted object keys — invalid.</li>
-          <li><code>NaN</code>, <code>Infinity</code>, <code>undefined</code> — invalid values.</li>
-          <li>Leading zeros in numbers (<code>007</code>) — invalid.</li>
-        </ul>
-        <p>If your input looks like JavaScript but is not JSON, a dedicated converter is needed first.</p>
-      `,
-    },
-    {
-      heading: "Format vs minify vs sort keys",
-      body: `
-        <table>
-          <thead><tr><th>Mode</th><th>Purpose</th><th>Size change</th></tr></thead>
-          <tbody>
-            <tr><td>Format (2-space)</td><td>Readable output for humans</td><td>Grows 20-40%</td></tr>
-            <tr><td>Format (4-space)</td><td>Deeper nesting readability</td><td>Grows 30-60%</td></tr>
-            <tr><td>Format (tab)</td><td>Editor-consistent whitespace</td><td>Varies</td></tr>
-            <tr><td>Minify</td><td>Production payloads, API responses</td><td>Shrinks 20-40%</td></tr>
-            <tr><td>Sort keys</td><td>Deterministic output for diffs</td><td>No size change</td></tr>
-          </tbody>
-        </table>
-      `,
-    },
-    {
-      heading: "Common JSON debugging scenarios",
-      body: `
-        <ul>
-          <li><strong>API response debugging:</strong> paste the minified response, format it, and inspect structure in seconds.</li>
-          <li><strong>Config file validation:</strong> verify <code>package.json</code> or <code>tsconfig.json</code> before committing.</li>
-          <li><strong>Diffing two responses:</strong> sort keys in both, then compare side-by-side.</li>
-          <li><strong>Payload size optimization:</strong> minify before sending; measure the savings.</li>
-        </ul>
-      `,
-    },
+      `},
   ],
 
   "url-encoder": [
@@ -704,8 +537,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td><code>+</code></td><td>Space (query strings)</td><td><code>%2B</code></td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "encodeURI vs encodeURIComponent",
       body: `
@@ -714,8 +546,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>encodeURIComponent:</strong> escapes every reserved character. Use for a single value to insert into a URL — a query parameter, a path segment.</li>
         </ul>
         <p>Most bugs come from using <code>encodeURI</code> on a query value — the <code>&</code> and <code>=</code> inside the value stay literal and break the URL.</p>
-      `,
-    },
+      `},
     {
       heading: "Unicode and emoji in URLs",
       body: `
@@ -727,8 +558,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>😀 → <code>%F0%9F%98%80</code> (four bytes)</li>
         </ul>
         <p>Bengali, Arabic, and Chinese text encode to long percent-sequences — usually still under the URL length limit, but worth checking.</p>
-      `,
-    },
+      `},
   ],
 
   "uuid-generator": [
@@ -746,8 +576,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>Standard</td><td>RFC 4122</td><td>RFC 9562 (2024)</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "When to use each",
       body: `
@@ -756,8 +585,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>v7</strong> — database primary keys, audit log entries, any record where insert order matters.</li>
         </ul>
         <p>A common pattern: v7 for the primary key in the database, v4 for any public-facing token derived from the same record.</p>
-      `,
-    },
+      `},
     {
       heading: "Formatting options",
       body: `
@@ -768,8 +596,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>No hyphens:</strong> 32-character hex string — common for URL slugs and short IDs.</li>
           <li><strong>Batch:</strong> generate up to 1000 at once for bulk seeding.</li>
         </ul>
-      `,
-    },
+      `},
   ],
 
   "text-case-converter": [
@@ -793,8 +620,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>iNVERSE</td><td>HELLO world → hello WORLD</td><td>Fix Caps Lock paste</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "Title case rules (Chicago style)",
       body: `
@@ -810,8 +636,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Coordinating conjunctions (<em>and</em>, <em>but</em>, <em>or</em>, <em>nor</em>, <em>for</em>, <em>so</em>, <em>yet</em>).</li>
           <li>Short prepositions (<em>at</em>, <em>by</em>, <em>for</em>, <em>in</em>, <em>of</em>, <em>on</em>, <em>to</em>, <em>up</em>, <em>with</em>).</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Handling existing camelCase, snake_case, and kebab-case input",
       body: `
@@ -825,8 +650,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Space-separated — spaces.</li>
         </ul>
         <p>So <code>helloWorld</code>, <code>hello_world</code>, and <code>hello-world</code> all convert correctly to <code>Hello World</code> and back.</p>
-      `,
-    },
+      `},
   ],
 
   "base64-encoder": [
@@ -839,8 +663,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Not encryption.</strong> Anyone can decode it instantly. Never use Base64 to "hide" secrets.</li>
           <li><strong>Not compression.</strong> It always grows the data by ~33% because four characters represent three bytes.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Where Base64 shows up",
       body: `
@@ -851,8 +674,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>HTTP Basic Auth:</strong> <code>Authorization: Basic base64(user:pass)</code>.</li>
           <li><strong>API payloads:</strong> small binary blobs embedded in JSON.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Standard vs URL-safe Base64",
       body: `
@@ -866,8 +688,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>If your Base64 will appear in a URL, a query string, or a JWT, use URL-safe.</p>
-      `,
-    },
+      `},
   ],
 
   "password-generator": [
@@ -883,8 +704,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>+ Symbols (94): ~6.55 bits per character.</li>
         </ul>
         <p>Examples: an 8-char all-lowercase password has ~38 bits — weak. A 16-char mixed password has ~105 bits — strong. A 20-char mixed password has ~131 bits — overkill for any real attack.</p>
-      `,
-    },
+      `},
     {
       heading: "Offline crack time reality check",
       body: `
@@ -899,8 +719,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>Note: modern password hashing (bcrypt, Argon2) is 1000× slower than MD5, giving ~20 more bits of effective security. Always use both.</p>
-      `,
-    },
+      `},
     {
       heading: "Why 'exclude ambiguous' matters",
       body: `
@@ -910,8 +729,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>1</strong> (one) vs <strong>l</strong> (lowercase L) vs <strong>I</strong> (uppercase i)</li>
         </ul>
         <p>Excluding these removes 4 characters from the pool — a ~4% entropy reduction — but eliminates most transcription errors when you must type the password by hand.</p>
-      `,
-    },
+      `},
     {
       heading: "Tool documentation — password generator reference",
       body: `
@@ -962,8 +780,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Works offline: once the page is loaded you can disconnect Wi-Fi and the generator still produces the same quality of randomness.</li>
           <li>Batch mode generates up to 50 passwords in one click, useful for setting up multiple accounts or rotating credentials.</li>
         </ul>
-      `,
-    },
+      `},
 
     ],
 
@@ -985,16 +802,14 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>Codabar</td><td>Numeric + symbols</td><td>Variable</td><td>Libraries, blood banks</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "Check digits: automatic vs manual",
       body: `
         <p>EAN, UPC, and ITF-14 use a modulo-10 check digit as the last character. The digit is not optional — without it, the barcode fails to scan reliably.</p>
         <p>This tool computes and appends the check digit automatically. Enter the payload (12 for EAN-13, 11 for UPC-A, 13 for ITF-14) and the correct check digit is calculated.</p>
         <p>CODE128 and CODE39 use internal checksums that are handled automatically by the encoder — nothing for you to compute.</p>
-      `,
-    },
+      `},
     {
       heading: "Printing considerations",
       body: `
@@ -1005,8 +820,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Format:</strong> SVG for print, PNG at 3× scale for screen.</li>
           <li><strong>Test before bulk printing:</strong> scan a single copy with the actual scanner that will be used at the point of sale or warehouse.</li>
         </ul>
-      `,
-    },
+      `},
   ],
 
   "character-counter": [
@@ -1031,8 +845,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>SEO</td><td>Title tag</td><td>50-60</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "How different platforms count",
       body: `
@@ -1041,8 +854,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Instagram:</strong> codepoints, so complex emoji count as multiple. Bengali ligatures (যুক্তাক্ষর) may count as 2-3.</li>
           <li><strong>SMS:</strong> GSM-7 encoding = 160 chars per segment. Unicode (Bengali, Arabic, emoji) = UCS-2 encoding, only 70 chars per segment — and the count multiplies fast.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Characters vs codepoints vs graphemes",
       body: `
@@ -1053,8 +865,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>UTF-8 byte:</strong> how the character is stored. 1 byte for ASCII, 2-4 bytes for others.</li>
         </ul>
         <p>Different platforms use different counting. X uses graphemes; Instagram uses codepoints. This tool uses codepoints to match the strictest case.</p>
-      `,
-    },
+      `},
   ],
 
   "word-counter": [
@@ -1068,8 +879,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Bengali, Arabic, and CJK text all count correctly.</li>
           <li>Numbers and mixed alphanumerics count as words.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Reading time and speaking time formulas",
       body: `
@@ -1083,15 +893,13 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>1,000 words → ~4.5 min read, ~6.5 min spoken.</li>
           <li>2,000 words → ~9 min read, ~13 min spoken.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Keyword density explained",
       body: `
         <p>Keyword density is the percentage of total words made up by each significant word. Common stop words like <em>the</em>, <em>and</em>, <em>of</em> are excluded because they dominate every text.</p>
         <p>Healthy density for a target keyword: 1-2%. Over 3% starts to look like keyword stuffing and can hurt rankings. The tool shows the top 8 keywords by frequency to make this easy to inspect.</p>
-      `,
-    },
+      `},
   ],
 
   "favicon-generator": [
@@ -1111,8 +919,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>site.webmanifest</td><td>JSON</td><td>PWA metadata</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "Design rules for a favicon that survives at 16px",
       body: `
@@ -1123,8 +930,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Square or circle background:</strong> keeps the icon consistent against varied browser chrome.</li>
           <li><strong>Test at actual size:</strong> view the 16×16 render on white and dark backgrounds before committing.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Where to place the files",
       body: `
@@ -1135,8 +941,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Next.js: <code>/public/</code> or the newer <code>app/favicon.ico</code> convention.</li>
         </ul>
         <p>Then reference each file in the <code>&lt;head&gt;</code> with the correct <code>&lt;link&gt;</code> tag. The generated HTML snippet is provided with each download.</p>
-      `,
-    },
+      `},
   ],
 
   "visiting-card": [
@@ -1153,8 +958,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
             <tr><td>Slim (modern)</td><td>85 × 40</td><td>3.35 × 1.57</td><td>2.13</td></tr>
           </tbody>
         </table>
-      `,
-    },
+      `},
     {
       heading: "Bleed, safe zone, and print margins",
       body: `
@@ -1165,8 +969,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Trim line:</strong> the visible card boundary.</li>
         </ul>
         <p>The tool exports at the exact visible size. If your print shop requires a bleed, add it in a design tool before printing.</p>
-      `,
-    },
+      `},
     {
       heading: "Resolution and export format",
       body: `
@@ -1177,8 +980,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>600 DPI:</strong> premium print, luxury card stock, foil or embossed finishes.</li>
         </ul>
         <p>Export PNG for raster workflows, PDF for print shops, JPG only when file size matters and transparency is not needed.</p>
-      `,
-    },
+      `},
   ],
 
   "cv-builder": [
@@ -1195,8 +997,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li><strong>Standard font:</strong> Arial, Calibri, Helvetica, Georgia.</li>
           <li><strong>Selectable text:</strong> exported PDFs must contain a real text layer.</li>
         </ul>
-      `,
-    },
+      `},
     {
       heading: "Impact vs responsibilities",
       body: `
@@ -1211,8 +1012,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>Use numbers — percentages, dollar amounts, time saved, users reached. Concrete numbers are what recruiters remember.</p>
-      `,
-    },
+      `},
     {
       heading: "Length and structure by experience level",
       body: `
@@ -1227,8 +1027,7 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           </tbody>
         </table>
         <p>Rule of thumb: never pad. If the content fits in one dense page, use one page.</p>
-      `,
-    },
+      `},
     {
       heading: "Tool documentation — CV builder reference",
       body: `
@@ -1280,9 +1079,6 @@ export const deepDives: Record<string, ToolDeepDive[]> = {
           <li>Photo uploads are stored as base64 in local storage, which has a 5-10 MB browser quota. Very high-resolution photos should be resized before upload.</li>
           <li>Printing from Chrome produces the most consistent results across platforms; Safari sometimes adds a small margin that can be removed in the print dialog.</li>
         </ul>
-      `,
-    },
+      `},
 
-    ],
-
-};
+    ]};
