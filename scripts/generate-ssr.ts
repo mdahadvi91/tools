@@ -285,7 +285,7 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/tools": {
       path: "/tools",
       title: `All Tools — ${TOOL_COUNT} Free Browser Utilities | AHADEX Tools`,
-      description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX: ${tools.map(t => t.name).join(", ")}. No server transmission.`,
+      description: `Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
       ogImage: "/images/og/default-og.png",
     },
     "/about": {
@@ -369,7 +369,7 @@ function buildSchema(): Record<string, object> {
         "@id": `${SITE}/tools#page`,
         url: `${SITE}/tools`,
         name: `All Tools — ${TOOL_COUNT} free browser-based utilities`,
-        description: `Browse all ${TOOL_COUNT} free browser-based tools from AHADEX Tools.`,
+        description: `Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
         isPartOf: { "@id": `${SITE}/#website` },
       },
       {

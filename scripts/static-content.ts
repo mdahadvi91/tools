@@ -26,7 +26,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 
   <h2>Editorial standards</h2>
   <p>Every article includes a "From our own testing" section documenting measurements from our own runs. We do not republish industry statistics without verification, and we do not make claims our own implementation cannot guarantee. For details, see our <a href="/editorial-policy">Editorial Policy</a>.</p>
-</article>`,
+</article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
   "/contact": `<article>
   <h1>Contact AHADEX Tools</h1>
@@ -59,7 +83,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 
   <h2>Before contacting us</h2>
   <p>Many common questions are already answered in our tool documentation and FAQs. If you have a question about a specific tool, please check its page first. You can also visit our <a href="/about">About page</a> to understand our privacy philosophy and <a href="/editorial-policy">Editorial Policy</a> for details about how we create our content.</p>
-</article>`,
+</article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
   "/privacy": `<article>
 <h1>Your privacy, protected.</h1>
@@ -102,7 +150,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p>We may update this policy from time to time. The latest version will always be available on this page, with the 'Last updated' date at the top. Significant changes will be highlighted on the homepage.</p></section>
 <section><h2>12. Contact</h2>
 <p>Questions about privacy? Email us at mdahadvi91@gmail.com. We aim to respond within 48 hours.</p></section>
-</article>`,
+</article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
   "/terms": `<article>
 <h1>The rules for using AHADEX Tools.</h1>
@@ -131,7 +203,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <p>We may update these terms at any time. Continued use of the Service after changes means you accept the updated terms.</p></section>
 <section><h2>10. Contact</h2>
 <p>Questions about these terms? Email us at mdahadvi91@gmail.com.</p></section>
-</article>`,
+</article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
   "/disclaimer": `<article>
 <h1>Important information about the tools.</h1>
@@ -142,8 +238,55 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
 <section><h2>3. File handling</h2><p>All processing happens in your browser. We are not responsible for any corruption, loss, or unintended modification of your files.</p><p>Always keep a backup of your original files. Never rely on a single tool to preserve critical data.</p></section>
 <section><h2>4. Third-party links</h2><p>The Service may contain links to external websites (for example, our GitHub page or sponsor sites). We are not responsible for the content, policies, or practices of those sites.</p></section>
 <section><h2>5. Availability</h2><p>We aim to keep the Service online 24/7, but we cannot guarantee uninterrupted access. Downtime may occur for maintenance, updates, or issues outside our control.</p></section>
-<section><h2>6. Contact</h2><p>Spotted an error? Email us at mdahadvi91@gmail.com and we'll fix it as soon as possible.</p></section>
-</article>`,
+<section><h2>6. Accuracy of information</h2>
+    <p>We make every effort to ensure the information on AHADEX Tools is accurate and up to date. However, we cannot guarantee that every detail is error-free or current. Technical standards evolve, browser behavior changes, and what worked yesterday may not work tomorrow.</p>
+    <p>If you spot an error, please <a href="/contact">contact us</a> and we will investigate promptly.</p>
+    </section>
+
+    <section><h2>7. Browser compatibility</h2>
+    <p>Our tools are tested on the following browsers at the time of writing:</p>
+    <ul>
+      <li>Chrome 120+ (desktop and mobile)</li>
+      <li>Firefox 121+ (desktop and mobile)</li>
+      <li>Safari 17+ (macOS and iOS)</li>
+      <li>Edge 120+ (Windows)</li>
+      <li>Samsung Internet 23+ (Android)</li>
+    </ul>
+    <p>Older browsers may not support some features (for example, the EyeDropper API in Color Picker requires Chrome or Edge).</p>
+    </section>
+
+    <section><h2>8. Third-party content</h2>
+    <p>Some pages link to external resources (for example, the GitHub repository, Google Ads Settings, or the MDN documentation). We do not control these external sites and are not responsible for their content, availability, or privacy practices.</p>
+    </section>
+
+    <section><h2>9. Contact</h2>
+    <p>Spotted an error? Email us at <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a> and we will fix it as soon as possible.</p>
+    </section>
+  </article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
 
   "/accessibility": `<article>
@@ -192,7 +335,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     </ol>
     <p>Accessibility reports are treated as priority tickets and are usually answered the same day.</p>
     </section>
-  </article>`,
+  </article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
   "/cookie-policy": `<article>
 <h1>How we use cookies.</h1>
 <p><strong>The minimum needed to make the site work. Nothing more, nothing shady.</strong></p>
@@ -218,7 +385,31 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
     <p>We use Cloudflare Web Analytics, which is a privacy-first analytics service that does not use cookies, does not fingerprint users, and does not track individuals across sites. It only counts page views and basic performance metrics.</p>
     <p>This means we don't need to show you a cookie consent banner for our own analytics—which is a better experience for everyone.</p>
     </section>
-  </article>`,
+  </article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
   "/editorial-policy": `<article>
     <h1>How we create our content.</h1>
     <p><strong>Our commitment to accuracy, independence, and transparency. We aim to provide the most reliable, privacy-first tools and documentation on the web.</strong></p>
@@ -269,6 +460,30 @@ export const STATIC_SSR_CONTENT: Record<string, string> = {
       <li>Promote a tool we have not personally tested.</li>
     </ul>
     </section>
-  </article>`,
+  </article>
+  <nav aria-label="Footer navigation">
+    <h2>Explore AHADEX Tools</h2>
+    <ul>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tools/cv-builder">CV Builder</a></li>
+      <li><a href="/tools/visiting-card">Visiting Card Maker</a></li>
+      <li><a href="/tools/photo-qr">Photo QR Code</a></li>
+      <li><a href="/tools/image-to-pdf">Image to PDF</a></li>
+      <li><a href="/tools/image-resizer">Image Resizer</a></li>
+      <li><a href="/tools/webp-converter">WebP Converter</a></li>
+      <li><a href="/tools/color-picker">Color Picker</a></li>
+    </ul>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/disclaimer">Disclaimer</a></li>
+      <li><a href="/cookie-policy">Cookie Policy</a></li>
+      <li><a href="/editorial-policy">Editorial Policy</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+`,
 
 };

@@ -36,7 +36,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@id": "https://ahadex.online/tools#page",
         "url": "https://ahadex.online/tools",
         "name": "All Tools — 7 free browser-based utilities",
-        "description": "Browse all 7 free browser-based tools from AHADEX Tools.",
+        "description": "Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.",
         "isPartOf": {
           "@id": "https://ahadex.online/#website"
         }

@@ -66,7 +66,7 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/tools": {
     "path": "/tools",
     "title": "All Tools — 7 Free Browser Utilities | AHADEX Tools",
-    "description": "Browse all 7 free browser-based tools from AHADEX: Color Picker, WebP Converter, Image Resizer, Image to PDF, Photo QR Code, Visiting Card Maker, CV Builder. No server transmission.",
+    "description": "Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.",
     "ogImage": "/images/og/default-og.png"
   },
   "/about": {
