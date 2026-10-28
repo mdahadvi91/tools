@@ -1,8 +1,12 @@
 import { useState, useRef } from "react";
 import { X, Upload, Copy, Check, Pipette, ZoomIn } from "lucide-react";
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_PIXELS = 10000 * 10000; // 100 Megapixels
+
 export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [image, setImage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState<{ hex: string, rgb: string, hsl: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [zoom, setZoom] = useState(1);
@@ -14,9 +18,28 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
+
+    if (f.size > MAX_FILE_SIZE) {
+      setError("File is too large. Maximum size is 50MB.");
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) {
+      setError("Invalid format. Please upload JPG, PNG, or WebP.");
+      return;
+    }
+
+    setError(null);
     const reader = new FileReader();
     reader.onload = (event) => {
-      setImage(event.target?.result as string);
+      const img = new Image();
+      img.onload = () => {
+        if (img.width * img.height > MAX_PIXELS) {
+          setError("Image resolution is too large to process safely.");
+        } else {
+          setImage(event.target?.result as string);
+        }
+      };
+      img.src = event.target?.result as string;
     };
     reader.readAsDataURL(f);
   };
@@ -60,10 +83,12 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
   };
 
   const useEyeDropper = async () => {
+    // Feature detection for EyeDropper API
     if (!('EyeDropper' in window)) {
-      alert("Your browser does not support the EyeDropper API.");
+      setError("Your browser does not support the EyeDropper API. Please use a modern browser like Chrome or Edge.");
       return;
     }
+    setError(null);
     try {
       const eyeDropper = new (window as any).EyeDropper();
       const result = await eyeDropper.open();
@@ -94,6 +119,7 @@ export function ColorPickerWizard({ isOpen, onClose }: { isOpen: boolean, onClos
       <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-2xl relative shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"><X className="w-5 h-5"/></button>
         <h2 className="text-xl font-bold mb-6">Color Picker</h2>
+        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
         
         {!image ? (
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-10 text-center rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">

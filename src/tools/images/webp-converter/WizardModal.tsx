@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { X, Upload, Loader2, Download } from "lucide-react";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_PIXELS = 10000 * 10000; // 100 Megapixels
 
 export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [file, setFile] = useState<File | null>(null);
@@ -26,6 +27,9 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
       return;
     }
 
+    // Revoke previous URL to prevent memory leaks
+    if (preview) URL.revokeObjectURL(preview);
+
     setError(null);
     setFile(f);
     setPreview(URL.createObjectURL(f));
@@ -35,13 +39,18 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
     if (!preview || !imgRef.current) return;
     setIsProcessing(true);
     
+    if (imgRef.current!.naturalWidth * imgRef.current!.naturalHeight > MAX_PIXELS) {
+      setError("Image resolution is too large to process safely.");
+      setIsProcessing(false);
+      return;
+    }
+
     setTimeout(() => {
       const canvas = document.createElement("canvas");
       canvas.width = imgRef.current!.naturalWidth;
       canvas.height = imgRef.current!.naturalHeight;
       const ctx = canvas.getContext("2d");
       if (ctx) {
-        // Fill white background for JPG (in case of transparency)
         if (format === "image/jpeg") {
           ctx.fillStyle = "#FFFFFF";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -49,12 +58,21 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onCl
         ctx.drawImage(imgRef.current!, 0, 0);
         
         const ext = format === "image/jpeg" ? "jpg" : "png";
-        const resizedDataUrl = canvas.toDataURL(format, 0.95);
         
-        const a = document.createElement("a");
-        a.href = resizedDataUrl;
-        a.download = `converted-${file?.name.split('.')[0] || 'image'}.${ext}`;
-        a.click();
+        // Use toBlob instead of toDataURL for better memory efficiency
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `converted-${file?.name.split('.')[0] || 'image'}.${ext}`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+          setIsProcessing(false);
+          onClose();
+        }, format, 0.95);
+        return;
       }
       setIsProcessing(false);
       onClose();
