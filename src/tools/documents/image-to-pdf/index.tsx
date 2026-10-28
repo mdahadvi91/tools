@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@contexts/LanguageContext";
-import { useToolAnalytics } from "@hooks/useToolAnalytics";
 import { trackRecentTool } from "@lib/recentTools";
 
 import { ToolDataSections } from "@components/tools/ToolDataSections";
@@ -24,8 +23,6 @@ export default function ImageToPdfTool() {
   useEffect(() => {
     trackRecentTool({ path: "/tools/image-to-pdf", name: "Image to PDF", emoji: "📄" });
   }, []);
-  useToolAnalytics("image-to-pdf");
-
   return (
     <div className="mx-auto max-w-[1400px] px-3 sm:px-6 lg:px-8">
       <ToolSchema toolId="image-to-pdf" />

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { trackRecentTool } from "@lib/recentTools";
 import { ToolDataSections } from "@components/tools/ToolDataSections";
-import { useToolAnalytics } from "@hooks/useToolAnalytics";
 import { CVBuilderHero } from "./components/Hero";
 import { CVBuilderIntro } from "./components/Intro";
 import { CVBuilderFeatures } from "./components/Features";
@@ -22,8 +21,6 @@ export default function CVBuilderTool() {
   useEffect(() => {
     trackRecentTool({ path: "/tools/cv-builder", name: "Cv Builder", emoji: "🔧" });
   }, []);
-  useToolAnalytics("cv-builder");
-
   return (
     <>
       <ToolSchema toolId="cv-builder" />

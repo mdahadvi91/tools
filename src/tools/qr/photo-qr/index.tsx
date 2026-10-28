@@ -3,7 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { trackRecentTool } from "@lib/recentTools";
 import { ToolDataSections } from "@components/tools/ToolDataSections";
 import { RelatedToolsBlock } from "@components/tools/RelatedToolsBlock";
-import { useToolAnalytics } from "@hooks/useToolAnalytics";
 import { useLanguage } from "@contexts/LanguageContext";
 import { Hero } from "./Hero";
 import { PrivacyNote } from "./PrivacyNote";
@@ -28,8 +27,6 @@ export default function PhotoQrTool() {
   useEffect(() => {
     trackRecentTool({ path: "/tools/photo-qr", name: "Photo Qr", emoji: "🔧" });
   }, []);
-  useToolAnalytics("photo-qr");
-
   return (
     <div className="mx-auto max-w-[1400px] px-3 sm:px-6 lg:px-8">
       <ToolSchema toolId="photo-qr" />
