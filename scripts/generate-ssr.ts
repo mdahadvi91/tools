@@ -643,8 +643,8 @@ function generateOgImages() {
       <circle cx="1100" cy="550" r="250" fill="#C99667" opacity="0.1" filter="blur(40px)" />
       
       <!-- Main Content -->
-      <text x="80" y="200" font-family="system-ui, sans-serif" font-weight="900" font-size="72" fill="url(#text-glow)">${t.name}</text>
-      <text x="80" y="280" font-family="system-ui, sans-serif" font-size="32" fill="#a0a0a0">${t.description}</text>
+      <text x="80" y="200" font-family="system-ui, sans-serif" font-weight="900" font-size="72" fill="url(#text-glow)">${t.name.replace(/&/g, "&amp;")}</text>
+      <text x="80" y="280" font-family="system-ui, sans-serif" font-size="32" fill="#a0a0a0">${t.description.replace(/&/g, "&amp;")}</text>
       
       <!-- Footer / Branding -->
       <text x="80" y="550" font-family="system-ui, sans-serif" font-weight="bold" font-size="40" fill="#ffffff">AHADEX Tools</text>
