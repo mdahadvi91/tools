@@ -75,7 +75,7 @@ function renderToolPage(t: Tool): string {
   }
 
   if (t.howTo.length) {
-    out.push(`  <h2>How to use</h2>`);
+    out.push(`  <h2>How to use ${esc(t.name)}</h2>`);
     out.push(`  <ol>`);
     for (const h of t.howTo) {
       out.push(`    <li><strong>${esc(h.title)}</strong>: ${esc(h.description)}</li>`);
