@@ -18,7 +18,7 @@ const legacyTools: Tool[] = [
     description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. 100% free and private.",
     descriptionBn: "ব্রাউজারেই JPG, PNG এবং WebP ছবিগুলোকে একটি PDF ফাইলে রূপান্তর করুন।",
     longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs 100% locally in your browser — no uploads, no accounts.",
-    keywords: ["image to pdf", "jpg to pdf", "png to pdf", "merge images", "convert to pdf"],
+    keywords: ["image to pdf", "jpg to pdf", "png to pdf", "webp to pdf", "convert image to pdf", "merge images to pdf", "photo to pdf"],
     popular: true,
     newTool: true,
     features: [
@@ -71,7 +71,7 @@ const legacyTools: Tool[] = [
     description: "Add a real, scannable QR badge to any photo — WhatsApp, Facebook, WiFi, and more.",
     descriptionBn: "যেকোনো ছবিতে স্ক্যানযোগ্য QR ব্যাজ যোগ করুন — WhatsApp, Facebook, WiFi এবং আরও অনেক কিছু।",
     longDescription: "Photo QR Code lets you add a real, scannable QR code to any photo in seconds. Upload a picture, choose a platform (WhatsApp, Facebook, Instagram, Telegram, phone, email, WiFi, website, SMS, or contact card), enter your details, and we'll place a scannable QR badge on a corner of your photo. The photo stays exactly as it was — only the badge is added. Every QR is generated with error-correction level H so it remains readable even when printed, and includes the platform icon in the center.",
-    keywords: ["photo", "qr", "image", "badge", "whatsapp", "facebook"],
+    keywords: ["photo qr code", "qr code on photo", "add qr code to image", "qr code generator for photos", "whatsapp qr code", "image qr maker", "add qr to picture"],
     popular: true,
     newTool: false,
     editorialContent: [
