@@ -672,7 +672,7 @@ function generateOgImages() {
     writeFileSync(resolve(ogDir, filename), svg);
     
     // Point registry to the PNG version (which will be generated right after)
-    t.seo.ogImage = `/images/og/tools/${filename.replace('.svg', '.png')}`;
+    t.seo.ogImage = `/images/og/tools/${filename.replace('.svg', '.jpg')}`;
   }
   console.log(`  ✓ public/images/og/tools/*.svg (generated ${tools.length} beautiful unique OG images)`);
 }

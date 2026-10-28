@@ -125,7 +125,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/color-picker-og.png",
+        "image": "https://ahadex.online/images/og/tools/color-picker-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -182,7 +182,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/webp-converter-og.png",
+        "image": "https://ahadex.online/images/og/tools/webp-converter-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -239,7 +239,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/image-resizer-og.png",
+        "image": "https://ahadex.online/images/og/tools/image-resizer-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -296,7 +296,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/image-to-pdf-og.png",
+        "image": "https://ahadex.online/images/og/tools/image-to-pdf-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -353,7 +353,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/photo-qr-og.png",
+        "image": "https://ahadex.online/images/og/tools/photo-qr-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -412,7 +412,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/visiting-card-og.png",
+        "image": "https://ahadex.online/images/og/tools/visiting-card-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",
@@ -471,7 +471,7 @@ export const SSR_SCHEMA: Record<string, object> = {
           "price": "0",
           "priceCurrency": "USD"
         },
-        "image": "https://ahadex.online/images/og/tools/cv-builder-og.png",
+        "image": "https://ahadex.online/images/og/tools/cv-builder-og.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "AHADEX Tools",

@@ -16,43 +16,43 @@ export const TOOL_META: Record<string, ToolMeta> = {
     "path": "/tools/color-picker",
     "title": "Color Picker — HEX, RGB from Image | AHADEX Tools",
     "description": "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.",
-    "ogImage": "/images/og/tools/color-picker-og.png"
+    "ogImage": "/images/og/tools/color-picker-og.jpg"
   },
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
     "title": "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools",
     "description": "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.",
-    "ogImage": "/images/og/tools/webp-converter-og.png"
+    "ogImage": "/images/og/tools/webp-converter-og.jpg"
   },
   "/tools/image-resizer": {
     "path": "/tools/image-resizer",
     "title": "Image Resizer — Resize Image Dimensions Online | AHADEX Tools",
     "description": "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.",
-    "ogImage": "/images/og/tools/image-resizer-og.png"
+    "ogImage": "/images/og/tools/image-resizer-og.jpg"
   },
   "/tools/image-to-pdf": {
     "path": "/tools/image-to-pdf",
     "title": "Image to PDF Converter — JPG, PNG to PDF | AHADEX Tools",
     "description": "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
-    "ogImage": "/images/og/tools/image-to-pdf-og.png"
+    "ogImage": "/images/og/tools/image-to-pdf-og.jpg"
   },
   "/tools/photo-qr": {
     "path": "/tools/photo-qr",
     "title": "Photo QR Code — Add QR to Photos | AHADEX Tools",
     "description": "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
-    "ogImage": "/images/og/tools/photo-qr-og.png"
+    "ogImage": "/images/og/tools/photo-qr-og.jpg"
   },
   "/tools/visiting-card": {
     "path": "/tools/visiting-card",
     "title": "Visiting Card Maker — Free Business Card Designer | AHADEX",
     "description": "Design print-ready visiting cards with live preview. 20 premium templates. Free, private, PNG/JPG export.",
-    "ogImage": "/images/og/tools/visiting-card-og.png"
+    "ogImage": "/images/og/tools/visiting-card-og.jpg"
   },
   "/tools/cv-builder": {
     "path": "/tools/cv-builder",
     "title": "Free CV Builder — Create Professional Resumes | AHADEX Tools",
     "description": "Build a professional CV in minutes. Real A4 templates, selectable-text PDF export, auto-save, full privacy.",
-    "ogImage": "/images/og/tools/cv-builder-og.png"
+    "ogImage": "/images/og/tools/cv-builder-og.jpg"
   }
 };
 
