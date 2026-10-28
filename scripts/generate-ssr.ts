@@ -219,6 +219,76 @@ function renderToolsPage(): string {
 
 ${sections}
 
+  <h2>Why our tools are different</h2>
+  <p>Every AHADEX tool runs entirely in your browser using modern web APIs. This means:</p>
+  <ul>
+    <li><strong>No uploads:</strong> Your files never travel over the network.</li>
+    <li><strong>No account required:</strong> There is no signup, no email verification, no login.</li>
+    <li><strong>No watermarks:</strong> The output is exactly what you processed.</li>
+    <li><strong>No file-size upsell:</strong> There are no "premium" limits to unlock.</li>
+    <li><strong>Works offline:</strong> Once the page loads, Wi-Fi can be turned off and the tool still works.</li>
+  </ul>
+
+  <h2>How we compare to typical online tools</h2>
+  <p>Most online tools work by uploading your file to a server, processing it, then returning a download link. This model introduces several risks:</p>
+  <ul>
+    <li>Your file exists on someone else's computer (even briefly).</li>
+    <li>Some services claim to delete files immediately, but the upload already happened.</li>
+    <li>File names, sizes, and content are logged by the server.</li>
+    <li>Some services inject watermarks or delay downloads to encourage upgrades.</li>
+  </ul>
+  <p>AHADEX tools avoid all of these by processing entirely on your device. You can verify this yourself: open your browser's developer tools, switch to the Network tab, and use any tool. You will see zero outbound file-upload requests.</p>
+
+  <h2>Who is AHADEX Tools for?</h2>
+  <p>Our tools are used by freelancers, job seekers, small business owners, designers, developers, and anyone who values privacy. Common use cases include:</p>
+  <ul>
+    <li>Preparing a CV for job applications (CV Builder)</li>
+    <li>Designing a business card (Visiting Card Maker)</li>
+    <li>Adding a WhatsApp or WiFi QR to a photo (Photo QR Code)</li>
+    <li>Merging photos into a single PDF (Image to PDF)</li>
+    <li>Resizing images for social media (Image Resizer)</li>
+    <li>Converting WebP images for older software (WebP Converter)</li>
+    <li>Extracting brand colors from a logo (Color Picker)</li>
+  </ul>
+
+  <h2>How to choose the right tool</h2>
+  <p>If you're not sure which tool to use, here is a quick guide:</p>
+  <ul>
+    <li><strong>Applying for a job?</strong> Start with CV Builder to create a professional, ATS-friendly resume.</li>
+    <li><strong>Starting a business?</strong> Use Visiting Card Maker to design print-ready business cards.</li>
+    <li><strong>Sharing contact info?</strong> Use Photo QR Code to add a scannable QR to your photo.</li>
+    <li><strong>Sending documents?</strong> Use Image to PDF to combine photos into a single PDF.</li>
+    <li><strong>Uploading to social media?</strong> Use Image Resizer to fit specific dimensions.</li>
+    <li><strong>Opening old images?</strong> Use WebP Converter to convert modern formats.</li>
+    <li><strong>Matching brand colors?</strong> Use Color Picker to extract HEX, RGB, and HSL from any image.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <div>
+    <h3>Are all tools really free?</h3>
+    <p>Yes. Every tool is completely free to use without an account, watermark, or hidden limit. The site is supported by advertising shown outside the tool workspaces.</p>
+  </div>
+  <div>
+    <h3>Do you upload my files?</h3>
+    <p>No. Every tool processes files locally in your browser. You can verify this by opening your browser's developer tools and checking the Network tab while using any tool.</p>
+  </div>
+  <div>
+    <h3>Do I need to create an account?</h3>
+    <p>No. There is no signup, no email, and no login. Every tool works immediately.</p>
+  </div>
+  <div>
+    <h3>Does it work on mobile phones and tablets?</h3>
+    <p>Yes. Every tool is fully responsive and tested on iOS Safari, Android Chrome, Firefox for Android, and Samsung Internet.</p>
+  </div>
+  <div>
+    <h3>Do you collect analytics?</h3>
+    <p>We use Cloudflare Web Analytics, which is a privacy-first, cookieless service. We never see your files or the text you enter into a tool.</p>
+  </div>
+  <div>
+    <h3>How can I report a bug or request a feature?</h3>
+    <p>Email <a href="mailto:mdahadvi91@gmail.com">mdahadvi91@gmail.com</a> or open an issue on <a href="https://github.com/mdahadvi91/tools">GitHub</a>.</p>
+  </div>
+
   <h2>Privacy across every tool</h2>
   <p>No tool on this site uploads your files to a server. Each tool reads its input locally, processes it in your browser, and hands the result back as a download. You can confirm this by opening your browser's developer tools and watching the Network tab while using any tool.</p>
 </article>`;
