@@ -127,7 +127,51 @@ const legacyTools: Tool[] = [
       "Upscaling (making images larger) may result in a loss of sharpness or pixelation.",
       "Cannot process images larger than 50MB due to browser memory limits."
     ],
-    relatedTools: ["image-to-pdf", "photo-qr"],
+        editorialContent: [
+      {
+        heading: "What does the Image Resizer do?",
+        body: `
+          <p>This tool allows you to change the dimensions (width and height) of any image directly in your browser. It scales the image to your exact pixel requirements without uploading the file to any server.</p>
+        `
+      },
+      {
+        heading: "Who is it for?",
+        body: `
+          <p>Perfect for web developers, social media managers, photographers, and anyone who needs to fit images into specific size requirements (e.g., profile pictures, website headers, or email attachments).</p>
+        `
+      },
+      {
+        heading: "How does it work?",
+        body: `
+          <p>We use the HTML5 Canvas API. When you enter a new width and height, the browser draws the image onto a virtual canvas at the new dimensions and exports it as a downloadable file.</p>
+        `
+      },
+      {
+        heading: "What formats are supported?",
+        body: `
+          <p>We support standard web formats: JPG (JPEG), PNG, and WebP.</p>
+        `
+      },
+      {
+        heading: "What are the limits?",
+        body: `
+          <p>To prevent browser crashes, the maximum file size is 50MB, and the maximum output dimensions are 10,000 x 10,000 pixels. We also limit the total output to 100 Megapixels.</p>
+        `
+      },
+      {
+        heading: "Does it upload files?",
+        body: `
+          <p><strong>No.</strong> Your files are never uploaded. The entire process happens locally on your device using JavaScript.</p>
+        `
+      },
+      {
+        heading: "What happens with invalid input?",
+        body: `
+          <p>If you enter a negative number, zero, or dimensions that are too large, the tool will display a safe error message and prevent the browser from crashing.</p>
+        `
+      }
+    ],
+relatedTools: ["image-to-pdf", "photo-qr"],
     seo: { title: "Image Resizer — Resize Image Dimensions Online Free | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. 100% free, private, no uploads.", ogImage: "/images/og/tools/image-resizer-og.png" }
   },
     {
