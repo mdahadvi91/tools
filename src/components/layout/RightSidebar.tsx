@@ -204,7 +204,7 @@ export function RightSidebar({ mobileOpen, onMobileClose }: RightSidebarProps) {
 
   return (
     <>
-      <aside className="hidden lg:flex fixed top-0 right-0 bottom-0 w-72 border-l border-silk-rose/15 bg-silk-cream/70 dark:bg-dark-bg/70 backdrop-blur-xl overflow-y-auto z-30 pt-24 flex-col transition-colors duration-500">
+      <aside className="hidden lg:flex fixed top-0 right-0 bottom-0 w-72 border-l-2 border-silk-rose/30 bg-silk-cream/95 dark:bg-dark-bg/95 backdrop-blur-2xl shadow-[-4px_0_24px_-4px_rgba(0,0,0,0.1)] overflow-y-auto z-30 pt-24 flex-col transition-colors duration-500">
         <PanelBody />
       </aside>
 
@@ -216,7 +216,7 @@ export function RightSidebar({ mobileOpen, onMobileClose }: RightSidebarProps) {
             onClick={onMobileClose}
             className="fixed inset-0 z-[80] bg-silk-plum/60 backdrop-blur-sm cursor-default"
           />
-          <div className="fixed top-0 right-0 bottom-0 z-[81] w-[85vw] max-w-sm shadow-2xl bg-silk-cream dark:bg-dark-bg transition-colors duration-500">
+          <div className="fixed top-0 right-0 bottom-0 z-[81] w-[85vw] max-w-sm shadow-[-8px_0_32px_rgba(0,0,0,0.3)] bg-silk-cream dark:bg-dark-bg border-l-2 border-silk-rose/20 transition-colors duration-500">
             <PanelBody onClose={onMobileClose} />
           </div>
         </div>
