@@ -52,7 +52,7 @@ function SidebarBody({ onClose }: { onClose?: () => void }) {
               to={to}
               onClick={onClose}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md",
                 active
                   ? "bg-silk-rose/15 text-silk-wine dark:text-silk-rose-soft"
                   : "text-light-textSecondary dark:text-dark-textSecondary hover:text-silk-wine dark:hover:text-silk-rose-soft hover:bg-silk-rose/8"
