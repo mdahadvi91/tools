@@ -84,7 +84,14 @@ function injectConsentScript(html: string, nonce: string): string {
       'analytics_storage': 'denied'
     });
   </script>`;
-  return html.replace(/<head[^>]*>/i, (match) => match + consentScript);
+  
+  // Inject consent script at start of <head>
+  let newHtml = html.replace(/<head[^>]*>/i, (match) => match + consentScript);
+  
+  // Add nonce to ALL <script> tags that don't have one
+  newHtml = newHtml.replace(/<script(?![^>]*\bnonce=)([^>]*)>/gi, `<script nonce="${nonce}"$1>`);
+  
+  return newHtml;
 }
 
 function buildHtml(
