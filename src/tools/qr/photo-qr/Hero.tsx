@@ -4,7 +4,8 @@ import { ArrowLeft, Sparkles, Scan, Zap } from "lucide-react";
 import { useLanguage } from "@contexts/LanguageContext";
 import { useReducedMotion } from "@hooks/useReducedMotion";
 import { LiveText } from "@components/common/LiveText";
-import { photoQrData } from "./data";
+import { tools } from "@/data/tools";
+const photoQrData = tools.find(t => t.id === "photo-qr")!;
 import { photoQrContent } from "./content";
 
 export function Hero() {
