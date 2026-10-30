@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, Zap } from "lucide-react";
 import { useLanguage } from "@contexts/LanguageContext";
-import { imageToPdfData } from "./data";
+import { imageToPdfLogic } from "./logic";
 import { imageToPdfContent } from "./content";
 
 export function Hero() {
@@ -29,7 +29,7 @@ export function Hero() {
         </motion.div>
 
         <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.1 }} className="font-display font-black text-[2.25rem] leading-[1] sm:text-5xl lg:text-6xl tracking-tight text-light-text dark:text-dark-text">
-          {imageToPdfData.name}
+          {imageToPdfLogic.name}
         </motion.h1>
 
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="mt-5 sm:mt-7 text-[15px] sm:text-lg lg:text-xl text-light-textSecondary dark:text-dark-textSecondary max-w-2xl leading-relaxed">

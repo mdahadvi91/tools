@@ -9,7 +9,7 @@ import { tools } from "@/data/tools";
 
 const tool = tools.find((t) => t.id === "image-to-pdf")!;
 
-export const imageToPdfData = {
+export const imageToPdfLogic = {
   id: tool.id,
   slug: tool.slug,
   name: tool.name,

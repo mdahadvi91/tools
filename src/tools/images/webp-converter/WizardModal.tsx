@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { X, Upload, Loader2, Download } from "lucide-react";
+import { MAX_FILE_SIZE, MAX_PIXELS } from "./logic";
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-const MAX_PIXELS = 10000 * 10000; // 100 Megapixels
 
 export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [file, setFile] = useState<File | null>(null);
