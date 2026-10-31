@@ -140,3 +140,5 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
     </div>
   );
 }
+
+// Note: File size limit is 50 * 1024 * 1024 bytes

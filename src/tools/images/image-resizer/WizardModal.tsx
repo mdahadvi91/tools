@@ -159,3 +159,5 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean; onClo
     </div>
   );
 }
+
+// Note: File size limit is 50 * 1024 * 1024 bytes
