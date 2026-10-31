@@ -23,7 +23,7 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist node_modules/.vite",
     "generate:ssr": "tsx scripts/generate-ssr.ts",
-    "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts && tsx scripts/validate.ts && tsx scripts/content-audit.ts",
+    "prebuild": "tsx scripts/generate-ssr.ts && tsx scripts/generate-og-jpg.ts && tsx scripts/validate.ts && tsx scripts/content-audit.ts && npm run generate:llms",
     "validate": "tsx scripts/validate.ts",
     "ci": "npm run type-check && npm run generate:ssr && npm run validate && npm run audit:content && npm run test && npm run build && npm run check:drift",
     "check:drift": "git diff --exit-code functions/ public/sitemap.xml public/robots.txt || (echo 'Generated files out of date' && exit 1)",
@@ -33,7 +33,8 @@
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
-    "lint:fix": "eslint src --ext ts,tsx --fix"
+    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "generate:llms": "tsx scripts/generate-llms.ts"
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
