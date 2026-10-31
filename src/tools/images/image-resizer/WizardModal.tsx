@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@contexts/LanguageContext";
 import { cn } from "@lib/cn";
@@ -44,6 +44,7 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean; onClo
 
   const handleWidthChange = (val: number) => { setWidth(val); if (lockRatio && ratio > 0) setHeight(Math.round(val / ratio)); };
   const handleHeightChange = (val: number) => { setHeight(val); if (lockRatio && ratio > 0) setWidth(Math.round(val * ratio)); };
+  
   const validate = (): string | null => {
     if (width <= 0 || height <= 0) return bn ? "সাইজ ০ এর বেশি হতে হবে।" : "Size must be > 0.";
     if (width > MAX_DIMENSION || height > MAX_DIMENSION) return `Max ${MAX_DIMENSION}px.`;
@@ -133,15 +134,53 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean; onClo
               )}
 
               {step === 3 && (
-                <div className="space-y-3">
+                <div className="space-y-6">
                   <div className="text-center">
                     <p className="text-sm font-bold text-light-text dark:text-dark-text mb-1">✓ {bn ? "প্রস্তুত" : "Ready"}</p>
                     <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary mb-4">{width} × {height}px</p>
                   </div>
-                  <div className="flex gap-3">
-                    <button onClick={() => setDownloadFormat("image/png")} className={cn("flex-1 py-3 rounded-xl border-2 font-bold transition-all", downloadFormat === "image/png" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-textSecondary dark:text-dark-textSecondary hover:border-silk-rose/40")}>PNG<span className="block text-[10px] font-normal mt-0.5 opacity-70">Lossless</span></button>
-                    <button onClick={() => setDownloadFormat("image/jpeg")} className={cn("flex-1 py-3 rounded-xl border-2 font-bold transition-all", downloadFormat === "image/jpeg" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-textSecondary dark:text-dark-textSecondary hover:border-silk-rose/40")}>JPG<span className="block text-[10px] font-normal mt-0.5 opacity-70">Smaller</span></button>
+                  
+                  {/* PNG & JPG Buttons */}
+                  <div className="flex gap-3 relative z-10">
+                    <button 
+                      type="button" 
+                      onClick={() => setDownloadFormat("image/png")} 
+                      className={cn(
+                        "relative flex-1 rounded-xl border-2 py-4 font-bold transition-all cursor-pointer select-none", 
+                        downloadFormat === "image/png" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {downloadFormat === "image/png" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg">PNG</span>
+                      <span className="mt-1 block text-[10px] font-normal opacity-70">Lossless</span>
+                    </button>
+                    
+                    <button 
+                      type="button" 
+                      onClick={() => setDownloadFormat("image/jpeg")} 
+                      className={cn(
+                        "relative flex-1 rounded-xl border-2 py-4 font-bold transition-all cursor-pointer select-none", 
+                        downloadFormat === "image/jpeg" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {downloadFormat === "image/jpeg" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg">JPG</span>
+                      <span className="mt-1 block text-[10px] font-normal opacity-70">Smaller</span>
+                    </button>
                   </div>
+                  
                   {error && <p className="text-center text-xs text-red-600 dark:text-red-400">{error}</p>}
                 </div>
               )}
@@ -149,8 +188,11 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean; onClo
 
             <footer className="shrink-0 px-4 py-3 border-t border-silk-rose/20 bg-white dark:bg-[#0A0B1E] flex items-center justify-between gap-3">
               {step > 1 ? <button onClick={() => setStep((step - 1) as any)} className="flex items-center gap-2 px-4 py-3 rounded-xl border border-silk-rose/30 hover:bg-silk-rose/5 text-light-text dark:text-dark-text font-bold text-sm"><ArrowLeft className="w-4 h-4" />{bn ? "পিছনে" : "Back"}</button> : <div />}
+              
               {step === 1 && <button onClick={() => setStep(2)} disabled={!file} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
-              {step === 2 && <button onClick={() => { const v = validate(); if (v) { setError(v); return; } setError(null); setStep(3); }} disabled={!file || width <= 0 || height <= 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "ডাউনলোড" : "Download"} <ArrowRight className="w-4 h-4" /></button>}
+              
+              {step === 2 && <button onClick={() => { const v = validate(); if (v) { setError(v); return; } setError(null); setStep(3); }} disabled={!file || width <= 0 || height <= 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
+              
               {step === 3 && <button onClick={handleDownload} disabled={isProcessing} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50">{isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}{isProcessing ? "..." : "Download"}</button>}
             </footer>
           </div>
@@ -159,5 +201,3 @@ export function ImageResizerWizard({ isOpen, onClose }: { isOpen: boolean; onClo
     </div>
   );
 }
-
-// Note: File size limit is 50 * 1024 * 1024 bytes

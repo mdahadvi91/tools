@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { jsPDF } from "jspdf";
-import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@contexts/LanguageContext";
 import { cn } from "@lib/cn";
@@ -41,13 +41,25 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
   const handleFiles = (newFiles: FileList | null) => {
     if (!newFiles) return;
     const arr = Array.from(newFiles);
-    if (files.length + arr.length > MAX_IMAGES) { setError(bn ? `সর্বোচ্চ ${MAX_IMAGES}টি ছবি যোগ করা যাবে।` : `Maximum ${MAX_IMAGES} images allowed.`); return; }
+    if (files.length + arr.length > MAX_IMAGES) {
+      setError(bn ? `সর্বোচ্চ ${MAX_IMAGES}টি ছবি যোগ করা যাবে।` : `Maximum ${MAX_IMAGES} images allowed.`);
+      return;
+    }
     for (const f of arr) {
-      if (f.size > MAX_FILE_SIZE) { setError(bn ? `${f.name} অনেক বড় (সর্বোচ্চ ৫০ MB)।` : `${f.name} is too large (max 50MB).`); return; }
-      if (!SUPPORTED_MIMES.includes(f.type)) { setError(bn ? `${f.name}: শুধু JPG, PNG, WebP সাপোর্টেড।` : `${f.name}: only JPG, PNG, WebP supported.`); return; }
+      if (f.size > MAX_FILE_SIZE) {
+        setError(bn ? `${f.name} অনেক বড় (সর্বোচ্চ ৫০ MB)।` : `${f.name} is too large (max 50MB).`);
+        return;
+      }
+      if (!SUPPORTED_MIMES.includes(f.type)) {
+        setError(bn ? `${f.name}: শুধু JPG, PNG, WebP সাপোর্টেড।` : `${f.name}: only JPG, PNG, WebP supported.`);
+        return;
+      }
     }
     const total = [...files, ...arr].reduce((s, f) => s + f.size, 0);
-    if (total > MAX_TOTAL_SIZE) { setError(bn ? "মোট সাইজ ২০০ MB এর বেশি।" : "Total size exceeds 200MB."); return; }
+    if (total > MAX_TOTAL_SIZE) {
+      setError(bn ? "মোট সাইজ ২০০ MB এর বেশি।" : "Total size exceeds 200MB.");
+      return;
+    }
     setError(null); setFiles([...files, ...arr]);
   };
 
@@ -63,29 +75,49 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
         const file = files[i];
         const dataUrl = await readFileAsDataURL(file);
         const img = new Image(); img.src = dataUrl;
-        await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error(`Failed to decode ${file.name}`)); });
+        await new Promise<void>((res, rej) => {
+          img.onload = () => res();
+          img.onerror = () => rej(new Error(`Failed to decode ${file.name}`));
+        });
+
         if (img.width * img.height > MAX_PIXELS) throw new Error(`${file.name}: resolution too large (max 100MP).`);
-        const pw = pdf.internal.pageSize.getWidth(); const ph = pdf.internal.pageSize.getHeight();
-        const ir = img.width / img.height; const pr = pw / ph;
+        const pw = pdf.internal.pageSize.getWidth();
+        const ph = pdf.internal.pageSize.getHeight();
+        const ir = img.width / img.height;
+        const pr = pw / ph;
         let fw = pw, fh = pw / ir;
         if (ir < pr) { fh = ph; fw = ph * ir; }
+        
         if (!first) pdf.addPage();
         const fmt = file.type === "image/png" ? "PNG" : "JPEG";
         pdf.addImage(dataUrl, fmt, 0, 0, fw, fh);
-        first = false; setProgress(Math.round(((i + 1) / files.length) * 100));
+        first = false;
+        setProgress(Math.round(((i + 1) / files.length) * 100));
       }
-      const blob = pdf.output("blob"); const url = URL.createObjectURL(blob); const a = document.createElement("a");
+      
+      const blob = pdf.output("blob");
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
       a.href = url; a.download = `ahadex-images-${Date.now()}.pdf`;
-      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-    } catch (err) { setError(err instanceof Error ? err.message : "PDF failed"); }
-    finally { setIsProcessing(false); }
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "PDF failed");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const stepTitles: Record<number, string> = { 1: bn ? "ছবি আপলোড করুন" : "Upload Images", 2: bn ? "ছবি যাচাই করুন" : "Review Images", 3: bn ? "ডাউনলোড PDF" : "Download PDF" };
+  const stepTitles: Record<number, string> = {
+    1: bn ? "ছবি আপলোড করুন" : "Upload Images",
+    2: bn ? "ছবি যাচাই করুন" : "Review Images",
+    3: bn ? "ডাউনলোড PDF" : "Download PDF",
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" role="dialog" aria-modal="true">
       <div className="flex flex-col w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-5xl bg-white dark:bg-[#0A0B1E] sm:rounded-2xl sm:border border-silk-rose/25 shadow-2xl overflow-hidden">
+        
         <header className="shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-b border-silk-rose/20 bg-white dark:bg-[#0A0B1E]">
           <div className="min-w-0">
             <p className="text-[10px] font-bold uppercase tracking-widest text-silk-rose">{bn ? `ধাপ ${step}/3` : `STEP ${step}/3`}</p>
@@ -117,6 +149,7 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
 
           <div className="flex-1 md:w-1/2 flex flex-col min-h-0 bg-white dark:bg-[#0A0B1E]">
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+              
               {step === 1 && (
                 <div>
                   {files.length > 0 ? (
@@ -158,15 +191,53 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
               )}
 
               {step === 3 && (
-                <div className="space-y-3">
+                <div className="space-y-6">
                   <div className="text-center">
                     <p className="text-sm font-bold text-light-text dark:text-dark-text mb-1">✓ {bn ? "প্রস্তুত" : "Ready"}</p>
                     <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary mb-4">{bn ? `${files.length}টি ছবি · পেজ সাইজ বেছে নিন` : `${files.length} image${files.length === 1 ? "" : "s"} · Choose page size`}</p>
                   </div>
-                  <div className="flex gap-3">
-                    <button onClick={() => setPageSize("a4")} className={cn("flex-1 py-3 rounded-xl border-2 font-bold transition-all", pageSize === "a4" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-textSecondary dark:text-dark-textSecondary hover:border-silk-rose/40")}>A4<span className="block text-[10px] font-normal mt-0.5 opacity-70">210 × 297 mm</span></button>
-                    <button onClick={() => setPageSize("letter")} className={cn("flex-1 py-3 rounded-xl border-2 font-bold transition-all", pageSize === "letter" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-textSecondary dark:text-dark-textSecondary hover:border-silk-rose/40")}>Letter<span className="block text-[10px] font-normal mt-0.5 opacity-70">216 × 279 mm</span></button>
+                  
+                  {/* A4 & Letter Buttons - Full width, big, clickable */}
+                  <div className="flex gap-4 relative z-10 w-full">
+                    <button 
+                      type="button" 
+                      onClick={() => setPageSize("a4")} 
+                      className={cn(
+                        "relative flex-1 flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer select-none", 
+                        pageSize === "a4" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {pageSize === "a4" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg font-bold">A4</span>
+                      <span className="text-[10px] font-normal opacity-70">210 × 297 mm</span>
+                    </button>
+                    
+                    <button 
+                      type="button" 
+                      onClick={() => setPageSize("letter")} 
+                      className={cn(
+                        "relative flex-1 flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer select-none", 
+                        pageSize === "letter" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {pageSize === "letter" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg font-bold">Letter</span>
+                      <span className="text-[10px] font-normal opacity-70">216 × 279 mm</span>
+                    </button>
                   </div>
+
                   {isProcessing && (
                     <div className="mt-3">
                       <div className="w-full bg-silk-rose/15 rounded-full h-2"><div className="bg-silk-rose h-2 rounded-full transition-all" style={{ width: `${progress}%` }} /></div>
@@ -180,8 +251,11 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
 
             <footer className="shrink-0 px-4 py-3 border-t border-silk-rose/20 bg-white dark:bg-[#0A0B1E] flex items-center justify-between gap-3">
               {step > 1 ? <button onClick={() => setStep((step - 1) as any)} className="flex items-center gap-2 px-4 py-3 rounded-xl border border-silk-rose/30 hover:bg-silk-rose/5 text-light-text dark:text-dark-text font-bold text-sm"><ArrowLeft className="w-4 h-4" />{bn ? "পিছনে" : "Back"}</button> : <div />}
+              
               {step === 1 && <button onClick={() => setStep(2)} disabled={files.length === 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
-              {step === 2 && <button onClick={() => setStep(3)} disabled={files.length === 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "ডাউনলোড" : "Download"} <ArrowRight className="w-4 h-4" /></button>}
+              
+              {step === 2 && <button onClick={() => setStep(3)} disabled={files.length === 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
+              
               {step === 3 && <button onClick={handleDownload} disabled={isProcessing} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50">{isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}{isProcessing ? "..." : "Download PDF"}</button>}
             </footer>
           </div>
