@@ -64,6 +64,16 @@ for (const tool of tools) {
   } else {
     r.passes.push(`${tool.faq.length} FAQs present`);
     
+    // Check for duplicate FAQ questions
+    const questionSet = new Set<string>();
+    for (const faq of tool.faq) {
+      const q = faq.question.toLowerCase().trim();
+      if (questionSet.has(q)) {
+        r.warnings.push(`Duplicate FAQ question: "${faq.question}"`);
+      }
+      questionSet.add(q);
+    }
+
     // Check FAQ uniqueness: each question should be specific
     const genericQuestions = ["is this free", "is it free", "how does it work", "what is this"];
     for (const faq of tool.faq) {
