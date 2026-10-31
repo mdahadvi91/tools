@@ -14,6 +14,9 @@
  * ============================================================ */
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+
+const ogImagePaths: Record<string, string> = {};
+
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -341,7 +344,7 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
       path: t.path,
       title: t.seo.title,
       description: t.seo.description,
-      ogImage: t.seo.ogImage,
+      ogImage: ogImagePaths[t.id] || t.seo.ogImage,
     };
   }
 
@@ -742,7 +745,7 @@ function generateOgImages() {
     writeFileSync(resolve(ogDir, filename), svg);
     
     // Point registry to the PNG version (which will be generated right after)
-    t.seo.ogImage = `/images/og/tools/${filename.replace('.svg', '.jpg')}`;
+    ogImagePaths[t.id] = `/images/og/tools/${filename.replace('.svg', '.jpg')}`;
   }
   console.log(`  ✓ public/images/og/tools/*.svg (generated ${tools.length} beautiful unique OG images)`);
 }
