@@ -81,7 +81,7 @@ export function ToolDataSections({ toolId }: { toolId: string }) {
         <motion.article initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="font-serif font-black text-2xl text-light-text dark:text-dark-text mb-4">Real-world use cases</h2>
           <ul className="space-y-3">
-            {useCases.map((u, i) => (
+            {useCases.map((u: string, i: number) => (
               <li key={i} className="flex gap-3 text-[15px] text-light-textSecondary dark:text-dark-textSecondary">
                 <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                 <span>{u}</span>
@@ -95,7 +95,7 @@ export function ToolDataSections({ toolId }: { toolId: string }) {
         <motion.article initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="font-serif font-black text-2xl text-light-text dark:text-dark-text mb-4">Limitations</h2>
           <ul className="space-y-3">
-            {limitations.map((l, i) => (
+            {limitations.map((l: string, i: number) => (
               <li key={i} className="flex gap-3 text-[15px] text-light-textSecondary dark:text-dark-textSecondary">
                 <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                 <span>{l}</span>

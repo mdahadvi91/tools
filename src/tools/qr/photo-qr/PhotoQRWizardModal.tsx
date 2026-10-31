@@ -17,8 +17,7 @@ interface PhotoQRWizardModalProps {
 export function PhotoQRWizardModal({ isOpen, onClose }: PhotoQRWizardModalProps) {
   const { language } = useLanguage();
   const bn = language === "bn";
-  const titleId = useId();
-  const uploadInputId = useId();
+    const uploadInputId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

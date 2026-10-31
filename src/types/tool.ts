@@ -96,7 +96,9 @@ export interface Tool {
   /** Optional deep-dive sections rendered after the FAQ in SSR and on the page. */
   deepDive?: ToolDeepDive[];
   useCases?: string[];
+  useCasesBn?: string[];
   limitations?: string[];
+  limitationsBn?: string[];
   supportedFormats?: string[];
   benchmarks?: { label: string; value: string }[];
   privacy?: {

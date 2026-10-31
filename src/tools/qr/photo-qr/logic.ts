@@ -797,22 +797,22 @@ function roundRect(
     Math.min(radius, width / 2, height / 2),
   );
 
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + width - r, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
-  ctx.lineTo(x + width, y + height - r);
-  ctx.quadraticCurveTo(
+  ctx!.beginPath();
+  ctx!.moveTo(x + r, y);
+  ctx!.lineTo(x + width - r, y);
+  ctx!.quadraticCurveTo(x + width, y, x + width, y + r);
+  ctx!.lineTo(x + width, y + height - r);
+  ctx!.quadraticCurveTo(
     x + width,
     y + height,
     x + width - r,
     y + height,
   );
-  ctx.lineTo(x + r, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
+  ctx!.lineTo(x + r, y + height);
+  ctx!.quadraticCurveTo(x, y + height, x, y + height - r);
+  ctx!.lineTo(x, y + r);
+  ctx!.quadraticCurveTo(x, y, x + r, y);
+  ctx!.closePath();
 }
 
 interface Layout {
@@ -850,7 +850,7 @@ function getPositionCoords(
   }
 }
 
-function createLayout(
+export function createLayout(
   width: number,
   height: number,
   position: Position,
@@ -953,14 +953,14 @@ export async function generateQrWithLogo(
   const logoImg = await loadSvgImage(logoDataUrl);
 
   const plateSize = Math.round(logoSize * 1.2);
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(qrCanvas.width / 2, qrCanvas.height / 2, plateSize / 2, 0, Math.PI * 2);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.restore();
+  ctx!.save();
+  ctx!.beginPath();
+  ctx!.arc(qrCanvas.width / 2, qrCanvas.height / 2, plateSize / 2, 0, Math.PI * 2);
+  ctx!.fillStyle = '#FFFFFF';
+  ctx!.fill();
+  ctx!.restore();
 
-  ctx.drawImage(
+  ctx!.drawImage(
     logoImg,
     (qrCanvas.width - logoSize) / 2,
     (qrCanvas.height - logoSize) / 2,
@@ -975,7 +975,7 @@ export async function generateQrWithLogo(
  * BACKGROUND
  * ============================================================ */
 
-function drawQrBackground(
+export function drawQrBackground(
   ctx: CanvasRenderingContext2D,
   background: QrBackground,
   x: number,
@@ -984,11 +984,11 @@ function drawQrBackground(
 ): void {
   if (background === "none") return;
 
-  ctx.save();
+  ctx!.save();
 
   if (background === "rounded") {
     roundRect(
-      ctx,
+      ctx!,
       x,
       y,
       totalBox,
@@ -996,20 +996,20 @@ function drawQrBackground(
       Math.min(totalBox * 0.12, 48),
     );
   } else {
-    ctx.beginPath();
-    ctx.rect(x, y, totalBox, totalBox);
+    ctx!.beginPath();
+    ctx!.rect(x, y, totalBox, totalBox);
   }
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fill();
-  ctx.restore();
+  ctx!.fillStyle = "#FFFFFF";
+  ctx!.fill();
+  ctx!.restore();
 }
 
 /* ============================================================
  * PAYLOAD RESOLUTION
  * ============================================================ */
 
-function resolvePayload(
+export function resolvePayload(
   platform: PlatformConfig,
   values: Record<string, string>,
 ): string {
@@ -1055,11 +1055,11 @@ async function renderPhoto(
   const ctx = output.getContext('2d');
 
   // Fill background
-  ctx.fillStyle = '#F3F4F6';
-  ctx.fillRect(0, 0, width, height);
+  ctx!.fillStyle = '#F3F4F6';
+  ctx!.fillRect(0, 0, width, height);
 
   // Draw the photo
-  ctx.drawImage(img, 0, 0, width, height);
+  ctx!.drawImage(img, 0, 0, width, height);
 
   // Only draw QR if payload exists
   if (payload) {
@@ -1078,16 +1078,16 @@ async function renderPhoto(
     
     // Draw background for QR
     if (qrBackground !== 'none') {
-      ctx.save();
-      if (qrBackground === 'rounded') roundRect(ctx, x, y, totalBox, totalBox, Math.min(totalBox * 0.12, 48));
-      else { ctx.beginPath(); ctx.rect(x, y, totalBox, totalBox); }
-      ctx.fillStyle = '#FFFFFF'; 
-      ctx.fill(); 
-      ctx.restore();
+      ctx!.save();
+      if (qrBackground === 'rounded') roundRect(ctx!, x, y, totalBox, totalBox, Math.min(totalBox * 0.12, 48));
+      else { ctx!.beginPath(); ctx!.rect(x, y, totalBox, totalBox); }
+      ctx!.fillStyle = '#FFFFFF'; 
+      ctx!.fill(); 
+      ctx!.restore();
     }
     
     // Draw QR Canvas on photo
-    ctx.drawImage(qrCanvas, x + paddingValue, y + paddingValue, qrSize, qrSize);
+    ctx!.drawImage(qrCanvas, x + paddingValue, y + paddingValue, qrSize, qrSize);
   }
 
   return output;

@@ -305,7 +305,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "featureList": [
           "Multiple Formats",
           "Merge Images",
-          "A4 Format",
+          "A4 & Letter Sizes",
           "Browser Processing"
         ]
       },
