@@ -1,5 +1,4 @@
 Contact: mailto:mdahadvi91@gmail.com
-Expires: 2026-12-31T23:59:59.000Z
+Expires: 2027-12-31T23:59:00.000Z
 Preferred-Languages: en, bn
 Canonical: https://ahadex.online/.well-known/security.txt
-Policy: https://ahadex.online/privacy
