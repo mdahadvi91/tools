@@ -178,7 +178,7 @@ let totalWarnings = 0;
 let totalPasses = 0;
 
 console.log("=".repeat(70));
-console.log("🔍 CONTENT QUALITY AUDIT — 7 Tools");
+console.log("🔍 CONTENT QUALITY AUDIT — ${tools.length} Tools");
 console.log("=".repeat(70));
 
 for (const r of results) {

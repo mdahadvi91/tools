@@ -349,13 +349,13 @@ function buildData(): { toolMeta: Record<string, Meta>; staticMeta: Record<strin
     "/": {
       path: "/",
       title: `AHADEX Tools — ${TOOL_COUNT} Free, Private Browser-Based Tools`,
-      description: `7 free browser-based tools for CV, QR, PDF, image editing. No uploads—everything runs in your browser.`,
+      description: `${TOOL_COUNT} free browser-based tools for CV, QR, PDF, image editing. No uploads—everything runs in your browser.`,
       ogImage: "/images/og/home-og.png",
     },
     "/tools": {
       path: "/tools",
       title: `All Tools — ${TOOL_COUNT} Free Browser Utilities | AHADEX Tools`,
-      description: `Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
+      description: `Browse ${TOOL_COUNT} free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
       ogImage: "/images/og/default-og.png",
     },
     "/about": {
@@ -439,7 +439,7 @@ function buildSchema(): Record<string, object> {
         "@id": `${SITE}/tools#page`,
         url: `${SITE}/tools`,
         name: `All Tools — ${TOOL_COUNT} free browser-based utilities`,
-        description: `Browse 7 free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
+        description: `Browse ${TOOL_COUNT} free browser-based tools: CV Builder, QR Code, PDF, Resizer, Color Picker, and WebP.`,
         isPartOf: { "@id": `${SITE}/#website` },
       },
       {
