@@ -20,7 +20,7 @@ export function CVEditor() {
 
     const draftOverrideStr = sessionStorage.getItem("cv_draft_override");
   const [data, setData] = useState<CVData>(() => {
-    let baseData = {
+    const baseData = {
       ...SAMPLE_CV_DATA,
       settings: { ...SAMPLE_CV_DATA.settings, templateId: template.id },
     };

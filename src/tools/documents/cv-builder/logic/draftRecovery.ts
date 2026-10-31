@@ -53,7 +53,6 @@ export function useDraftAutoSave({
     return () => {
       saveDraft({ cvId, data, savedAt: Date.now() });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
 
