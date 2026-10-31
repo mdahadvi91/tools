@@ -1,13 +1,17 @@
 import { motion } from "framer-motion";
 import { tools } from "@data/tools";
+import { useLanguage } from "@contexts/LanguageContext";
 import { CheckCircle2, AlertTriangle, BarChart3, FileType2 } from "lucide-react";
 
 export function ToolDataSections({ toolId }: { toolId: string }) {
+  const { language } = useLanguage();
+  const bn = language === "bn";
+
   const tool = tools.find((t) => t.id === toolId);
   if (!tool) return null;
 
-  const useCases = tool.useCases || [];
-  const limitations = tool.limitations || [];
+  const useCases = bn && (tool as any).useCasesBn ? (tool as any).useCasesBn : (tool.useCases || []);
+  const limitations = bn && (tool as any).limitationsBn ? (tool as any).limitationsBn : (tool.limitations || []);
   const benchmarks = tool.benchmarks || [];
   const supportedFormats = tool.supportedFormats || [];
 

@@ -211,9 +211,18 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       "Creating a portfolio PDF from design images.",
       "Merging scanned pages into one document."
     ],
+    useCasesBn: [
+      "ইমেইল করার জন্য ডকুমেন্টের ছবিগুলোকে একটি PDF-এ রূপান্তর করা।",
+      "ডিজাইন ছবিগুলো থেকে একটি পোর্টফোলিও PDF তৈরি করা।",
+      "স্ক্যান করা পেজগুলোকে একটি ডকুমেন্টে যুক্ত করা।"
+    ],
     limitations: [
       "Very large images may take a few seconds to process depending on your device memory.",
       "Advanced PDF editing (like text addition) is not supported."
+    ],
+    limitationsBn: [
+      "খুব বড় ছবিগুলো আপনার ডিভাইসের মেমোরির উপর নির্ভর করে প্রসেস হতে কয়েক সেকেন্ড সময় নিতে পারে।",
+      "উন্নত PDF এডিটিং (যেমন টেক্সট যোগ করা) সাপোর্ট করে না।"
     ],
     privacy: {
       processing: "browser",
