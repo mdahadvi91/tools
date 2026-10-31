@@ -1,111 +1,456 @@
 export const photoQrContent = {
   en: {
     heroTag: "QR + Photo",
-    heroSubtitle: "📸 Turn any photo into a scannable invitation. Choose a platform, drop your picture, and share something people can actually tap. ✨",
+
+    heroSubtitle:
+      "Combine your photo with a QR code that people can scan to open a website, contact method, WiFi details, or another destination you choose. Design the placement, review the result, and export your image.",
+
     introHighlights: [
-      { emoji: "🎯", title: "Scannable QR", text: "high error-correction standard" },
-      { emoji: "🏷️", title: "Platform icon inside", text: "recognizable brand mark at the centre" },
-      { emoji: "🎨", title: "11 platforms", text: "WhatsApp, Facebook, Instagram, WiFi & more" },
-      { emoji: "💎", title: "Original dimensions", text: "keeps your photo's pixel size" },
-      { emoji: "⚡", title: "Live preview", text: "updates as you type" },
-      { emoji: "🔒", title: "Browser processing", text: "not uploaded to servers" },
+      {
+        emoji: "🎯",
+        title: "Custom QR Placement",
+        text: "Choose where the QR code appears on your photo.",
+      },
+      {
+        emoji: "🏷️",
+        title: "Platform Recognition",
+        text: "Optional platform icon in the QR centre.",
+      },
+      {
+        emoji: "🎨",
+        title: "11 Content Types",
+        text: "Social links, websites, contact details, WiFi, and text.",
+      },
+      {
+        emoji: "💎",
+        title: "Full Pixel Dimensions",
+        text: "Export at the source image's pixel dimensions.",
+      },
+      {
+        emoji: "⚡",
+        title: "Live Preview",
+        text: "Review design changes before exporting.",
+      },
+      {
+        emoji: "🔒",
+        title: "Browser-Based Workflow",
+        text: "Image processing is designed to run locally in your browser.",
+      },
     ],
+
     introBlocks: [
-      { emoji: "🪄", icon: "sparkle", title: "What it does", text: "Add a real, working QR code directly onto any photo — right in your browser. 🚀 The exported image keeps the original pixel dimensions. The QR overlay is rendered on top of the image. ✨" },
-      { emoji: "🛡️", icon: "shield", title: "Why it works", text: "Every QR is generated with a high error-correction level. Higher error correction can help a QR code remain readable when part of the code is obscured or damaged, but actual scan reliability depends on size, contrast, placement, and the scanning environment. 📱 The platform icon sits in the centre for quick recognition. 🏷️" },
-      { emoji: "🎁", icon: "gift", title: "Where to use it", text: "Business cards 💼, product packaging 📦, restaurant menus 🍽️, event flyers 🎫, social media posts 📸, wedding invitations 💌 — anywhere you want to make a photo interactive. 💫" },
-      { emoji: "🔐", icon: "lock", title: "Your privacy", text: "Everything runs locally in your browser using the Canvas API. Your photo is processed locally and is not uploaded to any server. Close the tab and the editing session is gone. 🫧" },
+      {
+        emoji: "🪄",
+        icon: "sparkle",
+        title: "What is Photo QR?",
+        text:
+          "Photo QR combines an ordinary image with a generated QR code. Instead of sharing a QR code separately, you can place it directly on a photograph, promotional graphic, invitation, or other visual design. Anyone with a compatible QR scanner can scan the code to access the encoded destination.",
+      },
+      {
+        emoji: "🛡️",
+        icon: "shield",
+        title: "How the QR code works",
+        text:
+          "A QR code stores information in a pattern of dark and light modules. This tool generates the code with a high error-correction setting and places it over your selected image. Error correction can help recover information when some modules are damaged or obscured, but it does not guarantee successful scanning. QR size, contrast, quiet-zone spacing, placement, print quality, and camera conditions all matter.",
+      },
+      {
+        emoji: "🎁",
+        icon: "gift",
+        title: "Where can you use it?",
+        text:
+          "Add a scannable destination to business cards, product packaging, restaurant menus, event flyers, wedding invitations, social media graphics, promotional photographs, and printed materials. For example, a restaurant can place a menu link on a food photograph, while a business can add a contact or website QR code to a promotional image.",
+      },
+      {
+        emoji: "🔐",
+        icon: "lock",
+        title: "Image privacy and processing",
+        text:
+          "Photo QR is designed around an in-browser image editing workflow using web technologies such as the HTML Canvas API. Your selected image is used to generate the preview and exported composition. Do not upload private or confidential images to any online tool unless you have reviewed and are comfortable with its actual data-handling practices.",
+      },
     ],
+
     scanReliability: {
-      title: "QR Scan Reliability & Best Practices",
-      intro: "To ensure your QR code scans successfully on the first try, follow these technical guidelines. Actual scan success depends on your specific printer, camera, and environment.",
+      title: "QR Code Scanning: Practical Guidelines",
+
+      intro:
+        "A QR code that looks clear on your screen may behave differently when printed or scanned from another device. Use these guidelines to improve readability, then test the exported image in the conditions where it will actually be used.",
+
       tips: [
-        { title: "Size & Distance", text: "As a general rule, the QR code should be at least 1/10th the distance from which it will be scanned. For a phone scanning from 20cm away, the QR should be at least 2cm wide." },
-        { title: "Contrast is Key", text: "Use the 'Padding' slider to add a white background behind the QR. Scanning a dark QR on a dark photo is likely to fail." }, // 🚨 'almost always' removed
-        { title: "Error Correction Level", text: "Our generator uses high error correction (Level H). This means the QR remains readable even if up to 30% of the code is damaged, but it should not be intentionally obscured." },
-        { title: "Print Quality", text: "If printing, ensure a minimum of 300 DPI. Low-resolution printing causes blurred edges, making the QR unscannable." }
+        {
+          title: "Choose a suitable physical size",
+          text:
+            "The QR code must contain enough visible detail for the scanner to distinguish its individual modules. A code that looks large on a phone screen may become too small on a printed card. Consider the intended scanning distance, the amount of encoded information, and the final physical dimensions.",
+        },
+        {
+          title: "Maintain strong contrast",
+          text:
+            "Dark QR modules on a light, uniform background are generally easier to scan. Avoid placing the code over busy photographs, patterns, reflections, or similarly coloured areas. A clear white background or padding around the code can help separate it from the photo.",
+        },
+        {
+          title: "Understand error correction",
+          text:
+            "This generator uses the high error-correction setting, Level H. QR error correction adds redundant information so a scanner may recover data when part of the symbol is damaged. The commonly quoted figure of approximately 30% describes a theoretical codeword recovery level, not permission to cover any arbitrary 30% of the visible QR image. A large centre logo or obstruction can still prevent scanning.",
+        },
+        {
+          title: "Keep the quiet zone clear",
+          text:
+            "QR codes need an empty margin around the symbol so scanners can identify its boundaries. This is commonly called the quiet zone. Avoid cropping it, placing text or decorative elements too close to the code, or letting the photo blend into the QR boundary.",
+        },
+        {
+          title: "Test the final output",
+          text:
+            "Export the finished image and scan it with another device. Test at the intended display size or print size, under realistic lighting, and from the expected distance. Check that the correct website, contact information, or other destination opens.",
+        },
       ],
-      disclaimer: "Note: We do not claim guaranteed scan success in all conditions. Lighting, camera quality, and background complexity all play a role. Please test your final design before mass production."
+
+      disclaimer:
+        "No QR generator can guarantee successful scanning in every situation. Always test the exported image before distributing it, printing large quantities, or using it on important materials.",
     },
+
     howTo: [
-      { step: 1, title: "Upload your photo 📤", description: "Click the upload area or drag an image into it. We support JPG, PNG, and WebP up to 50 MB. Nothing gets uploaded — the file is read locally by your browser. 🔒" },
-      { step: 2, title: "Choose a platform 🎯", description: "Pick WhatsApp, Facebook, Instagram, Telegram, Phone, Email, WiFi, Website, SMS, Contact, or plain text. The form updates to ask for the right details. ⚡" },
-      { step: 3, title: "Fill in your details ✏️", description: "Type your phone number, social link, WiFi password, or message. The QR code updates in the preview as you type, so you see exactly what will be shared. 👀" },
-      { step: 4, title: "Pick a corner and adjust 🎨", description: "Choose top-left, top-right, bottom-left, or bottom-right. Use the sliders to make the QR bigger or smaller and to control the white padding around it. 🎛️" },
-      { step: 5, title: "Download at full resolution ⬇️", description: "Click Download to save a PNG at the original photo resolution. The QR remains sharp and scannable at typical sizes — screen or print. 🖨️" },
+      {
+        step: 1,
+        title: "Upload a photo 📤",
+        description:
+          "Choose a JPG, PNG, or WebP image using the upload control. The current upload limit is 50 MB per file. Use an image with enough resolution for the size at which you plan to display or print the final design.",
+      },
+      {
+        step: 2,
+        title: "Choose the QR content 🎯",
+        description:
+          "Select the type of information you want the QR code to contain, such as a website, social profile, WhatsApp contact, phone number, email, WiFi details, SMS, digital contact card, or plain text.",
+      },
+      {
+        step: 3,
+        title: "Enter and check your information ✏️",
+        description:
+          "Provide the required details for your selected content type. Check spelling, phone numbers, URLs, and other information carefully. The encoded content determines what a scanner will open or display.",
+      },
+      {
+        step: 4,
+        title: "Adjust the QR design 🎨",
+        description:
+          "Choose a corner or position for the QR code. Adjust its size and surrounding background or padding. Keep the code clear of important photo details and preserve sufficient empty space around it.",
+      },
+      {
+        step: 5,
+        title: "Preview, test, and download ⬇️",
+        description:
+          "Review the complete composition before exporting it as a PNG image. Scan the exported file with another device to confirm that the QR code opens the intended destination.",
+      },
     ],
+
     features: [
-      { emoji: "🎯", title: "Scannable QR", description: "Every code is generated with high error correction. While this helps with minor damage, scan reliability ultimately depends on the QR size, contrast, and the scanning environment." },
-      { emoji: "🏷️", title: "Platform icon inside", description: "The chosen platform's logo or icon sits in the centre of the QR — helping users recognize what to expect when they scan." },
-      { emoji: "🎨", title: "11 platforms supported", description: "WhatsApp, Facebook, Instagram, Telegram, phone call, email, WiFi, website, SMS, digital contact card, and plain text — all handled with the right deep-link format." },
-      { emoji: "💎", title: "Original dimensions", description: "The exported image keeps the original pixel dimensions. The QR overlay is rendered on top, without aggressive re-encoding or downsampling." },
-      { emoji: "⚡", title: "Live preview", description: "Every change updates the preview in real time, so you can see the result before you download it." },
-      { emoji: "🔒", title: "Browser processing", description: "All processing happens inside your browser using the HTML5 Canvas API. The file is not uploaded to any server." },
+      {
+        emoji: "🎯",
+        title: "High Error Correction",
+        description:
+          "The QR generator uses Level H error correction. This adds redundancy that can improve recovery from some forms of damage, but size, contrast, placement, and unobstructed scanning space remain essential.",
+      },
+      {
+        emoji: "🏷️",
+        title: "Platform Icon Overlay",
+        description:
+          "A selected platform icon can be placed in the centre of the QR code to help communicate its intended destination. Centre overlays must remain appropriately sized so they do not interfere with scanning.",
+      },
+      {
+        emoji: "🎨",
+        title: "11 QR Content Types",
+        description:
+          "Create QR content for WhatsApp, Facebook, Instagram, Telegram, phone calls, email, WiFi, websites, SMS, contact cards, and plain text. Each type uses its corresponding data format or link structure.",
+      },
+      {
+        emoji: "💎",
+        title: "Source Pixel Dimensions",
+        description:
+          "The exported canvas is designed to use the source image's pixel width and height. The output is a newly rendered PNG composition, not an untouched copy of the original file. Image metadata and original encoding are not necessarily preserved.",
+      },
+      {
+        emoji: "⚡",
+        title: "Live Design Preview",
+        description:
+          "Review the QR placement and design while adjusting the available settings. Preview rendering may use a smaller working resolution to keep editing responsive.",
+      },
+      {
+        emoji: "🔒",
+        title: "In-Browser Image Workflow",
+        description:
+          "The image composition workflow uses browser technologies such as HTML Canvas. This avoids requiring a separate image-editing application. Review the privacy information and avoid using confidential images in tools whose data handling you have not verified.",
+      },
     ],
+
     faq: [
-      { question: "Will the QR code still scan after I add it to a photo? 🤔", answer: "Yes, but scan reliability depends on size, contrast, placement, and the scanning environment. We use a high error-correction level to help the code remain readable, but you should test the final image with your own phone camera before mass printing. 📱" },
-      { question: "Does the photo quality drop when I add the QR? 🖼️", answer: "The exported image keeps the original pixel dimensions. The QR overlay is rendered on top of the image. We use PNG format to maintain image quality without aggressive compression. 💎" },
-      { question: "Which file formats are supported? 📁", answer: "You can upload JPG, PNG, and WebP images. The upload is limited to 50 MB per file. The output is a PNG file — we choose PNG because it is lossless and keeps both your original photo and the QR code sharp. ✨" },
-      { question: "Can I use the result for commercial purposes? 💼", answer: "Yes. The output image is entirely yours — you can use it on business cards, product packaging, restaurant menus, coffee shop tables, event posters, delivery flyers, wedding invitations, and any other printed or digital material without attribution, royalties, or restrictions. 🎉" },
-      { question: "Is my photo uploaded to a server? ☁️", answer: "No. ❌ Photo QR Code is a client-side tool. Everything — reading the file, decoding the image, generating the QR, drawing the badge, and exporting the final PNG — happens inside your browser using the Canvas API and pure JavaScript. Your photo is not uploaded to any server. 🌍" },
-      { question: "Does it work on mobile phones and tablets? 📱", answer: "Yes. The tool is fully responsive and tested on iOS Safari, Android Chrome, Firefox for Android, and Samsung Internet. 🎯" },
-      { question: "Why is my QR code not scanning sometimes? 🔍", answer: "If the QR is too small, placed on a busy background without enough white padding, or printed with low contrast, smartphone cameras may struggle. Use the Size slider to increase the QR width and ensure the Padding is set to 10 or higher. 📏" },
+      {
+        question: "Will the QR code scan after I add it to a photo?",
+        answer:
+          "It can, provided the QR code remains clear and large enough to scan. Readability depends on contrast, quiet-zone spacing, the amount of encoded information, placement, print or display size, lighting, and camera quality. Always scan the exported image with another device before sharing or printing it.",
+      },
+      {
+        question: "Does adding a QR code preserve my original photo?",
+        answer:
+          "The exported composition is rendered on a canvas using the source image's pixel dimensions. The result is a newly generated PNG image containing both the photo and QR overlay. It is not an untouched copy of the original file, so original metadata, file encoding, and every aspect of image quality are not guaranteed to remain identical.",
+      },
+      {
+        question: "Which image formats can I upload?",
+        answer:
+          "The supported input formats are JPG, PNG, and WebP, with a maximum file size of 50 MB per file. The generated composition is exported as PNG.",
+      },
+      {
+        question: "Can I use the generated image for business purposes?",
+        answer:
+          "You can use the generated composition in projects where you have the necessary rights to the source image and encoded content. You are responsible for permissions relating to photographs, logos, trademarks, personal information, and any third-party material you include. Using a platform name or icon does not imply endorsement by that platform.",
+      },
+      {
+        question: "What information does the QR code contain?",
+        answer:
+          "The QR code stores the information entered for the selected content type. Depending on the type, scanning may open a website, start a phone call, compose an email or SMS, display WiFi connection details, show contact information, or display plain text. Check the generated destination before sharing the image.",
+      },
+      {
+        question: "Does the QR code contain a tracking system?",
+        answer:
+          "A standard QR code stores the encoded information supplied during generation. It does not automatically provide scan analytics or visitor tracking. If you encode a third-party tracking URL, the tracking behaviour belongs to that destination, not to the QR image itself.",
+      },
+      {
+        question: "Why does my QR code sometimes fail to scan?",
+        answer:
+          "Common causes include a QR code that is too small, insufficient contrast, a missing quiet zone, a centre logo that covers too much of the symbol, image compression, glare, or a camera that cannot focus at the selected distance. Increase the usable QR area, keep the surrounding margin clear, and test the exported image.",
+      },
+      {
+        question: "Does it work on mobile devices?",
+        answer:
+          "The page is designed with a responsive interface for different screen sizes. Actual image-processing limits and performance depend on the browser, available device memory, image dimensions, and operating system. Test the workflow on your device before working with large images.",
+      },
     ],
-    privacyNote: "🔒 Your photo is processed entirely in your browser using the HTML5 Canvas API. It is not uploaded to any server. The moment you close this tab 🫧, the image is gone from memory. ✨",
+
+    privacyNote:
+      "Photo QR uses an in-browser image editing workflow. Your image is used to create the preview and final composition. Avoid uploading confidential or sensitive photographs to any online service unless you have verified its data-handling practices.",
   },
+
   bn: {
     heroTag: "QR + ছবি",
-    heroSubtitle: "📸 যেকোনো ছবিকে বানান একটা স্ক্যানযোগ্য আমন্ত্রণ। প্ল্যাটফর্ম বেছে নিন, ছবি আপলোড করুন, আর শেয়ার করুন এমন কিছু যা মানুষ সত্যিই ট্যাপ করতে পারবে। ✨",
+
+    heroSubtitle:
+      "আপনার ছবির সঙ্গে একটি QR কোড যুক্ত করুন, যা স্ক্যান করলে ওয়েবসাইট, যোগাযোগের মাধ্যম, WiFi তথ্য অথবা আপনার নির্বাচিত অন্য কোনো গন্তব্য খোলা যাবে। ডিজাইন সাজান, ফলাফল দেখুন এবং ছবিটি এক্সপোর্ট করুন।",
+
     introHighlights: [
-      { emoji: "🎯", title: "স্ক্যানযোগ্য QR", text: "উচ্চ এরর-কারেকশন স্ট্যান্ডার্ড" },
-      { emoji: "🏷️", title: "মাঝখানে প্ল্যাটফর্ম আইকন", text: "সহজে চেনা যায় এমন ব্র্যান্ড মার্ক" },
-      { emoji: "🎨", title: "১১টি প্ল্যাটফর্ম", text: "হোয়াটসঅ্যাপ, ফেসবুক, ইনস্টাগ্রাম, ওয়াইফাই" },
-      { emoji: "💎", title: "মূল ডাইমেনশন", text: "আপনার ছবির পিক্সেল সাইজ বজায় থাকে" },
-      { emoji: "⚡", title: "লাইভ প্রিভিউ", text: "টাইপ করার সাথে সাথে আপডেট" },
-      { emoji: "🔒", title: "ব্রাউজার প্রসেসিং", text: "সার্ভারে আপলোড হয় না" },
+      {
+        emoji: "🎯",
+        title: "QR-এর অবস্থান নিয়ন্ত্রণ",
+        text: "ছবির কোন জায়গায় QR কোড থাকবে তা বেছে নিন।",
+      },
+      {
+        emoji: "🏷️",
+        title: "প্ল্যাটফর্ম আইকন",
+        text: "QR-এর মাঝখানে নির্বাচিত প্ল্যাটফর্মের আইকন।",
+      },
+      {
+        emoji: "🎨",
+        title: "১১ ধরনের কনটেন্ট",
+        text: "সোশ্যাল লিংক, ওয়েবসাইট, যোগাযোগ, WiFi ও টেক্সট।",
+      },
+      {
+        emoji: "💎",
+        title: "মূল পিক্সেল ডাইমেনশন",
+        text: "মূল ছবির পিক্সেল প্রস্থ ও উচ্চতায় এক্সপোর্ট।",
+      },
+      {
+        emoji: "⚡",
+        title: "লাইভ প্রিভিউ",
+        text: "এক্সপোর্টের আগে ডিজাইনের পরিবর্তন দেখুন।",
+      },
+      {
+        emoji: "🔒",
+        title: "ব্রাউজারভিত্তিক কাজ",
+        text: "ছবি প্রসেসিং ব্রাউজারেই করার জন্য তৈরি।",
+      },
     ],
+
     introBlocks: [
-      { emoji: "🪄", icon: "sparkle", title: "এটা কী করে", text: "যেকোনো ছবিতে সত্যিকারের কাজ করা QR কোড যোগ করুন — সম্পূর্ণ আপনার ব্রাউজারেই। 🚀 এক্সপোর্ট করা ছবিটি মূল পিক্সেল ডাইমেনশন ধরে রাখে। QR ওভারলে ছবির ওপরে রেন্ডার করা হয়। ✨" },
-      { emoji: "🛡️", icon: "shield", title: "কেন কাজ করে", text: "প্রতিটি QR উচ্চ এরর-কারেকশন লেভেলে তৈরি। উচ্চ এরর কারেকশন লেভেল QR কোডের কিছু অংশ ঢেকে গেলেও পড়তে সাহায্য করে, তবে স্ক্যান করার নির্ভরযোগ্যতা সাইজ, কনট্রাস্ট, প্লেসমেন্ট এবং স্ক্যানিং পরিবেশের ওপর নির্ভর করে। 📱 প্ল্যাটফর্মের আইকন মাঝখানে বসানো হয়, যাতে সহজে চেনা যায়। 🏷️" },
-      { emoji: "🎁", icon: "gift", title: "কোথায় ব্যবহার করবেন", text: "বিজনেস কার্ড 💼, প্রোডাক্ট প্যাকেজিং 📦, রেস্টুরেন্ট মেনু 🍽️, ইভেন্ট ফ্লায়ার 🎫, সোশ্যাল মিডিয়া পোস্ট 📸, বিয়ের আমন্ত্রণপত্র 💌 — যেকোনো জায়গায় যেখানে একটা ছবিকে ইন্টার্যাকটিভ করতে চান। 💫" },
-      { emoji: "🔐", icon: "lock", title: "আপনার প্রাইভেসি", text: "সবকিছু আপনার ব্রাউজারেই Canvas API দিয়ে চলে। আপনার ছবি লোকালি প্রসেস হয় এবং কোনো সার্ভারে আপলোড হয় না। ট্যাব বন্ধ করলেই এডিটিং সেশন শেষ হয়ে যায়। 🫧" },
+      {
+        emoji: "🪄",
+        icon: "sparkle",
+        title: "Photo QR কী?",
+        text:
+          "Photo QR একটি সাধারণ ছবির সঙ্গে তৈরি করা QR কোড যুক্ত করে। আলাদা QR কোড শেয়ার করার পরিবর্তে আপনি সেটি সরাসরি ছবি, প্রচারণামূলক ডিজাইন, আমন্ত্রণপত্র বা অন্য কোনো ভিজ্যুয়াল ডিজাইনের ওপর বসাতে পারেন। উপযুক্ত QR স্ক্যানার ব্যবহার করে যে কেউ কোডটি স্ক্যান করে নির্ধারিত তথ্য বা গন্তব্যে যেতে পারবেন।",
+      },
+      {
+        emoji: "🛡️",
+        icon: "shield",
+        title: "QR কোড কীভাবে কাজ করে?",
+        text:
+          "QR কোড আলো ও অন্ধকার রঙের ছোট ছোট মডিউলের বিন্যাসে তথ্য সংরক্ষণ করে। এই টুল উচ্চ Error Correction সেটিং Level H ব্যবহার করে কোড তৈরি করে এবং নির্বাচিত ছবির ওপর বসায়। Error Correction কোডের কিছু অংশ ক্ষতিগ্রস্ত বা আড়াল হলেও তথ্য উদ্ধার করতে সাহায্য করতে পারে। তবে সফল স্ক্যানের নিশ্চয়তা দেয় না। QR-এর আকার, কনট্রাস্ট, চারপাশের ফাঁকা জায়গা, অবস্থান, প্রিন্টের মান এবং ক্যামেরার পরিবেশ গুরুত্বপূর্ণ।",
+      },
+      {
+        emoji: "🎁",
+        icon: "gift",
+        title: "কোথায় ব্যবহার করতে পারেন?",
+        text:
+          "বিজনেস কার্ড, পণ্যের প্যাকেজিং, রেস্টুরেন্ট মেনু, ইভেন্ট ফ্লায়ার, বিয়ের আমন্ত্রণপত্র, সোশ্যাল মিডিয়া গ্রাফিক্স, প্রচারণামূলক ছবি এবং প্রিন্ট করা উপকরণে QR কোড যুক্ত করতে পারেন। যেমন, রেস্টুরেন্ট খাবারের ছবির ওপর মেনুর লিংক দিতে পারে, আবার কোনো ব্যবসা প্রতিষ্ঠানের প্রচারণামূলক ছবিতে যোগাযোগের তথ্য বা ওয়েবসাইটের QR যুক্ত করতে পারে।",
+      },
+      {
+        emoji: "🔐",
+        icon: "lock",
+        title: "ছবির গোপনীয়তা ও প্রসেসিং",
+        text:
+          "Photo QR-এর ছবি সম্পাদনার প্রক্রিয়া ব্রাউজারের ভেতরে চালানোর জন্য তৈরি এবং এতে HTML Canvas API-এর মতো ওয়েব প্রযুক্তি ব্যবহার করা হয়। নির্বাচিত ছবি থেকে প্রিভিউ ও এক্সপোর্ট করা ডিজাইন তৈরি হয়। কোনো অনলাইন টুলে ব্যক্তিগত বা গোপনীয় ছবি দেওয়ার আগে তার প্রকৃত ডেটা ব্যবস্থাপনা সম্পর্কে নিশ্চিত হয়ে নিন।",
+      },
     ],
+
     scanReliability: {
-      title: "QR স্ক্যান নির্ভরযোগ্যতা ও সেরা টিপস",
-      intro: "আপনার QR কোড যাতে প্রথমবারেই সফলভাবে স্ক্যান হয়, তার জন্য নিচের টেকনিক্যাল গাইডলাইনগুলো অনুসরণ করুন। আসল স্ক্যানের সাফল্য আপনার প্রিন্টার, ক্যামেরা এবং পরিবেশের ওপর নির্ভর করে।",
+      title: "QR কোড স্ক্যান: ব্যবহারিক নির্দেশনা",
+
+      intro:
+        "স্ক্রিনে পরিষ্কার দেখালেও প্রিন্ট করার পর বা অন্য ডিভাইস দিয়ে স্ক্যান করলে QR কোড ভিন্নভাবে কাজ করতে পারে। স্ক্যানের সুবিধার জন্য নিচের নির্দেশনাগুলো অনুসরণ করুন এবং যে পরিবেশে ব্যবহার করবেন, সেখানে এক্সপোর্ট করা ছবিটি পরীক্ষা করুন।",
+
       tips: [
-        { title: "সাইজ ও দূরত্ব", text: "সাধারণ নিয়ম হলো, QR কোডের সাইজ দূরত্বের অন্তত ১/১০ ভাগ হওয়া উচিত। যেমন- ২০ সেমি দূর থেকে স্ক্যান করতে চাইলে QR কমপক্ষে ২ সেমি চওড়া হওয়া উচিত।" },
-        { title: "কনট্রাস্ট (বৈপরীত্য) সবচেয়ে জরুরি", text: "QR-এর পেছনে সাদা ব্যাকগ্রাউন্ড দিতে 'Padding' স্লাইডার ব্যবহার করুন। অন্ধকার ছবির ওপরে অন্ধকার QR স্ক্যান হওয়ার সম্ভাবনা কম।" },
-        { title: "এরর কারেকশন লেভেল", text: "আমাদের জেনারেটর উচ্চ এরর কারেকশন (লেভেল H) ব্যবহার করে। এর মানে হলো কোডের ৩০% পর্যন্ত ক্ষতিগ্রস্ত হলেও তা পড়া যায়, তবে ইচ্ছাকৃতভাবে ঢেকে দেওয়া উচিত নয়।" },
-        { title: "প্রিন্টের মান", text: "প্রিন্ট করার সময় কমপক্ষে ৩০০ DPI নিশ্চিত করুন। কম রেজোলিউশনে প্রিন্ট করলে কোডের কিনারা ঘোলা হয়ে যায়, যা স্ক্যান করা কঠিন করে তোলে।" }
+        {
+          title: "উপযুক্ত আকার নির্বাচন করুন",
+          text:
+            "QR কোডের প্রতিটি ছোট মডিউল যেন স্ক্যানার আলাদা করে বুঝতে পারে, সে জন্য যথেষ্ট আকার প্রয়োজন। ফোনের স্ক্রিনে বড় দেখালেও প্রিন্ট করা কার্ডে কোডটি খুব ছোট হয়ে যেতে পারে। স্ক্যানের দূরত্ব, কোডে থাকা তথ্যের পরিমাণ এবং চূড়ান্ত প্রিন্টের মাপ বিবেচনা করুন।",
+        },
+        {
+          title: "পর্যাপ্ত কনট্রাস্ট রাখুন",
+          text:
+            "হালকা ও একরঙা ব্যাকগ্রাউন্ডের ওপর গাঢ় QR মডিউল সাধারণত স্ক্যান করা সহজ। জটিল ছবি, প্যাটার্ন, প্রতিফলন বা কাছাকাছি রঙের জায়গার ওপর কোড বসানো এড়িয়ে চলুন। QR-এর চারপাশে সাদা ব্যাকগ্রাউন্ড বা পর্যাপ্ত প্যাডিং রাখলে ছবির সঙ্গে কোডের পার্থক্য বোঝা সহজ হয়।",
+        },
+        {
+          title: "Error Correction বুঝে ব্যবহার করুন",
+          text:
+            "এই জেনারেটর উচ্চ Error Correction সেটিং Level H ব্যবহার করে। এতে অতিরিক্ত তথ্য যুক্ত থাকে, যা QR-এর কিছু অংশ ক্ষতিগ্রস্ত হলেও তথ্য উদ্ধার করতে সাহায্য করতে পারে। প্রচলিত প্রায় ৩০% পরিমাণটি তাত্ত্বিক codeword recovery capacity বোঝায়; এর অর্থ QR-এর যেকোনো ৩০% অংশ ঢেকে রাখলেও স্ক্যান হবে, তা নয়। মাঝখানে বড় লোগো বা অন্য কিছু বসালে স্ক্যান ব্যর্থ হতে পারে।",
+        },
+        {
+          title: "Quiet Zone ফাঁকা রাখুন",
+          text:
+            "QR কোডের সীমানা শনাক্ত করার জন্য চারপাশে ফাঁকা মার্জিন প্রয়োজন। একে Quiet Zone বলা হয়। এই জায়গা কেটে ফেলবেন না, খুব কাছে লেখা বা ডিজাইন বসাবেন না এবং ছবির ব্যাকগ্রাউন্ডের সঙ্গে QR-এর সীমানা মিশে যেতে দেবেন না।",
+        },
+        {
+          title: "চূড়ান্ত ছবি পরীক্ষা করুন",
+          text:
+            "ডিজাইন এক্সপোর্ট করার পর অন্য একটি ডিভাইস দিয়ে স্ক্যান করুন। বাস্তবে যে আকারে দেখানো বা প্রিন্ট করা হবে, সেই আকারে এবং স্বাভাবিক আলোতে পরীক্ষা করুন। সঠিক ওয়েবসাইট, যোগাযোগের তথ্য বা অন্য নির্ধারিত গন্তব্য খুলছে কি না নিশ্চিত করুন।",
+        },
       ],
-      disclaimer: "নোট: আমরা সব পরিস্থিতিতে নিশ্চিত স্ক্যান সাফল্যের দাবি করি না। আলো, ক্যামেরার মান এবং ব্যাকগ্রাউন্ডের জটিলতা সবই ভূমিকা রাখে। বড় আকারে প্রিন্ট করার আগে অনুগ্রহ করে আপনার ডিজাইনটি টেস্ট করুন।"
+
+      disclaimer:
+        "কোনো QR জেনারেটর সব পরিস্থিতিতে সফল স্ক্যানের নিশ্চয়তা দিতে পারে না। বিতরণ, বেশি সংখ্যায় প্রিন্ট বা গুরুত্বপূর্ণ কাজে ব্যবহারের আগে এক্সপোর্ট করা ছবিটি অবশ্যই পরীক্ষা করুন।",
     },
+
     howTo: [
-      { step: 1, title: "আপনার ছবি আপলোড করুন 📤", description: "Upload এলাকায় ক্লিক করুন বা ছবি টেনে আনুন। আমরা JPG, PNG, WebP সাপোর্ট করি — ৫০ MB পর্যন্ত। কিছুই আপলোড হয় না — আপনার ব্রাউজার ফাইলটি লোকালি পড়ে। 🔒" },
-      { step: 2, title: "একটা প্ল্যাটফর্ম বেছে নিন 🎯", description: "হোয়াটসঅ্যাপ, ফেসবুক, ইনস্টাগ্রাম, টেলিগ্রাম, ফোন, ইমেইল, ওয়াইফাই, ওয়েবসাইট, এসএমএস, যোগাযোগ, বা সাধারণ টেক্সট — যেকোনোটা। ফর্মটি সঠিক তথ্য চাইবে। ⚡" },
-      { step: 3, title: "আপনার তথ্য দিন ✏️", description: "ফোন নম্বর, সোশ্যাল লিংক, ওয়াইফাই পাসওয়ার্ড, বা বার্তা লিখুন। টাইপ করার সাথে সাথে QR প্রিভিউতে আপডেট হবে — আপনি দেখবেন ঠিক কী শেয়ার হবে। 👀" },
-      { step: 4, title: "কোণা বেছে নিন ও সাজান 🎨", description: "উপরে-বাম, উপরে-ডান, নিচে-বাম, বা নিচে-ডান। স্লাইডার দিয়ে QR বড়/ছোট করুন, আর চারপাশের সাদা প্যাডিং নিয়ন্ত্রণ করুন। 🎛️" },
-      { step: 5, title: "ফুল রেজোলিউশনে ডাউনলোড করুন ⬇️", description: "Download ক্লিক করে PNG সেভ করুন আসল রেজোলিউশনে। QR স্ক্রিন বা প্রিন্টে স্ক্যানযোগ্য থাকবে। 🖨️" },
+      {
+        step: 1,
+        title: "ছবি আপলোড করুন 📤",
+        description:
+          "আপলোড অপশন ব্যবহার করে JPG, PNG অথবা WebP ছবি নির্বাচন করুন। প্রতি ফাইলের বর্তমান সর্বোচ্চ সীমা ৫০ MB। চূড়ান্ত ডিজাইন যে আকারে দেখাবেন বা প্রিন্ট করবেন, সেই অনুযায়ী যথেষ্ট রেজোলিউশনের ছবি ব্যবহার করুন।",
+      },
+      {
+        step: 2,
+        title: "QR-এর কনটেন্ট নির্বাচন করুন 🎯",
+        description:
+          "QR কোডে কী ধরনের তথ্য রাখতে চান তা বেছে নিন। যেমন ওয়েবসাইট, সোশ্যাল প্রোফাইল, WhatsApp যোগাযোগ, ফোন নম্বর, ইমেইল, WiFi তথ্য, SMS, ডিজিটাল কন্টাক্ট কার্ড অথবা সাধারণ টেক্সট।",
+      },
+      {
+        step: 3,
+        title: "তথ্য লিখে যাচাই করুন ✏️",
+        description:
+          "নির্বাচিত কনটেন্টের প্রয়োজনীয় তথ্য দিন। বানান, ফোন নম্বর, URL এবং অন্যান্য তথ্য ভালোভাবে পরীক্ষা করুন। স্ক্যান করার পর কী খুলবে বা দেখাবে, তা এই তথ্যের ওপর নির্ভর করে।",
+      },
+      {
+        step: 4,
+        title: "QR ডিজাইন সাজান 🎨",
+        description:
+          "ছবির কোন কোণায় বা অবস্থানে QR থাকবে তা নির্বাচন করুন। আকার এবং চারপাশের ব্যাকগ্রাউন্ড বা প্যাডিং নিয়ন্ত্রণ করুন। ছবির গুরুত্বপূর্ণ অংশের ওপর কোড বসানো এড়িয়ে চলুন এবং চারপাশে যথেষ্ট ফাঁকা জায়গা রাখুন।",
+      },
+      {
+        step: 5,
+        title: "প্রিভিউ, পরীক্ষা ও ডাউনলোড করুন ⬇️",
+        description:
+          "PNG হিসেবে এক্সপোর্ট করার আগে সম্পূর্ণ ডিজাইন দেখে নিন। অন্য একটি ডিভাইস দিয়ে এক্সপোর্ট করা ছবিটি স্ক্যান করে নিশ্চিত করুন যে সঠিক গন্তব্য খুলছে।",
+      },
     ],
+
     features: [
-      { emoji: "🎯", title: "স্ক্যানযোগ্য QR", description: "প্রতিটি কোড উচ্চ এরর কারেকশন দিয়ে তৈরি। এটি সামান্য ক্ষতির ক্ষেত্রে সাহায্য করে, তবে স্ক্যানের নির্ভরযোগ্যতা মূলত QR-এর সাইজ, কনট্রাস্ট এবং স্ক্যানিং পরিবেশের ওপর নির্ভর করে।" },
-      { emoji: "🏷️", title: "মাঝখানে প্ল্যাটফর্ম আইকন", description: "নির্বাচিত প্ল্যাটফর্মের আইকন QR-এর মাঝখানে থাকে — যা গ্রাহককে বুঝতে সাহায্য করে কী আশা করবেন।" },
-      { emoji: "🎨", title: "১১টি প্ল্যাটফর্ম", description: "হোয়াটসঅ্যাপ, ফেসবুক, ইনস্টাগ্রাম, টেলিগ্রাম, ফোন কল, ইমেইল, ওয়াইফাই, ওয়েবসাইট, এসএমএস, যোগাযোগ কার্ড, আর সাধারণ টেক্সট — সব সঠিক deep-link ফরম্যাটে।" },
-      { emoji: "💎", title: "মূল ডাইমেনশন", description: "এক্সপোর্ট করা ছবিটি মূল পিক্সেল ডাইমেনশন ধরে রাখে। QR ওভারলে ছবির ওপরে রেন্ডার করা হয়, কোনো আক্রমণাত্মক রি-এনকোডিং ছাড়াই।" },
-      { emoji: "⚡", title: "লাইভ প্রিভিউ", description: "প্রতিটা পরিবর্তন রিয়েল-টাইমে আপডেট হয় — ডাউনলোডের আগেই আপনি দেখবেন চূড়ান্ত ছবি।" },
-      { emoji: "🔒", title: "ব্রাউজার প্রসেসিং", description: "সব প্রসেসিং আপনার ব্রাউজারেই HTML5 Canvas API দিয়ে। ফাইল কোনো সার্ভারে আপলোড হয় না।" },
+      {
+        emoji: "🎯",
+        title: "High Error Correction",
+        description:
+          "QR জেনারেটর Level H Error Correction ব্যবহার করে। এটি কিছু ধরনের ক্ষতির পর তথ্য উদ্ধার করতে সাহায্য করতে পারে। তবে সঠিক আকার, কনট্রাস্ট, অবস্থান এবং চারপাশের ফাঁকা জায়গা বজায় রাখা জরুরি।",
+      },
+      {
+        emoji: "🏷️",
+        title: "মাঝখানে প্ল্যাটফর্ম আইকন",
+        description:
+          "QR কোডের মাঝখানে নির্বাচিত প্ল্যাটফর্মের আইকন বসানো যায়, যাতে ব্যবহারকারী সম্ভাব্য গন্তব্য সম্পর্কে ধারণা পান। তবে আইকনের আকার এমন রাখতে হবে যেন QR স্ক্যান করতে সমস্যা না হয়।",
+      },
+      {
+        emoji: "🎨",
+        title: "১১ ধরনের QR কনটেন্ট",
+        description:
+          "WhatsApp, Facebook, Instagram, Telegram, ফোন কল, ইমেইল, WiFi, ওয়েবসাইট, SMS, কন্টাক্ট কার্ড এবং সাধারণ টেক্সটের জন্য QR তৈরি করুন। প্রতিটি ধরনের জন্য উপযুক্ত তথ্যের বিন্যাস বা লিংক ব্যবহার করা হয়।",
+      },
+      {
+        emoji: "💎",
+        title: "মূল ছবির পিক্সেল ডাইমেনশন",
+        description:
+          "এক্সপোর্ট করা ক্যানভাস মূল ছবির পিক্সেল প্রস্থ ও উচ্চতা ব্যবহার করার জন্য তৈরি। ফলাফলটি নতুন করে রেন্ডার করা PNG, মূল ফাইলের অপরিবর্তিত কপি নয়। তাই মূল metadata ও encoding হুবহু থাকবে এমন নিশ্চয়তা নেই।",
+      },
+      {
+        emoji: "⚡",
+        title: "লাইভ ডিজাইন প্রিভিউ",
+        description:
+          "উপলভ্য সেটিংস পরিবর্তনের সঙ্গে QR-এর অবস্থান ও ডিজাইন দেখে নিতে পারবেন। দ্রুত সম্পাদনার সুবিধার জন্য প্রিভিউ কখনো মূল ছবির চেয়ে কম রেজোলিউশনে তৈরি হতে পারে।",
+      },
+      {
+        emoji: "🔒",
+        title: "ব্রাউজারভিত্তিক ছবি সম্পাদনা",
+        description:
+          "ছবি সাজানোর কাজে HTML Canvas-এর মতো ব্রাউজার প্রযুক্তি ব্যবহার করা হয়। এতে আলাদা ছবি সম্পাদনার সফটওয়্যার প্রয়োজন হয় না। গোপনীয় ছবি ব্যবহারের আগে সংশ্লিষ্ট টুলের ডেটা ব্যবস্থাপনা সম্পর্কে নিশ্চিত হোন।",
+      },
     ],
+
     faq: [
-      { question: "ছবিতে QR যোগ করার পরেও কি স্ক্যান হবে? 🤔", answer: "হ্যাঁ, তবে স্ক্যানের নির্ভরযোগ্যতা সাইজ, কনট্রাস্ট, প্লেসমেন্ট এবং স্ক্যানিং পরিবেশের ওপর নির্ভর করে। আমরা উচ্চ এরর-কারেকশন লেভেল ব্যবহার করি যাতে কোডটি পড়া যায়, তবে বড় আকারে প্রিন্ট করার আগে নিজের ফোনে টেস্ট করে নেওয়া ভালো। 📱" },
-      { question: "QR যোগ করলে ছবির কোয়ালিটি কমে যায়? 🖼️", answer: "এক্সপোর্ট করা ছবিটি মূল পিক্সেল ডাইমেনশন ধরে রাখে। QR ওভারলে ছবির ওপরে রেন্ডার করা হয়। আমরা PNG ফরম্যাট ব্যবহার করি যাতে ছবির কোয়ালিটি বজায় থাকে। 💎" },
-      { question: "কোন ফাইল ফরম্যাট সাপোর্টেড? 📁", answer: "JPG, PNG, WebP আপলোড করা যায়। প্রতি ফাইল সর্বোচ্চ ৫০ MB। আউটপুট সবসময় PNG। ✨" },
-      { question: "ফলাফল কি ব্যবসায়িক কাজে ব্যবহার করা যাবে? 💼", answer: "হ্যাঁ। আউটপুট ছবি সম্পূর্ণ আপনার — বিজনেস কার্ড, প্রোডাক্ট প্যাকেজিং, রেস্টুরেন্ট মেনু, ইভেন্ট পোস্টার, এবং অন্য যেকোনো প্রিন্ট বা ডিজিটাল ম্যাটেরিয়ালে ব্যবহার করতে পারেন। 🎉" },
-      { question: "আমার ছবি কি সার্ভারে আপলোড হয়? ☁️", answer: "না। ❌ Photo QR Code সম্পূর্ণ client-side টুল। সবকিছু — ফাইল পড়া, QR তৈরি, PNG এক্সপোর্ট — আপনার ব্রাউজারেই হয়। 🌍" },
-      { question: "মোবাইল ফোন বা ট্যাবলেটে কাজ করে? 📱", answer: "হ্যাঁ। টুলটি সম্পূর্ণ responsive — iOS Safari, Android Chrome, Firefox for Android, Samsung Internet-এ পরীক্ষিত। 🎯" },
-      { question: "আমার QR কোড মাঝে মাঝে স্ক্যান হচ্ছে না কেন? 🔍", answer: "যদি QR খুব ছোট হয়, সাদা প্যাডিং ছাড়া জটিল ব্যাকগ্রাউন্ডে থাকে বা কম কন্ট্রাস্টে প্রিন্ট হয়, তবে ক্যামেরা স্ক্যান করতে সমস্যা করে। Size স্লাইডার দিয়ে QR-এর প্রস্থ বাড়ান এবং Padding ১০ বা তার বেশি রাখুন। 📏" },
+      {
+        question: "ছবিতে QR যোগ করার পরও কি স্ক্যান হবে?",
+        answer:
+          "QR কোড যথেষ্ট বড় ও পরিষ্কার থাকলে স্ক্যান করা সম্ভব। এর নির্ভরযোগ্যতা কনট্রাস্ট, Quiet Zone, তথ্যের পরিমাণ, অবস্থান, প্রিন্ট বা স্ক্রিনের আকার, আলো এবং ক্যামেরার ওপর নির্ভর করে। শেয়ার বা প্রিন্ট করার আগে অন্য একটি ডিভাইস দিয়ে এক্সপোর্ট করা ছবিটি পরীক্ষা করুন।",
+      },
+      {
+        question: "QR যোগ করলে কি মূল ছবির কোয়ালিটি অপরিবর্তিত থাকে?",
+        answer:
+          "এক্সপোর্ট করা ডিজাইন মূল ছবির পিক্সেল ডাইমেনশন ব্যবহার করে ক্যানভাসে রেন্ডার করা হয়। ফলাফলটি QR ওভারলেসহ নতুন PNG ছবি। এটি মূল ফাইলের অপরিবর্তিত কপি নয়। তাই মূল metadata, file encoding এবং ছবির সব গুণাগুণ হুবহু থাকবে এমন নিশ্চয়তা দেওয়া যায় না।",
+      },
+      {
+        question: "কোন ছবির ফরম্যাট আপলোড করা যায়?",
+        answer:
+          "JPG, PNG এবং WebP ফরম্যাটের ছবি আপলোড করা যায়। প্রতি ফাইলের সর্বোচ্চ সীমা ৫০ MB। তৈরি করা ডিজাইন PNG ফরম্যাটে এক্সপোর্ট হয়।",
+      },
+      {
+        question: "তৈরি করা ছবি কি ব্যবসায়িক কাজে ব্যবহার করা যাবে?",
+        answer:
+          "যে ছবির এবং কনটেন্টের প্রয়োজনীয় ব্যবহারের অধিকার আপনার আছে, সেই উপকরণ দিয়ে তৈরি ডিজাইন ব্যবসায়িক প্রকল্পে ব্যবহার করতে পারেন। ছবি, লোগো, ট্রেডমার্ক, ব্যক্তিগত তথ্য এবং তৃতীয় পক্ষের উপকরণের অনুমতির দায়িত্ব আপনার। কোনো প্ল্যাটফর্মের নাম বা আইকন ব্যবহার করলেই সেই প্ল্যাটফর্মের অনুমোদন বোঝায় না।",
+      },
+      {
+        question: "QR কোডে কী ধরনের তথ্য থাকে?",
+        answer:
+          "QR কোডে নির্বাচিত কনটেন্ট অনুযায়ী তথ্য সংরক্ষিত থাকে। স্ক্যান করলে ওয়েবসাইট খুলতে পারে, ফোন কল শুরু হতে পারে, ইমেইল বা SMS লেখার অপশন আসতে পারে, WiFi তথ্য দেখাতে পারে, যোগাযোগের তথ্য বা সাধারণ টেক্সট দেখাতে পারে। শেয়ার করার আগে গন্তব্যটি যাচাই করুন।",
+      },
+      {
+        question: "QR কোডে কি স্বয়ংক্রিয় tracking থাকে?",
+        answer:
+          "সাধারণ QR কোড তৈরির সময় দেওয়া তথ্যই সংরক্ষণ করে। এটি নিজে থেকে scan analytics বা visitor tracking চালু করে না। আপনি যদি tracking-যুক্ত কোনো third-party URL ব্যবহার করেন, সেই tracking সংশ্লিষ্ট ওয়েবসাইটের বিষয়, QR ছবির নিজস্ব ফিচার নয়।",
+      },
+      {
+        question: "আমার QR কোড মাঝে মাঝে স্ক্যান হয় না কেন?",
+        answer:
+          "QR খুব ছোট হওয়া, কনট্রাস্ট কম থাকা, Quiet Zone না থাকা, মাঝের লোগো বেশি জায়গা ঢেকে ফেলা, ছবির compression, আলো প্রতিফলিত হওয়া অথবা ক্যামেরার focus সমস্যা হওয়ার কারণে স্ক্যান ব্যর্থ হতে পারে। QR-এর কার্যকর জায়গা বাড়ান, চারপাশ ফাঁকা রাখুন এবং এক্সপোর্ট করা ছবিটি পরীক্ষা করুন।",
+      },
+      {
+        question: "মোবাইল ফোনে কি টুলটি ব্যবহার করা যাবে?",
+        answer:
+          "পেজটি বিভিন্ন স্ক্রিনের জন্য responsive interface দিয়ে তৈরি। তবে ছবি প্রসেসিংয়ের গতি ও সীমা ব্রাউজার, ডিভাইসের মেমরি, ছবির ডাইমেনশন এবং অপারেটিং সিস্টেমের ওপর নির্ভর করে। বড় ছবি নিয়ে কাজ করার আগে নিজের ডিভাইসে workflow পরীক্ষা করুন।",
+      },
     ],
-    privacyNote: "🔒 আপনার ছবি সম্পূর্ণ আপনার ব্রাউজারেই HTML5 Canvas API দিয়ে প্রসেস হয়। কোনো সার্ভারে আপলোড হয় না। ট্যাব বন্ধ করলেই ছবিটি মেমরি থেকে চলে যায় 🫧।",
+
+    privacyNote:
+      "Photo QR-এ ব্রাউজারের ভেতরে ছবি সম্পাদনার workflow ব্যবহার করা হয়। আপনার ছবি প্রিভিউ এবং চূড়ান্ত ডিজাইন তৈরির কাজে ব্যবহৃত হয়। কোনো অনলাইন সেবায় গোপনীয় বা সংবেদনশীল ছবি ব্যবহারের আগে তার ডেটা ব্যবস্থাপনা সম্পর্কে নিশ্চিত হয়ে নিন।",
   },
 };
 

@@ -1,5 +1,6 @@
 import QRCode from "qrcode";
 import { createElement } from "react";
+import type { ElementType } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
   MessageCircle,
@@ -18,13 +19,24 @@ import {
   Frame,
 } from "lucide-react";
 
-const MAX_PIXELS = 10000 * 10000; // 100MP hard limit
+/**
+ * Resource limits
+ *
+ * Canvas memory consumption can be significantly higher than
+ * the source file size. Keep this conservative for mobile browsers.
+ */
+const MAX_PIXELS = 16_000_000;
+const MAX_DIMENSION = 12_000;
+const MIN_QR_SIZE = 128;
+const MAX_PAYLOAD_BYTES = 1_200;
+const MAX_TEXT_LENGTH = 2_000;
 
-/* ============================================================
- * TYPES (merged from types.ts)
- * ============================================================ */
+export type Position =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right";
 
-export type Position = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 export type QrBackground = "white" | "rounded" | "none";
 
 export interface RenderOptions {
@@ -42,7 +54,7 @@ export interface PlatformConfig {
   name: string;
   nameBn: string;
   color: string;
-  Icon: React.ElementType;
+  Icon: ElementType;
   fields: PlatformField[];
   buildPayload: (values: Record<string, string>) => string;
 }
@@ -56,8 +68,132 @@ export interface PlatformField {
   type: "text" | "url" | "tel" | "email" | "password";
 }
 
+function getValue(
+  values: Record<string, string>,
+  key: string,
+): string {
+  return (values[key] ?? "").trim();
+}
+
+function normalizePhone(value: string): string {
+  const input = value.trim();
+
+  if (!/^\+?[\d\s().-]+$/.test(input)) {
+    throw new Error("Enter a valid phone number.");
+  }
+
+  const digits = input.replace(/\D/g, "");
+
+  if (digits.length < 7 || digits.length > 15) {
+    throw new Error(
+      "Phone number must contain between 7 and 15 digits.",
+    );
+  }
+
+  return `${input.startsWith("+") ? "+" : ""}${digits}`;
+}
+
+function normalizeWhatsAppPhone(value: string): string {
+  const phone = normalizePhone(value);
+
+  if (!phone.startsWith("+")) {
+    throw new Error(
+      "Enter the WhatsApp number with its country code, including +.",
+    );
+  }
+
+  return phone.slice(1);
+}
+
+function validateEmail(value: string): string {
+  const email = value.trim();
+
+  if (
+    email.length > 254 ||
+    !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)
+  ) {
+    throw new Error("Enter a valid email address.");
+  }
+
+  return email;
+}
+
+function validateUrl(
+  value: string,
+  allowedHosts?: string[],
+): string {
+  const input = value.trim();
+
+  if (!input || input.length > 2_048) {
+    throw new Error("Enter a valid URL.");
+  }
+
+  let url: URL;
+
+  try {
+    url = new URL(input);
+  } catch {
+    throw new Error(
+      "Enter a complete URL starting with https://.",
+    );
+  }
+
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    throw new Error("Only HTTP and HTTPS URLs are supported.");
+  }
+
+  if (!url.hostname || url.username || url.password) {
+    throw new Error("Enter a valid public URL.");
+  }
+
+  if (allowedHosts?.length) {
+    const hostname = url.hostname.toLowerCase();
+
+    const allowed = allowedHosts.some(
+      (host) =>
+        hostname === host || hostname.endsWith(`.${host}`),
+    );
+
+    if (!allowed) {
+      throw new Error(
+        `Use a valid ${allowedHosts[0]} URL.`,
+      );
+    }
+  }
+
+  return url.toString();
+}
+
+function escapeWifiValue(value: string): string {
+  return value.replace(/[\\;,:"]/g, "\\$&");
+}
+
+function escapeVCardValue(value: string): string {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/\r\n|\r|\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+function validatePayload(payload: string): string {
+  const normalized = payload.trim();
+
+  if (!normalized) {
+    throw new Error("Please complete the required information.");
+  }
+
+  if (new TextEncoder().encode(normalized).length > MAX_PAYLOAD_BYTES) {
+    throw new Error(
+      "This content is too long for a reliable QR code. Shorten the text and try again.",
+    );
+  }
+
+  return normalized;
+}
+
 /* ============================================================
- * PLATFORMS (merged from options.ts)
+ * PLATFORMS
  * ============================================================ */
 
 export const PLATFORMS: PlatformConfig[] = [
@@ -70,15 +206,17 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "phone",
-        label: "Enter your WhatsApp number",
-        labelBn: "আপনার হোয়াটসঅ্যাপ নম্বর লিখুন",
+        label: "WhatsApp number with country code",
+        labelBn: "কান্ট্রি কোডসহ হোয়াটসঅ্যাপ নম্বর",
         placeholder: "+8801712345678",
         placeholderBn: "+৮৮০১৭১২৩৪৫৬৭৮",
         type: "tel",
       },
     ],
-    buildPayload: (v) =>
-      `https://wa.me/${(v.phone || "").replace(/[^\d]/g, "")}`,
+    buildPayload: (values) =>
+      `https://wa.me/${normalizeWhatsAppPhone(
+        getValue(values, "phone"),
+      )}`,
   },
   {
     id: "facebook",
@@ -89,14 +227,18 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "url",
-        label: "Enter your Facebook link",
-        labelBn: "আপনার ফেসবুক লিংক লিখুন",
+        label: "Facebook profile or page URL",
+        labelBn: "ফেসবুক প্রোফাইল বা পেজের লিংক",
         placeholder: "https://facebook.com/username",
         placeholderBn: "https://facebook.com/username",
         type: "url",
       },
     ],
-    buildPayload: (v) => v.url || "",
+    buildPayload: (values) =>
+      validateUrl(getValue(values, "url"), [
+        "facebook.com",
+        "fb.com",
+      ]),
   },
   {
     id: "instagram",
@@ -107,14 +249,15 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "url",
-        label: "Enter your Instagram link",
-        labelBn: "আপনার ইনস্টাগ্রাম লিংক লিখুন",
+        label: "Instagram profile URL",
+        labelBn: "ইনস্টাগ্রাম প্রোফাইল লিংক",
         placeholder: "https://instagram.com/username",
         placeholderBn: "https://instagram.com/username",
         type: "url",
       },
     ],
-    buildPayload: (v) => v.url || "",
+    buildPayload: (values) =>
+      validateUrl(getValue(values, "url"), ["instagram.com"]),
   },
   {
     id: "telegram",
@@ -125,14 +268,18 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "url",
-        label: "Enter your Telegram link",
-        labelBn: "আপনার টেলিগ্রাম লিংক লিখুন",
+        label: "Telegram profile or channel URL",
+        labelBn: "টেলিগ্রাম প্রোফাইল বা চ্যানেল লিংক",
         placeholder: "https://t.me/username",
         placeholderBn: "https://t.me/username",
         type: "url",
       },
     ],
-    buildPayload: (v) => v.url || "",
+    buildPayload: (values) =>
+      validateUrl(getValue(values, "url"), [
+        "t.me",
+        "telegram.me",
+      ]),
   },
   {
     id: "phone",
@@ -143,14 +290,15 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "phone",
-        label: "Enter phone number",
-        labelBn: "ফোন নম্বর লিখুন",
+        label: "Phone number",
+        labelBn: "ফোন নম্বর",
         placeholder: "+971507975837",
         placeholderBn: "+৯৭১৫০৭৯৭৫৮৩৭",
         type: "tel",
       },
     ],
-    buildPayload: (v) => `tel:${(v.phone || "").replace(/\s/g, "")}`,
+    buildPayload: (values) =>
+      `tel:${normalizePhone(getValue(values, "phone"))}`,
   },
   {
     id: "email",
@@ -161,8 +309,8 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "email",
-        label: "Enter email address",
-        labelBn: "ইমেইল ঠিকানা লিখুন",
+        label: "Email address",
+        labelBn: "ইমেইল ঠিকানা",
         placeholder: "you@example.com",
         placeholderBn: "you@example.com",
         type: "email",
@@ -176,11 +324,19 @@ export const PLATFORMS: PlatformConfig[] = [
         type: "text",
       },
     ],
-    buildPayload: (v) => {
-      const s = v.subject
-        ? `?subject=${encodeURIComponent(v.subject)}`
+    buildPayload: (values) => {
+      const email = validateEmail(getValue(values, "email"));
+      const subject = getValue(values, "subject");
+
+      if (subject.length > 200) {
+        throw new Error("Email subject is too long.");
+      }
+
+      const query = subject
+        ? `?subject=${encodeURIComponent(subject)}`
         : "";
-      return `mailto:${v.email}${s}`;
+
+      return `mailto:${email}${query}`;
     },
   },
   {
@@ -202,12 +358,33 @@ export const PLATFORMS: PlatformConfig[] = [
         key: "password",
         label: "WiFi password",
         labelBn: "ওয়াইফাই পাসওয়ার্ড",
-        placeholder: "••••••••",
-        placeholderBn: "••••••••",
+        placeholder: "Enter WiFi password",
+        placeholderBn: "ওয়াইফাই পাসওয়ার্ড লিখুন",
         type: "password",
       },
     ],
-    buildPayload: (v) => `WIFI:T:WPA;S:${v.ssid};P:${v.password};;`,
+    buildPayload: (values) => {
+      const ssid = getValue(values, "ssid");
+      const password = getValue(values, "password");
+
+      if (!ssid || !password) {
+        throw new Error(
+          "Enter both the WiFi network name and password.",
+        );
+      }
+
+      if (ssid.length > 32 || password.length > 128) {
+        throw new Error("WiFi information is too long.");
+      }
+
+      return [
+        "WIFI:T:WPA",
+        `S:${escapeWifiValue(ssid)}`,
+        `P:${escapeWifiValue(password)}`,
+        "H:false",
+        "",
+      ].join(";");
+    },
   },
   {
     id: "website",
@@ -218,14 +395,14 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "url",
-        label: "Enter website URL",
-        labelBn: "ওয়েবসাইট URL লিখুন",
+        label: "Website URL",
+        labelBn: "ওয়েবসাইট URL",
         placeholder: "https://example.com",
         placeholderBn: "https://example.com",
         type: "url",
       },
     ],
-    buildPayload: (v) => v.url || "",
+    buildPayload: (values) => validateUrl(getValue(values, "url")),
   },
   {
     id: "sms",
@@ -236,8 +413,8 @@ export const PLATFORMS: PlatformConfig[] = [
     fields: [
       {
         key: "phone",
-        label: "Enter phone number",
-        labelBn: "ফোন নম্বর লিখুন",
+        label: "Phone number",
+        labelBn: "ফোন নম্বর",
         placeholder: "+971507975837",
         placeholderBn: "+৯৭১৫০৭৯৭৫৮৩৭",
         type: "tel",
@@ -251,10 +428,18 @@ export const PLATFORMS: PlatformConfig[] = [
         type: "text",
       },
     ],
-    buildPayload: (v) =>
-      `sms:${(v.phone || "").replace(/\s/g, "")}${
-        v.message ? `?body=${encodeURIComponent(v.message)}` : ""
-      }`,
+    buildPayload: (values) => {
+      const phone = normalizePhone(getValue(values, "phone"));
+      const message = getValue(values, "message");
+
+      if (message.length > 500) {
+        throw new Error("SMS message is too long.");
+      }
+
+      return `sms:${phone}${
+        message ? `?body=${encodeURIComponent(message)}` : ""
+      }`;
+    },
   },
   {
     id: "vcard",
@@ -273,8 +458,8 @@ export const PLATFORMS: PlatformConfig[] = [
       },
       {
         key: "phone",
-        label: "Phone number",
-        labelBn: "ফোন নম্বর",
+        label: "Phone number (optional)",
+        labelBn: "ফোন নম্বর (ঐচ্ছিক)",
         placeholder: "+971507975837",
         placeholderBn: "+৯৭১৫০৭৯৭৫৮৩৭",
         type: "tel",
@@ -288,12 +473,36 @@ export const PLATFORMS: PlatformConfig[] = [
         type: "email",
       },
     ],
-    buildPayload: (v) => {
-      const lines = ["BEGIN:VCARD", "VERSION:3.0", `FN:${v.name || ""}`];
-      if (v.phone) lines.push(`TEL:${v.phone}`);
-      if (v.email) lines.push(`EMAIL:${v.email}`);
+    buildPayload: (values) => {
+      const name = getValue(values, "name");
+      const rawPhone = getValue(values, "phone");
+      const rawEmail = getValue(values, "email");
+
+      if (!name) {
+        throw new Error("Enter a contact name.");
+      }
+
+      if (name.length > 100) {
+        throw new Error("Contact name is too long.");
+      }
+
+      const lines = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        `FN:${escapeVCardValue(name)}`,
+      ];
+
+      if (rawPhone) {
+        lines.push(`TEL;TYPE=CELL:${normalizePhone(rawPhone)}`);
+      }
+
+      if (rawEmail) {
+        lines.push(`EMAIL:${validateEmail(rawEmail)}`);
+      }
+
       lines.push("END:VCARD");
-      return lines.join("\n");
+
+      return lines.join("\r\n");
     },
   },
   {
@@ -312,12 +521,28 @@ export const PLATFORMS: PlatformConfig[] = [
         type: "text",
       },
     ],
-    buildPayload: (v) => v.text || "",
+    buildPayload: (values) => {
+      const text = getValue(values, "text");
+
+      if (!text) {
+        throw new Error("Enter some text.");
+      }
+
+      if (text.length > MAX_TEXT_LENGTH) {
+        throw new Error(
+          `Text must be ${MAX_TEXT_LENGTH} characters or fewer.`,
+        );
+      }
+
+      return text;
+    },
   },
 ];
 
-export function getPlatform(id: string): PlatformConfig | undefined {
-  return PLATFORMS.find((p) => p.id === id);
+export function getPlatform(
+  id: string,
+): PlatformConfig | undefined {
+  return PLATFORMS.find((platform) => platform.id === id);
 }
 
 /* ============================================================
@@ -329,10 +554,26 @@ export const POSITIONS: {
   label: string;
   labelBn: string;
 }[] = [
-  { id: "top-left", label: "Top left", labelBn: "উপরে বাম" },
-  { id: "top-right", label: "Top right", labelBn: "উপরে ডান" },
-  { id: "bottom-left", label: "Bottom left", labelBn: "নিচে বাম" },
-  { id: "bottom-right", label: "Bottom right", labelBn: "নিচে ডান" },
+  {
+    id: "top-left",
+    label: "Top left",
+    labelBn: "উপরে বাম",
+  },
+  {
+    id: "top-right",
+    label: "Top right",
+    labelBn: "উপরে ডান",
+  },
+  {
+    id: "bottom-left",
+    label: "Bottom left",
+    labelBn: "নিচে বাম",
+  },
+  {
+    id: "bottom-right",
+    label: "Bottom right",
+    labelBn: "নিচে ডান",
+  },
 ];
 
 /* ============================================================
@@ -345,58 +586,167 @@ export const QR_BACKGROUNDS: {
   labelBn: string;
   Icon: typeof Square;
 }[] = [
-  { id: "white", label: "White", labelBn: "সাদা", Icon: Square },
-  { id: "rounded", label: "Rounded", labelBn: "গোল", Icon: Squircle },
-  { id: "none", label: "None", labelBn: "নেই", Icon: Frame },
+  {
+    id: "white",
+    label: "White",
+    labelBn: "সাদা",
+    Icon: Square,
+  },
+  {
+    id: "rounded",
+    label: "Rounded",
+    labelBn: "গোল",
+    Icon: Squircle,
+  },
+  {
+    id: "none",
+    label: "None",
+    labelBn: "নেই",
+    Icon: Frame,
+  },
 ];
 
 /* ============================================================
  * SLIDER RANGES
  * ============================================================ */
 
-export const SIZE_RANGE = { min: 10, max: 35, step: 1, default: 20 };
-export const PADDING_RANGE = { min: 0, max: 40, step: 1, default: 10 };
+export const SIZE_RANGE = {
+  min: 10,
+  max: 35,
+  step: 1,
+  default: 20,
+};
+
+export const PADDING_RANGE = {
+  min: 0,
+  max: 40,
+  step: 1,
+  default: 10,
+};
 
 /* ============================================================
  * FILE UPLOAD
  * ============================================================ */
 
-export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
-export const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-export const ACCEPT_ATTR = "image/jpeg,image/png,image/webp,image/*";
+export const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+export const ACCEPTED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+] as const;
+
+export const ACCEPT_ATTR = ACCEPTED_TYPES.join(",");
+
+function validateImageFile(file: File): void {
+  if (!ACCEPTED_TYPES.includes(file.type as (typeof ACCEPTED_TYPES)[number])) {
+    throw new Error("Only JPG, PNG, and WebP images are supported.");
+  }
+
+  if (file.size <= 0 || file.size > MAX_FILE_SIZE) {
+    throw new Error("Image file must be between 1 byte and 50 MB.");
+  }
+}
 
 /* ============================================================
  * IMAGE LOADING
  * ============================================================ */
 
-export function loadImageFromFile(file: File): Promise<HTMLImageElement> {
+export function loadImageFromFile(
+  file: File,
+): Promise<HTMLImageElement> {
+  validateImageFile(file);
+
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
     const img = new Image();
-    img.onload = () => {
+
+    const cleanup = () => {
       URL.revokeObjectURL(url);
+      img.onload = null;
+      img.onerror = null;
+    };
+
+    img.onload = () => {
+      cleanup();
+
+      if (
+        !Number.isFinite(img.naturalWidth) ||
+        !Number.isFinite(img.naturalHeight) ||
+        img.naturalWidth <= 0 ||
+        img.naturalHeight <= 0
+      ) {
+        reject(new Error("Invalid image dimensions."));
+        return;
+      }
+
       resolve(img);
     };
+
     img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Failed to load image"));
+      cleanup();
+      reject(
+        new Error(
+          "The selected image could not be decoded. Try another image.",
+        ),
+      );
     };
+
     img.src = url;
   });
 }
 
+function validateImageDimensions(
+  width: number,
+  height: number,
+): void {
+  if (
+    !Number.isSafeInteger(width) ||
+    !Number.isSafeInteger(height) ||
+    width <= 0 ||
+    height <= 0
+  ) {
+    throw new Error("Invalid image dimensions.");
+  }
+
+  if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+    throw new Error(
+      `Image dimensions cannot exceed ${MAX_DIMENSION} pixels on either side.`,
+    );
+  }
+
+  if (width * height > MAX_PIXELS) {
+    throw new Error(
+      "Image resolution is too large for reliable browser processing. Use an image with 16 megapixels or fewer.",
+    );
+  }
+}
+
 /* ============================================================
- * LOGO BUILDER — platform icon inside colored circle
+ * LOGO BUILDER
  * ============================================================ */
 
-function buildLogoDataUrl(platform: PlatformConfig, size: number): string {
+function buildLogoDataUrl(
+  platform: PlatformConfig,
+  size: number,
+): string {
   const IconComponent = platform.Icon;
+
   const iconMarkup = renderToStaticMarkup(
-    createElement(IconComponent, { size: 100, color: "#FFFFFF" })
+    createElement(IconComponent, {
+      size: 100,
+      color: "#FFFFFF",
+      strokeWidth: 2.5,
+    }),
   );
 
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="${size}"
+      height="${size}"
+      viewBox="0 0 100 100"
+    >
       <circle cx="50" cy="50" r="50" fill="${platform.color}"/>
       <g transform="translate(25, 25)">
         ${iconMarkup
@@ -405,208 +755,376 @@ function buildLogoDataUrl(platform: PlatformConfig, size: number): string {
       </g>
     </svg>
   `;
-  return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+
+  const bytes = new TextEncoder().encode(svg);
+  let binary = "";
+
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  return `data:image/svg+xml;base64,${btoa(binary)}`;
 }
 
-function loadSvgImage(dataUrl: string): Promise<HTMLImageElement> {
+function loadSvgImage(
+  dataUrl: string,
+): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
+
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load SVG"));
+    img.onerror = () =>
+      reject(new Error("Could not render QR logo."));
+
     img.src = dataUrl;
   });
 }
 
 /* ============================================================
- * ROUNDED RECT HELPER
+ * GEOMETRY
  * ============================================================ */
 
 function roundRect(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  w: number,
-  h: number,
-  r: number
-) {
+  width: number,
+  height: number,
+  radius: number,
+): void {
+  const r = Math.max(
+    0,
+    Math.min(radius, width / 2, height / 2),
+  );
+
   ctx.beginPath();
   ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x + width - r, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+  ctx.lineTo(x + width, y + height - r);
+  ctx.quadraticCurveTo(
+    x + width,
+    y + height,
+    x + width - r,
+    y + height,
+  );
+  ctx.lineTo(x + r, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
   ctx.lineTo(x, y + r);
   ctx.quadraticCurveTo(x, y, x + r, y);
   ctx.closePath();
 }
 
+interface Layout {
+  qrSize: number;
+  padding: number;
+  totalBox: number;
+  inset: number;
+  x: number;
+  y: number;
+}
+
+function getPositionCoords(
+  position: Position,
+  width: number,
+  height: number,
+  totalBox: number,
+  inset: number,
+): { x: number; y: number } {
+  const maxX = Math.max(0, width - totalBox - inset);
+  const maxY = Math.max(0, height - totalBox - inset);
+
+  switch (position) {
+    case "top-left":
+      return { x: inset, y: inset };
+
+    case "top-right":
+      return { x: maxX, y: inset };
+
+    case "bottom-left":
+      return { x: inset, y: maxY };
+
+    case "bottom-right":
+    default:
+      return { x: maxX, y: maxY };
+  }
+}
+
+function createLayout(
+  width: number,
+  height: number,
+  position: Position,
+  sizePercent: number,
+  requestedPadding: number,
+  background: QrBackground,
+): Layout {
+  const safeSizePercent = Math.min(
+    SIZE_RANGE.max,
+    Math.max(SIZE_RANGE.min, Number(sizePercent) || SIZE_RANGE.default),
+  );
+
+  const safePadding = Math.min(
+    PADDING_RANGE.max,
+    Math.max(0, Number(requestedPadding) || 0),
+  );
+
+  const minSide = Math.min(width, height);
+  const qrSize = Math.round((minSide * safeSizePercent) / 100);
+
+  if (qrSize < MIN_QR_SIZE) {
+    throw new Error(
+      `The QR code would be too small to scan reliably. Use a larger photo or increase the QR size. Minimum QR size: ${MIN_QR_SIZE}px.`,
+    );
+  }
+
+  const inset = Math.max(8, Math.round(qrSize * 0.04));
+
+  const maxPadding = Math.max(
+    0,
+    Math.floor((minSide - qrSize - inset * 2) / 2),
+  );
+
+  const padding =
+    background === "none"
+      ? 0
+      : Math.min(safePadding, maxPadding);
+
+  const totalBox = qrSize + padding * 2;
+
+  if (totalBox + inset * 2 > minSide) {
+    throw new Error(
+      "The QR code does not fit inside this image. Reduce its size or use a larger photo.",
+    );
+  }
+
+  const { x, y } = getPositionCoords(
+    position,
+    width,
+    height,
+    totalBox,
+    inset,
+  );
+
+  if (
+    x < 0 ||
+    y < 0 ||
+    x + totalBox > width ||
+    y + totalBox > height
+  ) {
+    throw new Error(
+      "QR placement is outside the image boundaries. Adjust the size or padding.",
+    );
+  }
+
+  return {
+    qrSize,
+    padding,
+    totalBox,
+    inset,
+    x,
+    y,
+  };
+}
+
 /* ============================================================
- * QR + LOGO GENERATOR
+ * QR GENERATION
  * ============================================================ */
 
 export async function generateQrWithLogo(
   payload: string,
   platform: PlatformConfig,
-  qrPixelSize: number
+  qrPixelSize: number,
 ): Promise<HTMLCanvasElement> {
-  const qrCanvas = document.createElement("canvas");
-  qrCanvas.width = qrPixelSize;
-  qrCanvas.height = qrPixelSize;
+  const safePayload = validatePayload(payload);
+  const finalSize = Math.max(128, Math.floor(qrPixelSize));
 
-  await QRCode.toCanvas(qrCanvas, payload, {
-    width: qrPixelSize,
-    margin: 0,
-    errorCorrectionLevel: "H",
-    color: { dark: "#0A0B1E", light: "#FFFFFF" },
+  const qrCanvas = document.createElement('canvas');
+  await QRCode.toCanvas(qrCanvas, safePayload, {
+    width: finalSize,
+    margin: 4,
+    errorCorrectionLevel: 'H',
+    color: { dark: '#0A0B1E', light: '#FFFFFF' },
   });
 
-  const logoSize = Math.round(qrPixelSize * 0.22);
+  const ctx = qrCanvas.getContext('2d');
+
+  const logoSize = Math.round(qrCanvas.width * 0.16);
   const logoDataUrl = buildLogoDataUrl(platform, logoSize);
   const logoImg = await loadSvgImage(logoDataUrl);
 
-  const ctx = qrCanvas.getContext("2d");
-  if (!ctx) throw new Error("No canvas context");
-
-  const pad = logoSize * 0.12;
-  const circleR = (logoSize + pad * 2) / 2;
+  const plateSize = Math.round(logoSize * 1.2);
+  ctx.save();
   ctx.beginPath();
-  ctx.arc(qrPixelSize / 2, qrPixelSize / 2, circleR, 0, Math.PI * 2);
-  ctx.fillStyle = "#FFFFFF";
+  ctx.arc(qrCanvas.width / 2, qrCanvas.height / 2, plateSize / 2, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFFFFF';
   ctx.fill();
+  ctx.restore();
 
   ctx.drawImage(
     logoImg,
-    (qrPixelSize - logoSize) / 2,
-    (qrPixelSize - logoSize) / 2,
+    (qrCanvas.width - logoSize) / 2,
+    (qrCanvas.height - logoSize) / 2,
     logoSize,
-    logoSize
+    logoSize,
   );
 
   return qrCanvas;
 }
 
 /* ============================================================
- * POSITION CALCULATOR
- * ============================================================ */
-
-function getPositionCoords(
-  position: string,
-  W: number,
-  H: number,
-  totalBox: number,
-  innerPad: number
-): { x: number; y: number } {
-  switch (position) {
-    case "top-left":
-      return { x: innerPad, y: innerPad };
-    case "top-right":
-      return { x: W - totalBox - innerPad, y: innerPad };
-    case "bottom-left":
-      return { x: innerPad, y: H - totalBox - innerPad };
-    case "bottom-right":
-    default:
-      return { x: W - totalBox - innerPad, y: H - totalBox - innerPad };
-  }
-}
-
-/* ============================================================
- * DRAW BACKGROUND BEHIND QR
+ * BACKGROUND
  * ============================================================ */
 
 function drawQrBackground(
   ctx: CanvasRenderingContext2D,
-  bg: string,
+  background: QrBackground,
   x: number,
   y: number,
   totalBox: number,
-  qrSize: number
-) {
-  if (bg === "none") return;
+): void {
+  if (background === "none") return;
+
   ctx.save();
-  if (bg === "rounded") {
-    const r = Math.round(qrSize * 0.16);
-    roundRect(ctx, x, y, totalBox, totalBox, r);
+
+  if (background === "rounded") {
+    roundRect(
+      ctx,
+      x,
+      y,
+      totalBox,
+      totalBox,
+      Math.min(totalBox * 0.12, 48),
+    );
   } else {
     ctx.beginPath();
     ctx.rect(x, y, totalBox, totalBox);
   }
+
   ctx.fillStyle = "#FFFFFF";
   ctx.fill();
   ctx.restore();
 }
 
 /* ============================================================
+ * PAYLOAD RESOLUTION
+ * ============================================================ */
+
+function resolvePayload(
+  platform: PlatformConfig,
+  values: Record<string, string>,
+): string {
+  try {
+    return validatePayload(platform.buildPayload(values));
+  } catch (error) {
+    if (error instanceof Error) throw error;
+
+    throw new Error("Could not validate QR information.");
+  }
+}
+
+/* ============================================================
+ * RENDER PIPELINE
+ * ============================================================ */
+
+async function renderPhoto(
+  options: RenderOptions,
+  maxPreviewSize?: number,
+): Promise<HTMLCanvasElement> {
+  const { photoFile, platform, values, position, sizePercent, padding, qrBackground } = options;
+
+  let payload = '';
+  try {
+    payload = validatePayload(platform.buildPayload(values));
+  } catch {
+    payload = '';
+  }
+
+  const img = await loadImageFromFile(photoFile);
+  validateImageDimensions(img.naturalWidth, img.naturalHeight);
+
+  const originalWidth = img.naturalWidth;
+  const originalHeight = img.naturalHeight;
+  const scale = maxPreviewSize ? Math.min(1, maxPreviewSize / Math.max(originalWidth, originalHeight)) : 1;
+  
+  const width = Math.max(1, Math.round(originalWidth * scale));
+  const height = Math.max(1, Math.round(originalHeight * scale));
+
+  const output = document.createElement('canvas');
+  output.width = width;
+  output.height = height;
+  const ctx = output.getContext('2d');
+
+  // Fill background
+  ctx.fillStyle = '#F3F4F6';
+  ctx.fillRect(0, 0, width, height);
+
+  // Draw the photo
+  ctx.drawImage(img, 0, 0, width, height);
+
+  // Only draw QR if payload exists
+  if (payload) {
+    const minSide = Math.min(width, height);
+    const safeSizePercent = Math.min(SIZE_RANGE.max, Math.max(SIZE_RANGE.min, Number(sizePercent) || SIZE_RANGE.default));
+    const qrSize = Math.round((minSide * safeSizePercent) / 100);
+    const inset = Math.max(8, Math.round(qrSize * 0.04));
+    const maxPadding = Math.max(0, Math.floor((minSide - qrSize - inset * 2) / 2));
+    const paddingValue = qrBackground === 'none' ? 0 : Math.min(padding, maxPadding);
+    const totalBox = qrSize + paddingValue * 2;
+    
+    // Get exact position based on user's UI setting (Bottom-Right, etc.)
+    const { x, y } = getPositionCoords(position, width, height, totalBox, inset);
+
+    const qrCanvas = await generateQrWithLogo(payload, platform, qrSize);
+    
+    // Draw background for QR
+    if (qrBackground !== 'none') {
+      ctx.save();
+      if (qrBackground === 'rounded') roundRect(ctx, x, y, totalBox, totalBox, Math.min(totalBox * 0.12, 48));
+      else { ctx.beginPath(); ctx.rect(x, y, totalBox, totalBox); }
+      ctx.fillStyle = '#FFFFFF'; 
+      ctx.fill(); 
+      ctx.restore();
+    }
+    
+    // Draw QR Canvas on photo
+    ctx.drawImage(qrCanvas, x + paddingValue, y + paddingValue, qrSize, qrSize);
+  }
+
+  return output;
+}
+
+/* ============================================================
  * COMPOSE FULL RESOLUTION PHOTO
  * ============================================================ */
 
-export async function composePhoto(options: RenderOptions, format: "image/png" | "image/jpeg" = "image/png"): Promise<Blob> {
-  const {
-    photoFile,
-    platform,
-    values,
-    position,
-    sizePercent,
-    padding,
-    qrBackground,
-  } = options;
-
-  const payload = platform.buildPayload(values);
-  if (!payload) throw new Error("Empty payload");
-
-  const img = await loadImageFromFile(photoFile);
-
-  if (img.naturalWidth * img.naturalHeight > MAX_PIXELS) {
-    throw new Error(
-      `Image resolution too large (${img.naturalWidth}x${img.naturalHeight}). Maximum allowed is 100 megapixels.`
-    );
-  }
-
-  const W = img.naturalWidth;
-  const H = img.naturalHeight;
-  const minSide = Math.min(W, H);
-
-  const qrSize = Math.round((minSide * sizePercent) / 100);
-  const qrCanvas = await generateQrWithLogo(payload, platform, qrSize);
-
-  const out = document.createElement("canvas");
-  out.width = W;
-  out.height = H;
-  const ctx = out.getContext("2d");
-  if (!ctx) throw new Error("No canvas context");
-
-  ctx.drawImage(img, 0, 0, W, H);
-
-  const innerPad = Math.round(qrSize * 0.06);
-  const effectivePadding = qrBackground === "none" ? 0 : padding;
-  const totalBox = qrSize + effectivePadding * 2;
-  const { x, y } = getPositionCoords(
-    position,
-    W,
-    H,
-    totalBox,
-    innerPad
-  );
-
-  drawQrBackground(ctx, qrBackground, x, y, totalBox, qrSize);
-  ctx.drawImage(
-    qrCanvas,
-    x + effectivePadding,
-    y + effectivePadding,
-    qrSize,
-    qrSize
-  );
+export async function composePhoto(
+  options: RenderOptions,
+  format: "image/png" | "image/jpeg" = "image/png",
+): Promise<Blob> {
+  const output = await renderPhoto(options);
 
   return new Promise((resolve, reject) => {
-    out.toBlob(
-      (blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error("Failed to export"));
-      },
-      format,
-      format === "image/jpeg" ? 0.92 : 1.0
-    );
+    try {
+      output.toBlob(
+        (blob) => {
+          output.width = 0;
+          output.height = 0;
+
+          if (!blob || blob.size === 0) {
+            reject(new Error("Failed to export the image."));
+            return;
+          }
+
+          resolve(blob);
+        },
+        format,
+        format === "image/jpeg" ? 0.92 : undefined,
+      );
+    } catch {
+      output.width = 0;
+      output.height = 0;
+      reject(new Error("Image export failed."));
+    }
   });
 }
 
@@ -616,62 +1134,34 @@ export async function composePhoto(options: RenderOptions, format: "image/png" |
 
 export async function generatePreview(
   options: RenderOptions,
-  maxPreviewSize = 1200
+  maxPreviewSize = 1200,
 ): Promise<string> {
-  const {
-    photoFile,
-    platform,
-    values,
-    position,
-    sizePercent,
-    padding,
-    qrBackground,
-  } = options;
-
-  const payload = platform.buildPayload(values);
-  if (!payload) throw new Error("Empty payload");
-
-  const img = await loadImageFromFile(photoFile);
-
-  if (img.naturalWidth * img.naturalHeight > MAX_PIXELS) {
-    throw new Error(
-      `Image resolution too large (${img.naturalWidth}x${img.naturalHeight}). Maximum allowed is 100 megapixels.`
-    );
+  if (
+    !Number.isFinite(maxPreviewSize) ||
+    maxPreviewSize < MIN_QR_SIZE ||
+    maxPreviewSize > 4_000
+  ) {
+    throw new Error("Invalid preview dimensions.");
   }
-
-  const W = img.naturalWidth;
-  const H = img.naturalHeight;
-
-  const scale = Math.min(1, maxPreviewSize / Math.max(W, H));
-  const pw = Math.round(W * scale);
-  const ph = Math.round(H * scale);
-  const minSide = Math.min(pw, ph);
-
-  const qrSize = Math.round((minSide * sizePercent) / 100);
-  const qrCanvas = await generateQrWithLogo(payload, platform, qrSize);
-
-  const out = document.createElement("canvas");
-  out.width = pw;
-  out.height = ph;
-  const ctx = out.getContext("2d");
-  if (!ctx) throw new Error("No canvas context");
-
-  ctx.drawImage(img, 0, 0, pw, ph);
-
-  const innerPad = Math.round(qrSize * 0.06);
-  const scaledPadding =
-    qrBackground === "none" ? 0 : Math.round(padding * scale);
-  const totalBox = qrSize + scaledPadding * 2;
-  const { x, y } = getPositionCoords(position, pw, ph, totalBox, innerPad);
-
-  drawQrBackground(ctx, qrBackground, x, y, totalBox, qrSize);
-  ctx.drawImage(
-    qrCanvas,
-    x + scaledPadding,
-    y + scaledPadding,
-    qrSize,
-    qrSize
-  );
-
-  return out.toDataURL("image/png", 0.92);
+  const output = await renderPhoto(options, maxPreviewSize);
+  return new Promise((resolve, reject) => {
+    try {
+      output.toBlob(
+        (blob) => {
+          output.width = 0;
+          output.height = 0;
+          if (!blob || blob.size === 0) {
+            reject(new Error("Could not create the image preview."));
+            return;
+          }
+          resolve(URL.createObjectURL(blob));
+        },
+        "image/png"
+      );
+    } catch {
+      output.width = 0;
+      output.height = 0;
+      reject(new Error("Could not create the image preview."));
+    }
+  });
 }

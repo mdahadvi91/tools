@@ -1,232 +1,230 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   ArrowRight,
   ChevronDown,
   Shield,
-  Zap,
-  CheckCircle2,
-  AlertTriangle,
   Sparkles,
-  Gift,
+  Zap,
   Lock,
+  Gift,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
 import { trackRecentTool } from "@lib/recentTools";
 import { ToolDataSections } from "@components/tools/ToolDataSections";
 import { RelatedToolsBlock } from "@components/tools/RelatedToolsBlock";
 import { useLanguage } from "@contexts/LanguageContext";
 import { useReducedMotion } from "@hooks/useReducedMotion";
-import { Hero } from "./Hero";
 import { ToolSchema } from "@components/seo/ToolSchema";
 import { ToolFieldNote } from "@components/tools/ToolFieldNote";
-import { photoQrContent } from "./content";
 import { ToolBreadcrumb } from "@components/tools/ToolBreadcrumb";
 import { AdSenseSlot } from "@components/ads/AdSenseSlot";
 import { AD_SLOTS } from "@constants/ads";
-import { PhotoQRWizardModal } from "./PhotoQRWizardModal";
 import { cn } from "@lib/cn";
 
-const ICON_MAP = { sparkle: Sparkles, shield: Shield, gift: Gift, lock: Lock };
+import { Hero } from "./Hero";
+import { photoQrContent } from "./content";
+import { PhotoQRWizardModal } from "./PhotoQRWizardModal";
 
-/* ============================================================
- * SmartInsights (inlined)
- * ============================================================ */
-function SmartInsights({ sizePercent }: { sizePercent: number }) {
-  const isGoodSize = sizePercent >= 15;
-  return (
-    <div className="mt-4 mb-6 rounded-2xl border border-silk-rose/20 bg-gradient-to-br from-silk-rose/5 to-transparent p-5 shadow-sm max-w-4xl mx-auto w-full">
-      <div className="flex items-center gap-2 mb-3">
-        <Zap className="w-5 h-5 text-silk-gold" />
-        <h3 className="font-serif font-black text-lg text-light-text dark:text-dark-text">
-          AHADEX Smart Insights
-        </h3>
-      </div>
-      <div className="flex items-start gap-3">
-        {isGoodSize ? (
-          <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-        ) : (
-          <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-        )}
-        <div>
-          <p className="text-sm font-bold text-light-text dark:text-dark-text">
-            {isGoodSize ? "Good Size for Scanning" : "QR Code is Too Small"}
-          </p>
-          <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary mt-1">
-            Your QR code covers {sizePercent}% of the image width. {isGoodSize
-              ? "This is a good size for printing and scanning from a normal distance."
-              : "If you print this, scanners might struggle. Try increasing the size to 15-20% or more for better reliability."}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+const ICON_MAP = {
+  sparkle: Sparkles,
+  shield: Shield,
+  gift: Gift,
+  lock: Lock,
+} as const;
 
-/* ============================================================
- * Intro Section (inlined from Intro.tsx)
- * ============================================================ */
+type PhotoQrContent = typeof photoQrContent.en;
+
 function IntroSection({
   content,
   language,
   prefersReduced,
 }: {
-  content: typeof photoQrContent.en;
+  content: PhotoQrContent;
   language: string;
   prefersReduced: boolean;
 }) {
+  const isBangla = language === "bn";
+
   return (
-    <section className="relative py-14 sm:py-20 overflow-hidden">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+    <section
+      aria-labelledby="photo-qr-intro-title"
+      className="relative isolate overflow-hidden py-14 sm:py-20"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
         <div
-          className="absolute top-20 -left-20 w-[400px] h-[400px] rounded-full opacity-30"
+          className="absolute -left-20 top-20 h-[400px] w-[400px] rounded-full opacity-30 blur-[60px]"
           style={{
             background:
               "radial-gradient(circle, rgba(216,139,154,0.4) 0%, transparent 65%)",
-            filter: "blur(60px)",
           }}
         />
         <div
-          className="absolute bottom-20 -right-20 w-[400px] h-[400px] rounded-full opacity-25"
+          className="absolute -right-20 bottom-20 h-[400px] w-[400px] rounded-full opacity-25 blur-[60px]"
           style={{
             background:
               "radial-gradient(circle, rgba(201,150,103,0.4) 0%, transparent 65%)",
-            filter: "blur(60px)",
           }}
         />
-        <span
-          className="absolute top-12 left-[8%] text-2xl sm:text-3xl opacity-30 animate-gentle-float"
-          style={{ animationDelay: "0s" }}
-        >
+        <span className="absolute left-[8%] top-12 text-2xl opacity-30">
           ✨
         </span>
-        <span
-          className="absolute top-32 right-[10%] text-3xl sm:text-4xl opacity-25 animate-gentle-float"
-          style={{ animationDelay: "1.5s" }}
-        >
+        <span className="absolute right-[10%] top-32 text-3xl opacity-25">
           🎯
         </span>
-        <span
-          className="absolute bottom-24 left-[12%] text-2xl sm:text-3xl opacity-25 animate-gentle-float"
-          style={{ animationDelay: "3s" }}
-        >
+        <span className="absolute bottom-24 left-[12%] text-2xl opacity-25">
           🪄
         </span>
-        <span
-          className="absolute bottom-16 right-[8%] text-3xl sm:text-4xl opacity-20 animate-gentle-float"
-          style={{ animationDelay: "4.5s" }}
-        >
+        <span className="absolute bottom-16 right-[8%] text-3xl opacity-20">
           🚀
         </span>
       </div>
 
       <div className="relative">
         <motion.div
-          initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
+          initial={{
+            opacity: 0,
+            y: prefersReduced ? 0 : 20,
+          }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 max-w-3xl mx-auto"
+          transition={{
+            duration: prefersReduced ? 0 : 0.6,
+          }}
+          className="mx-auto mb-12 max-w-3xl text-center"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-silk-rose animate-soft-pulse" />
-            <p className="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-silk-wine/70 dark:text-silk-rose/60 font-semibold">
-              {language === "bn" ? "টুল সম্পর্কে" : "About this tool"}
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-silk-rose"
+            />
+            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-silk-wine/70 dark:text-silk-rose/60 sm:text-xs">
+              {isBangla ? "টুল সম্পর্কে" : "About this tool"}
             </p>
           </div>
-          <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight text-light-text dark:text-dark-text">
-            {language === "bn" ? "যে টুল" : "The tool that"}{" "}
-            <span className="font-script text-silk-rose text-[1.15em]">
-              {language === "bn"
+
+          <h2
+            id="photo-qr-intro-title"
+            className="font-display text-3xl font-black leading-[1.1] tracking-tight text-light-text dark:text-dark-text sm:text-4xl lg:text-5xl"
+          >
+            {isBangla ? "যে টুল" : "The tool that"}{" "}
+            <span className="font-script text-[1.15em] text-silk-rose">
+              {isBangla
                 ? "আপনার ছবিকে জীবন্ত করে"
                 : "brings photos to life"}
             </span>{" "}
-            ✨
+            <span aria-hidden="true">✨</span>
           </h2>
-          <p className="mt-5 text-base sm:text-lg text-light-textSecondary dark:text-dark-textSecondary leading-relaxed max-w-2xl mx-auto">
-            {language === "bn"
-              ? "🎨 একটা ছবি, একটা স্ক্যান — সেকেন্ডের মধ্যে যোগাযোগ। 💫"
-              : "🎨 One photo, one scan — a connection made in seconds. 💫"}
+
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-lg">
+            {isBangla
+              ? "একটি ছবির সঙ্গে একটি QR কোড যুক্ত করুন, যাতে মানুষ স্ক্যান করে আপনার দেওয়া লিংক বা তথ্য সহজে পেতে পারে।"
+              : "Combine a photo with a QR code so people can scan it to access the link or information you choose to share."}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4 mb-12 sm:mb-16">
-          {content.introHighlights.map((h, i) => (
+        <div className="mb-12 grid grid-cols-2 gap-2.5 sm:mb-16 sm:grid-cols-3 sm:gap-4">
+          {content.introHighlights.map((highlight, index) => (
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: prefersReduced ? 0 : 16 }}
+              key={highlight.title}
+              initial={{
+                opacity: 0,
+                y: prefersReduced ? 0 : 16,
+              }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              transition={{
+                duration: prefersReduced ? 0 : 0.5,
+                delay: prefersReduced ? 0 : index * 0.08,
+              }}
               className={cn(
-                "group relative p-4 sm:p-5 rounded-2xl",
-                "bg-white/70 dark:bg-dark-surface/70 backdrop-blur-xl",
-                "border border-silk-rose/15 hover:border-silk-rose/50",
-                "hover:-translate-y-1",
-                "transition-all duration-500"
+                "group relative rounded-2xl border p-4 transition-colors sm:p-5",
+                "border-silk-rose/15 bg-white/70 backdrop-blur-xl dark:bg-dark-surface/70",
+                "hover:border-silk-rose/50"
               )}
             >
-              <span className="text-3xl sm:text-4xl block mb-2.5 group-hover:scale-110 transition-transform duration-500">
-                {h.emoji}
+              <span
+                aria-hidden="true"
+                className="mb-2.5 block text-3xl transition-transform duration-300 group-hover:scale-110 sm:text-4xl"
+              >
+                {highlight.emoji}
               </span>
-              <h3 className="font-display font-bold text-[13px] sm:text-[15px] text-light-text dark:text-dark-text mb-1 leading-tight">
-                {h.title}
+
+              <h3 className="mb-1 text-[13px] font-bold leading-tight text-light-text dark:text-dark-text sm:text-[15px]">
+                {highlight.title}
               </h3>
-              <p className="text-[11px] sm:text-xs text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
-                {h.text}
+
+              <p className="text-[11px] leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-xs">
+                {highlight.text}
               </p>
             </motion.div>
           ))}
         </div>
 
-        <div className="space-y-5 sm:space-y-6 max-w-4xl mx-auto">
-          {content.introBlocks.map((block, i) => {
+        <div className="mx-auto max-w-4xl space-y-5 sm:space-y-6">
+          {content.introBlocks.map((block, index) => {
             const Icon =
               ICON_MAP[block.icon as keyof typeof ICON_MAP] ?? Sparkles;
-            const isEven = i % 2 === 0;
+
+            const isEven = index % 2 === 0;
+
             return (
               <motion.div
-                key={i}
+                key={block.title}
                 initial={{
                   opacity: 0,
                   x: prefersReduced ? 0 : isEven ? -20 : 20,
                 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
+                transition={{
+                  duration: prefersReduced ? 0 : 0.6,
+                  delay: prefersReduced ? 0 : index * 0.08,
+                }}
                 className={cn(
-                  "group relative p-5 sm:p-7 rounded-3xl overflow-hidden",
-                  "bg-white/70 dark:bg-dark-surface/70 backdrop-blur-xl",
-                  "border border-silk-rose/15 hover:border-silk-rose/40",
-                  "hover:shadow-[0_20px_50px_-15px_rgba(139,58,79,0.25)]",
-                  "transition-all duration-500"
+                  "group relative overflow-hidden rounded-3xl border p-5 transition-colors sm:p-7",
+                  "border-silk-rose/15 bg-white/70 backdrop-blur-xl dark:bg-dark-surface/70",
+                  "hover:border-silk-rose/40"
                 )}
               >
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "absolute -top-16 w-40 h-40 rounded-full opacity-40 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none",
+                    "pointer-events-none absolute -top-16 h-40 w-40 rounded-full opacity-40 blur-[40px]",
                     isEven ? "-right-16" : "-left-16"
                   )}
                   style={{
                     background:
                       "radial-gradient(circle, rgba(216,139,154,0.5) 0%, transparent 70%)",
-                    filter: "blur(40px)",
                   }}
                 />
+
                 <div className="relative flex items-start gap-4">
-                  <div className="shrink-0 flex flex-col items-center gap-2">
-                    <span className="text-4xl sm:text-5xl group-hover:scale-110 transition-transform duration-500">
+                  <div className="flex shrink-0 flex-col items-center gap-2">
+                    <span
+                      aria-hidden="true"
+                      className="text-4xl transition-transform duration-300 group-hover:scale-110 sm:text-5xl"
+                    >
                       {block.emoji}
                     </span>
-                    <span className="w-10 h-10 rounded-xl bg-silk-rose/15 border border-silk-rose/25 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-silk-rose" />
+
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-silk-rose/25 bg-silk-rose/15">
+                      <Icon
+                        aria-hidden="true"
+                        className="h-5 w-5 text-silk-rose"
+                      />
                     </span>
                   </div>
+
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-display font-bold text-lg sm:text-xl text-light-text dark:text-dark-text mb-2 leading-tight">
+                    <h3 className="mb-2 font-display text-lg font-bold leading-tight text-light-text dark:text-dark-text sm:text-xl">
                       {block.title}
                     </h3>
-                    <p className="text-[14px] sm:text-base text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
+
+                    <p className="text-sm leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-base">
                       {block.text}
                     </p>
                   </div>
@@ -236,69 +234,89 @@ function IntroSection({
           })}
         </div>
 
-        <div className="flex items-center justify-center gap-3 mt-12">
-          <span className="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent to-silk-rose/40" />
-          <span className="text-xl sm:text-2xl animate-soft-pulse">💖</span>
-          <span
-            className="text-xl sm:text-2xl animate-soft-pulse"
-            style={{ animationDelay: "0.5s" }}
-          >
-            ✨
-          </span>
-          <span
-            className="text-xl sm:text-2xl animate-soft-pulse"
-            style={{ animationDelay: "1s" }}
-          >
-            🌸
-          </span>
-          <span className="h-px w-12 sm:w-20 bg-gradient-to-l from-transparent to-silk-rose/40" />
+        <div
+          aria-hidden="true"
+          className="mt-12 flex items-center justify-center gap-3"
+        >
+          <span className="h-px w-12 bg-gradient-to-r from-transparent to-silk-rose/40 sm:w-20" />
+          <span className="text-xl sm:text-2xl">💖</span>
+          <span className="text-xl sm:text-2xl">✨</span>
+          <span className="text-xl sm:text-2xl">🌸</span>
+          <span className="h-px w-12 bg-gradient-to-l from-transparent to-silk-rose/40 sm:w-20" />
         </div>
       </div>
     </section>
   );
 }
 
-/* ============================================================
- * FAQ Item (inlined)
- * ============================================================ */
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+function FAQItem({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: string;
+}) {
   const [open, setOpen] = useState(false);
+  const panelId = useId();
+  const prefersReduced = useReducedMotion();
+
   return (
     <div
       className={cn(
-        "rounded-2xl border transition-all duration-300 overflow-hidden",
+        "overflow-hidden rounded-2xl border transition-colors",
         open
-          ? "bg-white/85 dark:bg-dark-surface/85 border-silk-rose/40 shadow-silk-soft"
-          : "bg-white/60 dark:bg-dark-surface/60 border-silk-rose/15 hover:border-silk-rose/30"
+          ? "border-silk-rose/40 bg-white/85 shadow-silk-soft dark:bg-dark-surface/85"
+          : "border-silk-rose/15 bg-white/60 hover:border-silk-rose/30 dark:bg-dark-surface/60"
       )}
     >
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
-      >
-        <span className="font-display font-semibold text-[14px] sm:text-[15px] text-light-text dark:text-dark-text leading-snug">
-          {question}
-        </span>
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.25 }}
-          className="shrink-0 text-silk-rose"
+      <h3>
+        <button
+          type="button"
+          onClick={() => setOpen((current) => !current)}
+          aria-expanded={open}
+          aria-controls={panelId}
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-silk-rose"
         >
-          <ChevronDown className="w-4 h-4" />
-        </motion.span>
-      </button>
+          <span className="font-display text-sm font-semibold leading-snug text-light-text dark:text-dark-text sm:text-[15px]">
+            {question}
+          </span>
+
+          <motion.span
+            aria-hidden="true"
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{
+              duration: prefersReduced ? 0 : 0.25,
+            }}
+            className="shrink-0 text-silk-rose"
+          >
+            <ChevronDown className="h-4 w-4" />
+          </motion.span>
+        </button>
+      </h3>
+
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            id={panelId}
+            role="region"
+            initial={{
+              height: 0,
+              opacity: 0,
+            }}
+            animate={{
+              height: "auto",
+              opacity: 1,
+            }}
+            exit={{
+              height: 0,
+              opacity: 0,
+            }}
+            transition={{
+              duration: prefersReduced ? 0 : 0.25,
+            }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 text-[13px] sm:text-sm text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
+            <p className="px-5 pb-5 text-[13px] leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-sm">
               {answer}
             </p>
           </motion.div>
@@ -308,66 +326,202 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-/* ============================================================
- * Main Component
- * ============================================================ */
+function PracticalTips({ language }: { language: string }) {
+  const isBangla = language === "bn";
+
+  const tips = isBangla
+    ? [
+        {
+          title: "সঠিক গন্তব্য নির্বাচন করুন",
+          description:
+            "QR কোডে এমন লিংক বা তথ্য দিন, যা স্ক্যান করার পর ব্যবহারকারী সহজে বুঝতে ও ব্যবহার করতে পারবেন।",
+        },
+        {
+          title: "স্পষ্টতা ও কনট্রাস্ট বজায় রাখুন",
+          description:
+            "QR কোডের চারপাশে পর্যাপ্ত ফাঁকা জায়গা রাখুন এবং ছবির সঙ্গে কোডের রঙের যথেষ্ট পার্থক্য রাখুন।",
+        },
+        {
+          title: "শেয়ার করার আগে পরীক্ষা করুন",
+          description:
+            "ডাউনলোড করা ছবিটি অন্য একটি ফোন দিয়ে স্ক্যান করে নিশ্চিত হোন যে সঠিক লিংক বা তথ্য খুলছে।",
+        },
+      ]
+    : [
+        {
+          title: "Choose the right destination",
+          description:
+            "Use a link or information that visitors can understand and access after scanning your QR code.",
+        },
+        {
+          title: "Preserve contrast and clear space",
+          description:
+            "Keep enough empty space around the QR code and make sure it remains visually distinct from the photo.",
+        },
+        {
+          title: "Test before sharing",
+          description:
+            "Scan the exported image with another device and confirm that it opens the intended destination.",
+        },
+      ];
+
+  return (
+    <section
+      aria-labelledby="photo-qr-tips-title"
+      className="mb-14 rounded-3xl border border-silk-rose/20 bg-silk-rose/5 p-5 sm:p-7"
+    >
+      <div className="mb-5 flex items-center gap-3">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-silk-rose/15">
+          <Zap
+            aria-hidden="true"
+            className="h-5 w-5 text-silk-rose"
+          />
+        </span>
+
+        <h2
+          id="photo-qr-tips-title"
+          className="font-display text-xl font-bold text-light-text dark:text-dark-text sm:text-2xl"
+        >
+          {isBangla ? "ভালো QR ফলাফলের জন্য" : "Before you share your QR image"}
+        </h2>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        {tips.map((tip, index) => (
+          <div
+            key={tip.title}
+            className="rounded-2xl border border-silk-rose/15 bg-white/70 p-4 dark:bg-dark-surface/70"
+          >
+            <span className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-silk-rose/15 text-sm font-bold text-silk-wine dark:text-silk-rose">
+              {index + 1}
+            </span>
+
+            <h3 className="mb-2 text-sm font-bold text-light-text dark:text-dark-text">
+              {tip.title}
+            </h3>
+
+            <p className="text-xs leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-sm">
+              {tip.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function PhotoQrTool() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+
   const { language } = useLanguage();
   const content = photoQrContent[language];
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = !!useReducedMotion();
+  const isBangla = language === "bn";
 
   useEffect(() => {
-    trackRecentTool({ path: "/tools/photo-qr", name: "Photo Qr", emoji: "🔧" });
+    trackRecentTool({
+      path: "/tools/photo-qr",
+      name: "Photo QR",
+      emoji: "📷",
+    });
   }, []);
 
   return (
-    <div className="mx-auto max-w-[1400px] px-3 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-[1400px] px-3 sm:px-6 lg:px-8">
       <ToolSchema toolId="photo-qr" />
-      <ToolBreadcrumb toolName="Photo QR Code" category="QR Tools" />
+
+      <ToolBreadcrumb
+        toolName="Photo QR Code"
+        category="QR Tools"
+      />
 
       <Hero />
 
-      <div className="flex justify-center my-8">
+      <section
+        aria-label={isBangla ? "QR তৈরি শুরু করুন" : "Start creating a QR image"}
+        className="my-8 flex justify-center"
+      >
         <button
+          type="button"
           onClick={() => setIsWizardOpen(true)}
-          className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+          className={cn(
+            "inline-flex items-center justify-center gap-3",
+            "rounded-2xl px-7 py-4",
+            "bg-red-600 text-white",
+            "font-bold shadow-lg shadow-red-600/25",
+            "transition-all duration-200",
+            "hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-xl",
+            "active:translate-y-0 active:bg-red-800",
+            "focus-visible:outline-none focus-visible:ring-2",
+            "focus-visible:ring-red-500 focus-visible:ring-offset-2",
+            "focus-visible:ring-offset-white dark:focus-visible:ring-offset-[#0A0B1E]",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+          )}
         >
-          Start Creating Now <ArrowRight className="w-5 h-5" />
+          {isBangla ? "তৈরি করা শুরু করুন" : "Start Creating Now"}
+          <ArrowRight
+            aria-hidden="true"
+            className="h-5 w-5"
+          />
         </button>
-      </div>
+      </section>
 
-      <SmartInsights sizePercent={20} />
+      <aside className="mb-8 flex items-start gap-3 rounded-2xl border border-silk-rose/20 bg-silk-rose/5 p-4 sm:p-5">
+        <Shield
+          aria-hidden="true"
+          className="mt-0.5 h-5 w-5 shrink-0 text-silk-rose"
+        />
 
-      <div className="rounded-2xl bg-silk-rose/5 border border-silk-rose/20 p-4 sm:p-5 flex items-start gap-3 mb-12">
-        <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-silk-rose shrink-0 mt-0.5" />
-        <p className="text-[13px] sm:text-sm text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
-          {content.privacyNote}
-        </p>
-      </div>
+        <div className="min-w-0">
+          <h2 className="mb-1 text-sm font-bold text-light-text dark:text-dark-text">
+            {isBangla ? "আপনার ছবির গোপনীয়তা" : "Your image privacy"}
+          </h2>
+
+          <p className="text-[13px] leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-sm">
+            {content.privacyNote}
+          </p>
+        </div>
+      </aside>
+
+      <PracticalTips language={language} />
 
       <IntroSection
         content={content}
         language={language}
-        prefersReduced={!!prefersReduced}
+        prefersReduced={prefersReduced}
       />
 
-      <div className="max-w-3xl">
-        <section className="max-w-3xl mb-14">
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-light-text dark:text-dark-text mb-6">
-            {language === "bn" ? "কীভাবে ব্যবহার করবেন" : "How to Use"}
+      <div className="mx-auto max-w-4xl">
+        <section
+          aria-labelledby="photo-qr-how-to-title"
+          className="mb-14"
+        >
+          <h2
+            id="photo-qr-how-to-title"
+            className="mb-6 font-display text-2xl font-bold text-light-text dark:text-dark-text sm:text-3xl"
+          >
+            {isBangla ? "কীভাবে ব্যবহার করবেন" : "How to Use"}
           </h2>
+
           <ol className="space-y-5">
             {content.howTo.map((step) => (
-              <li key={step.step} className="flex gap-4">
-                <span className="shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-silk-rose to-silk-wine-deep text-white text-sm font-bold flex items-center justify-center shadow-silk-soft">
+              <li
+                key={step.step}
+                className="flex items-start gap-4"
+              >
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-silk-rose to-silk-wine-deep text-sm font-bold text-white shadow-silk-soft"
+                >
                   {step.step}
                 </span>
-                <div>
-                  <h3 className="font-display font-semibold text-light-text dark:text-dark-text text-[15px] sm:text-base mb-1.5">
+
+                <div className="min-w-0">
+                  <h3 className="mb-1.5 font-display text-[15px] font-semibold text-light-text dark:text-dark-text sm:text-base">
                     {step.title}
                   </h3>
-                  <p className="text-[14px] sm:text-sm text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
+
+                  <p className="text-sm leading-relaxed text-light-textSecondary dark:text-dark-textSecondary">
                     {step.description}
                   </p>
                 </div>
@@ -376,49 +530,81 @@ export default function PhotoQrTool() {
           </ol>
         </section>
 
-        <section className="max-w-4xl mb-14">
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-light-text dark:text-dark-text mb-6">
-            {language === "bn" ? "ফিচার" : "Features"}
+        <section
+          aria-labelledby="photo-qr-features-title"
+          className="mb-14"
+        >
+          <h2
+            id="photo-qr-features-title"
+            className="mb-6 font-display text-2xl font-bold text-light-text dark:text-dark-text sm:text-3xl"
+          >
+            {isBangla ? "ফিচার" : "Features"}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {content.features.map((f) => (
-              <div
-                key={f.title}
-                className="p-5 rounded-2xl bg-white/60 dark:bg-dark-surface/60 backdrop-blur-xl border border-silk-rose/15 hover:border-silk-rose/40 transition-all"
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {content.features.map((feature) => (
+              <article
+                key={feature.title}
+                className="rounded-2xl border border-silk-rose/15 bg-white/60 p-5 backdrop-blur-xl transition-colors hover:border-silk-rose/40 dark:bg-dark-surface/60"
               >
-                <h3 className="font-display font-semibold text-[15px] sm:text-base text-light-text dark:text-dark-text mb-2">
-                  {f.title}
+                <h3 className="mb-2 font-display text-[15px] font-semibold text-light-text dark:text-dark-text sm:text-base">
+                  {feature.title}
                 </h3>
-                <p className="text-[13px] sm:text-sm text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
-                  {f.description}
+
+                <p className="text-[13px] leading-relaxed text-light-textSecondary dark:text-dark-textSecondary sm:text-sm">
+                  {feature.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <AdSenseSlot slot={AD_SLOTS.toolBottom} label="Advertisement" />
+        <section
+          aria-label={isBangla ? "বিজ্ঞাপন" : "Advertisement"}
+          className="mb-14"
+        >
+          <AdSenseSlot
+            slot={AD_SLOTS.toolBottom}
+            label="Advertisement"
+          />
+        </section>
 
-        <section className="max-w-3xl mb-14">
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-light-text dark:text-dark-text mb-6">
-            {language === "bn" ? "প্রশ্নোত্তর" : "FAQ"}
+        <section
+          aria-labelledby="photo-qr-faq-title"
+          className="mb-14"
+        >
+          <h2
+            id="photo-qr-faq-title"
+            className="mb-6 font-display text-2xl font-bold text-light-text dark:text-dark-text sm:text-3xl"
+          >
+            {isBangla ? "প্রশ্নোত্তর" : "Frequently Asked Questions"}
           </h2>
+
           <div className="space-y-3">
-            {content.faq.map((faq, i) => (
-              <FAQItem key={i} question={faq.question} answer={faq.answer} />
+            {content.faq.map((faq) => (
+              <FAQItem
+                key={faq.question}
+                question={faq.question}
+                answer={faq.answer}
+              />
             ))}
           </div>
         </section>
       </div>
 
       <ToolFieldNote toolId="photo-qr" />
+
       <ToolDataSections toolId="photo-qr" />
-      <RelatedToolsBlock currentToolId="photo-qr" count={3} />
+
+      <RelatedToolsBlock
+        currentToolId="photo-qr"
+        count={3}
+      />
 
       <PhotoQRWizardModal
         isOpen={isWizardOpen}
         onClose={() => setIsWizardOpen(false)}
       />
-    </div>
+    </main>
   );
 }
