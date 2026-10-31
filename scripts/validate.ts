@@ -1,9 +1,43 @@
-/* ============================================================
+/* // --- 10. Validating Related Tools References ---
+  console.log("📋 [10] Validating Related Tools References");
+  const before_10 = errors;
+  const allToolIds = new Set(tools.map(t => t.id));
+  for (const tool of tools) {
+    if (tool.relatedTools) {
+      for (const relId of tool.relatedTools) {
+        if (!allToolIds.has(relId)) {
+          error(`Broken relatedTools reference in "${tool.id}": missing ID "${relId}"`);
+        }
+      }
+    }
+  }
+  if (errors === before_10) {
+    success("No broken relatedTools references found.\n");
+  }
+
+  ============================================================
  * scripts/validate.ts
  * ------------------------------------------------------------
  * CI Validation: Ensures every route in tools.ts and static
  * pages has proper metadata, SSR, sitemap, and schema.
- * ============================================================ */
+ * // --- 10. Validating Related Tools References ---
+  console.log("📋 [10] Validating Related Tools References");
+  const before_10 = errors;
+  const allToolIds = new Set(tools.map(t => t.id));
+  for (const tool of tools) {
+    if (tool.relatedTools) {
+      for (const relId of tool.relatedTools) {
+        if (!allToolIds.has(relId)) {
+          error(`Broken relatedTools reference in "${tool.id}": missing ID "${relId}"`);
+        }
+      }
+    }
+  }
+  if (errors === before_10) {
+    success("No broken relatedTools references found.\n");
+  }
+
+  ============================================================ */
 
 import { existsSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
