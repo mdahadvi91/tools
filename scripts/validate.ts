@@ -35,6 +35,7 @@ console.log("▶ Running CI validation...\n");
 
 // --- 1. Check that every tool has required fields ---
 console.log("📋 [1] Validating Tool Registry Completeness");
+  const before_1 = errors;
 for (const tool of tools) {
   if (!tool.id) error(`Tool missing 'id'`);
   if (!tool.slug) error(`Tool ${tool.id} missing 'slug'`);
@@ -47,10 +48,11 @@ for (const tool of tools) {
   if (!tool.howTo?.length) warn(`Tool ${tool.id} has no howTo`);
   if (!tool.faq?.length) warn(`Tool ${tool.id} has no faq`);
 }
-if (errors === 0) success(`All ${tools.length} tools have required fields.\n`);
+if (errors === before_1) success(`All ${tools.length} tools have required fields.\n`);
 
-// --- 2. Check that every tool component exists ---
+// --- 1. Check that every tool component exists ---
 console.log("📋 [2] Validating Tool Component Files");
+  const before_2 = errors;
 for (const tool of tools) {
   const categoryFolder: Record<string, string> = {
     documents: "documents",
@@ -68,10 +70,11 @@ for (const tool of tools) {
     error(`Tool ${tool.id} is in registry but component missing: ${componentPath}`);
   }
 }
-if (errors === 0) success(`All tool components exist.\n`);
+if (errors === before_2) success(`All tool components exist.\n`);
 
-// --- 3. Check generated files exist ---
+// --- 2. Check generated files exist ---
 console.log("📋 [3] Validating Generated Artifacts");
+  const before_3 = errors;
 const ssrPath = resolve(ROOT, "functions/_ssr-content.ts");
 const dataPath = resolve(ROOT, "functions/_data.ts");
 const schemaPath = resolve(ROOT, "functions/_schema.ts");
@@ -91,9 +94,9 @@ for (const file of requiredFiles) {
     error(`Generated file missing: ${file.name}`);
   }
 }
-if (errors === 0) success(`All generated artifacts exist.\n`);
+if (errors === before_3) success(`All generated artifacts exist.\n`);
 
-// --- 4. Load generated content into memory ---
+// --- 3. Load generated content into memory ---
 let ssrContent = "";
 let dataContent = "";
 let schemaContent = "";
@@ -104,8 +107,9 @@ if (existsSync(dataPath)) dataContent = readFileSync(dataPath, "utf-8");
 if (existsSync(schemaPath)) schemaContent = readFileSync(schemaPath, "utf-8");
 if (existsSync(sitemapPath)) sitemapContent = readFileSync(sitemapPath, "utf-8");
 
-// --- 5. Tool coverage in generated files ---
+// --- 3. Tool coverage in generated files ---
 console.log("📋 [4] Validating Tool Coverage in Generated Files");
+  const before_4 = errors;
 for (const tool of tools) {
   if (!ssrContent.includes(`"${tool.path}"`)) {
     error(`Tool ${tool.id} missing from _ssr-content.ts (${tool.path})`);
@@ -120,10 +124,11 @@ for (const tool of tools) {
     error(`Tool ${tool.id} missing from sitemap.xml (${tool.path})`);
   }
 }
-if (errors === 0) success(`All ${tools.length} tools covered in SSR, Data, Schema, Sitemap.\n`);
+if (errors === before_4) success(`All ${tools.length} tools covered in SSR, Data, Schema, Sitemap.\n`);
 
-// --- 6. Static pages coverage ---
+// --- 4. Static pages coverage ---
 console.log("📋 [5] Validating Static Pages Coverage");
+  const before_5 = errors;
 const staticPages = [
   "/", "/tools", "/about", "/contact", "/privacy", "/terms",
   "/disclaimer", "/cookie-policy", "/editorial-policy", "/accessibility"
@@ -136,10 +141,11 @@ for (const path of staticPages) {
     error(`Static page ${path} missing from _data.ts`);
   }
 }
-if (errors === 0) success(`All ${staticPages.length} static pages covered.\n`);
+if (errors === before_5) success(`All ${staticPages.length} static pages covered.\n`);
 
-// --- 7. True Orphan Path Detection ---
+// --- 5. True Orphan Path Detection ---
 console.log("📋 [6] Validating No Orphan Paths");
+  const before_6 = errors;
 const dataPathRegex = /"(\/(?:[^"]*))":\s*\{/g;
 const dataPaths = new Set<string>();
 let match;
@@ -170,8 +176,9 @@ if (orphansInData.length === 0 && extrasInData.length === 0) {
   success(`No orphan paths. All ${expectedPaths.size} expected paths are in _data.ts.\n`);
 }
 
-// --- 8. Duplicate Route Detection ---
+// --- 6. Duplicate Route Detection ---
 console.log("📋 [7] Validating No Duplicate Routes");
+  const before_7 = errors;
 const routeCounts = new Map<string, number>();
 for (const tool of tools) {
   routeCounts.set(tool.path, (routeCounts.get(tool.path) || 0) + 1);
@@ -190,8 +197,9 @@ if (!duplicateFound) {
   success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
 }
 
-// --- 9. Registry ↔ Generated Metadata Equality ---
+// --- 7. Registry ↔ Generated Metadata Equality ---
 console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
+  const before_8 = errors;
 let metadataErrors = 0;
 for (const tool of tools) {
   const escapedPath = tool.path;
@@ -215,8 +223,9 @@ if (metadataErrors === 0) {
   success(`Registry metadata matches generated _data.ts for all ${tools.length} tools.\n`);
 }
 
-// --- 10. Title/Description Uniqueness Across All Routes ---
+// --- 8. Title/Description Uniqueness Across All Routes ---
 console.log("📋 [9] Validating Title/Description Uniqueness");
+  const before_9 = errors;
 const titles = new Set<string>();
 const descriptions = new Set<string>();
 let duplicatesFound = false;
