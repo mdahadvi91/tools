@@ -541,7 +541,7 @@ function drawQrBackground(
  * COMPOSE FULL RESOLUTION PHOTO
  * ============================================================ */
 
-export async function composePhoto(options: RenderOptions): Promise<Blob> {
+export async function composePhoto(options: RenderOptions, format: "image/png" | "image/jpeg" = "image/png"): Promise<Blob> {
   const {
     photoFile,
     platform,
@@ -604,8 +604,8 @@ export async function composePhoto(options: RenderOptions): Promise<Blob> {
         if (blob) resolve(blob);
         else reject(new Error("Failed to export"));
       },
-      "image/png",
-      1.0
+      format,
+      format === "image/jpeg" ? 0.92 : 1.0
     );
   });
 }

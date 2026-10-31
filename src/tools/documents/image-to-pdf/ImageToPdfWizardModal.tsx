@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { jsPDF } from "jspdf";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, FileDown, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload } from "lucide-react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@contexts/LanguageContext";
+import { cn } from "@lib/cn";
+import {
+  MAX_FILE_SIZE, MAX_TOTAL_SIZE, MAX_IMAGES, MAX_PIXELS, SUPPORTED_MIMES, readFileAsDataURL,
+} from "./logic";
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB per file
-const MAX_TOTAL_SIZE = 200 * 1024 * 1024; // 200MB total
-const MAX_IMAGES = 20;
-const MAX_PIXELS = 10000 * 10000; // 100MP per image
-const SUPPORTED_MIMES = ["image/jpeg", "image/png", "image/webp"];
+type PageSize = "a4" | "letter";
 
 interface Props {
   isOpen: boolean;
@@ -15,192 +16,292 @@ interface Props {
 }
 
 export function ImageToPdfWizardModal({ isOpen, onClose }: Props) {
+  const { language } = useLanguage();
+  const bn = language === "bn";
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [files, setFiles] = useState<File[]>([]);
+  const [thumbnails, setThumbnails] = useState<string[]>([]);
+  const [pageSize, setPageSize] = useState<PageSize>("a4");
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    
-    const newFiles = Array.from(e.target.files);
-    
-    // Validate count
-    if (files.length + newFiles.length > MAX_IMAGES) {
-      setError(`Maximum ${MAX_IMAGES} images allowed. You selected ${newFiles.length} new (total ${files.length + newFiles.length}).`);
+  useEffect(() => {
+    if (isOpen) {
+      setStep(1);
+      setFiles([]);
+      setThumbnails([]);
+      setError(null);
+      setProgress(0);
+    }
+  }, [isOpen]);
+
+  // Auto-generate thumbnails
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const next: string[] = [];
+      for (const f of files) {
+        try {
+          const url = await readFileAsDataURL(f);
+          next.push(url);
+        } catch { /* skip */ }
+        if (cancelled) return;
+      }
+      if (!cancelled) setThumbnails(next);
+    })();
+    return () => { cancelled = true; };
+  }, [files]);
+
+  if (!isOpen) return null;
+
+  const handleFiles = (newFiles: FileList | null) => {
+    if (!newFiles) return;
+    const arr = Array.from(newFiles);
+    if (files.length + arr.length > MAX_IMAGES) {
+      setError(bn ? `সর্বোচ্চ ${MAX_IMAGES}টি ছবি যোগ করা যাবে।` : `Maximum ${MAX_IMAGES} images allowed.`);
       return;
     }
-    
-    // Validate each file
-    for (const f of newFiles) {
+    for (const f of arr) {
       if (f.size > MAX_FILE_SIZE) {
-        setError(`${f.name} is too large (${(f.size / 1024 / 1024).toFixed(1)}MB). Max 50MB per file.`);
+        setError(bn ? `${f.name} অনেক বড় (সর্বোচ্চ ৫০ MB)।` : `${f.name} is too large (max 50MB).`);
         return;
       }
       if (!SUPPORTED_MIMES.includes(f.type)) {
-        setError(`${f.name}: unsupported format. Use JPG, PNG, or WebP.`);
+        setError(bn ? `${f.name}: শুধু JPG, PNG, WebP সাপোর্টেড।` : `${f.name}: only JPG, PNG, WebP supported.`);
         return;
       }
     }
-    
-    // Validate total size
-    const totalSize = [...files, ...newFiles].reduce((sum, f) => sum + f.size, 0);
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setError(`Total size exceeds 200MB. Please select fewer/smaller files.`);
+    const total = [...files, ...arr].reduce((s, f) => s + f.size, 0);
+    if (total > MAX_TOTAL_SIZE) {
+      setError(bn ? "মোট সাইজ ২০০ MB এর বেশি।" : "Total size exceeds 200MB.");
       return;
     }
-    
     setError(null);
-    setFiles([...files, ...newFiles]);
-    e.target.value = ""; // Reset input
+    setFiles([...files, ...arr]);
   };
 
-  const removeFile = (index: number) => {
-    setFiles(files.filter((_, i) => i !== index));
-    setError(null);
-  };
+  const removeFile = (idx: number) => setFiles(files.filter((_, i) => i !== idx));
 
-  const convertToPdf = async () => {
+  const handleDownload = async () => {
     if (files.length === 0) return;
     setIsProcessing(true);
     setError(null);
     setProgress(0);
-
     try {
-      const pdf = new jsPDF();
-      let isFirstPage = true;
-
+      const pdf = new jsPDF({ format: pageSize === "letter" ? "letter" : "a4" });
+      let first = true;
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        
-        // Read file
-        const imgData = await readFileAsDataURL(file);
-        
-        // Decode image
+        const dataUrl = await readFileAsDataURL(file);
         const img = new Image();
-        img.src = imgData;
-        await new Promise<void>((resolve, reject) => {
-          img.onload = () => resolve();
-          img.onerror = () => reject(new Error(`Failed to decode ${file.name}`));
+        img.src = dataUrl;
+        await new Promise<void>((res, rej) => {
+          img.onload = () => res();
+          img.onerror = () => rej(new Error(`Failed to decode ${file.name}`));
         });
-        
-        // Validate pixel count
         if (img.width * img.height > MAX_PIXELS) {
-          throw new Error(`${file.name} resolution too large (${img.width}x${img.height}). Max 100MP.`);
+          throw new Error(`${file.name}: resolution too large (max 100MP).`);
         }
-
-        // Calculate dimensions to fit A4
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgRatio = img.width / img.height;
-        const pdfRatio = pdfWidth / pdfHeight;
-
-        let finalWidth = pdfWidth;
-        let finalHeight = pdfWidth / imgRatio;
-
-        if (imgRatio < pdfRatio) {
-          finalHeight = pdfHeight;
-          finalWidth = pdfHeight * imgRatio;
-        }
-
-        if (!isFirstPage) pdf.addPage();
-        
-        // Detect actual format (jsPDF supports PNG and JPEG)
-        const format = file.type === "image/png" ? "PNG" : "JPEG";
-        pdf.addImage(imgData, format, 0, 0, finalWidth, finalHeight);
-        isFirstPage = false;
-        
+        const pw = pdf.internal.pageSize.getWidth();
+        const ph = pdf.internal.pageSize.getHeight();
+        const ir = img.width / img.height;
+        const pr = pw / ph;
+        let fw = pw, fh = pw / ir;
+        if (ir < pr) { fh = ph; fw = ph * ir; }
+        if (!first) pdf.addPage();
+        const fmt = file.type === "image/png" ? "PNG" : "JPEG";
+        pdf.addImage(dataUrl, fmt, 0, 0, fw, fh);
+        first = false;
         setProgress(Math.round(((i + 1) / files.length) * 100));
       }
-
-      // Use Blob instead of data URI for memory efficiency
-      const pdfBlob = pdf.output("blob");
-      const url = URL.createObjectURL(pdfBlob);
+      const blob = pdf.output("blob");
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `ahadex-images-${Date.now()}.pdf`;
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
-      
-      setFiles([]);
-      setProgress(0);
-      onClose();
-    } catch (err: any) {
-      console.error("Error creating PDF:", err);
-      setError(err.message || "Something went wrong while creating the PDF.");
+      a.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "PDF failed");
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const readFileAsDataURL = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target?.result as string);
-      reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
-      reader.readAsDataURL(file);
-    });
+  const stepTitles: Record<number, string> = {
+    1: bn ? "ছবি আপলোড করুন" : "Upload Images",
+    2: bn ? "ছবি যাচাই করুন" : "Review Images",
+    3: bn ? "ডাউনলোড PDF" : "Download PDF",
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
-              <h2 className="text-xl font-bold">Convert Images to PDF</h2>
-              <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
-            </div>
-            <div className="p-6">
-              {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
-              
-              <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                <Upload className="w-8 h-8 mx-auto text-gray-400 mb-3" />
-                <input 
-                  type="file" 
-                  multiple 
-                  accept="image/jpeg, image/png, image/webp" 
-                  onChange={handleFileChange} 
-                  disabled={isProcessing}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 cursor-pointer disabled:opacity-50" 
-                />
-                <p className="text-xs text-gray-400 mt-2">Max 20 images, 50MB each, 200MB total.</p>
-              </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 backdrop-blur-sm sm:p-3" role="dialog" aria-modal="true">
+      <div className="flex h-full w-full flex-col overflow-hidden bg-light-bg dark:bg-dark-bg sm:h-auto sm:max-h-[96vh] sm:max-w-4xl sm:rounded-2xl sm:border sm:border-silk-rose/25 sm:shadow-2xl">
+        <header className="flex shrink-0 items-center justify-between gap-3 border-b border-silk-rose/20 bg-white/90 px-4 py-3 dark:bg-dark-surface/90 sm:px-6">
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-silk-rose">
+              {bn ? `ধাপ ${step}/3` : `STEP ${step}/3`}
+            </p>
+            <h2 className="truncate text-base font-bold text-light-text dark:text-dark-text sm:text-lg">{stepTitles[step]}</h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => (step > 1 ? setStep((step - 1) as any) : onClose())}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-silk-rose/20 bg-silk-rose/5 text-light-text dark:text-dark-text"
+          >
+            {step > 1 ? <ArrowLeft className="h-5 w-5" /> : <X className="h-5 w-5" />}
+          </button>
+        </header>
 
-              {files.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold mb-2">Selected Files ({files.length}/{MAX_IMAGES}):</h3>
-                  <ul className="space-y-2 mb-6 max-h-40 overflow-y-auto">
-                    {files.map((f, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
-                        <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
-                        <span className="truncate flex-1">{f.name}</span>
-                        <button onClick={() => removeFile(i)} disabled={isProcessing} className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded disabled:opacity-50">
-                          <X className="w-3 h-3" />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                  {isProcessing && (
-                    <div className="mb-3">
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div className="bg-red-600 h-2 rounded-full transition-all" style={{ width: `${progress}%` }}></div>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1 text-center">{progress}%</p>
-                    </div>
-                  )}
-                  <button onClick={convertToPdf} disabled={isProcessing} className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors disabled:opacity-50 cursor-pointer">
-                    {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : <FileDown className="w-5 h-5" />}
-                    {isProcessing ? `Converting... ${progress}%` : "Convert to PDF"}
+        {files.length > 0 && (
+          <div className={cn(
+            "shrink-0 bg-gray-50 dark:bg-gray-900 border-b border-silk-rose/10 p-3 sm:p-4 overflow-y-auto",
+            step === 3 ? "min-h-[38vh] sm:min-h-[48vh] max-h-[48vh]" : "min-h-[22vh] sm:min-h-[28vh] max-h-[32vh]"
+          )}>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+              {thumbnails.map((src, i) => (
+                <div key={i} className="relative rounded-lg overflow-hidden bg-white dark:bg-dark-surface border border-silk-rose/15 shadow-sm aspect-square flex items-center justify-center">
+                  <img src={src} alt={`Image ${i + 1}`} className="max-w-full max-h-full object-contain" />
+                  <span className="absolute top-1 left-1 w-5 h-5 rounded-full bg-black/60 text-white text-[10px] font-bold flex items-center justify-center">{i + 1}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+          {step === 1 && (
+            <div>
+              {files.length > 0 ? (
+                <div className="text-center space-y-3 py-4">
+                  <p className="text-sm font-bold text-light-text dark:text-dark-text">
+                    ✓ {bn ? `${files.length}টি ছবি যোগ হয়েছে` : `${files.length} image${files.length === 1 ? "" : "s"} added`}
+                  </p>
+                  <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary">
+                    {bn ? `সর্বোচ্চ ${MAX_IMAGES}টি · ${(files.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(1)} MB` : `Max ${MAX_IMAGES} · ${(files.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(1)} MB`}
+                  </p>
+                  <button type="button" onClick={() => setFiles([])} className="text-sm text-silk-rose hover:underline font-bold">
+                    {bn ? "সব মুছুন" : "Clear all"}
                   </button>
                 </div>
+              ) : (
+                <motion.div
+                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFiles(e.dataTransfer.files); }}
+                  onClick={() => fileInputRef.current?.click()}
+                  role="button" tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click(); }}
+                  className={cn("group relative flex flex-col items-center justify-center gap-4 p-8 sm:p-12 min-h-[200px] cursor-pointer rounded-2xl border-2 border-dashed transition-all", isDragging ? "border-silk-rose bg-silk-rose/10" : "border-silk-rose/30 hover:border-silk-rose/50")}
+                >
+                  <input ref={fileInputRef} type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={(e) => { handleFiles(e.currentTarget.files); e.currentTarget.value = ""; }} className="hidden" />
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-silk-rose/20 to-silk-gold/15 flex items-center justify-center">
+                    <Upload className="w-8 h-8 text-silk-rose" />
+                  </div>
+                  <div className="text-center">
+                    <p className="font-bold text-light-text dark:text-dark-text mb-1">{bn ? "ছবি আপলোড করুন (একাধিক)" : "Upload images (multiple)"}</p>
+                    <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary">{bn ? "ক্লিক বা টেনে আনুন · JPG, PNG, WebP · সর্বোচ্চ ২০টি" : "Click or drag · JPG, PNG, WebP · Up to 20"}</p>
+                  </div>
+                </motion.div>
               )}
+              {error && <p className="text-center text-xs text-red-600 dark:text-red-400 mt-3">{error}</p>}
             </div>
-          </motion.div>
+          )}
+
+          {step === 2 && (
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-bold text-light-text dark:text-dark-text">{bn ? "ছবিগুলো (মুছতে পারেন)" : "Images (tap to remove)"}</p>
+                <button type="button" onClick={() => fileInputRef.current?.click()} className="text-xs font-bold text-silk-rose hover:underline">
+                  + {bn ? "আরও যোগ করুন" : "Add more"}
+                </button>
+                <input ref={fileInputRef} type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={(e) => { handleFiles(e.currentTarget.files); e.currentTarget.value = ""; }} className="hidden" />
+              </div>
+              <ul className="space-y-2">
+                {files.map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 text-xs bg-silk-rose/5 border border-silk-rose/15 p-2 rounded-lg">
+                    <span className="w-6 h-6 rounded bg-silk-rose/15 text-silk-wine font-bold flex items-center justify-center shrink-0 text-[10px]">{i + 1}</span>
+                    <span className="truncate flex-1 text-light-text dark:text-dark-text">{f.name}</span>
+                    <span className="text-[10px] text-light-textSecondary dark:text-dark-textSecondary shrink-0">{(f.size / 1024 / 1024).toFixed(1)}MB</span>
+                    <button type="button" onClick={() => removeFile(i)} className="p-1 hover:bg-silk-rose/10 rounded" aria-label="Remove">
+                      <X className="w-3.5 h-3.5 text-silk-rose" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {isProcessing && (
+                <div className="mt-4">
+                  <div className="w-full bg-silk-rose/15 rounded-full h-2">
+                    <div className="bg-silk-rose h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
+                  </div>
+                  <p className="text-[10px] text-light-textSecondary dark:text-dark-textSecondary mt-1 text-center">{progress}%</p>
+                </div>
+              )}
+              {error && <p className="text-center text-xs text-red-600 dark:text-red-400 mt-3">{error}</p>}
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-4">
+              <div className="text-center">
+                <p className="text-sm font-bold text-light-text dark:text-dark-text mb-1">✓ {bn ? "PDF তৈরির জন্য প্রস্তুত" : "Ready to create PDF"}</p>
+                <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary mb-5">
+                  {bn ? `${files.length}টি ছবি · পেজ সাইজ বেছে নিন` : `${files.length} image${files.length === 1 ? "" : "s"} · Choose page size`}
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <button type="button" onClick={() => setPageSize("a4")} className={cn("flex-1 max-w-[180px] py-3 rounded-xl border-2 font-bold transition-all", pageSize === "a4" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 hover:border-silk-rose/40 text-light-text dark:text-dark-text")}>
+                    A4<span className="block text-[10px] font-normal mt-0.5 opacity-70">210 × 297 mm</span>
+                  </button>
+                  <button type="button" onClick={() => setPageSize("letter")} className={cn("flex-1 max-w-[180px] py-3 rounded-xl border-2 font-bold transition-all", pageSize === "letter" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 hover:border-silk-rose/40 text-light-text dark:text-dark-text")}>
+                    Letter<span className="block text-[10px] font-normal mt-0.5 opacity-70">216 × 279 mm</span>
+                  </button>
+                </div>
+              </div>
+              {isProcessing && (
+                <div>
+                  <div className="w-full bg-silk-rose/15 rounded-full h-2">
+                    <div className="bg-silk-rose h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
+                  </div>
+                  <p className="text-[10px] text-light-textSecondary dark:text-dark-textSecondary mt-1 text-center">{progress}%</p>
+                </div>
+              )}
+              {error && <p className="text-center text-xs text-red-600 dark:text-red-400">{error}</p>}
+            </div>
+          )}
         </div>
-      )}
-    </AnimatePresence>
+
+        <footer className="shrink-0 border-t border-silk-rose/20 bg-white/90 dark:bg-dark-surface/90 p-3 sm:p-4">
+          <div className="flex gap-3 justify-between">
+            {step > 1 ? (
+              <button onClick={() => setStep((step - 1) as any)} className="flex items-center gap-2 px-4 py-3 rounded-xl border border-silk-rose/30 font-bold text-sm hover:bg-silk-rose/5 text-light-text dark:text-dark-text">
+                <ArrowLeft className="w-4 h-4" />{bn ? "পিছনে" : "Back"}
+              </button>
+            ) : <div />}
+
+            {step === 1 && (
+              <button onClick={() => setStep(2)} disabled={files.length === 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-700">
+                {bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+            {step === 2 && (
+              <button onClick={() => setStep(3)} disabled={files.length === 0} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-700">
+                {bn ? "ডাউনলোড" : "Download"} <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+            {step === 3 && (
+              <button onClick={handleDownload} disabled={isProcessing} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-700">
+                {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                {isProcessing ? (bn ? "তৈরি হচ্ছে..." : "Creating...") : (bn ? "PDF ডাউনলোড" : "Download PDF")}
+              </button>
+            )}
+          </div>
+        </footer>
+      </div>
+    </div>
   );
 }
