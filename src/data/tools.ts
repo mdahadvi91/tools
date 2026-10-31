@@ -185,25 +185,26 @@ relatedTools: ["image-to-pdf", "photo-qr"],
     searchVolume: 8000000,
     description: "Convert JPG, PNG, and WebP images into a single PDF file instantly. Private, client-side processing.",
     descriptionBn: "ব্রাউজারেই JPG, PNG এবং WebP ছবিগুলোকে একটি PDF ফাইলে রূপান্তর করুন।",
-    longDescription: "Merge multiple images into a single, clean PDF document. Reorder your images, adjust the layout, and download the final PDF instantly. Everything runs entirely locally in your browser — no server transmission, no accounts.",
+    longDescription: "Merge multiple images into a single, clean PDF document. Choose between A4 and Letter page sizes, and download the final PDF instantly. Everything runs entirely locally in your browser — no server transmission, no accounts.",
     keywords: ["image to pdf", "jpg to pdf", "png to pdf", "webp to pdf", "convert image to pdf", "merge images to pdf", "photo to pdf"],
     popular: true,
     newTool: true,
     features: [
-      { title: "Multiple Formats", description: "Supports JPG, PNG, and WebP image files." },
-      { title: "Merge Images", description: "Combine multiple images into a single PDF file." },
-      { title: "A4 Format", description: "Automatically scales images to fit standard A4 pages." },
-      { title: "Browser Processing", description: "Your images are processed locally in your browser. Client-side processing." }
+      { title: "Multiple Formats", description: "Supports JPG, PNG, and WebP image files with automatic format conversion." },
+      { title: "Merge Images", description: "Combine multiple images into a single PDF file in your selected order." },
+      { title: "A4 & Letter Sizes", description: "Automatically scales images to fit standard A4 or US Letter pages." },
+      { title: "Browser Processing", description: "Your images are processed locally in your browser. No uploads, no server side processing." }
     ],
     howTo: [
       { step: 1, title: "Upload Images", description: "Select one or more JPG, PNG, or WebP images from your device." },
-      { step: 2, title: "Convert", description: "Click the 'Convert to PDF' button to process your images locally." },
-      { step: 3, title: "Download", description: "Your merged PDF will be downloaded automatically." }
+      { step: 2, title: "Choose Page Size", description: "Select A4 or US Letter as the page format for your PDF." },
+      { step: 3, title: "Download", description: "Click convert to generate the PDF directly on your device." }
     ],
     faq: [
       { question: "Are my images uploaded to a server?", answer: "No. All processing happens entirely in your browser using the jsPDF library. Your files stay on your device." },
       { question: "Can I merge multiple images into one PDF?", answer: "Yes, you can select multiple images and they will be merged sequentially into a single PDF." },
-      { question: "What image formats are supported?", answer: "Currently, JPG, PNG, and WebP are supported." }
+      { question: "What image formats are supported?", answer: "Currently, JPG, PNG, and WebP are supported. WebP images are automatically converted to JPEG for PDF compatibility." },
+      { question: "Can I choose the page size?", answer: "Yes, you can choose between standard A4 and US Letter page sizes before generating the PDF." }
     ],
     useCases: [
       "Turning photos of documents into a single PDF for email.",
@@ -211,7 +212,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       "Merging scanned pages into one document."
     ],
     limitations: [
-      "Very large images may take a few seconds to process depending on your device's memory.",
+      "Very large images may take a few seconds to process depending on your device memory.",
       "Advanced PDF editing (like text addition) is not supported."
     ],
     privacy: {

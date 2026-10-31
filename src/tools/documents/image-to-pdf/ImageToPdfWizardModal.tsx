@@ -89,8 +89,24 @@ export function ImageToPdfWizardModal({ isOpen, onClose }: { isOpen: boolean; on
         if (ir < pr) { fh = ph; fw = ph * ir; }
         
         if (!first) pdf.addPage();
-        const fmt = file.type === "image/png" ? "PNG" : "JPEG";
-        pdf.addImage(dataUrl, fmt, 0, 0, fw, fh);
+        let fmt = file.type === "image/png" ? "PNG" : "JPEG";
+        let finalDataUrl = dataUrl;
+
+        // Fix WebP conversion via Canvas
+        if (file.type === "image/webp") {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            finalDataUrl = canvas.toDataURL("image/jpeg", 0.95);
+            fmt = "JPEG";
+          }
+        }
+        pdf.addImage(finalDataUrl, fmt, 0, 0, fw, fh);
         first = false;
         setProgress(Math.round(((i + 1) / files.length) * 100));
       }
