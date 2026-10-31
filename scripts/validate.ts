@@ -143,6 +143,28 @@ for (const [p, count] of routeCounts.entries()) {
 }
 if (!dupFound) success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
 
+// 7.1 Validating No Duplicate Tool IDs/Slugs
+console.log("📋 [7.1] Validating No Duplicate Tool IDs/Slugs");
+const before_7_1 = errors;
+const ids = new Set<string>();
+const slugs = new Set<string>();
+let dupIdSlugFound = false;
+
+for (const tool of tools) {
+  if (ids.has(tool.id)) {
+    error(`Duplicate tool ID: "${tool.id}"`);
+    dupIdSlugFound = true;
+  }
+  ids.add(tool.id);
+
+  if (slugs.has(tool.slug)) {
+    error(`Duplicate tool slug: "${tool.slug}"`);
+    dupIdSlugFound = true;
+  }
+  slugs.add(tool.slug);
+}
+if (!dupIdSlugFound) success(`All tool IDs and slugs are unique.\n`);
+
 // 8. Registry Metadata Equality
 console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
 const before_8 = errors;
