@@ -123,8 +123,7 @@ while ((match = dataPathRegex.exec(dataContent)) !== null) {
     orphanFound = true;
   }
 }
-if (!orphanFound && errors === before_6) success(`No orphan paths. All ${allKnownPaths.size} expected paths are in _data.ts.\n`);
-else if (errors === before_6) console.log(); 
+if (errors === before_6) success(`No orphan paths. All ${allKnownPaths.size} expected paths are in _data.ts.\n`); 
 
 // 7. No Duplicate Routes
 console.log("📋 [7] Validating No Duplicate Routes");
@@ -141,7 +140,7 @@ for (const [p, count] of routeCounts.entries()) {
     dupFound = true;
   }
 }
-if (!dupFound) success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
+if (errors === before_7) success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
 
 // 7.1 Validating No Duplicate Tool IDs/Slugs
 console.log("📋 [7.1] Validating No Duplicate Tool IDs/Slugs");
@@ -163,7 +162,7 @@ for (const tool of tools) {
   }
   slugs.add(tool.slug);
 }
-if (!dupIdSlugFound) success(`All tool IDs and slugs are unique.\n`);
+if (errors === before_7_1) success(`All tool IDs and slugs are unique.\n`);
 
 // 8. Registry Metadata Equality
 console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
@@ -187,7 +186,7 @@ for (const tool of tools) {
     metadataErrors++;
   }
 }
-if (metadataErrors === 0) {
+if (errors === before_8) {
   success(`Registry metadata matches generated _data.ts for all ${tools.length} tools.\n`);
 }
 
@@ -209,7 +208,7 @@ for (const tool of tools) {
   }
   descriptions.add(tool.seo.description);
 }
-if (!duplicatesFound) {
+if (errors === before_9) {
   success(`All tool titles (${titles.size}) and descriptions (${descriptions.size}) are unique.\n`);
 }
 
