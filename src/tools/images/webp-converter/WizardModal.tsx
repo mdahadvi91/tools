@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, Loader2, X, Upload, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@contexts/LanguageContext";
 import { cn } from "@lib/cn";
@@ -23,7 +23,6 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
   useEffect(() => {
     if (isOpen) { setStep(1); setFile(null); if (preview) URL.revokeObjectURL(preview); setPreview(null); setError(null); }
     return () => { if (preview) URL.revokeObjectURL(preview); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -87,6 +86,7 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
 
           <div className="flex-1 md:w-1/2 flex flex-col min-h-0 bg-white dark:bg-[#0A0B1E]">
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+              
               {step === 1 && (
                 <div>
                   {file ? (
@@ -107,18 +107,53 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
               )}
 
               {step === 2 && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <p className="text-sm font-bold text-light-text dark:text-dark-text">{bn ? "আউটপুট ফরম্যাট" : "Output format"}</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button onClick={() => setFormat("image/jpeg")} className={cn("py-4 rounded-xl border-2 font-bold transition-all text-left px-4", format === "image/jpeg" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-text dark:text-dark-text hover:border-silk-rose/40")}><div className="text-lg">JPG</div><div className="text-xs font-normal mt-1 opacity-70">Smaller</div></button>
-                    <button onClick={() => setFormat("image/png")} className={cn("py-4 rounded-xl border-2 font-bold transition-all text-left px-4", format === "image/png" ? "border-silk-rose bg-silk-rose/10 text-silk-wine dark:text-silk-rose" : "border-silk-rose/20 text-light-text dark:text-dark-text hover:border-silk-rose/40")}><div className="text-lg">PNG</div><div className="text-xs font-normal mt-1 opacity-70">Lossless</div></button>
+                  <div className="flex gap-3 relative z-10">
+                    <button 
+                      type="button" 
+                      onClick={() => setFormat("image/jpeg")} 
+                      className={cn(
+                        "relative flex-1 flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer select-none", 
+                        format === "image/jpeg" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {format === "image/jpeg" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg font-bold">JPG</span>
+                      <span className="text-[10px] font-normal opacity-70">Smaller</span>
+                    </button>
+                    
+                    <button 
+                      type="button" 
+                      onClick={() => setFormat("image/png")} 
+                      className={cn(
+                        "relative flex-1 flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer select-none", 
+                        format === "image/png" 
+                          ? "border-red-600 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
+                          : "border-gray-300 text-gray-500 hover:border-gray-400 dark:border-gray-600 dark:text-gray-400"
+                      )}
+                    >
+                      {format === "image/png" && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                      )}
+                      <span className="text-lg font-bold">PNG</span>
+                      <span className="text-[10px] font-normal opacity-70">Lossless</span>
+                    </button>
                   </div>
                   {error && <p className="text-center text-xs text-red-600 dark:text-red-400">{error}</p>}
                 </div>
               )}
 
               {step === 3 && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="text-center">
                     <p className="text-sm font-bold text-light-text dark:text-dark-text mb-1">✓ {bn ? "প্রস্তুত" : "Ready"}</p>
                     <p className="text-xs text-light-textSecondary dark:text-dark-textSecondary">{bn ? "ফরম্যাট:" : "Format:"} <span className="font-bold text-silk-rose">{format === "image/jpeg" ? "JPG" : "PNG"}</span></p>
@@ -130,8 +165,11 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
 
             <footer className="shrink-0 px-4 py-3 border-t border-silk-rose/20 bg-white dark:bg-[#0A0B1E] flex items-center justify-between gap-3">
               {step > 1 ? <button onClick={() => setStep((step - 1) as any)} className="flex items-center gap-2 px-4 py-3 rounded-xl border border-silk-rose/30 hover:bg-silk-rose/5 text-light-text dark:text-dark-text font-bold text-sm"><ArrowLeft className="w-4 h-4" />{bn ? "পিছনে" : "Back"}</button> : <div />}
+              
               {step === 1 && <button onClick={() => setStep(2)} disabled={!file} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
-              {step === 2 && <button onClick={() => setStep(3)} disabled={!file} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "ডাউনলোড" : "Download"} <ArrowRight className="w-4 h-4" /></button>}
+              
+              {step === 2 && <button onClick={() => setStep(3)} disabled={!file} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed">{bn ? "পরবর্তী" : "Next"} <ArrowRight className="w-4 h-4" /></button>}
+              
               {step === 3 && <button onClick={handleDownload} disabled={isProcessing} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-50">{isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}{isProcessing ? "..." : "Download"}</button>}
             </footer>
           </div>
@@ -140,5 +178,3 @@ export function WebpConverterWizard({ isOpen, onClose }: { isOpen: boolean; onCl
     </div>
   );
 }
-
-// Note: File size limit is 50 * 1024 * 1024 bytes

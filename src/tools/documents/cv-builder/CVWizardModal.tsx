@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { X, ArrowRight, CheckCircle, ArrowLeft, Upload, Plus, Trash2, Download } from "lucide-react";
+import { useState, useRef } from "react";
+import { X, ArrowRight, CheckCircle, ArrowLeft, Upload, Plus, Trash2, Download, Loader2 } from "lucide-react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { SAMPLE_CV_DATA, getCVTemplate, CV_TEMPLATES } from "./data";
 import type { CVData, CVExperience, CVEducation, CVSkill, CVLanguage } from "./types";
 import { CVPreview } from "./components/CVPreview";
@@ -8,13 +10,17 @@ import { PrintRoot } from "./components/PrintRoot";
 import { PROFESSION_PRESETS } from "./presets";
 import { PROFESSION_NAMES } from "./components/ProfessionModal";
 import { useLanguage } from "@contexts/LanguageContext";
+import { PAGE_SIZES } from "./constants";
 
 export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const { language } = useLanguage();
   const bn = language === "bn";
 
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
   const [data, setData] = useState<CVData>(SAMPLE_CV_DATA);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
+  const captureRef = useRef<HTMLDivElement>(null);
 
   if (!isOpen) return null;
 
@@ -47,7 +53,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
     setStep(4);
   };
 
-  // --- Array Add/Update/Remove Logic (Updated for Objects) ---
   const handleArrayAdd = (field: string, emptyObj: any) => {
     const currentArray = (data as any)[field] || [];
     updateData({ [field]: [...currentArray, emptyObj] } as any);
@@ -67,6 +72,118 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
     const currentArray = [...((data as any)[field] || [])];
     currentArray.splice(index, 1);
     updateData({ [field]: currentArray } as any);
+  };
+
+  const handleDownloadPDF = async () => {
+    if (isDownloading) return;
+
+    const element = captureRef.current?.querySelector<HTMLElement>(
+      ".cv-print-page"
+    );
+
+    if (!element) {
+      setDownloadError("CV preview is not available.");
+      return;
+    }
+
+    setIsDownloading(true);
+    setDownloadError("");
+
+    try {
+      await document.fonts.ready;
+
+      const images = Array.from(element.querySelectorAll("img"));
+
+      await Promise.all(
+        images.map((img) => {
+          if (img.complete) {
+            return img.decode().catch(() => undefined);
+          }
+          return new Promise<void>((resolve) => {
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+          });
+        })
+      );
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#FFFFFF",
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
+      });
+
+      if (!canvas.width || !canvas.height) {
+        throw new Error("CV capture returned an empty canvas.");
+      }
+
+      const pageSize = PAGE_SIZES[data.settings.pageSize];
+      const pageWidth = pageSize.widthMm;
+      const pageHeight = pageSize.heightMm;
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: [pageWidth, pageHeight],
+        compress: true,
+      });
+
+      const pageHeightPx = Math.floor(canvas.width * (pageHeight / pageWidth));
+      let pageIndex = 0;
+
+      for (let y = 0; y < canvas.height; y += pageHeightPx) {
+        const sliceHeight = Math.min(pageHeightPx, canvas.height - y);
+        const pageCanvas = document.createElement("canvas");
+
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceHeight;
+
+        const context = pageCanvas.getContext("2d");
+        if (!context) throw new Error("Unable to create PDF canvas.");
+
+        context.fillStyle = "#FFFFFF";
+        context.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+
+        context.drawImage(
+          canvas, 0, y, canvas.width, sliceHeight,
+          0, 0, canvas.width, sliceHeight
+        );
+
+        if (pageIndex > 0) {
+          pdf.addPage([pageWidth, pageHeight], "portrait");
+        }
+
+        const imageHeight = (sliceHeight / canvas.width) * pageWidth;
+
+        pdf.addImage(
+          pageCanvas.toDataURL("image/png"),
+          "PNG", 0, 0, pageWidth, imageHeight, undefined, "FAST"
+        );
+
+        pageCanvas.width = 0;
+        pageCanvas.height = 0;
+        pageIndex++;
+      }
+
+      const safeName =
+        (data.personal.fullName || "Resume")
+          .trim()
+          .replace(/[^\p{L}\p{N}_-]+/gu, "_")
+          .slice(0, 60) || "Resume";
+
+      pdf.save(`${safeName}_CV.pdf`);
+
+      canvas.width = 0;
+      canvas.height = 0;
+    } catch (error) {
+      console.error("CV PDF Download Error:", error);
+      setDownloadError("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const templateIdToUse = data.settings.templateId || CV_TEMPLATES[0]?.id;
@@ -153,7 +270,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
             {/* STEP 4 to 10: Editor */}
             {step > 3 && step < 11 && (
               <div className="flex flex-col flex-1 overflow-hidden">
-                
                 {Template && (
                   <div className="bg-white p-3 border-b border-gray-200 shrink-0 flex justify-center shadow-sm z-10 max-h-[200px] overflow-hidden pointer-events-none relative">
                     <div className="w-full max-w-[300px]">
@@ -164,8 +280,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
 
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 pb-24">
                   <div className="max-w-xl mx-auto bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
-                    
-                    {/* Step 4: Photo */}
                     {step === 4 && (
                       <div className="space-y-6 text-center">
                         <h3 className="text-xl font-bold border-b pb-2 mb-4 text-left">{bn ? "আপনার ছবি আপলোড করুন" : "Upload Your Photo"}</h3>
@@ -190,7 +304,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 5: Personal */}
                     {step === 5 && (
                       <div className="space-y-4">
                         <h3 className="text-xl font-bold border-b pb-2 mb-4">{bn ? "ব্যক্তিগত তথ্য" : "Personal Info"}</h3>
@@ -203,7 +316,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 6: Summary */}
                     {step === 6 && (
                       <div>
                         <h3 className="text-xl font-bold border-b pb-2 mb-4">{bn ? "প্রফেশনাল সারাংশ" : "Professional Summary"}</h3>
@@ -211,7 +323,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 7: Experience */}
                     {step === 7 && (
                       <div>
                         <div className="flex items-center justify-between border-b pb-2 mb-4">
@@ -236,7 +347,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 8: Education */}
                     {step === 8 && (
                       <div>
                         <div className="flex items-center justify-between border-b pb-2 mb-4">
@@ -261,7 +371,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 9: Skills */}
                     {step === 9 && (
                       <div>
                         <div className="flex items-center justify-between border-b pb-2 mb-4">
@@ -279,7 +388,6 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                       </div>
                     )}
 
-                    {/* Step 10: Languages & Hobbies */}
                     {step === 10 && (
                       <div className="space-y-8">
                         <div>
@@ -333,26 +441,52 @@ export function CVWizardModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                 <h3 className="text-2xl font-bold mb-2">{bn ? "আপনার সিভি তৈরি!" : "Your CV is Ready!"}</h3>
                 <p className="text-gray-500 mb-8">{bn ? "ডাউনলোড করতে নিচের বাটনে ক্লিক করুন।" : "Click the button below to download your CV as a PDF."}</p>
                 
-                <button onClick={() => window.print()} className="flex items-center justify-center gap-2 bg-red-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-red-700 transition-colors w-full max-w-sm text-lg shadow-lg shadow-red-200">
-                  <Download className="w-6 h-6" /> {bn ? "PDF ডাউনলোড" : "Download PDF"}
+                <button
+                  type="button"
+                  onClick={handleDownloadPDF}
+                  disabled={isDownloading}
+                  className="flex items-center justify-center gap-2 bg-red-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-red-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed w-full max-w-sm text-lg shadow-lg shadow-red-200"
+                >
+                  {isDownloading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Download className="w-6 h-6" />}
+                  {isDownloading
+                    ? bn ? "PDF তৈরি হচ্ছে..." : "Generating PDF..."
+                    : bn ? "PDF ডাউনলোড" : "Download PDF"}
                 </button>
-                
+
+                {downloadError && (
+                  <p role="alert" className="mt-3 text-sm text-red-600">
+                    {downloadError}
+                  </p>
+                )}
+
                 <button onClick={onClose} className="mt-8 text-sm font-medium text-gray-500 hover:text-gray-800 underline">
                   {bn ? "এডিটর বন্ধ করুন" : "Close Editor"}
                 </button>
               </div>
             )}
-            
           </div>
         </div>
       </div>
 
-      {/* 🚨 হিডেন প্রিভিউ: PDF জেনারেট করার জন্য (স্ক্রিনে দেখা যাবে না) */}
-      <div style={{ position: 'fixed', left: '-9999px', top: 0 }}>
+      {/* 🚨 হিডেন প্রিভিউ: PDF জেনারেট করার জন্য */}
+      <div
+        ref={captureRef}
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          left: "-10000px",
+          top: 0,
+          width: `${PAGE_SIZES[data.settings.pageSize].widthMm}mm`,
+          pointerEvents: "none",
+          background: "#FFFFFF",
+        }}
+      >
         {Template && (
-          <div style={{ width: '794px', backgroundColor: 'white' }}>
-            <PrintRoot Template={Template} data={data} />
-          </div>
+          <PrintRoot
+            Template={Template}
+            data={data}
+            captureMode={true}
+          />
         )}
       </div>
     </>
