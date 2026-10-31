@@ -113,17 +113,60 @@ if (errors === before_5) success(`All ${staticPages.length} static pages covered
 console.log("📋 [6] Validating No Orphan Paths");
 const before_6 = errors;
 const allKnownPaths = new Set([...tools.map(t => t.path), ...staticPages]);
+let orphanFound = false;
+
+// A. Check _data.ts
 const dataPathRegex = /path:\s*"([^"]+)"/g;
 let match;
-let orphanFound = false;
 while ((match = dataPathRegex.exec(dataContent)) !== null) {
   const p = match[1];
   if (!allKnownPaths.has(p)) {
-    warning(`Extra path (in _data.ts but not in registry): ${p}`);
+    warning(`Extra path in _data.ts but not in registry: ${p}`);
     orphanFound = true;
   }
 }
-if (errors === before_6) success(`No orphan paths. All ${allKnownPaths.size} expected paths are in _data.ts.\n`); 
+
+// B. Check sitemap.xml
+const sitemapRegex = /<loc>([^<]*)<\/loc>/g;
+while ((match = sitemapRegex.exec(sitemapContent)) !== null) {
+  try {
+    const urlObj = new URL(match[1], "https://ahadex.online");
+    let p = urlObj.pathname;
+    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+    
+    if (!allKnownPaths.has(p) && p !== "/") {
+      warning(`Extra path in sitemap.xml but not in registry: ${p}`);
+      orphanFound = true;
+    }
+  } catch (e) {
+    // Ignore invalid URLs
+  }
+}
+
+// C. Check _schema.ts
+const schemaRegex = /"url":\s*"([^"]*)"/g;
+while ((match = schemaRegex.exec(schemaContent)) !== null) {
+  try {
+    const urlObj = new URL(match[1], "https://ahadex.online");
+    let p = urlObj.pathname;
+    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+    
+    if (!allKnownPaths.has(p) && p !== "/") {
+      warning(`Extra path in _schema.ts but not in registry: ${p}`);
+      orphanFound = true;
+    }
+  } catch (e) {
+    // Ignore invalid URLs
+  }
+}
+
+if (errors === before_6) {
+  if (!orphanFound) {
+    success(`No orphan paths found across _data.ts, sitemap.xml, and _schema.ts.\n`);
+  } else {
+    console.log();
+  }
+}
 
 // 7. No Duplicate Routes
 console.log("📋 [7] Validating No Duplicate Routes");
