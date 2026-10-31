@@ -29,7 +29,7 @@ const ROOT = resolve(__dirname, "..");
 const SITE = "https://ahadex.online";
 // Use a static date for static pages. Update this manually when you change
 // the content of about, privacy, terms, etc.
-const STATIC_LASTMOD = "2026-10-20";
+const STATIC_LASTMOD = new Date().toISOString().split("T")[0];
 const GEN_DATE = new Date().toISOString().slice(0, 10);
 
 /* ---------- helpers ---------- */
