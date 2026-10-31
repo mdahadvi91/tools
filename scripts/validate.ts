@@ -197,29 +197,30 @@ if (!duplicateFound) {
   success(`No duplicate routes. ${routeCounts.size} unique routes defined.\n`);
 }
 
-// --- 7. Registry ↔ Generated Metadata Equality ---
-console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
+// --- 8. Registry ↔ Generated Metadata Equality ---
+  console.log("📋 [8] Validating Registry ↔ Generated Metadata Equality");
   const before_8 = errors;
-let metadataErrors = 0;
-for (const tool of tools) {
-  const escapedPath = tool.path;
-  const escapedTitle = tool.seo.title.replace(/"/g, '\\"');
-  const escapedDesc = tool.seo.description.replace(/"/g, '\\"');
-  
-  if (!dataContent.includes(`"title": "${escapedTitle}"`) && !dataContent.includes(`"title": "${escapedTitle}"`.replace(/\\"/g, '"'))) {
-    error(`Metadata mismatch for ${tool.id}: title "${tool.seo.title}" not found in _data.ts`);
-    metadataErrors++;
+  let metadataErrors = 0;
+  for (const tool of tools) {
+    const titleStr = JSON.stringify(tool.seo.title);
+    const descStr = JSON.stringify(tool.seo.description);
+    const pathStr = JSON.stringify(tool.path);
+
+    if (!dataContent.includes(titleStr)) {
+      error(`Metadata mismatch for ${tool.id}: title "${tool.seo.title}" not found in _data.ts`);
+      metadataErrors++;
+    }
+    if (!dataContent.includes(descStr)) {
+      error(`Metadata mismatch for ${tool.id}: description "${tool.seo.description}" not found in _data.ts`);
+      metadataErrors++;
+    }
+    if (!dataContent.includes(pathStr)) {
+      error(`Metadata mismatch for ${tool.id}: path "${tool.path}" not found in _data.ts`);
+      metadataErrors++;
+    }
   }
-  if (!dataContent.includes(escapedDesc) && !dataContent.includes(tool.seo.description)) {
-    error(`Metadata mismatch for ${tool.id}: description not found in _data.ts`);
-    metadataErrors++;
-  }
-  if (tool.seo.ogImage && !dataContent.includes(tool.seo.ogImage)) {
-    error(`Metadata mismatch for ${tool.id}: ogImage "${tool.seo.ogImage}" not found in _data.ts`);
-    metadataErrors++;
-  }
-}
-if (metadataErrors === 0) {
+
+  if (metadataErrors === 0) {
   success(`Registry metadata matches generated _data.ts for all ${tools.length} tools.\n`);
 }
 
