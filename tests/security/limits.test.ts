@@ -31,7 +31,7 @@ describe("Security — Validation Constants", () => {
   });
 
   it("Image Resizer has MIME type validation", () => {
-    const src = readTool("src/tools/images/image-resizer/WizardModal.tsx");
+    const src = readTool("src/tools/images/image-resizer/logic.ts");
     expect(src).toMatch(/image\/jpeg|image\/png|image\/webp/);
   });
 
