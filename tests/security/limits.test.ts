@@ -23,7 +23,7 @@ function stripComments(src: string): string {
 
 describe("Security — Validation Constants", () => {
   it("Image Resizer enforces MAX_FILE_SIZE, MAX_PIXELS, MAX_DIMENSION", () => {
-    const src = readTool("src/tools/images/image-resizer/WizardModal.tsx");
+    const src = readTool("src/tools/images/image-resizer/logic.ts");
     expect(src).toContain("MAX_FILE_SIZE");
     expect(src).toContain("MAX_PIXELS");
     expect(src).toContain("MAX_DIMENSION");
