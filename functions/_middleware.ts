@@ -255,8 +255,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   // 5. Direct asset (only for /assets/ or files with extension)
   const isAsset = url.pathname.startsWith("/assets/") || url.pathname.includes(".");
   if (isAsset) {
-    const direct = await fetchAsset(context.env, url.origin, url.pathname, context.request);
-    if (direct) return wrap(direct);
+    const direct = await context.next();
+    const ct = direct.headers.get("content-type") || "";
+    const wantsHtml = url.pathname.endsWith(".html");
+    // SPA fallback returned HTML for a missing file -> real 404
+    if (ct.includes("text/html") && !wantsHtml) {
+      return wrap(new Response("Not found", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } }));
+    }
+    return wrap(direct);
   }
 
   // 6. 404 fallback
