@@ -59,7 +59,7 @@ const legacyTools: Tool[] = [
         body: "<p>Maximum file size is 50MB. EyeDropper API requires a modern browser (Chrome/Edge). Older browsers will fall back to canvas picking only.</p>"
       }
     ],
-relatedTools: ["image-resizer", "visiting-card"],
+relatedTools: ["image-resizer", "visiting-card", "photo-qr", "webp-converter"],
     seo: { title: "Color Picker — HEX, RGB Picker | AHADEX Tools", description: "Pick colors from images and get HEX, RGB, and HSL codes. Browser-based, no server transmission.", ogImage: "/images/og/tools/color-picker-og.jpg" }
   },
     {
@@ -120,7 +120,7 @@ relatedTools: ["image-resizer", "visiting-card"],
         body: "<p>Maximum file size is 50MB. Maximum pixel count is 100 Megapixels. Large images may take a few seconds to process.</p>"
       }
     ],
-relatedTools: ["image-resizer", "image-to-pdf"],
+relatedTools: ["image-resizer", "image-to-pdf", "color-picker", "photo-qr"],
     seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/webp-converter-og.jpg" }
   },
     {
@@ -183,7 +183,7 @@ relatedTools: ["image-resizer", "image-to-pdf"],
         body: "<p>Maximum input file size is 50MB. Maximum output dimensions are 10,000 x 10,000 pixels. Upscaling may reduce visual sharpness.</p>"
       }
     ],
-relatedTools: ["image-to-pdf", "photo-qr"],
+relatedTools: ["image-to-pdf", "photo-qr", "webp-converter", "color-picker"],
     seo: { title: "Image Resizer — Resize Images Online | AHADEX Tools", description: "Resize JPG, PNG, WebP images to exact dimensions instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/image-resizer-og.jpg" }
   },
     {
@@ -285,7 +285,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
         `
       }
     ],
-    relatedTools: ['cv-builder', 'photo-qr'],
+    relatedTools: ['cv-builder', 'photo-qr', 'image-resizer', 'webp-converter'],
     seo: {
       title: "Image to PDF — JPG, PNG to PDF | AHADEX Tools",
       description: "Convert JPG, PNG, and WebP images to PDF instantly. Merge multiple photos into one PDF. Free, private, no server transmission.",
@@ -383,7 +383,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       storage: "none",
       externalService: false,
     },
-    relatedTools: ['cv-builder', 'visiting-card'],
+    relatedTools: ['cv-builder', 'visiting-card', 'image-resizer', 'image-to-pdf'],
     seo: {
       title: "Photo QR Code — Add QR to Photos | AHADEX Tools",
       description: "Add a real, scannable QR code to any photo. WhatsApp, Facebook, Instagram, WiFi, and more. Free, private, no server transmission.",
@@ -490,7 +490,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       storage: "none",
       externalService: false,
     },
-    relatedTools: ['cv-builder', 'photo-qr'],
+    relatedTools: ['cv-builder', 'photo-qr', 'color-picker', 'image-resizer'],
     seo: {
       title: "Visiting Card Maker — Free Business Card Designer | AHADEX",
       description: "Design print-ready visiting cards with live preview. 20 premium templates. Free, private, PNG/JPG export.",
@@ -613,7 +613,7 @@ relatedTools: ["image-to-pdf", "photo-qr"],
       storage: "none",
       externalService: false,
     },
-    relatedTools: ['visiting-card', 'photo-qr'],
+    relatedTools: ['visiting-card', 'photo-qr', 'image-to-pdf', 'image-resizer'],
     seo: {
       title: "Free CV Builder — Create Professional Resumes | AHADEX Tools",
       description: "Build a professional CV in minutes. Real A4 templates, selectable-text PDF export, auto-save, full privacy.",
