@@ -12,6 +12,7 @@ import { ThemeProvider } from "@contexts/ThemeContext";
 import { LanguageProvider } from "@contexts/LanguageContext";
 import { Loader } from "@components/common/Loader";
 import { ToolSkeleton } from "@components/common/ToolSkeleton";
+import { RouteMeta } from "@components/seo/RouteMeta";
 
 /* ------------------------------------------------------------------
  * Pages
@@ -85,6 +86,7 @@ export default function App() {
       <LanguageProvider>
         <BrowserRouter>
           <ScrollToTop />
+          <RouteMeta />
 
           <Routes>
             <Route element={<MainLayout />}>
