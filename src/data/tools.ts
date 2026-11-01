@@ -97,6 +97,12 @@ relatedTools: ["image-resizer", "visiting-card"],
       "Sending images to clients who use older software.",
       "Uploading images to platforms that only accept JPG."
     ],
+
+    deepDive: [{
+      heading: "WebP vs. JPEG vs. PNG: When to Use Which?",
+      body: "<p><strong>JPEG</strong> is best for photographs where file size matters more than perfect clarity. <strong>PNG</strong> is ideal for graphics, logos, and images that require transparent backgrounds, though file sizes are larger. <strong>WebP</strong> is the best of both worlds—it supports transparency like PNG and offers superior compression like JPEG. If you are designing a modern website, use WebP. If you are sending an image via email or uploading to an older platform, convert it to JPG for maximum compatibility.</p>"
+    }],
+
     limitations: [
       "Upscaling is not available; it converts at the original resolution."
     ],
@@ -153,6 +159,12 @@ relatedTools: ["image-resizer", "image-to-pdf"],
       "Scaling images down to fit social media profile picture requirements.",
       "Reducing image dimensions to save storage space on your device."
     ],
+
+    deepDive: [{
+      heading: "Optimizing Images for Social Media and Web Performance",
+      body: "<p>Different platforms require different image sizes. For example, Instagram prefers square (1:1) or portrait (4:5) images, while Twitter headers are wide rectangles. Using a massive 4K photo on a social media post will result in the platform compressing it for you, often ruining the quality. By proactively resizing your images to fit specific dimensions (like 1080x1080 for Instagram or 1920x1080 for YouTube thumbnails), you ensure your visuals look sharp and professional while saving valuable storage space and upload time.</p>"
+    }],
+
     limitations: [
       "Upscaling (making images larger) may result in a loss of sharpness or pixelation.",
       "Cannot process images larger than 50MB due to browser memory limits."
