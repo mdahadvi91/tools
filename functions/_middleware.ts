@@ -36,9 +36,10 @@ function buildCsp(nonce: string): string {
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' https://fonts.gstatic.com",
-    "img-src 'self' data: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
-    "connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+    "connect-src 'self' blob: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+    "worker-src 'self' blob:",
     "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com",
   ].join("; ");
 }
@@ -201,6 +202,13 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if (url.pathname !== "/" && url.pathname.endsWith("/")) {
     const newUrl = new URL(url);
     newUrl.pathname = url.pathname.slice(0, -1);
+    return wrap(Response.redirect(newUrl.toString(), 301));
+  }
+
+  // 2b. /index.html -> /
+  if (url.pathname === "/index.html") {
+    const newUrl = new URL(url);
+    newUrl.pathname = "/";
     return wrap(Response.redirect(newUrl.toString(), 301));
   }
 
