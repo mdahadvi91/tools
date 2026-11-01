@@ -21,7 +21,7 @@ export const TOOL_META: Record<string, ToolMeta> = {
   "/tools/webp-converter": {
     "path": "/tools/webp-converter",
     "title": "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools",
-    "description": "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.",
+    "description": "Convert WebP images to JPG or PNG instantly in your browser. Free, no upload, no signup — your files never leave your device.",
     "ogImage": "/images/og/tools/webp-converter-og.jpg"
   },
   "/tools/image-resizer": {
@@ -72,17 +72,17 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/about": {
     "path": "/about",
     "title": "About AHADEX Tools",
-    "description": "The story behind AHADEX Tools — free, private, browser-based utilities."
+    "description": "The story behind AHADEX Tools — why we build free, private, browser-based utilities that never upload your files, and how the site is run."
   },
   "/contact": {
     "path": "/contact",
     "title": "Contact AHADEX Tools",
-    "description": "Get in touch with AHADEX Tools — bug reports, feature requests, press."
+    "description": "Get in touch with AHADEX Tools — report a bug, suggest a new tool, ask a question, or send a press or business enquiry by email or GitHub."
   },
   "/privacy": {
     "path": "/privacy",
     "title": "Privacy Policy — AHADEX Tools",
-    "description": "How AHADEX Tools handles your data — spoiler: your files never leave your device."
+    "description": "How AHADEX Tools handles your data: files are processed locally in your browser and never uploaded. Read what analytics and ads collect."
   },
   "/terms": {
     "path": "/terms",
@@ -97,7 +97,7 @@ export const STATIC_META: Record<string, ToolMeta> = {
   "/editorial-policy": {
     "path": "/editorial-policy",
     "title": "Editorial Policy — AHADEX Tools",
-    "description": "Our editorial policy: accuracy, independence, transparency, and human-written content."
+    "description": "Our editorial policy: how we keep AHADEX Tools content accurate, independent, transparent and human-written, and how to report an error."
   },
   "/accessibility": {
     "path": "/accessibility",

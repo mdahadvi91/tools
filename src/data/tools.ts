@@ -121,7 +121,7 @@ relatedTools: ["image-resizer", "visiting-card", "photo-qr", "webp-converter"],
       }
     ],
 relatedTools: ["image-resizer", "image-to-pdf", "color-picker", "photo-qr"],
-    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.", ogImage: "/images/og/tools/webp-converter-og.jpg" }
+    seo: { title: "WebP to JPG Converter — Browser-Based Tool | AHADEX Tools", description: "Convert WebP images to JPG or PNG instantly in your browser. Free, no upload, no signup — your files never leave your device.", ogImage: "/images/og/tools/webp-converter-og.jpg" }
   },
     {
     id: "image-resizer",

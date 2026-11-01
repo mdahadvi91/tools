@@ -171,7 +171,7 @@ export const SSR_SCHEMA: Record<string, object> = {
         "@type": "SoftwareApplication",
         "@id": "https://ahadex.online/tools/webp-converter#app",
         "name": "WebP Converter",
-        "description": "Convert WebP to JPG or PNG instantly. Browser-based, no server transmission.",
+        "description": "Convert WebP images to JPG or PNG instantly in your browser. Free, no upload, no signup — your files never leave your device.",
         "url": "https://ahadex.online/tools/webp-converter",
         "applicationCategory": "WebApplication",
         "operatingSystem": "Any (Browser)",
