@@ -5,6 +5,8 @@
 import { TOOL_META, STATIC_META, type ToolMeta } from "./_data";
 import { SSR_CONTENT } from "./_ssr-content";
 import { SSR_SCHEMA } from "./_schema";
+import { SECURITY_HEADERS } from "./_security-headers.generated";
+import { buildHtmlCsp } from "../scripts/security-headers";
 
 interface Env {
   ASSETS: { fetch: (req: Request) => Promise<Response> };
@@ -12,15 +14,6 @@ interface Env {
 
 const SITE = "https://ahadex.online";
 
-const SECURITY_HEADERS: Record<string, string> = {
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-  "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
-  "Content-Security-Policy":
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com;",
-};
 
 function generateNonce(): string {
   const array = new Uint8Array(16);
@@ -29,20 +22,6 @@ function generateNonce(): string {
 }
 
 
-/** Wrap ANY response with security headers */
-
-function buildCsp(nonce: string): string {
-  return [
-    "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://static.cloudflareinsights.com https://*.google.com https://*.doubleclick.net`,
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' data: https://fonts.gstatic.com",
-    "img-src 'self' data: blob: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
-    "connect-src 'self' blob: https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
-    "worker-src 'self' blob:",
-    "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.doubleclick.net https://*.google.com",
-  ].join("; ");
-}
 
 function wrap(response: Response, nonce?: string): Response {
   const h = new Headers(response.headers);
@@ -52,7 +31,7 @@ function wrap(response: Response, nonce?: string): Response {
   }
   // Set CSP with nonce (if provided) or default
   if (!h.has("Content-Security-Policy")) {
-    h.set("Content-Security-Policy", buildCsp(nonce || ""));
+    h.set("Content-Security-Policy", buildHtmlCsp(nonce || ""));
   }
   return new Response(response.body, {
     status: response.status,
