@@ -11,6 +11,8 @@ export const TOOL_EMOJIS: Record<string, string> = {
   "photo-qr": "📸",
   "visiting-card": "🎴",
   "cv-builder": "📄",
+  "color-picker": "🎨",
+  "webp-converter": "🔃",
 
   // ---- Image tools ----
   "jpg-to-png": "🖼️",

@@ -7,6 +7,11 @@ import { Resvg } from "@resvg/resvg-js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const OG_DIR = resolve(ROOT, "public/images/og/tools");
+const FONT_DIR = resolve(__dirname, "assets/fonts");
+const FONT_FILES = [
+  resolve(FONT_DIR, "NotoSans-Regular.ttf"),
+  resolve(FONT_DIR, "NotoSans-Bold.ttf"),
+];
 
 // Detect if ImageMagick is available (Termux) or not (Cloudflare)
 function hasImageMagick(): boolean {
@@ -37,6 +42,12 @@ async function convertToJpg(svgPath: string): Promise<void> {
   const resvg = new Resvg(svgCode, {
     fitTo: { mode: "width", value: 1200 },
     background: "#0A1024",
+    font: {
+      fontFiles: FONT_FILES,
+      loadSystemFonts: false,
+      defaultFontFamily: "Noto Sans",
+      sansSerifFamily: "Noto Sans",
+    },
   });
   const pngData = resvg.render().asPng();
   writeFileSync(pngPath, pngData);
@@ -70,19 +81,19 @@ async function convertToJpg(svgPath: string): Promise<void> {
     }
   }
 
-  // Method C: Keep existing .jpg if conversion fails
+  // Method C: HARD FAIL — never silently keep stale JPGs
   if (!success) {
-    if (existsSync(jpgPath)) {
-      console.log(`  ⚠️ ${svgPath.split('/').pop()?.replace('.svg', '.jpg')} kept existing (no converter available)`);
-    } else {
-      console.error(`  ❌ ${svgPath.split('/').pop()?.replace('.svg', '.jpg')}: no converter available`);
-      return;
-    }
+    if (existsSync(pngPath)) unlinkSync(pngPath);
+    throw new Error(`No converter available for ${svgPath.split('/').pop()}`);
   }
 
-  // Cleanup
-  unlinkSync(pngPath);
-  unlinkSync(svgPath);
+  // Cleanup (wrapped so unlink failure doesn't corrupt pipeline)
+  try {
+    if (existsSync(pngPath)) unlinkSync(pngPath);
+    if (existsSync(svgPath)) unlinkSync(svgPath);
+  } catch (e) {
+    console.warn(`  ⚠️ Cleanup warning: ${(e as Error).message}`);
+  }
 }
 
 async function main() {
@@ -102,6 +113,19 @@ async function main() {
     }
   }
 
+  // HARD VERIFY: every JPG must be unique (catches silent placeholder bugs)
+  const { createHash } = await import("node:crypto");
+  const jpgs = readdirSync(OG_DIR).filter(f => f.endsWith(".jpg"));
+  const hashes = new Map<string, string>();
+  for (const f of jpgs) {
+    const hash = createHash("md5").update(readFileSync(resolve(OG_DIR, f))).digest("hex");
+    const prev = hashes.get(hash);
+    if (prev) {
+      throw new Error(`Duplicate OG JPG detected: ${f} === ${prev} (both ${hash}). Conversion failed silently.`);
+    }
+    hashes.set(hash, f);
+  }
+  console.log(`  ✓ Verified: ${jpgs.length} unique JPGs (all distinct)`);
   console.log("✅ OG image conversion complete.\n");
 }
 

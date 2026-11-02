@@ -20,7 +20,8 @@ const ogImagePaths: Record<string, string> = {};
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { tools, TOOL_CATEGORIES, CATEGORY_LABEL, CATEGORY_ICON, TOOL_COUNT } from "../src/data/tools";
+import { tools, TOOL_CATEGORIES, CATEGORY_LABEL, TOOL_COUNT } from "../src/data/tools";
+import { getToolEmoji } from "../src/components/common/toolEmojis";
 import type { Tool, ToolCategory } from "../src/types/tool";
 import { STATIC_SSR_CONTENT } from "./static-content";
 
@@ -701,7 +702,7 @@ function generateOgImages() {
     // Escape & for XML
     const safeName = t.name.replace(/&/g, "&amp;");
     const safeDesc = t.description.replace(/&/g, "&amp;");
-    const icon = CATEGORY_ICON[t.category] || '🔧';
+    const initials = t.name.split(/[\s-]+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
     const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -738,7 +739,7 @@ function generateOgImages() {
       
       <!-- Right Side Icon Box -->
       <rect x="880" y="180" width="240" height="240" rx="60" fill="url(#icon-bg)" stroke="#D88B9A" stroke-opacity="0.3" stroke-width="2" />
-      <text x="1000" y="350" font-family="system-ui, sans-serif" font-size="120" text-anchor="middle">${icon}</text>
+      <text x="1000" y="370" font-family="Noto Sans" font-weight="900" font-size="110" text-anchor="middle" fill="url(#text-glow)">${initials}</text>
     </svg>`;
 
     const filename = t.seo.ogImage.split('/').pop()?.replace('.png', '.svg').replace('.jpg', '.svg') || `${t.slug}-og.svg`;

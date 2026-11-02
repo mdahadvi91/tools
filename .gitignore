@@ -41,3 +41,8 @@ backups/
 .tmp-*/
 .tmp-*
 .trash-*/
+
+# OG SVG intermediates (build artifacts, unlinked by generate-og-jpg.ts)
+public/images/og/tools/*.svg
+public/images/og/tools/*.png
+
